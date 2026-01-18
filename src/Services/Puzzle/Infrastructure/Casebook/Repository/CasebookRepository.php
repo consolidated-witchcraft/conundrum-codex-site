@@ -6,6 +6,7 @@ namespace App\Services\Puzzle\Infrastructure\Casebook\Repository;
 
 use App\Services\Game\Domain\Game;
 use App\Services\Puzzle\Domain\Casebook\Casebook;
+use App\Services\Puzzle\Domain\Interfaces\PuzzleInstanceCodeProviderInterface;
 use App\Services\Puzzle\Domain\Interfaces\PuzzleInstanceInterface;
 use App\Services\Puzzle\Domain\Interfaces\StaticPuzzleInstanceInterface;
 use App\Services\Puzzle\Domain\Interfaces\StaticPuzzleInstanceProviderInterface;
@@ -17,7 +18,7 @@ use Doctrine\Persistence\ManagerRegistry;
 /**
  * @extends ServiceEntityRepository<Casebook>
  */
-class CasebookRepository extends ServiceEntityRepository implements StaticPuzzleInstanceProviderInterface
+class CasebookRepository extends ServiceEntityRepository implements StaticPuzzleInstanceProviderInterface, PuzzleInstanceCodeProviderInterface
 {
     public function __construct(ManagerRegistry $registry)
     {
@@ -34,18 +35,18 @@ class CasebookRepository extends ServiceEntityRepository implements StaticPuzzle
         return $result instanceof Casebook ? $result : null;
     }
 
-    public function decollideSlug(string $candidateSlug, int $attempts = 0): string {
+    public function decollideInstanceCode(string $candidateInstanceCode, int $attempts = 0): string {
 
-        if (null === $this->findBySlug($candidateSlug)) {
-            return $candidateSlug;
+        if (null === $this->findBySlug($candidateInstanceCode)) {
+            return $candidateInstanceCode;
         }
 
         $attempts++;
-        $newCandidateSlug = sprintf("%s_%d", $candidateSlug, $attempts);
-        if (null === $this->findBySlug($newCandidateSlug)) {
-            return $newCandidateSlug;
+        $newCandidateInstanceCode = sprintf("%s_%d", $candidateInstanceCode, $attempts);
+        if (null === $this->findBySlug($newCandidateInstanceCode)) {
+            return $newCandidateInstanceCode;
         } else {
-            return $this->decollideSlug($candidateSlug, $attempts);
+            return $this->decollideInstanceCode($candidateInstanceCode, $attempts);
         }
     }
 

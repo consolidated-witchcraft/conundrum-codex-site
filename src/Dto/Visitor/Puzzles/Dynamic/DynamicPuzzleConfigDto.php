@@ -52,7 +52,6 @@ class DynamicPuzzleConfigDto implements \ArrayAccess
     }
 
     public static function makeFromTemplateDefinition(PuzzleTemplate $template): DynamicPuzzleConfigDto {
-
         return new static(self::mapConfiguration($template->getConfiguration()));
     }
 
@@ -80,6 +79,9 @@ class DynamicPuzzleConfigDto implements \ArrayAccess
         return false;
     }
 
+    /**
+     * @throws NonExistentOffsetSetGetException
+     */
     public function offsetGet(mixed $offset): mixed
     {
         if (!$this->fieldExists($offset)) {
@@ -88,6 +90,9 @@ class DynamicPuzzleConfigDto implements \ArrayAccess
         return $this->fields[$offset]->getValue();
     }
 
+    /**
+     * @throws NonExistentOffsetSetGetException
+     */
     public function offsetSet(mixed $offset, mixed $value): void
     {
         if (!$this->fieldExists($offset)) {
@@ -96,11 +101,23 @@ class DynamicPuzzleConfigDto implements \ArrayAccess
         $this->fields[$offset]->setValue($value);
     }
 
+    /**
+     * @throws NonExistentOffsetSetGetException
+     */
     public function offsetUnset(mixed $offset): void
     {
         if (!$this->fieldExists($offset)) {
             throw new NonExistentOffsetSetGetException($offset, "unset");
         }
         $this->fields[$offset]->clearValue();
+    }
+
+    public function toArray(): array {
+
+        $returnArray = [];
+        foreach ($this->fields as  $definition) {
+            $returnArray[$definition->getName()] = $definition->getValue();
+        }
+        return $returnArray;
     }
 }

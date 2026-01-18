@@ -1,13 +1,15 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Controller\Visitor\Puzzles;
 
 use App\Controller\AbstractBaseController;
 use App\Services\Puzzle\Service\Interfaces\PuzzleTemplateServiceInterface;
-use App\Services\Quotation\Service\QuotationService;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Serializer\SerializerInterface;
 use Symfony\Component\String\Slugger\SluggerInterface;
+use Symfony\Component\Validator\Validator\ValidatorInterface;
 
 abstract class AbstractPuzzleController extends AbstractBaseController
 {
@@ -15,7 +17,8 @@ abstract class AbstractPuzzleController extends AbstractBaseController
         protected readonly PuzzleTemplateServiceInterface $puzzleService,
         protected readonly SerializerInterface $serializer,
         protected readonly EntityManagerInterface $entityManager,
-        protected readonly SluggerInterface $slugger
+        protected readonly SluggerInterface $slugger,
+        protected readonly ValidatorInterface $validator,
     ) {
     }
 }

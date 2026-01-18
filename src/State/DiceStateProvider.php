@@ -7,11 +7,11 @@ use ApiPlatform\State\ProviderInterface;
 use App\ApiResource\DiceRoll;
 use App\State\Exceptions\UnprocessableRollStateException;
 use Symfony\Component\HttpKernel\Exception\UnprocessableEntityHttpException;
+use App\Validator\DiceRollConstraintValidator;
 
 class DiceStateProvider implements ProviderInterface
 {
 
-    private const string CLAUSE_PATTERN = '/^(?:100|[1-9][0-9]?)d(?:100|[1-9][0-9]?)(?:p(?:100|[1-9][0-9]?))?$/';
 
     private function processRolls(string $rollState): array {
         $clauses = explode(',', $rollState);
@@ -22,26 +22,21 @@ class DiceStateProvider implements ProviderInterface
         return $rolls;
     }
 
-    private function validateRollState(string $rollState): void {
-        $clauses = explode(',', $rollState);
-        foreach ($clauses as $clause) {
-            if (!preg_match(self::CLAUSE_PATTERN, $clause)) {
-                throw new UnprocessableRollStateException("Invalid string: must match 'xdy' or 'xdypz' where x,y and z are 1–100.");
-            }
-        }
-    }
+
 
     public function provide(Operation $operation, array $uriVariables = [], array $context = []): object|array|null
     {
         if (!$uriVariables['rollState']) {
             throw new UnprocessableEntityHttpException("Could not interpret roll state.");
         }
+
         $decodedRollState = urldecode($uriVariables['rollState']);
         try {
-            $this->validateRollState($decodedRollState);
+            DiceRollConstraintValidator::validateRollState($decodedRollState);
         } catch (UnprocessableRollStateException $e) {
             throw new UnprocessableEntityHttpException($e->getMessage(), $e);
         }
+
         return $this->processRolls($decodedRollState);
     }
 

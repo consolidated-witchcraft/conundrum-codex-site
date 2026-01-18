@@ -6,9 +6,11 @@ namespace App\Services\Puzzle\Service;
 
 use App\Services\Puzzle\Domain\Casebook\Casebook;
 use App\Services\Puzzle\Domain\PuzzleCategory;
+use App\Services\Puzzle\Domain\PuzzleInstance;
 use App\Services\Puzzle\Domain\PuzzleTemplate;
 use App\Services\Puzzle\Infrastructure\Casebook\Repository\CasebookRepository;
 use App\Services\Puzzle\Infrastructure\PuzzleCategoryRepository;
+use App\Services\Puzzle\Infrastructure\PuzzleInstanceRepository;
 use App\Services\Puzzle\Service\Exceptions\SlugGenerationFailureException;
 use App\Services\Puzzle\Service\Interfaces\PuzzleTemplateRegistryInterface;
 use App\Services\Puzzle\Service\Interfaces\PuzzleTemplateServiceInterface;
@@ -22,11 +24,13 @@ class PuzzleTemplateService implements PuzzleTemplateServiceInterface
      * @param PuzzleTemplateRegistryInterface $templateRegistry
      * @param PuzzleCategoryRepository $categoryRepository
      * @param CasebookRepository $casebookRepository
+     * @param PuzzleInstanceRepository $instanceRepository
      */
     public function __construct(
         private readonly PuzzleTemplateRegistryInterface $templateRegistry,
         private readonly PuzzleCategoryRepository $categoryRepository,
-        private readonly CasebookRepository $casebookRepository
+        private readonly CasebookRepository $casebookRepository,
+        private readonly PuzzleInstanceRepository $instanceRepository,
     ) {}
 
 
@@ -88,9 +92,15 @@ class PuzzleTemplateService implements PuzzleTemplateServiceInterface
             throw new SlugGenerationFailureException(sprintf("Unable to generate slug for puzzle '%s'", $puzzleName));
         }
 
-        if ($puzzleClass === Casebook::class) {
-            return $this->casebookRepository->decollideSlug($slug);
+
+        switch ($puzzleClass) {
+            case Casebook::class:
+                return $this->casebookRepository->decollideInstanceCode($slug);
+            case PuzzleInstance::class:
+                return $this->instanceRepository->decollideInstanceCode($slug);
         }
+
+
         return $slug;
     }
 }

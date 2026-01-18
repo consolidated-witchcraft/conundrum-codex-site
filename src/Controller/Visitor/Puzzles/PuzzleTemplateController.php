@@ -11,8 +11,10 @@ use App\Form\Type\DieRollType;
 use App\Form\Visitor\Puzzle\AddPuzzle\ChooseGameType;
 use App\Security\GameManagerVoter;
 use App\Services\Game\Domain\Game;
+use App\Services\Puzzle\Domain\PuzzleInstance;
 use App\Services\Puzzle\Domain\PuzzleTemplate;
 use App\Services\User\Domain\User;
+use App\Validator\DiceRollConstraintValidator;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
@@ -24,6 +26,7 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
 use Symfony\Component\Serializer\Exception\ExceptionInterface;
+use Symfony\Component\Validator\Constraints\NotBlank;
 
 final class PuzzleTemplateController extends AbstractPuzzleController
 {
@@ -141,13 +144,17 @@ final class PuzzleTemplateController extends AbstractPuzzleController
     }
 
 
+    /**
+     * @throws \Exception
+     */
     #[IsGranted(GameManagerVoter::MANAGE_GAME_ACTION, 'game')]
     #[Route('/puzzles/templates/{templateSlug}/add-to-game/{gameSlug}/configure', name: 'app.puzzles.template.configure')]
     public function configurePuzzle(
         string $templateSlug,
         Game $game,
         Request $request
-    ): Response {
+    ): Response
+    {
 
         $session = $request->getSession();
 
@@ -157,10 +164,35 @@ final class PuzzleTemplateController extends AbstractPuzzleController
         }
 
         $dto = DynamicPuzzleConfigDto::makeFromTemplateDefinition($template);
+        $session = $request->getSession();
+        $sessionValues = $session->get(PuzzleTemplateController::ADD_TO_GAME_SESSION_KEY);
+        $optionsDto = $this->serializer->deserialize($sessionValues, AddPuzzleStepOneDto::class, 'json');
         $form = $this->generateTemplateForm($template, $dto);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
-            die("I got here");
+
+            $instance = new PuzzleInstance(
+                instanceCode: $this->puzzleService->generatePuzzleSlug(puzzleName: $optionsDto->puzzleName, puzzleClass: PuzzleInstance::class),
+                name: $optionsDto->puzzleName,
+                game: $game,
+                templateSlug: $templateSlug,
+                description: "SOME PUZZLE",
+            );
+            $instance->setConfig($dto->toArray());
+            $success = true;
+            $violations = $this->validator->validate($instance);
+            if (count($violations) > 0) {
+                $success = false;
+                foreach ($violations as $violation) {
+                    $this->addFlash('error', $violation->getMessage());
+                }
+            }
+            if ($success) {
+                $this->entityManager->persist($instance);
+                $this->entityManager->flush();
+                $this->addFlash('success', 'Puzzle added!');
+                return $this->redirectToRoute('app.games.manage', ['gameSlug' => $game->getSlug()]);
+            }
         }
 
         $pageVars = [
@@ -168,9 +200,6 @@ final class PuzzleTemplateController extends AbstractPuzzleController
             'form' => $form
         ];
         return $this->render('/visitor/puzzles/templates/addToGame/configure.html.twig', $this->populatePageVars($pageVars, $request));
-
-
-
     }
 
     #[Route('/puzzles/categories/{categorySlug}', name: 'app.puzzles.categorySlug.show')]
@@ -216,7 +245,10 @@ final class PuzzleTemplateController extends AbstractPuzzleController
                         TextareaType::class,
                         [
                             'label' => $configurationOption->getLabel(),
-                            'help' => $configurationOption->getHelpText()
+                            'help' => $configurationOption->getHelpText(),
+                            'constraints' => [
+                                new NotBlank(),
+                            ]
                         ]
                     );
                     break;
@@ -226,7 +258,8 @@ final class PuzzleTemplateController extends AbstractPuzzleController
                         DieRollType::class,
                         [
                             'label' => $configurationOption->getLabel(),
-                            'help' => $configurationOption->getHelpText()
+                            'help' => $configurationOption->getHelpText(),
+                            'constraints' => []
                         ]
                     );
                     break;
@@ -243,6 +276,11 @@ final class PuzzleTemplateController extends AbstractPuzzleController
                             'prototype_options' => [
                                 'required' => false,
                                 'label' => 'Add an Entry',
+                            ],
+                            'entry_options' => [
+                                'constraints' => [
+                                    new NotBlank(),
+                                ]
                             ]
                         ]
                     );

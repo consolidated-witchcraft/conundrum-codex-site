@@ -28,6 +28,7 @@ class GameService implements GameServiceInterface
         private GameInvitationRepository $gameInvitationRepository,
         private PuzzleInstanceServiceInterface $puzzleInstanceService,
         private EntityManagerInterface $entityManager,
+        private PuzzleTemplateRegistryInterface $puzzleTemplateRegistry,
     ) {}
 
     /**
@@ -45,8 +46,10 @@ class GameService implements GameServiceInterface
     public function findOneBySlug(string $slug): ? Game {
         $game = $this->gameRepository->findOneBySlug($slug);
         if ($game) {
-
             $game->setStaticPuzzleInstances($this->puzzleInstanceService->getStaticPuzzleInstancesForGame($game));
+        }
+        foreach ($game->getDynamicPuzzleInstances() as $dynamicPuzzleInstance) {
+            $dynamicPuzzleInstance->setTemplate($this->puzzleTemplateRegistry->getTemplate($dynamicPuzzleInstance->getTemplateSlug()));
         }
 
 
