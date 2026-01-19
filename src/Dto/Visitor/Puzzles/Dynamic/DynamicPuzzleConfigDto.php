@@ -6,6 +6,10 @@ namespace App\Dto\Visitor\Puzzles\Dynamic;
 
 use App\Dto\Visitor\Puzzles\Dynamic\Exceptions\NonExistentOffsetSetGetException;
 use App\Services\Puzzle\Domain\ConfigOptionDefinition;
+use App\Services\Puzzle\Domain\Exceptions\AttemptingToConfigureNonExistentFieldException;
+use App\Services\Puzzle\Domain\Interfaces\DynamicPuzzleInstanceInterface;
+use App\Services\Puzzle\Domain\Interfaces\PuzzleInstanceInterface;
+use App\Services\Puzzle\Domain\PuzzleInstance;
 use App\Services\Puzzle\Domain\PuzzleTemplate;
 use App\Validator as CustomAssert;
 
@@ -119,5 +123,15 @@ class DynamicPuzzleConfigDto implements \ArrayAccess
             $returnArray[$definition->getName()] = $definition->getValue();
         }
         return $returnArray;
+    }
+
+    public function populateFromPuzzleInstance(DynamicPuzzleInstanceInterface $instance): void {
+        foreach ($instance->getConfig() as $fieldName => $fieldValue) {
+            if (!$this->offsetExists($fieldName)) {
+                throw new AttemptingToConfigureNonExistentFieldException($fieldName);
+            }
+            $this->offsetSet($fieldName, $fieldValue);
+
+        }
     }
 }

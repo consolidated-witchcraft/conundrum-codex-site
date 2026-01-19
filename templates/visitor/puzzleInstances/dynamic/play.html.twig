@@ -1,4 +1,9 @@
 {% extends 'base/base.html.twig' %}
 {% block body %}
-
+    <div
+        class="puzzle-container"
+        is="puzzle-container"
+        data-template="{{ templateName }}"
+        data-config='{{ config }}'>
+    </div>
 {% endblock %}

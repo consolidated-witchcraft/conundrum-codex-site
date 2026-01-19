@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\ValueResolver;
 
+use App\Services\Puzzle\Domain\Interfaces\DynamicPuzzleInstanceInterface;
 use App\Services\Puzzle\Domain\Interfaces\PuzzleInstanceInterface;
 use App\Services\Puzzle\Service\Interfaces\PuzzleInstanceServiceInterface;
 use Symfony\Component\HttpFoundation\Request;
@@ -20,7 +21,12 @@ readonly class PuzzleInstanceResolver implements ValueResolverInterface
     public function resolve(Request $request, ArgumentMetadata $argument): iterable
     {
         $argumentType = $argument->getType();
-        if ($argumentType !== PuzzleInstanceInterface::class) {
+        if (
+            !in_array($argumentType, [
+                DynamicPuzzleInstanceInterface::class,
+                PuzzleInstanceInterface::class,
+            ])
+        ) {
             return [];
         }
 

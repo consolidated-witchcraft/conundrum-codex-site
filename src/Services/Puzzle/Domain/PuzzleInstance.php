@@ -6,12 +6,13 @@ use App\Dto\Visitor\Puzzles\Dynamic\DynamicPuzzleFieldDto;
 use App\Services\Core\Domain\AbstractDomainEntity;
 use App\Services\Game\Domain\Game;
 use App\Services\Puzzle\Domain\Exceptions\PuzzleTemplateNotMappedException;
+use App\Services\Puzzle\Domain\Interfaces\DynamicPuzzleInstanceInterface;
 use App\Services\Puzzle\Domain\Interfaces\PuzzleInstanceInterface;
 use App\Services\Puzzle\Infrastructure\PuzzleInstanceRepository;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: PuzzleInstanceRepository::class)]
-class PuzzleInstance extends AbstractDomainEntity implements PuzzleInstanceInterface
+class PuzzleInstance extends AbstractDomainEntity implements DynamicPuzzleInstanceInterface
 {
     private ? PuzzleTemplate $puzzleTemplate = null;
 
@@ -41,7 +42,7 @@ class PuzzleInstance extends AbstractDomainEntity implements PuzzleInstanceInter
         private Game $game,
 
         #[ORM\Column(type: 'non_empty_string', length:1024)]
-        private string $templateSlug,
+        private readonly string $templateSlug,
 
         #[ORM\Column(type: 'datetime', nullable: true)]
         private ?\DateTimeInterface $publicationDate = null,
@@ -50,7 +51,7 @@ class PuzzleInstance extends AbstractDomainEntity implements PuzzleInstanceInter
          * @var array<string, DynamicPuzzleFieldDto>
          */
         #[ORM\Column]
-        private array $config = [],
+        private array               $config = [],
 
         ?int $id = null
     ){
@@ -126,11 +127,9 @@ class PuzzleInstance extends AbstractDomainEntity implements PuzzleInstanceInter
     /**
      * @param array<string, DynamicPuzzleFieldDto> $config
      */
-    public function setConfig(array $config): static
+    public function setConfig(array $config): void
     {
         $this->config = $config;
-
-        return $this;
     }
 
     public function getPublicationDate(): ?\DateTimeInterface
