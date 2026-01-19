@@ -55,7 +55,12 @@ class PuzzleInstanceService implements PuzzleInstanceServiceInterface
         if (isset($this->staticInstanceProviders[$templateSlug])) {
             return $this->staticInstanceProviders[$templateSlug]->getInstance($instanceCode);
         }
-        return $this->puzzleInstanceRepository->findOneBy(['instanceCode' => $instanceCode]);
+        $instance = $this->puzzleInstanceRepository->findOneBy(['instanceCode' => $instanceCode]);
+        if ($instance) {
+            $instance->setTemplate($template);
+            return $instance;
+        }
+        return null;
     }
 
     public function saveInstance(PuzzleInstanceInterface $instance): void

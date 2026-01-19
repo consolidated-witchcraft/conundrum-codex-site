@@ -62,7 +62,7 @@ final class PuzzleTemplateController extends AbstractPuzzleController
     public function templateIndex(Request $request): Response {
 
         $pageVars = [
-            'pageTitle' => 'Puzzle Templates',
+            'pageTitle' => 'Puzzles and Tools',
             'templates' => $this->puzzleService->getTemplates(),
             'categories' => $this->puzzleService->getAllCategories(),
         ];

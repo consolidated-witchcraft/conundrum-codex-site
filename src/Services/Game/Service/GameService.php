@@ -43,13 +43,21 @@ class GameService implements GameServiceInterface
         return $randomSlug;
     }
 
+    /**
+     * @throws MismappedPuzzleTemplateException
+     */
     public function findOneBySlug(string $slug): ? Game {
         $game = $this->gameRepository->findOneBySlug($slug);
         if ($game) {
             $game->setStaticPuzzleInstances($this->puzzleInstanceService->getStaticPuzzleInstancesForGame($game));
         }
         foreach ($game->getDynamicPuzzleInstances() as $dynamicPuzzleInstance) {
-            $dynamicPuzzleInstance->setTemplate($this->puzzleTemplateRegistry->getTemplate($dynamicPuzzleInstance->getTemplateSlug()));
+
+            $template = $this->puzzleTemplateRegistry->getTemplate($dynamicPuzzleInstance->getTemplateSlug());
+            if (!$template) {
+                throw new MismappedPuzzleTemplateException();
+            }
+            $dynamicPuzzleInstance->setTemplate($template);
         }
 
 

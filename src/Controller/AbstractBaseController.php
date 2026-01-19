@@ -26,7 +26,7 @@ abstract class AbstractBaseController extends AbstractController
             ),
             new NavItem(
                 handle: 'puzzletemplates',
-                label: 'Puzzle Templates',
+                label: 'Puzzles & Tools',
                 route: 'app.puzzles.template.index'
             ),
             new NavItem(
