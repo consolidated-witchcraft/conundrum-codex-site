@@ -30,6 +30,7 @@ use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
 use Symfony\Component\Serializer\SerializerInterface;
 use Symfony\Component\String\Slugger\SluggerInterface;
+use Symfony\Component\Validator\Validator\ValidatorInterface;
 
 class CasebookSubjectController extends AbstractPuzzleController
 {
@@ -39,9 +40,11 @@ class CasebookSubjectController extends AbstractPuzzleController
         PuzzleTemplateServiceInterface $puzzleService,
         SerializerInterface $serializer,
         EntityManagerInterface $entityManager,
-        SluggerInterface $slugger
+        SluggerInterface $slugger,
+        ValidatorInterface $validator,
     ) {
-        parent::__construct($puzzleService, $serializer, $entityManager, $slugger);
+        parent::__construct(
+            puzzleService: $puzzleService, serializer: $serializer, entityManager:  $entityManager, slugger: $slugger, validator: $validator);
     }
     #[IsGranted(GameManagerVoter::MANAGE_GAME_ACTION, 'game')]
     #[Route('games/{gameSlug}/puzzles/static/{templateSlug}/{instanceCode}/subjects/add', name: 'app.puzzles.static.casebook.subjects.add')]
