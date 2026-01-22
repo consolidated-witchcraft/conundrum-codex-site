@@ -87,7 +87,7 @@ class PuzzleInstanceController extends AbstractPuzzleController
     public function managePuzzleInstance(
         Game $game,
         PuzzleTemplate $puzzleTemplate,
-        DynamicPuzzleInstanceInterface $puzzleInstance,
+        PuzzleInstanceInterface $puzzleInstance,
         Request $request
     ): Response {
 
