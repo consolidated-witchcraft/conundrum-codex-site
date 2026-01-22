@@ -143,7 +143,7 @@ export class CasebookSubject extends HTMLElement {
         body?: string,
         type?: string,
         typeLabel?: string,
-        updatedAt?: string,
+        updatedAt?: string | null | undefined,
         revealedDate?: string | null | undefined
     }[]) {
 
