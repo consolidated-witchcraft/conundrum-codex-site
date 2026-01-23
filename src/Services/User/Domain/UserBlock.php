@@ -12,8 +12,7 @@ use Doctrine\ORM\Mapping as ORM;
 class UserBlock extends AbstractDomainEntity
 {
     public function __construct(
-        #[ORM\OneToOne(inversedBy: 'userBlock', cascade: ['persist'])]
-        #[ORM\JoinColumn(nullable: false)]
+        #[ORM\ManyToOne(cascade: ['persist'], inversedBy: 'userBlock')]
         private readonly User $user,
 
         #[ORM\Column(length: 255)]

@@ -13,8 +13,8 @@ use Doctrine\ORM\EntityManagerInterface;
 class AbuseReportService implements DomainServiceInterface
 {
     public function __construct(
-        private EntityManagerInterface $entityManager,
-        private AbuseReportRepository $abuseReportRepository
+        private readonly EntityManagerInterface $entityManager,
+        private readonly AbuseReportRepository $abuseReportRepository
     ) {}
 
     /**
@@ -42,5 +42,11 @@ class AbuseReportService implements DomainServiceInterface
 
     public function deleteReport(AbuseReport $report): void {
         $this->entityManager->remove($report);
+    }
+
+    public function saveReport(AbuseReport $report): AbuseReport {
+        $this->entityManager->persist($report);
+        $this->entityManager->flush();
+        return $report;
     }
 }

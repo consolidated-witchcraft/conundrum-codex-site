@@ -48,8 +48,7 @@ class GameInvitationRepository extends ServiceEntityRepository
         $qb->setParameter('now', new \DateTimeImmutable());
         $qb->setParameter(':invitationCode', $invitationCode);
 
-        $result = $qb->getQuery()->getResult();
-        return $result instanceof GameInvitation ? $result : null;
+        return $qb->getQuery()->getOneOrNullResult();
     }
 
     public function findByInvitationCodeAndEmailAddress(string $invitationCode, string $emailAddress): ? GameInvitation {
@@ -91,7 +90,7 @@ class GameInvitationRepository extends ServiceEntityRepository
 
         $qb->setParameter('now', new \DateTimeImmutable());
         $qb->setParameter(':emailAddress', $user->getEmail());
-        return self::mapArrayResults($qb->getQuery()->getArrayResult());
+        return $qb->getQuery()->getResult();
     }
 
     /**

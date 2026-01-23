@@ -9,6 +9,7 @@ use App\Dto\Admin\Abuse\AbuseReportCheckDto;
 use App\Form\Admin\AbuseReportCheckType;
 use App\Services\Abuse\Domain\AbuseReport;
 use App\Services\Abuse\Infrastructure\AbuseReportRepository;
+use App\Services\Abuse\Service\AbuseReportService;
 use App\Services\Quotation\Service\QuotationService;
 use App\Services\User\Domain\User;
 use Doctrine\ORM\EntityManagerInterface;
@@ -20,8 +21,7 @@ use Symfony\Component\Security\Http\Attribute\IsGranted;
 class AdminAbuseReportsController extends AbstractBaseController
 {
     public function __construct(
-        private EntityManagerInterface $entityManager,
-        private AbuseReportRepository $abuseReportRepository
+        private readonly AbuseReportService $abuseReportService
     ){
     }
 
@@ -50,17 +50,16 @@ class AdminAbuseReportsController extends AbstractBaseController
                 $dateNow = new \DateTimeImmutable();
                 $reporterReport = new AbuseReport(
                     reportedUser: $report->getReportingUser(),
-                    reportingUser: $user,
                     reason: 'Nuisance abuse report.',
                     notes: 'Reported in Admin panel',
-                    checkedDate:$dateNow,
-                    confirmedDate: $dateNow
+                    checkedDate: $dateNow,
+                    confirmedDate: $dateNow,
+                    reportingUser: $user
                 );
-                $this->entityManager->persist($reporterReport);
+                $this->abuseReportService->saveReport($reporterReport);
             }
             $report->markChecked();
-            $this->entityManager->persist($report);
-            $this->entityManager->flush();
+            $this->abuseReportService->saveReport($report);
             $this->addFlash('success', 'Report actioned successfully.');
             return $this->redirectToRoute('admin.dashboard');
         }
@@ -69,7 +68,7 @@ class AdminAbuseReportsController extends AbstractBaseController
         $pageVars = [
             'pageTitle' => sprintf("Review report %d", $report->getId()),
             'report' => $report,
-            'reporteeStrikes' => count($this->abuseReportRepository->getAbuseReportsForReportedUser($report->getReportedUser())),
+            'reporteeStrikes' => count($this->abuseReportService->getAbuseReportsForReportedUser($report->getReportedUser())),
             'form' => $form
         ];
         return $this->render('admin/abuse/check.html.twig', $this->populatePageVars($pageVars, $request));

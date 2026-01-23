@@ -52,4 +52,6 @@ interface GameServiceInterface extends DomainServiceInterface
     public function findAllGames(bool $includeArchived = false): iterable;
 
     public function find(int $id): ? Game;
+
+    public function saveInvitation(GameInvitation $invitation): GameInvitation;
 }

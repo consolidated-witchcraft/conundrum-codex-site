@@ -13,6 +13,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\Criteria;
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\ORM\Mapping\JoinColumn;
 use Doctrine\ORM\Mapping\OrderBy;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
@@ -51,7 +52,7 @@ class User extends AbstractDomainEntity implements UserInterface, PasswordAuthen
     #[ORM\ManyToMany(targetEntity: UserFeat::class, cascade: ['persist'], fetch: 'EAGER', indexBy: 'handle')]
     private Collection $feats;
 
-    #[ORM\OneToOne(mappedBy: 'user', fetch: 'EAGER')]
+    #[ORM\OneToOne(mappedBy: 'user', cascade: ['persist'], fetch: 'EAGER', orphanRemoval: true)]
     private ?UserBlock $userBlock = null;
 
     /**
@@ -86,6 +87,7 @@ class User extends AbstractDomainEntity implements UserInterface, PasswordAuthen
         private bool $profilePublic = false,
 
         #[ORM\OneToOne(targetEntity: ManagedFile::class, fetch: 'EAGER')]
+        #[ORM\JoinColumn(nullable: true, onDelete: 'SET NULL')]
         private ?ManagedFile $avatar = null,
 
         ? int $id = null

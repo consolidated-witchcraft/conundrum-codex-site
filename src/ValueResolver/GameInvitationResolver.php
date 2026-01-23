@@ -25,7 +25,6 @@ readonly class GameInvitationResolver implements ValueResolverInterface
         }
 
         $code = $request->attributes->get('invitationCode');
-
         if (!is_string($code)) {
             return [];
         }

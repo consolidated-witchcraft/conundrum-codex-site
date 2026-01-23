@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Controller\Visitor\Puzzles\Static;
 
-use App\Controller\Traits\HandlesImageUploadsTrait;
+use App\Controller\Traits\HandlesFileUploadsTrait;
 use App\Controller\Visitor\Puzzles\AbstractPuzzleController;
 use App\Dto\Visitor\Puzzles\Static\Casebook\CasebookSubjectDto;
 use App\Form\Visitor\Puzzle\Static\Casebook\CasebookSubjectType;
@@ -35,7 +35,7 @@ use Symfony\Component\Validator\Validator\ValidatorInterface;
 
 class CasebookSubjectController extends AbstractPuzzleController
 {
-    use HandlesImageUploadsTrait;
+    use HandlesFileUploadsTrait;
     public function __construct(
         #[Autowire('%kernel.project_dir%/public/uploads/images/casebook')] private string $publicImagesDirectory,
         PuzzleTemplateServiceInterface $puzzleService,
@@ -76,7 +76,7 @@ class CasebookSubjectController extends AbstractPuzzleController
                 casebookSubjectType: $dto->type,
                 casebookSubjectClues: $clues,
                 casebookSubjectNotes: new ArrayCollection(),
-                casebookSubjectImageFile: $imageFile ? $this->handleImageUpload($imageFile, $this->publicImagesDirectory) : null
+                casebookSubjectImageFile: $imageFile ? $this->handleFileUpload($imageFile, $this->publicImagesDirectory) : null
             );
             if ($dto->revealed) {
                 $subject->markRevealed();
@@ -157,7 +157,7 @@ class CasebookSubjectController extends AbstractPuzzleController
             $subject->setCasebookSubjectType($dto->type);
 
             if ($imageFile) {
-                $subject->setCasebookSubjectImageFile($this->handleImageUpload($imageFile, $this->publicImagesDirectory));
+                $subject->setCasebookSubjectImageFile($this->handleFileUpload($imageFile, $this->publicImagesDirectory));
             }
             if ($dto->revealed && !$subject->isRevealed()) {
                 $subject->markRevealed();

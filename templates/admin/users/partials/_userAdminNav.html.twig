@@ -17,4 +17,10 @@
         <a href="{{ path('admin.users.feats') }}">Feats</a>
     {% endif %}
 
+    {% if app.current_route == 'admin.files.manage' %}
+        <span class="active">Files</span>
+    {% else %}
+        <a href="{{ path('admin.files.manage') }}">Files</a>
+    {% endif %}
+
 </nav>

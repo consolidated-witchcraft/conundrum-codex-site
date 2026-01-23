@@ -23,7 +23,7 @@ class AbuseReportRepository extends ServiceEntityRepository
     public function findUnactioned(): array {
         $qb = $this->createQueryBuilder('ar');
         $qb->where($qb->expr()->isNull('ar.checkedDate'));
-        return self::mapArrayResults($qb->getQuery()->getArrayResult());
+        return $qb->getQuery()->getResult();
     }
 
     /**

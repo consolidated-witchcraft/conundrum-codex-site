@@ -5,7 +5,8 @@ declare(strict_types=1);
 namespace App\Controller\Admin\Users;
 
 use App\Controller\AbstractBaseController;
-use App\Controller\Traits\HandlesImageUploadsTrait;
+use App\Controller\Traits\GeneratesPagerTrait;
+use App\Controller\Traits\HandlesFileUploadsTrait;
 use App\Dto\Admin\User\AdminUserDto;
 use App\Dto\Admin\User\AdminUserGameDto;
 use App\Dto\Visitor\User\UserBlockDto;
@@ -16,6 +17,7 @@ use App\Form\Admin\Users\AdminUnblockUserType;
 use App\Form\Admin\Users\AdminUserEditType;
 use App\Form\Admin\Users\AdminUserSearchType;
 use App\Services\Abuse\Service\AbuseReportService;
+use App\Services\Files\Service\Interfaces\FilesServiceInterface;
 use App\Services\Game\Service\Interfaces\GameServiceInterface;
 use App\Services\Puzzle\Service\Interfaces\PuzzleInstanceServiceInterface;
 use App\Services\User\Domain\User;
@@ -35,7 +37,9 @@ use Symfony\Component\Validator\Validator\ValidatorInterface;
 class AdminUserController extends AbstractBaseController
 {
 
-    use HandlesImageUploadsTrait;
+    use HandlesFileUploadsTrait;
+    use GeneratesPagerTrait;
+
     public function __construct(
         private readonly UserServiceInterface $userService,
         private readonly UserPasswordHasherInterface $userPasswordHasher,
@@ -45,6 +49,7 @@ class AdminUserController extends AbstractBaseController
         private readonly AbuseReportService $abuseReportService,
         protected readonly SluggerInterface $slugger,
         private readonly GameServiceInterface $gameService,
+        private readonly FilesServiceInterface $filesService,
         #[Autowire('%kernel.project_dir%/public/uploads/images/avatar')] private readonly string $publicImagesDirectory,
     ) {
     }
@@ -70,7 +75,7 @@ class AdminUserController extends AbstractBaseController
             'pageTitle' => 'Manage Users',
             'form' => $form,
             'resultsPerPage' => $resultsPerPage,
-            'pager' => $this->generatePager($page, $resultsPerPage),
+            'pager' => $this->generatePager($page, $resultsPerPage, $this->userService->getUsersCount()),
             'currentPage' => $page,
             'users' => $results,
         ];
@@ -94,7 +99,7 @@ class AdminUserController extends AbstractBaseController
         if ($form->isSubmitted() && $form->isValid()) {
             $imageFile = $form->get('avatar')->getData();
             if ($imageFile) {
-                $avatar = $this->handleImageUpload($imageFile, $this->publicImagesDirectory);
+                $avatar = $this->handleFileUpload($imageFile, $this->publicImagesDirectory);
                 $user->setAvatar($avatar);
             }
             if (!$selfEditMode) {
@@ -287,25 +292,5 @@ class AdminUserController extends AbstractBaseController
             'form' => $form
         ];
         return $this->render('admin/users/delete.html.twig', $this->populatePageVars($pageVars, $request));
-    }
-
-    private function generatePager(int $page, int $resultsPerPage): array {
-        $usersCount = $this->userService->getUsersCount();
-        $numPagesToGenerate = (int) ceil($usersCount / $resultsPerPage);
-        $pager = [];
-        $pager['pages'] =[];
-        if ($numPagesToGenerate > 1) {
-            if ($page > 1) {
-                $pager['back'] = $page -1;
-            }
-            for ($i = 1; $i <= $numPagesToGenerate; $i++) {
-                $pager['pages'][$i] = $i;
-            }
-            if ($numPagesToGenerate > $page) {
-                $pager['next'] = $page +1;
-            }
-        }
-
-        return $pager;
     }
 }

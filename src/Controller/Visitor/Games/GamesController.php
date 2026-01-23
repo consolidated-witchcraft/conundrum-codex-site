@@ -5,7 +5,7 @@ namespace App\Controller\Visitor\Games;
 use ApiPlatform\Validator\Exception\ValidationException;
 use ApiPlatform\Validator\ValidatorInterface;
 use App\Controller\AbstractBaseController;
-use App\Controller\Traits\HandlesImageUploadsTrait;
+use App\Controller\Traits\HandlesFileUploadsTrait;
 use App\Dto\Visitor\Game\GameDto;
 use App\Form\Visitor\Game\ArchiveGameType;
 use App\Form\Visitor\Game\GameType;
@@ -28,7 +28,7 @@ use Symfony\Component\String\Slugger\SluggerInterface;
 
 final class GamesController extends AbstractBaseController
 {
-    use HandlesImageUploadsTrait;
+    use HandlesFileUploadsTrait;
     public function __construct(
         private readonly ValidatorInterface $validator,
         private readonly GameServiceInterface $gameService,
@@ -88,7 +88,7 @@ final class GamesController extends AbstractBaseController
             if ($success) {
                 $imageFile = $form->get('heroImageUrl')->getData();
                 if ($imageFile) {
-                    $heroImage = $this->handleImageUpload($imageFile, $this->publicImagesDirectory);
+                    $heroImage = $this->handleFileUpload($imageFile, $this->publicImagesDirectory);
                     $game->setHeroImageFile($heroImage);
                 }
                 $this->gameService->saveGame($game);
@@ -159,7 +159,7 @@ final class GamesController extends AbstractBaseController
         if ($form->isSubmitted() && $form->isValid()) {
             $imageFile = $form->get('heroImageUrl')->getData();
             if ($imageFile) {
-                $heroImage = $this->handleImageUpload($imageFile, $this->publicImagesDirectory);
+                $heroImage = $this->handleFileUpload($imageFile, $this->publicImagesDirectory);
                 $game->setHeroImageFile($heroImage);
             }
             $game->setName($dto->name);

@@ -17,6 +17,7 @@ use App\Security\GameManagerVoter;
 use App\Security\InvitationOwnerVoter;
 use App\Security\UserOwnsInvitationVoter;
 use App\Services\Abuse\Domain\AbuseReport;
+use App\Services\Abuse\Service\AbuseReportService;
 use App\Services\Game\Domain\Game;
 use App\Services\Game\Domain\GameInvitation;
 use App\Services\Game\Service\Interfaces\GameServiceInterface;
@@ -40,11 +41,11 @@ use Symfony\Component\Security\Http\Attribute\IsGranted;
 class GameInvitationController extends AbstractBaseController
 {
     public function __construct(
-        private readonly EntityManagerInterface $entityManager,
         private MailerInterface $mailer,
         private UserRepository $userRepository,
         private GameServiceInterface $gameService,
         private UserService $userService,
+        private AbuseReportService $abuseReportService
     ) {
     }
 
@@ -79,8 +80,7 @@ class GameInvitationController extends AbstractBaseController
             if ($existingUser) {
                 $invitation->setUser($existingUser);
             }
-            $this->entityManager->persist($invitation);
-            $this->entityManager->flush();
+            $this->gameService->saveInvitation($invitation);
 
             $senderEmail = $this->getParameter('app.mail.sender');
             $senderName = $this->getParameter('app.mail.name');
@@ -152,8 +152,7 @@ class GameInvitationController extends AbstractBaseController
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
             $invitation->revoke();
-            $this->entityManager->persist($invitation);
-            $this->entityManager->flush();
+            $this->gameService->saveInvitation($invitation);
             $this->addFlash('success', 'Invitation Revoked');
             return $this->redirectToRoute('app.games.manage', ['slug' => $invitation->getGame()->getSlug()]);
         }
@@ -182,7 +181,7 @@ class GameInvitationController extends AbstractBaseController
         if ($form->isSubmitted() && $form->isValid()) {
 
             $invitation->revoke();
-            $this->entityManager->persist($invitation);
+            $this->gameService->saveInvitation($invitation);
             if ($dto->reason !== 'received_in_error') {
                 $abuseReport = new AbuseReport(
                     reportedUser: $invitation->getGame()->getGamesMaster(),
@@ -190,9 +189,8 @@ class GameInvitationController extends AbstractBaseController
                     notes: $dto->notes,
                     reportingUser: $user ?? null,
                 );
-                $this->entityManager->persist($abuseReport);
+                $this->abuseReportService->saveReport($abuseReport);
             }
-            $this->entityManager->flush();
             $this->addFlash('success', 'Invitation declined');
             return $this->redirectToRoute('app.user.account');
         }
@@ -231,8 +229,7 @@ class GameInvitationController extends AbstractBaseController
                     ]);
                 }
                 $invitation->markUsed();
-                $this->entityManager->persist($invitation);
-
+                $this->gameService->saveInvitation($invitation);
             }
 
             return $this->redirectToRoute('app.games.play', ['gameSlug' => $invitation->getGame()->getSlug()]);

@@ -12,6 +12,12 @@ use Doctrine\ORM\Mapping as ORM;
 #[ORM\Entity(repositoryClass: ManagedFileRepository::class)]
 class ManagedFile extends AbstractDomainEntity
 {
+    private const array KNOWN_IMAGE_MIMETYPES = [
+        'image/png',
+        'image/webp',
+        'image/jpeg',
+        'image/gif',
+    ];
 
     public function __construct(
         #[ORM\Column(length: 1024)]
@@ -75,6 +81,10 @@ class ManagedFile extends AbstractDomainEntity
 
     public function getUploader(): User {
         return $this->uploader;
+    }
+
+    public function isImage(): bool {
+        return in_array($this->getMimeType(), self::KNOWN_IMAGE_MIMETYPES);
     }
 
 }

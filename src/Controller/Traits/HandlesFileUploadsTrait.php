@@ -8,29 +8,29 @@ use App\Services\User\Domain\User;
 use RuntimeException;
 use Symfony\Component\HttpFoundation\File\Exception\FileException;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
-trait HandlesImageUploadsTrait
+trait HandlesFileUploadsTrait
 {
 
-    protected function handleImageUpload(
-        UploadedFile $imageFile,
-        string $destination
+    protected function handleFileUpload(
+        UploadedFile $uploadedFile,
+        string       $destination
     ): ManagedFile {
-        $mimeType = ($imageFile->getMimeType());
+        $mimeType = ($uploadedFile->getMimeType());
         if ($this->slugger === null) {
             throw new RuntimeException('You must set a valid slugger');
         }
 
-        if ($this->filesService === null) {
+        if (!isset($this->filesService)) {
             throw new RuntimeException('You must set a managed file service');
         }
-        $originalFilename = pathinfo($imageFile->getClientOriginalName(), PATHINFO_FILENAME);
+        $originalFilename = pathinfo($uploadedFile->getClientOriginalName(), PATHINFO_FILENAME);
         $safeFilename = $this->slugger->slug($originalFilename);
 
-        $imageFileName = strtolower(sprintf("%s-%s.%s", $safeFilename, uniqid(), $imageFile->guessExtension()));
+        $imageFileName = strtolower(sprintf("%s-%s.%s", $safeFilename, uniqid(), $uploadedFile->guessExtension()));
 
 
         try {
-            $imageFile->move($destination, $imageFileName);
+            $uploadedFile->move($destination, $imageFileName);
         } catch (FileException $e) {
             // ... handle exception if something happens during file upload
         }

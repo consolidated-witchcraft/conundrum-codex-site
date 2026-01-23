@@ -1,0 +1,23 @@
+{% extends '/admin/base/admin-base.html.twig' %}
+{% block body %}
+        {{ form_start(form) }}
+        <div class="row">
+            <div class="col panel">
+                {%  if file.isImage %}
+                    <img class="preview" src="{{ file.path }}" alt="{{ file.title }}">
+                {% else %}
+                    <a href="{{ file.path }}">{{ file.title }}</a>
+                {% endif %}
+                {{ form_row(form.file) }}
+            </div>
+
+            <div class="col panel">
+                {{ form_row(form.title) }}
+                {{ form_row(form.description) }}
+                {{ form_row(form.submit) }}
+            </div>
+        </div>
+    {{ form_end(form) }}
+
+
+{% endblock %}

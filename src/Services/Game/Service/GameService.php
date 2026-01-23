@@ -143,4 +143,11 @@ class GameService implements GameServiceInterface
         }
         return $games;
     }
+
+    public function saveInvitation(GameInvitation $invitation): GameInvitation
+    {
+        $this->entityManager->persist($invitation);
+        $this->entityManager->flush();
+        return $invitation;
+    }
 }

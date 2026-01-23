@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Controller\Visitor\Account;
 
 use App\Controller\AbstractBaseController;
-use App\Controller\Traits\HandlesImageUploadsTrait;
+use App\Controller\Traits\HandlesFileUploadsTrait;
 use App\Dto\Visitor\User\UserChangePasswordDto;
 use App\Dto\Visitor\User\UserEditDto;
 use App\Form\Visitor\Account\ChangePasswordType;
@@ -25,7 +25,7 @@ use Symfony\Component\Validator\Validator\ValidatorInterface;
 
 final class AccountController extends AbstractBaseController
 {
-    use HandlesImageUploadsTrait;
+    use HandlesFileUploadsTrait;
 
     public function __construct(
         private readonly GameServiceInterface $gameService,
@@ -67,7 +67,7 @@ final class AccountController extends AbstractBaseController
         if ($form->isSubmitted() && $form->isValid()) {
             $imageFile = $form->get('avatar')->getData();
             if ($imageFile) {
-                $avatar = $this->handleImageUpload($imageFile, $this->publicImagesDirectory);
+                $avatar = $this->handleFileUpload($imageFile, $this->publicImagesDirectory);
                 $user->setAvatar($avatar);
             }
             $user->setEmail($dto->emailAddress);
