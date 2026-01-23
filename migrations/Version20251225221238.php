@@ -28,4 +28,9 @@ final class Version20251225221238 extends AbstractMigration
         // this down() migration is auto-generated, please modify it to your needs
         $this->addSql('ALTER TABLE abuse_report CHANGE reporting_user_id reporting_user_id INT NOT NULL');
     }
+
+    public function isTransactional(): bool
+    {
+        return false;
+    }
 }

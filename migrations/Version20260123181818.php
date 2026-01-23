@@ -32,4 +32,9 @@ final class Version20260123181818 extends AbstractMigration
         $this->addSql('DROP INDEX UNIQ_232B318C268A15CE ON game');
         $this->addSql('ALTER TABLE game DROP hero_image_file_id');
     }
+
+    public function isTransactional(): bool
+    {
+        return false;
+    }
 }

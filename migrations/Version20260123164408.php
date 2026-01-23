@@ -30,4 +30,9 @@ final class Version20260123164408 extends AbstractMigration
         $this->addSql('ALTER TABLE managed_file DROP FOREIGN KEY FK_5F1975EF16678C77');
         $this->addSql('DROP TABLE managed_file');
     }
+
+    public function isTransactional(): bool
+    {
+        return false;
+    }
 }

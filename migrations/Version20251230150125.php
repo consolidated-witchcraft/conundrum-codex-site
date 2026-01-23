@@ -28,4 +28,9 @@ final class Version20251230150125 extends AbstractMigration
         // this down() migration is auto-generated, please modify it to your needs
         $this->addSql('ALTER TABLE user_feat CHANGE games_master_awardable games_master_awardable TINYINT(1) NOT NULL');
     }
+
+    public function isTransactional(): bool
+    {
+        return false;
+    }
 }

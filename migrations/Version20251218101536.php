@@ -30,4 +30,9 @@ final class Version20251218101536 extends AbstractMigration
         $this->addSql('ALTER TABLE user_access_token DROP created_at, DROP updated_at');
         $this->addSql('ALTER TABLE role CHANGE label name VARCHAR(255) NOT NULL');
     }
+
+    public function isTransactional(): bool
+    {
+        return false;
+    }
 }

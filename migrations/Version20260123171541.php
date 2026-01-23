@@ -32,4 +32,9 @@ final class Version20260123171541 extends AbstractMigration
         $this->addSql('DROP INDEX UNIQ_8D93D64986383B10 ON user');
         $this->addSql('ALTER TABLE user DROP avatar_id');
     }
+
+    public function isTransactional(): bool
+    {
+        return false;
+    }
 }

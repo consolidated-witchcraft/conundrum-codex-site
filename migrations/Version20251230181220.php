@@ -28,4 +28,9 @@ final class Version20251230181220 extends AbstractMigration
         // this down() migration is auto-generated, please modify it to your needs
         $this->addSql('ALTER TABLE user_feat CHANGE rarity rarity VARCHAR(1) NOT NULL');
     }
+
+    public function isTransactional(): bool
+    {
+        return false;
+    }
 }

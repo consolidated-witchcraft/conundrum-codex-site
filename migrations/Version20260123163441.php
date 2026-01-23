@@ -42,4 +42,9 @@ final class Version20260123163441 extends AbstractMigration
         $this->addSql('ALTER TABLE user CHANGE user_account_type_id user_account_type_id INT DEFAULT NULL');
         $this->addSql('ALTER TABLE casebook_subject_clue CHANGE type_id type_id INT DEFAULT NULL');
     }
+
+    public function isTransactional(): bool
+    {
+        return false;
+    }
 }

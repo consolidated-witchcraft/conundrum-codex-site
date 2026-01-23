@@ -28,4 +28,9 @@ final class Version20260110153752 extends AbstractMigration
         // this down() migration is auto-generated, please modify it to your needs
         $this->addSql('ALTER TABLE user_account_type DROP maximum_concurrent_games');
     }
+
+    public function isTransactional(): bool
+    {
+        return false;
+    }
 }

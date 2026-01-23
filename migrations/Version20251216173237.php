@@ -28,4 +28,9 @@ final class Version20251216173237 extends AbstractMigration
         // this down() migration is auto-generated, please modify it to your needs
         $this->addSql('ALTER TABLE casebook_subject_clue CHANGE revealed_date revealed_date VARCHAR(255) DEFAULT NULL');
     }
+
+    public function isTransactional(): bool
+    {
+        return false;
+    }
 }

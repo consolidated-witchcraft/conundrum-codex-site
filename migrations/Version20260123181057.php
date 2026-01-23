@@ -32,4 +32,9 @@ final class Version20260123181057 extends AbstractMigration
         $this->addSql('DROP INDEX UNIQ_911EC37B51412E32 ON casebook_subject');
         $this->addSql('ALTER TABLE casebook_subject DROP casebook_subject_image_file_id');
     }
+
+    public function isTransactional(): bool
+    {
+        return false;
+    }
 }

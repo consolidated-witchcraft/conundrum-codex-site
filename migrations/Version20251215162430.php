@@ -28,4 +28,9 @@ final class Version20251215162430 extends AbstractMigration
         // this down() migration is auto-generated, please modify it to your needs
         $this->addSql('ALTER TABLE permission DROP created_at, DROP updated_at');
     }
+
+    public function isTransactional(): bool
+    {
+        return false;
+    }
 }

@@ -32,4 +32,9 @@ final class Version20251230135411 extends AbstractMigration
         $this->addSql('ALTER TABLE user_user_feat DROP FOREIGN KEY FK_20FA50E6AC315356');
         $this->addSql('DROP TABLE user_user_feat');
     }
+
+    public function isTransactional(): bool
+    {
+        return false;
+    }
 }

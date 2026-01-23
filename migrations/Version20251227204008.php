@@ -28,4 +28,9 @@ final class Version20251227204008 extends AbstractMigration
         // this down() migration is auto-generated, please modify it to your needs
         $this->addSql('ALTER TABLE game CHANGE hero_image_url hero_image_url VARCHAR(1024) NOT NULL');
     }
+
+    public function isTransactional(): bool
+    {
+        return false;
+    }
 }
