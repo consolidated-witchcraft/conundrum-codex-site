@@ -2,10 +2,10 @@
     <h3 class="accordion-heading">{{ subject.getName }}</h3>
     <div class="accordion-body">
         <div class="accordion-content accordion-columns">
-            {% if subject.getCasebookSubjectImage %}
+            {% if subject.getCasebookSubjectImageFile %}
                 <div class="accordion-column">
                     <h3>Image</h3>
-                    <img class="portrait thumbnail" src="{{ subject.getCasebookSubjectImage }}" alt="{{ subject.getName }}">
+                    <img class="portrait thumbnail" src="{{ subject.getCasebookSubjectImageFile.getPath }}" alt="{{ subject.getName }}">
                 </div>
 
             {% endif %}

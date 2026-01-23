@@ -118,15 +118,6 @@ class GameService implements GameServiceInterface
         $this->entityManager->flush();
     }
 
-    public function findAllUnarchivedGames(): iterable
-    {
-        $games = $this->gameRepository->findAllUnarchivedGames();
-        foreach ($games as $game) {
-            $this->mapPuzzleInstances($game);
-        }
-        return $games;
-    }
-
     /**
      * @throws MismappedPuzzleTemplateException
      */
@@ -137,5 +128,19 @@ class GameService implements GameServiceInterface
             $this->mapPuzzleInstances($game);
         }
         return $game;
+    }
+
+    /**
+     * @param bool $includeArchived
+     * @return Game[]
+     */
+
+    public function findAllGames(bool $includeArchived = false): iterable
+    {
+        $games = $this->gameRepository->findAllGames($includeArchived);
+        foreach ($games as $game) {
+            $this->mapPuzzleInstances($game);
+        }
+        return $games;
     }
 }

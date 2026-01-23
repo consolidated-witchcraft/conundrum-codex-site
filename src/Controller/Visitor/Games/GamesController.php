@@ -14,6 +14,7 @@ use App\Form\Visitor\Game\UnArchiveGameType;
 use App\Security\GameCreationVoter;
 use App\Security\GameManagerVoter;
 use App\Security\GamePlayerVoter;
+use App\Services\Files\Service\Interfaces\FilesServiceInterface;
 use App\Services\Game\Domain\Game;
 use App\Services\Game\Service\Interfaces\GameServiceInterface;
 use App\Services\User\Domain\User;
@@ -32,6 +33,7 @@ final class GamesController extends AbstractBaseController
         private readonly ValidatorInterface $validator,
         private readonly GameServiceInterface $gameService,
         protected SluggerInterface $slugger,
+        protected readonly FilesServiceInterface $filesService,
         #[Autowire('%kernel.project_dir%/public/uploads/images/games')] private string $publicImagesDirectory,
     ) {
     }
@@ -84,6 +86,11 @@ final class GamesController extends AbstractBaseController
             }
 
             if ($success) {
+                $imageFile = $form->get('heroImageUrl')->getData();
+                if ($imageFile) {
+                    $heroImage = $this->handleImageUpload($imageFile, $this->publicImagesDirectory);
+                    $game->setHeroImageFile($heroImage);
+                }
                 $this->gameService->saveGame($game);
                 $this->addFlash('success', 'Game created successfully.');
                 return $this->redirectToRoute('app.games.manage', ['gameSlug' => $game->getSlug()]);
@@ -120,7 +127,7 @@ final class GamesController extends AbstractBaseController
         $invitations = $this->gameService->getOutstandingInvitationsForGame($game);
         $pageVars = [
             'pageTitle' => $title,
-            'heroImageUrl' => $game->getHeroImageUrl(),
+            'heroImageUrl' => $game->getHeroImageFile()?->getPath(),
             'breadcrumbs' => [
                 [
                     'route' => 'app.games.index',
@@ -152,8 +159,8 @@ final class GamesController extends AbstractBaseController
         if ($form->isSubmitted() && $form->isValid()) {
             $imageFile = $form->get('heroImageUrl')->getData();
             if ($imageFile) {
-                $heroImageUrl = $this->handleImageUpload($imageFile, $this->publicImagesDirectory);
-                $game->setHeroImageUrl($heroImageUrl);
+                $heroImage = $this->handleImageUpload($imageFile, $this->publicImagesDirectory);
+                $game->setHeroImageFile($heroImage);
             }
             $game->setName($dto->name);
             $game->setDescription($dto->description);
@@ -254,7 +261,7 @@ final class GamesController extends AbstractBaseController
     ) {
         $pageVars = [
             'pageTitle' => sprintf("Play %s", $game->getName()),
-            'heroImageUrl' => $game->getHeroImageUrl(),
+            'heroImageUrl' => $game->getHeroImageFile()?->getPath(),
             'game' => $game
         ];
         return $this->render('/visitor/games/play.html.twig', $this->populatePageVars($pageVars, $request));

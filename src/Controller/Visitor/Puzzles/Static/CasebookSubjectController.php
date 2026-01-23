@@ -10,6 +10,7 @@ use App\Dto\Visitor\Puzzles\Static\Casebook\CasebookSubjectDto;
 use App\Form\Visitor\Puzzle\Static\Casebook\CasebookSubjectType;
 use App\Form\Visitor\Puzzle\Static\Casebook\DeleteCasebookSubjectType;
 use App\Security\GameManagerVoter;
+use App\Services\Files\Service\Interfaces\FilesServiceInterface;
 use App\Services\Game\Domain\Game;
 use App\Services\Puzzle\Domain\Casebook\Casebook;
 use App\Services\Puzzle\Domain\Casebook\CasebookSubject;
@@ -42,9 +43,10 @@ class CasebookSubjectController extends AbstractPuzzleController
         EntityManagerInterface $entityManager,
         SluggerInterface $slugger,
         ValidatorInterface $validator,
+        FilesServiceInterface $filesService,
     ) {
         parent::__construct(
-            puzzleService: $puzzleService, serializer: $serializer, entityManager:  $entityManager, slugger: $slugger, validator: $validator);
+            puzzleService: $puzzleService, serializer: $serializer, entityManager:  $entityManager, slugger: $slugger, validator: $validator, filesService: $filesService);
     }
     #[IsGranted(GameManagerVoter::MANAGE_GAME_ACTION, 'game')]
     #[Route('games/{gameSlug}/puzzles/static/{templateSlug}/{instanceCode}/subjects/add', name: 'app.puzzles.static.casebook.subjects.add')]
@@ -74,7 +76,7 @@ class CasebookSubjectController extends AbstractPuzzleController
                 casebookSubjectType: $dto->type,
                 casebookSubjectClues: $clues,
                 casebookSubjectNotes: new ArrayCollection(),
-                casebookSubjectImage: $imageFile ? $this->handleImageUpload($imageFile, $this->publicImagesDirectory) : null
+                casebookSubjectImageFile: $imageFile ? $this->handleImageUpload($imageFile, $this->publicImagesDirectory) : null
             );
             if ($dto->revealed) {
                 $subject->markRevealed();
@@ -155,7 +157,7 @@ class CasebookSubjectController extends AbstractPuzzleController
             $subject->setCasebookSubjectType($dto->type);
 
             if ($imageFile) {
-                $subject->setCasebookSubjectImage($this->handleImageUpload($imageFile, $this->publicImagesDirectory));
+                $subject->setCasebookSubjectImageFile($this->handleImageUpload($imageFile, $this->publicImagesDirectory));
             }
             if ($dto->revealed && !$subject->isRevealed()) {
                 $subject->markRevealed();

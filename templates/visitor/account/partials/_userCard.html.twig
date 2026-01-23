@@ -1,7 +1,7 @@
 <aside class="user-card">
     <div class="user-info">
         <div class="card-avatar-wrapper">
-            <img class="card-avatar" src="{{ user.avatarUrl ?? '/dist/images/default-avatar.webp' }}" alt="{{ user.getUserName }}">
+            <img class="card-avatar" src="{{ user.getAvatar ? user.getAvatar.getPath : '/dist/images/default-avatar.webp' }}" alt="{{ user.getUserName }}">
         </div>
         <div class="user-details">
             {% if user.isProfilePublic %}

@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Services\User\Domain;
 
 use App\Services\Core\Domain\AbstractDomainEntity;
+use App\Services\Files\Domain\ManagedFile;
 use App\Services\Game\Domain\Game;
 use App\Services\User\Domain\ValueObjects\UserAccountType;
 use App\Services\User\Infrastructure\Repository\UserRepository;
@@ -87,6 +88,9 @@ class User extends AbstractDomainEntity implements UserInterface, PasswordAuthen
         #[ORM\Column(type: 'string', length: 2048, nullable: true)]
         private ? string $avatarUrl = null,
 
+        #[ORM\OneToOne(targetEntity: ManagedFile::class, fetch: 'EAGER')]
+        private ?ManagedFile $avatar = null,
+
         ? int $id = null
     ) {
         parent::__construct($id);
@@ -94,6 +98,26 @@ class User extends AbstractDomainEntity implements UserInterface, PasswordAuthen
         $this->gamesMastered = new ArrayCollection();
         $this->games = new ArrayCollection();
         $this->feats = new ArrayCollection();
+    }
+
+    public function getAvatar(): ?ManagedFile
+    {
+        return $this->avatar;
+    }
+
+    public function setAvatar(ManagedFile $avatar): void
+    {
+        $this->avatar = $avatar;
+    }
+
+    public function isProfilePublic(): bool
+    {
+        return $this->profilePublic;
+    }
+
+    public function setProfilePublic(bool $profilePublic): void
+    {
+        $this->profilePublic = $profilePublic;
     }
 
 

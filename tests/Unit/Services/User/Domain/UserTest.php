@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Tests\Unit\Services\User\Domain;
 
+use App\Services\Files\Domain\ManagedFile;
 use App\Services\User\Domain\Role;
 use App\Services\User\Domain\User;
 use App\Services\User\Domain\UserFeat;
@@ -27,6 +28,7 @@ class UserTest extends TestCase
             hasAcceptedCookies: $overrides['hasAcceptedCookies'] ?? false,
             profilePublic: $overrides['profilePublic'] ?? false,
             avatarUrl: $overrides['avatarUrl'] ?? null,
+            avatar: $overrides['avatar'] ?? null,
             id: $overrides['id'] ?? null
         );
     }
@@ -211,5 +213,15 @@ class UserTest extends TestCase
             ])
         ]);
         self::assertFalse($userTwo->canCreateGames());
+    }
+
+    public function testSetAvatar(): void {
+        $user = $this->generateTestUser();
+        $avatar = $this->createConfiguredMock(ManagedFile::class, [
+            'getTitle' => 'Test Title'
+        ]);
+        self::assertNotEquals($avatar, $user->getAvatar());
+        $user->setAvatar($avatar);
+        self::assertEquals($avatar, $user->getAvatar());
     }
 }

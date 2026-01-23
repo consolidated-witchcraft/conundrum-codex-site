@@ -3,6 +3,7 @@
 namespace App\Services\Game\Domain;
 
 use App\Services\Core\Domain\AbstractDomainEntity;
+use App\Services\Files\Domain\ManagedFile;
 use App\Services\Game\Infrastructure\GameRepository;
 use App\Services\Puzzle\Domain\Interfaces\PuzzleInstanceInterface;
 use App\Services\Puzzle\Domain\Interfaces\StaticPuzzleInstanceInterface;
@@ -77,6 +78,10 @@ class Game extends AbstractDomainEntity
         #[ORM\Column(length: 1024, nullable: true)]
         private ? string $heroImageUrl = null,
 
+        #[Groups(['extended'])]
+        #[ORM\OneToOne(targetEntity: ManagedFile::class)]
+        private ? ManagedFile $heroImageFile = null,
+
         /**
          * @var Collection<int, StaticPuzzleInstanceInterface>
          */
@@ -93,6 +98,16 @@ class Game extends AbstractDomainEntity
             $this->staticPuzzleInstances = new ArrayCollection();
         }
 
+    }
+
+    public function getHeroImageFile(): ?ManagedFile
+    {
+        return $this->heroImageFile;
+    }
+
+    public function setHeroImageFile(ManagedFile $heroImageFile): void
+    {
+        $this->heroImageFile = $heroImageFile;
     }
 
     public function getHeroImageUrl(): ?string

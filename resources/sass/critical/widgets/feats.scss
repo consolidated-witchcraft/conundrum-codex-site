@@ -14,7 +14,7 @@ $feat-height-sm: 2rem;
     font-size: $feat-height - 2rem;
     width: $feat-height;
     height: $feat-height;
-    line-height: $feat-height + 1rem;
+    line-height: $feat-height;
     background: radial-gradient(circle at 50% 100%, palette.$crimson, color.adjust(palette.$crimson, $lightness: -50%) 100%);
     background-size: 150%;
     margin: 0 auto;
@@ -62,7 +62,6 @@ $feat-height-sm: 2rem;
         background-clip: text;
         color: transparent;
         z-index: 2;
-        //text-shadow: 1px 1px 0 rgba(0, 0, 0, 0.1);
     }
 
     &.feat-common {

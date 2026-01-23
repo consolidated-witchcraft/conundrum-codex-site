@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Controller\Visitor\Puzzles;
 
 use App\Controller\AbstractBaseController;
+use App\Services\Files\Service\Interfaces\FilesServiceInterface;
 use App\Services\Puzzle\Service\Interfaces\PuzzleTemplateServiceInterface;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Serializer\SerializerInterface;
@@ -19,6 +20,7 @@ abstract class AbstractPuzzleController extends AbstractBaseController
         protected readonly EntityManagerInterface $entityManager,
         protected readonly SluggerInterface $slugger,
         protected readonly ValidatorInterface $validator,
+        protected readonly FilesServiceInterface $filesService,
     ) {
     }
 }

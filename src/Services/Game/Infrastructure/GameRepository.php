@@ -23,11 +23,15 @@ class GameRepository extends ServiceEntityRepository
         ]);
     }
 
-    public function findAllUnarchivedGames(): iterable {
+    public function findAllGames(bool $includeArchived = false): iterable {
         $qb = $this->createQueryBuilder('g');
-        $eb = $qb->expr();
-        $qb->select('g')
-            ->where($eb->isNull('g.archivedDate'));
+
+        if (!$includeArchived) {
+            $eb = $qb->expr();
+            $qb->select('g')
+                ->where($eb->isNull('g.archivedDate'));
+        }
+
         return $qb->getQuery()->getResult();
     }
 }

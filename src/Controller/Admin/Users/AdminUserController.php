@@ -94,8 +94,8 @@ class AdminUserController extends AbstractBaseController
         if ($form->isSubmitted() && $form->isValid()) {
             $imageFile = $form->get('avatar')->getData();
             if ($imageFile) {
-                $avatarUrl = $this->handleImageUpload($imageFile, $this->publicImagesDirectory);
-                $user->setAvatarUrl($avatarUrl);
+                $avatar = $this->handleImageUpload($imageFile, $this->publicImagesDirectory);
+                $user->setAvatar($avatar);
             }
             if (!$selfEditMode) {
                 $user->setEmail($dto->email);

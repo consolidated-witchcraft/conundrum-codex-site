@@ -21,7 +21,7 @@ class AdminGameType extends AbstractType
     }
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
-        $games = $this->gameService->findAllUnarchivedGames();
+        $games = $this->gameService->findAllGames(false);
         $builder
             ->add(
                 'games',

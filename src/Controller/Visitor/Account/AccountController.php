@@ -10,6 +10,7 @@ use App\Dto\Visitor\User\UserChangePasswordDto;
 use App\Dto\Visitor\User\UserEditDto;
 use App\Form\Visitor\Account\ChangePasswordType;
 use App\Form\Visitor\Account\UserEditType;
+use App\Services\Files\Service\Interfaces\FilesServiceInterface;
 use App\Services\Game\Service\Interfaces\GameServiceInterface;
 use App\Services\User\Domain\User;
 use Doctrine\ORM\EntityManagerInterface;
@@ -32,6 +33,7 @@ final class AccountController extends AbstractBaseController
         private readonly ValidatorInterface $validator,
         private readonly UserPasswordHasherInterface $passwordHasher,
         protected readonly SluggerInterface $slugger,
+        protected readonly FilesServiceInterface $filesService,
         #[Autowire('%kernel.project_dir%/public/uploads/images/avatar')] private readonly string $publicImagesDirectory,
     ) {
     }
@@ -65,8 +67,8 @@ final class AccountController extends AbstractBaseController
         if ($form->isSubmitted() && $form->isValid()) {
             $imageFile = $form->get('avatar')->getData();
             if ($imageFile) {
-                $avatarUrl = $this->handleImageUpload($imageFile, $this->publicImagesDirectory);
-                $user->setAvatarUrl($avatarUrl);
+                $avatar = $this->handleImageUpload($imageFile, $this->publicImagesDirectory);
+                $user->setAvatar($avatar);
             }
             $user->setEmail($dto->emailAddress);
             $user->setUsername($dto->userName);

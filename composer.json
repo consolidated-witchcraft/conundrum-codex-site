@@ -51,7 +51,8 @@
         "symfony/yaml": "7.3.*",
         "symfonycasts/reset-password-bundle": "^1.23",
         "symfonycasts/verify-email-bundle": "^1.17.4",
-        "symfony/maker-bundle": "*"
+        "symfony/maker-bundle": "*",
+        "ext-fileinfo": "*"
     },
     "require-dev": {
         "doctrine/data-fixtures": "*",

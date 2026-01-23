@@ -13,7 +13,7 @@
             {% endif %}
             <div class="row title-container{% if heroImageUrl is defined and heroImageUrl is not null %} hero{% endif %}">
                 {% if heroImageUrl is defined and heroImageUrl is not null %}
-                    <img class="row-hero-backer" src="{{ game.getHeroImageUrl }}" alt="{{ game.getName }}">
+                    <img class="row-hero-backer" src="{{ heroImageUrl }}" alt="{{ game.getName }}">
                 {% endif %}
                 <div class="col">
                     {% if heroImageUrl is defined and heroImageUrl is not null %}

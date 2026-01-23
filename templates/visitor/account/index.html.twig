@@ -4,7 +4,7 @@
 
         <div class="col">
             <div class="avatar-wrapper">
-                <img class="avatar" src="{{ user.avatarUrl ?? '/dist/images/default-avatar.webp' }}" alt="Your Avatar">
+                <img class="avatar" src="{{ user.getAvatar ? user.getAvatar.getPath :  '/dist/images/default-avatar.webp' }}" alt="Your Avatar">
             </div>
         </div>
 

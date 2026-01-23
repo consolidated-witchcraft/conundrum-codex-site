@@ -32,7 +32,7 @@ class GameDto
         return new static(
             name: $game->getName(),
             description: $game->getDescription(),
-            heroImageUrl: $game->getHeroImageUrl(),
+            heroImageUrl: $game->getHeroImageFile()?->getPath(),
             slug: $game->getSlug(),
         );
     }

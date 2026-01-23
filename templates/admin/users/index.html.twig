@@ -26,7 +26,7 @@
                         <tr>
                             <td>
                                 <div class="avatar-wrapper">
-                                    <img class="avatar thumbnail-xs" src="{{ user.avatarUrl ?? '/dist/images/default-avatar.webp' }}" alt="{{ user.getUserName }}">
+                                    <img class="avatar thumbnail-xs" src="{{ user.getAvatar ? user.getAvatar.getPath : '/dist/images/default-avatar.webp' }}" alt="{{ user.getUserName }}">
                                 </div>
                             </td>
                             <td>

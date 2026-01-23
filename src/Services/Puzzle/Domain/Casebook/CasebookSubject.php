@@ -4,6 +4,7 @@ namespace App\Services\Puzzle\Domain\Casebook;
 
 use ApiPlatform\Metadata\ApiResource;
 use App\Services\Core\Domain\AbstractDomainEntity;
+use App\Services\Files\Domain\ManagedFile;
 use App\Services\Puzzle\Infrastructure\Casebook\Repository\CasebookSubjectRepository;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
@@ -45,9 +46,27 @@ class CasebookSubject extends AbstractDomainEntity
         #[ORM\Column(type: 'datetime_immutable', nullable: true)]
         private ? \DateTimeImmutable $revealedDate = null,
 
+        #[ORM\OneToOne(targetEntity: ManagedFile::class)]
+        private ? ManagedFile $casebookSubjectImageFile = null,
+
         ?int $id = null
     ) {
         parent::__construct($id);
+    }
+
+    public function getCasebookSubjectImageFile(): ?ManagedFile
+    {
+        return $this->casebookSubjectImageFile;
+    }
+
+    public function setCasebookSubjectImageFile(ManagedFile $casebookSubjectImageFile): void
+    {
+        $this->casebookSubjectImageFile = $casebookSubjectImageFile;
+    }
+
+    public function getRevealedDate(): ?\DateTimeImmutable
+    {
+        return $this->revealedDate;
     }
 
     public function getCasebookSubjectType(): CasebookSubjectType
