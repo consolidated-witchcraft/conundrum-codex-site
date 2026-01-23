@@ -77,7 +77,7 @@ class AdminUserController extends AbstractBaseController
         return $this->render('admin/users/index.html.twig', $this->populatePageVars($pageVars, $request));
     }
 
-    #[Route('admin/users/{id}/edit', name: 'admin.users.edit')]
+    #[Route('admin/users/{userId}/edit', name: 'admin.users.edit')]
     #[IsGranted('manage_users')]
     public function edit(User $user, Request $request): Response {
         $currentUser = $this->getUser();
@@ -133,7 +133,7 @@ class AdminUserController extends AbstractBaseController
         return $this->render('admin/users/edit.html.twig', $this->populatePageVars($pageVars, $request));
     }
 
-    #[Route('admin/users/{id}/games', name: 'admin.users.games')]
+    #[Route('admin/users/{userId}/games', name: 'admin.users.games')]
     #[IsGranted('manage_user_games')]
     public function manageGames(User $user, Request $request): Response {
         $currentUser = $this->getUser();
@@ -164,7 +164,7 @@ class AdminUserController extends AbstractBaseController
         return $this->render('admin/users/manage-games.html.twig', $this->populatePageVars($pageVars, $request));
     }
 
-    #[Route('admin/users/{id}/block', name: 'admin.users.block')]
+    #[Route('admin/users/{userId}/block', name: 'admin.users.block')]
     #[IsGranted('block_users')]
     public function blockUser(User $user, Request $request): Response {
         $currentUser = $this->getUser();
@@ -207,7 +207,7 @@ class AdminUserController extends AbstractBaseController
 
     }
 
-    #[Route('admin/users/{id}/unblock', name: 'admin.users.unblock')]
+    #[Route('admin/users/{userId}/unblock', name: 'admin.users.unblock')]
     #[IsGranted('block_users')]
     public function unblockUser(User $user, Request $request): Response {
 
@@ -233,7 +233,7 @@ class AdminUserController extends AbstractBaseController
         return $this->render('admin/users/block.html.twig', $this->populatePageVars($pageVars, $request));
     }
 
-    #[Route('admin/users/{id}/delete', name: 'admin.users.delete')]
+    #[Route('admin/users/{userId}/delete', name: 'admin.users.delete')]
     #[IsGranted('manage_users')]
     public function deleteUser(User $user, Request $request): Response {
         $form = $this->createForm(AdminDeleteUserType::class);

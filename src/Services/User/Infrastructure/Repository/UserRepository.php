@@ -74,4 +74,11 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
             ->getSingleScalarResult();
         return (int) $result;
     }
+
+    public function findUsersWithoutAccountType(): iterable {
+        $qb = $this->createQueryBuilder('u')
+            ->select('u')
+            ->where('u.userAccountType IS NULL');
+        return $qb->getQuery()->getResult();
+    }
 }

@@ -218,4 +218,19 @@ class UserService
         $accountType =  $this->accountTypeRepository->findByHandle($handle);
         return $accountType instanceof UserAccountType ? $accountType : null;
     }
+
+    public function findById(int $id): ?User
+    {
+        return $this->userRepository->find($id);
+    }
+
+    public function findUsersWithoutAccountType(): iterable
+    {
+        return $this->userRepository->findUsersWithoutAccountType();
+    }
+
+    public function findAll(): iterable
+    {
+        return $this->userRepository->findAll();
+    }
 }

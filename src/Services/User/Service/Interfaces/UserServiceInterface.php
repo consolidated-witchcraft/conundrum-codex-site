@@ -42,4 +42,16 @@ interface UserServiceInterface
      * @return UserFeat[]
      */
     public function findAllFeats(): array;
+
+    public function findById(int $id): ? User;
+
+    /**
+     * @return User[]
+     */
+    public function findUsersWithoutAccountType(): iterable;
+
+    /**
+     * @return User[]
+     */
+    public function findAll(): iterable;
 }

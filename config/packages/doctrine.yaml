@@ -83,7 +83,13 @@ doctrine:
                 is_bundle: false
                 dir: '%kernel.project_dir%/src/Services/Game/Domain'
                 prefix: 'App\Services\Game\Domain'
-                alias: BugReport
+                alias: Game
+            ManagedFile:
+                type: attribute
+                is_bundle: false
+                dir: '%kernel.project_dir%/src/Services/Files/Domain'
+                prefix: 'App\Services\Files\Domain'
+                alias: Game
         controller_resolver:
             auto_mapping: false
 
