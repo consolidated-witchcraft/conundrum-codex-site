@@ -16,7 +16,7 @@ class UserAccessTokenTest extends TestCase
      * @throws RandomException
      */
     public function testMakeForUser(): void {
-        $user = $this->createConfiguredMock(User::class, [
+        $user = $this->createConfiguredStub(User::class, [
             'getUserIdentifier' => 'test@something.com'
         ]);
         $token = UserAccessToken::makeTokenForUser($user);

@@ -40,9 +40,6 @@ class CasebookSubject extends AbstractDomainEntity
         #[ORM\OneToMany(targetEntity: CasebookSubjectNote::class, mappedBy: 'casebookSubject', cascade: ['persist'], orphanRemoval: true)]
         private Collection $casebookSubjectNotes,
 
-        #[ORM\Column(length: 2048, nullable:true)]
-        private ? string $casebookSubjectImage = null,
-
         #[ORM\Column(type: 'datetime_immutable', nullable: true)]
         private ? \DateTimeImmutable $revealedDate = null,
 
@@ -78,17 +75,6 @@ class CasebookSubject extends AbstractDomainEntity
     {
         $this->casebookSubjectType = $casebookSubjectType;
     }
-
-    public function getCasebookSubjectImage(): ?string
-    {
-        return $this->casebookSubjectImage;
-    }
-
-    public function setCasebookSubjectImage(?string $casebookSubjectImage): void
-    {
-        $this->casebookSubjectImage = $casebookSubjectImage;
-    }
-
 
     /**
      * @return Collection<int, CasebookSubjectNote>

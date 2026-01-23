@@ -23,11 +23,10 @@ class UserTest extends TestCase
         return new User(
             email: $overrides['email'] ?? 'test@test.local',
             username: $overrides['username'] ?? 'Test User',
-            userAccountType: $overrides['userAccountType'] ?? $this->createMock(UserAccountType::class),
+            userAccountType: $overrides['userAccountType'] ?? $this->createStub(UserAccountType::class),
             password: $overrides['password'] ?? 'Test Pass',
             hasAcceptedCookies: $overrides['hasAcceptedCookies'] ?? false,
             profilePublic: $overrides['profilePublic'] ?? false,
-            avatarUrl: $overrides['avatarUrl'] ?? null,
             avatar: $overrides['avatar'] ?? null,
             id: $overrides['id'] ?? null
         );
@@ -36,7 +35,7 @@ class UserTest extends TestCase
         $testEmail = 'test@test.local';
         $userName = 'Test User';
         $password = 'TestPass';
-        $userAccountType = $this->createMock(UserAccountType::class);
+        $userAccountType = $this->createStub(UserAccountType::class);
         $id = 123;
         $user = new User(
             email: $testEmail,
@@ -53,7 +52,6 @@ class UserTest extends TestCase
         self::assertEquals($userAccountType, $user->getUserAccountType());
         self::assertFalse($user->getHasAcceptedCookies());
         self::assertFalse($user->getIsProfilePublic());
-        self::assertNull($user->getAvatarUrl());
         self::assertEmpty($user->getRoles());
         self::assertEmpty($user->getGames());
         self::assertEmpty($user->getGamesMastered());
@@ -91,7 +89,7 @@ class UserTest extends TestCase
 
     public function testSetUserAccountType(): void {
         $user = $this->generateTestUser();
-        $newUserAccountType = $this->createConfiguredMock(UserAccountType::class, [
+        $newUserAccountType = $this->createConfiguredStub(UserAccountType::class, [
             'getMaximumConcurrentGames' => 100
         ]);
         $user->setUserAccountType($newUserAccountType);
@@ -112,14 +110,6 @@ class UserTest extends TestCase
         self::assertTrue($user->getIsProfilePublic());
     }
 
-    public function testSetAvatarUrl(): void {
-        $user = $this->generateTestUser();
-        $testAvatarUrl = 'http://example.com/avatar.jpg';
-        self::assertNull($user->getAvatarUrl());
-        $user->setAvatarUrl($testAvatarUrl);
-        self::assertEquals($testAvatarUrl, $user->getAvatarUrl());
-    }
-
     public function testSetId(): void {
         $user = $this->generateTestUser();
         self::assertNull($user->getId());
@@ -131,13 +121,13 @@ class UserTest extends TestCase
         $user = $this->generateTestUser();
         self::assertEmpty($user->getHydratedRoles());
         $roles = new ArrayCollection([
-            $this->createConfiguredMock(
+            $this->createConfiguredStub(
                 Role::class,
                 [
                     'getHandle' => 'ROLE_USER',
                 ]
             ),
-            $this->createConfiguredMock(
+            $this->createConfiguredStub(
                 Role::class,
                 [
                     'getHandle' => 'ROLE_ADMIN',
@@ -155,13 +145,13 @@ class UserTest extends TestCase
     public function testAddRole(): void {
         $user = $this->generateTestUser();
         $roles = new ArrayCollection([
-            $this->createConfiguredMock(
+            $this->createConfiguredStub(
                 Role::class,
                 [
                     'getHandle' => 'ROLE_USER',
                 ]
             ),
-            $this->createConfiguredMock(
+            $this->createConfiguredStub(
                 Role::class,
                 [
                     'getHandle' => 'ROLE_ADMIN',
@@ -169,7 +159,7 @@ class UserTest extends TestCase
             ),
         ]);
         $user->setRoles($roles);
-        $newRole = $this->createConfiguredMock(Role::class, [
+        $newRole = $this->createConfiguredStub(Role::class, [
             'getHandle' => 'ROLE_MODERATOR',
         ]);
         $user->addRole($newRole);
@@ -184,8 +174,8 @@ class UserTest extends TestCase
         $user = $this->generateTestUser();
         self::assertEmpty($user->getFeats());
         $feats = new ArrayCollection([
-            $this->createConfiguredMock(UserFeat::class, ['getHandle' => 'FEAT_1']),
-            $this->createConfiguredMock(UserFeat::class, ['getHandle' => 'FEAT_2'])
+            $this->createConfiguredStub(UserFeat::class, ['getHandle' => 'FEAT_1']),
+            $this->createConfiguredStub(UserFeat::class, ['getHandle' => 'FEAT_2'])
         ]);
         $user->setFeats($feats);
         self::assertEquals($feats, $user->getFeats());
@@ -194,21 +184,21 @@ class UserTest extends TestCase
     public function testAwardFeat(): void {
         $user = $this->generateTestUser();
         self::assertEmpty($user->getFeats());
-        $feat = $this->createConfiguredMock(UserFeat::class, ['getHandle' => 'FEAT_1']);
+        $feat = $this->createConfiguredStub(UserFeat::class, ['getHandle' => 'FEAT_1']);
         $user->awardFeat($feat);
         self::assertEquals(new ArrayCollection([$feat]), $user->getFeats());
     }
 
     public function testCanCreateGames(): void {
         $userOne = $this->generateTestUser([
-            'userAccountType' => $this->createConfiguredMock(UserAccountType::class, [
+            'userAccountType' => $this->createConfiguredStub(UserAccountType::class, [
                 'getMaximumConcurrentGames' => 1
             ])
         ]);
         self::assertTrue($userOne->canCreateGames());
 
         $userTwo = $this->generateTestUser([
-            'userAccountType' => $this->createConfiguredMock(UserAccountType::class, [
+            'userAccountType' => $this->createConfiguredStub(UserAccountType::class, [
                 'getMaximumConcurrentGames' => 0
             ])
         ]);
@@ -217,7 +207,7 @@ class UserTest extends TestCase
 
     public function testSetAvatar(): void {
         $user = $this->generateTestUser();
-        $avatar = $this->createConfiguredMock(ManagedFile::class, [
+        $avatar = $this->createConfiguredStub(ManagedFile::class, [
             'getTitle' => 'Test Title'
         ]);
         self::assertNotEquals($avatar, $user->getAvatar());

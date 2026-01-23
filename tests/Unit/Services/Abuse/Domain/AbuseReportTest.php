@@ -14,7 +14,7 @@ class AbuseReportTest extends TestCase
 
     private function generateTestAbuseReport(array $overrides = []): AbuseReport {
         return new AbuseReport(
-            reportedUser: $overrides['reportedUser'] ?? $this->createMock(User::class),
+            reportedUser: $overrides['reportedUser'] ?? $this->createStub(User::class),
             reason: $overrides['reason'] ?? 'Test Reason',
             notes: $overrides['notes'] ?? 'Test Notes',
             checkedDate: $overrides['checkedDate'] ?? null,
@@ -24,8 +24,8 @@ class AbuseReportTest extends TestCase
         );
     }
     public function testConstruct(): void {
-        $reportedUser = $this->createMock(User::class);
-        $reportingUser = $this->createMock(User::class);
+        $reportedUser = $this->createStub(User::class);
+        $reportingUser = $this->createStub(User::class);
         $reason = "Test Reason";
         $notes = "Test Notes";
         $checkedDate = new \DateTimeImmutable();
@@ -74,7 +74,7 @@ class AbuseReportTest extends TestCase
     public function testSetReportingUser(): void {
         $abuseReport = $this->generateTestAbuseReport(['reportingUser' => null]);
         self::assertNull($abuseReport->getReportingUser());
-        $reportingUser = $this->createMock(User::class);
+        $reportingUser = $this->createStub(User::class);
         $abuseReport->setReportingUser($reportingUser);
         self::assertEquals($reportingUser, $abuseReport->getReportingUser());
     }

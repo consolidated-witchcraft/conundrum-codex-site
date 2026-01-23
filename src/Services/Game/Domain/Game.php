@@ -49,7 +49,7 @@ class Game extends AbstractDomainEntity
      * @param string $description
      * @param User $gamesMaster
      * @param \DateTimeInterface|null $archivedDate
-     * @param string|null $heroImageUrl
+     * @param ManagedFile|null $heroImageFile
      * @param Collection|null $staticPuzzleInstances
      * @param int|null $id
      */
@@ -73,10 +73,6 @@ class Game extends AbstractDomainEntity
 
         #[ORM\Column(type: 'datetime', nullable: true)]
         private ? \DateTimeInterface $archivedDate = null,
-
-        #[Groups(['extended'])]
-        #[ORM\Column(length: 1024, nullable: true)]
-        private ? string $heroImageUrl = null,
 
         #[Groups(['extended'])]
         #[ORM\OneToOne(targetEntity: ManagedFile::class)]
@@ -109,17 +105,6 @@ class Game extends AbstractDomainEntity
     {
         $this->heroImageFile = $heroImageFile;
     }
-
-    public function getHeroImageUrl(): ?string
-    {
-        return $this->heroImageUrl;
-    }
-
-    public function setHeroImageUrl(?string $heroImageUrl): void
-    {
-        $this->heroImageUrl = $heroImageUrl;
-    }
-
 
     public function getSlug(): string
     {

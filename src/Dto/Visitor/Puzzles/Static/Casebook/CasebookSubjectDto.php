@@ -38,7 +38,7 @@ class CasebookSubjectDto
             clues: self::mapClues($casebookSubject->getCasebookSubjectClues()),
             name: $casebookSubject->getName(),
             description: $casebookSubject->getDescription(),
-            image: $casebookSubject->getCasebookSubjectImage(),
+            image: $casebookSubject->getCasebookSubjectImageFile()->getPath(),
             revealed: $casebookSubject->isRevealed(),
         );
     }

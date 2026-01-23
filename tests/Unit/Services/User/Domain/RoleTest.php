@@ -33,10 +33,10 @@ class RoleTest extends TestCase
         $name = "Test name";
         $handle = "ROLE_TEST";
         $users = new ArrayCollection([
-            $this->createMock(User::class)
+            $this->createStub(User::class)
         ]);
         $permissions = new ArrayCollection([
-            $this->createMock(Permission::class)
+            $this->createStub(Permission::class)
         ]);
 
         $id = 1;
@@ -61,13 +61,13 @@ class RoleTest extends TestCase
     public function testAddPermission(): void {
         $role = $this->generateTestRole();
         self::assertCount(0, $role->getPermissions());
-        $role->addPermission($this->createMock(Permission::class));
+        $role->addPermission($this->createStub(Permission::class));
         self::assertCount(1, $role->getPermissions());
     }
 
     public function testRemovePermission(): void {
         $role = $this->generateTestRole();
-        $permission = $this->createMock(Permission::class);
+        $permission = $this->createStub(Permission::class);
         $role->addPermission($permission);
         $role->removePermission($permission);
         self::assertCount(0, $role->getPermissions());

@@ -57,11 +57,11 @@ class User extends AbstractDomainEntity implements UserInterface, PasswordAuthen
     /**
      * @param non-empty-string $email
      * @param non-empty-string $username
-     * @param non-empty-string $password
      * @param UserAccountType $userAccountType
+     * @param non-empty-string $password
      * @param bool $hasAcceptedCookies
      * @param bool $profilePublic
-     * @param string|null $avatarUrl
+     * @param ManagedFile|null $avatar
      * @param int|null $id
      */
     public function __construct(
@@ -84,9 +84,6 @@ class User extends AbstractDomainEntity implements UserInterface, PasswordAuthen
 
         #[ORM\Column(type: 'boolean', nullable: false)]
         private bool $profilePublic = false,
-
-        #[ORM\Column(type: 'string', length: 2048, nullable: true)]
-        private ? string $avatarUrl = null,
 
         #[ORM\OneToOne(targetEntity: ManagedFile::class, fetch: 'EAGER')]
         private ?ManagedFile $avatar = null,
@@ -204,15 +201,6 @@ class User extends AbstractDomainEntity implements UserInterface, PasswordAuthen
         $this->profilePublic = $isProfilePublic;
     }
 
-    public function getAvatarUrl(): ?string
-    {
-        return $this->avatarUrl;
-    }
-
-    public function setAvatarUrl(? string $avatarUrl): void
-    {
-        $this->avatarUrl = $avatarUrl;
-    }
 
     /**
      * @return Collection<int, Game>

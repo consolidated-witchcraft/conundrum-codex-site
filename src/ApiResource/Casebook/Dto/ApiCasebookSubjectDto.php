@@ -63,7 +63,7 @@ class ApiCasebookSubjectDto
             description: $subject->getDescription(),
             type: $subject->getCasebookSubjectType()->getHandle(),
             isRevealed: $subject->isRevealed(),
-            imageUri: $subject->getCasebookSubjectImage(),
+            imageUri: $subject->getCasebookSubjectImageFile()->getPath(),
             id: $subject->getId()
         );
         foreach ($subject->getRevealedCasebookSubjectClues() as $revealedClue) {

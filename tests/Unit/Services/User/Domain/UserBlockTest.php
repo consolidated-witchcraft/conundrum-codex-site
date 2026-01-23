@@ -13,7 +13,7 @@ class UserBlockTest extends TestCase
 
     private function generateTestUserBlock(array $overrides = []): UserBlock {
         return new UserBlock(
-            user: $overrides['user'] ?? $this->createMock(User::class),
+            user: $overrides['user'] ?? $this->createStub(User::class),
             reason: $overrides['reason'] ?? 'Test Reason',
             expirationDate: $overrides['expirationDate'] ?? new \DateTimeImmutable('2100-01-01 00:00:00'),
             id: $overrides['id'] ?? null
@@ -21,7 +21,7 @@ class UserBlockTest extends TestCase
     }
     public function testConstruct(): void {
         $reason = 'test reason';
-        $user = $this->createMock(User::class);
+        $user = $this->createStub(User::class);
         $expirationDate = new \DateTimeImmutable('2100-01-01 00:00:00');
         $id = 123;
         $userBlock = new UserBlock(

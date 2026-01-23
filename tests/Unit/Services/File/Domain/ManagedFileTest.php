@@ -17,7 +17,7 @@ class ManagedFileTest extends TestCase
             mimeType: $overrides['mimeType'] ?? 'text/plain',
             title: $overrides['title'] ?? "Test Title",
             description: $overrides['description'] ?? "Test Description",
-            uploader: $overrides['uploader'] ?? $this->createMock(User::class),
+            uploader: $overrides['uploader'] ?? $this->createStub(User::class),
         );
     }
 
@@ -30,7 +30,7 @@ class ManagedFileTest extends TestCase
             mimeType: $mimeType,
             title: $title,
             description: "Test Description",
-            uploader: $this->createMock(User::class),
+            uploader: $this->createStub(User::class),
         );
         $this->assertEquals($path, $file->getPath());
         $this->assertEquals($mimeType, $file->getMimeType());

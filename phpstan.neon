@@ -11,7 +11,7 @@ parameters:
    doctrine:
        objectManagerLoader: tests/object-manager.php
    paths:
-       - src/Services/Puzzle
+       - src/Services
        - tools
 
    excludePaths:

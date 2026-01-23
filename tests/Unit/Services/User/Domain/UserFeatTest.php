@@ -21,7 +21,7 @@ class UserFeatTest extends TestCase
             handle: $overrides['handle'] ?? 'TestHandle',
             description: $overrides['description'] ?? 'Test Description',
             iconClass: $overrides['iconClass'] ?? 'test-icon-class',
-            rarity: $overrides['rarity'] ?? $this->createMock(Rarity::class),
+            rarity: $overrides['rarity'] ?? $this->createStub(Rarity::class),
             gamesMasterAwardable: $overrides['gamesMasterAwardable'] ?? false,
             id: $overrides['id'] ?? null
         );
@@ -35,7 +35,7 @@ class UserFeatTest extends TestCase
         $handle = "TestHandle";
         $description = "Test Description";
         $iconClass = "TestIconClass";
-        $rarity = $this->createMock(Rarity::class);
+        $rarity = $this->createStub(Rarity::class);
         $id = 123;
         $feat = new UserFeat(
             label: $label,
@@ -89,7 +89,7 @@ class UserFeatTest extends TestCase
      * @throws InvalidHandleException
      */
     public function testSetRarity(): void {
-        $newRarity = $this->createConfiguredMock(Rarity::class, [
+        $newRarity = $this->createConfiguredStub(Rarity::class, [
             'getKey' => 'TESTHANDLE2'
         ]);
         $feat = $this->generateTestUserFeat();
