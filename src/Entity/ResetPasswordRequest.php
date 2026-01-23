@@ -1,42 +1,33 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Entity;
 
 use App\Repository\ResetPasswordRequestRepository;
+use App\Services\Core\Domain\AbstractDomainEntity;
 use App\Services\User\Domain\User;
 use Doctrine\ORM\Mapping as ORM;
 use SymfonyCasts\Bundle\ResetPassword\Model\ResetPasswordRequestInterface;
 use SymfonyCasts\Bundle\ResetPassword\Model\ResetPasswordRequestTrait;
 
 #[ORM\Entity(repositoryClass: ResetPasswordRequestRepository::class)]
-class ResetPasswordRequest implements ResetPasswordRequestInterface
+class ResetPasswordRequest extends AbstractDomainEntity implements ResetPasswordRequestInterface
 {
     use ResetPasswordRequestTrait;
 
-
-    private ?User $user = null;
-
     public function __construct(
-        #[ORM\ManyToOne]
         #[ORM\JoinColumn(nullable: false)]
-        User $user,
-
-        #[ORM\Id]
-        #[ORM\GeneratedValue]
-        #[ORM\Column]
-        private ?int $id = null,
+        #[ORM\ManyToOne(targetEntity: User::class)]
+        private ? User $user,
 
         \DateTimeInterface $expiresAt,
         string $selector,
         string $hashedToken,
+        ?int $id = null,
     ) {
-        $this->user = $user;
+        parent::__construct($id);
         $this->initialize($expiresAt, $selector, $hashedToken);
-    }
-
-    public function getId(): ?int
-    {
-        return $this->id;
     }
 
     public function getUser(): User
