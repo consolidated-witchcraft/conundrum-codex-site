@@ -15,16 +15,30 @@
             {{ form_row(form.username) }}
             {{ form_row(form.plainPassword) }}
         </div>
-        <div class="col panel">
-            <h2 class="panel-heading">
-                Roles
-            </h2>
-            {{ form_row(form.roles) }}
-            <hr/>
-            <h2 class="panel-heading">
-                Account Type
-            </h2>
-            {{ form_row(form.userAccountType) }}
+        <div class="col">
+            <div class="panel">
+                <h2 class="panel-heading">
+                    Roles
+                </h2>
+                {{ form_row(form.roles) }}
+            </div>
+            <div class="panel">
+                <h2 class="panel-heading">
+                    Account Type
+                </h2>
+                {{ form_row(form.userAccountType) }}
+            </div>
+            <div class="panel">
+                <h2 class="panel-heading">
+                    Games
+                </h2>
+                <ul>
+                    {% for game in user.getGames %}
+                        <li>{{ game.getName }}</li>
+                    {% endfor %}
+                </ul>
+
+            </div>
         </div>
     </div>
     <div class="row">

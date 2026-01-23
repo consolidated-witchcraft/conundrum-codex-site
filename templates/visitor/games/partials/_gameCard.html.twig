@@ -1,6 +1,8 @@
 <article class="game-card {% if game.isArchived %}archived{% endif %}">
     <div class="game-hero">
-        <img class="game-hero" src="{{ game.getHeroImageUrl }}" alt="{{ game.getName }}">
+        {% if game.getHeroImageUrl %}
+            <img class="game-hero" src="{{ game.getHeroImageUrl }}" alt="{{ game.getName }}">
+        {% endif %}
         <h3 class="game-title" is="heading-element">{{ game.getName }} {% if game.isArchived %} - Archived{% endif %}</h3>
     </div>
 

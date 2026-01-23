@@ -45,4 +45,8 @@ interface GameServiceInterface extends DomainServiceInterface
     public function saveGame(Game $game): Game;
 
     public function deleteGame(Game $game): void;
+
+    public function findAllUnarchivedGames(): iterable;
+
+    public function find(int $id): ? Game;
 }

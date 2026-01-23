@@ -10,16 +10,12 @@ use App\Services\Game\Infrastructure\GameInvitationRepository;
 use App\Services\Game\Infrastructure\GameRepository;
 use App\Services\Game\Service\Interfaces\GameServiceInterface;
 use App\Services\Puzzle\Domain\Exceptions\MismappedPuzzleTemplateException;
-use App\Services\Puzzle\Domain\Interfaces\PuzzleInstanceInterface;
-use App\Services\Puzzle\Domain\Interfaces\StaticPuzzleInstanceInterface;
 use App\Services\Puzzle\Infrastructure\CodeGenerator;
 use App\Services\Puzzle\Service\Interfaces\PuzzleInstanceServiceInterface;
 use App\Services\Puzzle\Service\Interfaces\PuzzleTemplateRegistryInterface;
 use App\Services\User\Domain\User;
-use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\EntityManagerInterface;
 use Random\RandomException;
-use Symfony\Component\DependencyInjection\Attribute\AutowireIterator;
 
 class GameService implements GameServiceInterface
 {
@@ -49,22 +45,23 @@ class GameService implements GameServiceInterface
     public function findOneBySlug(string $slug): ? Game {
         $game = $this->gameRepository->findOneBySlug($slug);
         if ($game) {
-            $game->setStaticPuzzleInstances($this->puzzleInstanceService->getStaticPuzzleInstancesForGame($game));
+           $this->mapPuzzleInstances($game);
         }
-        foreach ($game->getDynamicPuzzleInstances() as $dynamicPuzzleInstance) {
 
+        return $game;
+    }
+
+    private function mapPuzzleInstances(Game $game): void
+    {
+        $game->setStaticPuzzleInstances($this->puzzleInstanceService->getStaticPuzzleInstancesForGame($game));
+        foreach ($game->getDynamicPuzzleInstances() as $dynamicPuzzleInstance) {
             $template = $this->puzzleTemplateRegistry->getTemplate($dynamicPuzzleInstance->getTemplateSlug());
             if (!$template) {
                 throw new MismappedPuzzleTemplateException();
             }
             $dynamicPuzzleInstance->setTemplate($template);
         }
-
-
-
-        return $game;
     }
-
     /**
      * @param Game $game
      * @return GameInvitation[]
@@ -119,5 +116,26 @@ class GameService implements GameServiceInterface
     {
         $this->entityManager->remove($game);
         $this->entityManager->flush();
+    }
+
+    public function findAllUnarchivedGames(): iterable
+    {
+        $games = $this->gameRepository->findAllUnarchivedGames();
+        foreach ($games as $game) {
+            $this->mapPuzzleInstances($game);
+        }
+        return $games;
+    }
+
+    /**
+     * @throws MismappedPuzzleTemplateException
+     */
+    public function find(int $id): ?Game
+    {
+        $game = $this->gameRepository->find($id);
+        if ($game) {
+            $this->mapPuzzleInstances($game);
+        }
+        return $game;
     }
 }

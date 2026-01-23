@@ -60,6 +60,10 @@ class RoleFixtures extends Fixture
         'manage_feats' => [
             'label' => 'Manage Feats',
             'description' => 'Manage feats that users can be awarded'
+        ],
+        'manage_user_games' => [
+            'label' => 'Manage Users\' Games',
+            'description' => 'Assign users to any game.'
         ]
     ];
 
@@ -82,7 +86,8 @@ class RoleFixtures extends Fixture
                 'administer_roles',
                 'manage_quotations',
                 'manage_bugs',
-                'manage_feats'
+                'manage_feats',
+                'manage_user_games'
             ]
         ],
         'ROLE_MODERATOR' => [

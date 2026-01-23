@@ -7,13 +7,16 @@ namespace App\Controller\Admin\Users;
 use App\Controller\AbstractBaseController;
 use App\Controller\Traits\HandlesImageUploadsTrait;
 use App\Dto\Admin\User\AdminUserDto;
+use App\Dto\Admin\User\AdminUserGameDto;
 use App\Dto\Visitor\User\UserBlockDto;
 use App\Form\Admin\Users\AdminBlockUserType;
 use App\Form\Admin\Users\AdminDeleteUserType;
+use App\Form\Admin\Users\AdminGameType;
 use App\Form\Admin\Users\AdminUnblockUserType;
 use App\Form\Admin\Users\AdminUserEditType;
 use App\Form\Admin\Users\AdminUserSearchType;
 use App\Services\Abuse\Service\AbuseReportService;
+use App\Services\Game\Service\Interfaces\GameServiceInterface;
 use App\Services\Puzzle\Service\Interfaces\PuzzleInstanceServiceInterface;
 use App\Services\User\Domain\User;
 use App\Services\User\Domain\UserBlock;
@@ -41,6 +44,7 @@ class AdminUserController extends AbstractBaseController
         private readonly PuzzleInstanceServiceInterface $puzzleInstanceService,
         private readonly AbuseReportService $abuseReportService,
         protected readonly SluggerInterface $slugger,
+        private readonly GameServiceInterface $gameService,
         #[Autowire('%kernel.project_dir%/public/uploads/images/avatar')] private readonly string $publicImagesDirectory,
     ) {
     }
@@ -127,6 +131,37 @@ class AdminUserController extends AbstractBaseController
             'form' => $form
         ];
         return $this->render('admin/users/edit.html.twig', $this->populatePageVars($pageVars, $request));
+    }
+
+    #[Route('admin/users/{id}/games', name: 'admin.users.games')]
+    #[IsGranted('manage_user_games')]
+    public function manageGames(User $user, Request $request): Response {
+        $currentUser = $this->getUser();
+
+        $selfEditMode = $user === $currentUser;
+
+        if ($selfEditMode) {
+            $this->addFlash("warning", "You are editing your own user. Password change requests and e-mail changes will be ignored.");
+        }
+        $dto = AdminUserGameDto::makeFromUser($user);
+        $form = $this->createForm(AdminGameType::class, $dto);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            foreach ($dto->games as $gameId) {
+                $game = $this->gameService->find($gameId);
+                $game->addPlayer($user);
+                $this->gameService->saveGame($game);
+            }
+            $this->addFlash('success', 'Games saved successfully.');
+            return $this->redirectToRoute('admin.users.manage');
+        }
+        $pageVars = [
+            'pageTitle' => sprintf('Assign games to user %s', $user->getUsername()),
+            'user' => $user,
+            'form' => $form
+        ];
+        return $this->render('admin/users/manage-games.html.twig', $this->populatePageVars($pageVars, $request));
     }
 
     #[Route('admin/users/{id}/block', name: 'admin.users.block')]
