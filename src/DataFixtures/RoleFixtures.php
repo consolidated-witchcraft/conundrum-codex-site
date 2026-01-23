@@ -64,7 +64,11 @@ class RoleFixtures extends Fixture
         'manage_user_games' => [
             'label' => 'Manage Users\' Games',
             'description' => 'Assign users to any game.'
-        ]
+        ],
+        'manage_all_files' => [
+            'label' => 'Manage All Files',
+            'description' => 'Manage all files uploaded to the system.'
+        ],
     ];
 
     private const array ROLES = [
@@ -87,7 +91,8 @@ class RoleFixtures extends Fixture
                 'manage_quotations',
                 'manage_bugs',
                 'manage_feats',
-                'manage_user_games'
+                'manage_user_games',
+                'manage_all_files'
             ]
         ],
         'ROLE_MODERATOR' => [
