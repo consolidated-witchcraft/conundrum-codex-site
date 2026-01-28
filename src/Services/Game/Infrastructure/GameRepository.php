@@ -23,6 +23,10 @@ class GameRepository extends ServiceEntityRepository
         ]);
     }
 
+    /**
+     * @param bool $includeArchived
+     * @return Game[]
+     */
     public function findAllGames(bool $includeArchived = false): iterable {
         $qb = $this->createQueryBuilder('g');
 

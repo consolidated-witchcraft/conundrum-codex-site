@@ -4,6 +4,10 @@ declare(strict_types=1);
 
 namespace App\Services\Files\Service;
 
+use App\Services\Files\Domain\Exceptions\BlankFinalPathException;
+use App\Services\Files\Domain\Exceptions\GeneralFileManagementException;
+use App\Services\Files\Domain\Exceptions\MissingUploadPrefixException;
+use App\Services\Files\Domain\Exceptions\UndeterminedMimeTypeException;
 use App\Services\Files\Domain\ManagedFile;
 use App\Services\Files\Infrastructure\ManagedFileRepository;
 use App\Services\Files\Service\Interfaces\FilesServiceInterface;
@@ -14,13 +18,14 @@ use Symfony\Component\HttpFoundation\File\Exception\FileException;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\String\Slugger\SluggerInterface;
 
-class FilesService implements FilesServiceInterface
+readonly class FilesService implements FilesServiceInterface
 {
     public function __construct(
-        private readonly ManagedFileRepository $managedFileRepository,
-        private readonly EntityManagerInterface $entityManager,
-        private readonly SluggerInterface $slugger,
-        #[Autowire('%kernel.project_dir%/public/uploads')] private readonly string $publicFilesDirectory,
+        private ManagedFileRepository $managedFileRepository,
+        private EntityManagerInterface $entityManager,
+        private SluggerInterface $slugger,
+        #[Autowire('%kernel.project_dir%/public/uploads')]
+        private string $publicFilesDirectory,
     ){}
 
     public function save(ManagedFile $managedFile): ManagedFile
@@ -41,6 +46,11 @@ class FilesService implements FilesServiceInterface
         return $this->managedFileRepository->find($id);
     }
 
+    /**
+     * @param int $firstResult
+     * @param int $maxResults
+     * @return ManagedFile[]
+     */
     public function findAllPaginated(int $firstResult, int $maxResults = 50): iterable
     {
         return $this->managedFileRepository->findAllPaginated($firstResult, $maxResults);
@@ -51,6 +61,19 @@ class FilesService implements FilesServiceInterface
         return $this->managedFileRepository->getFilesCount();
     }
 
+    /**
+     * @param UploadedFile $file
+     * @param string $title
+     * @param string $description
+     * @param User $uploader
+     * @param string|null $destination
+     * @param ManagedFile|null $fileToReplace
+     * @return ManagedFile
+     * @throws BlankFinalPathException
+     * @throws GeneralFileManagementException
+     * @throws MissingUploadPrefixException
+     * @throws UndeterminedMimeTypeException
+     */
     public function uploadFile(
         UploadedFile $file,
         string $title,
@@ -63,18 +86,29 @@ class FilesService implements FilesServiceInterface
         $originalFilename = pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME);
         $safeFilename = $this->slugger->slug($originalFilename);
 
-        $imageFileName = strtolower(sprintf("%s-%s.%s", $safeFilename, uniqid(), $file->guessExtension()));
+        $decollidedFileName = strtolower(sprintf("%s-%s.%s", $safeFilename, uniqid(), $file->guessExtension()));
 
         if (!$destination) {
             $destination = $this->publicFilesDirectory;
         }
         try {
-            $file->move($destination, $imageFileName);
+            $file->move($destination, $decollidedFileName);
         } catch (FileException $e) {
-            // ... handle exception if something happens during file upload
+            throw new GeneralFileManagementException(
+                $e->getMessage(),
+                $e->getCode(),
+                $e
+            );
         }
 
-        $finalPath =  sprintf("%s/%s", self::stripPublic($destination), $imageFileName);
+        $finalPath =  sprintf("%s/%s", self::stripPublic($destination), $decollidedFileName);
+        if ($finalPath === '/') {
+            throw new BlankFinalPathException('File path was either blank or empty');
+        }
+
+        if (!is_string($mimeType) || $mimeType === '') {
+            throw new UndeterminedMimeTypeException('Could not determine MIME type');
+        }
 
         if ($fileToReplace === null) {
             $managedFile = new ManagedFile(
@@ -96,7 +130,14 @@ class FilesService implements FilesServiceInterface
 
     }
 
+    /**
+     * @throws MissingUploadPrefixException
+     */
     protected static function stripPublic(string $path): string {
-        return strstr($path, '/uploads');
+        $returnString = strstr($path, '/uploads');
+        if ($returnString === false) {
+            throw new MissingUploadPrefixException("Missing upload prefix");
+        }
+        return $returnString;
     }
 }

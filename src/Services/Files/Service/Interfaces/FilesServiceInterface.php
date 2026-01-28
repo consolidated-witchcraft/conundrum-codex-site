@@ -4,11 +4,12 @@ declare(strict_types=1);
 
 namespace App\Services\Files\Service\Interfaces;
 
+use App\Services\Core\Service\Interfaces\DomainServiceInterface;
 use App\Services\Files\Domain\ManagedFile;
 use App\Services\User\Domain\User;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 
-interface FilesServiceInterface
+interface FilesServiceInterface extends DomainServiceInterface
 {
     public function save(ManagedFile $managedFile): ManagedFile;
 

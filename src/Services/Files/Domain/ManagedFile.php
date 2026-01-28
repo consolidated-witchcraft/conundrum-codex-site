@@ -33,6 +33,7 @@ class ManagedFile extends AbstractDomainEntity
         private string $description,
 
         #[ORM\ManyToOne(targetEntity: User::class)]
+        #[ORM\JoinColumn(nullable: false)]
         private User $uploader,
         ?int $id = null,
     ) {

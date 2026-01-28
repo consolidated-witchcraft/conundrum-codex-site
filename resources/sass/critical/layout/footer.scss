@@ -33,6 +33,10 @@ footer {
             flex-basis: 50%;
         }
 
+        a {
+            padding: math.div(variables.$base-spacing, 8) 0;
+        }
+
     }
 }
 @media only screen and (min-width: variables.$mobileBreakPointUpper) {

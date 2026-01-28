@@ -76,6 +76,7 @@ class PuzzleInstanceService implements PuzzleInstanceServiceInterface
 
     /**
      * @throws MismappedPuzzleTemplateException
+     * @return ArrayCollection<int, StaticPuzzleInstanceInterface>
      */
     public function getStaticPuzzleInstancesForGame(Game $game): ArrayCollection
     {

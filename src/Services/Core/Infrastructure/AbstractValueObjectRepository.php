@@ -14,14 +14,14 @@ abstract class AbstractValueObjectRepository extends ServiceEntityRepository
 {
     /**
      * @param string $handle
-     * @return T|null
+     * @return ?T
      */
     final public function findByHandle(string $handle):  ? AbstractValueObject {
-        $result = $this->createQueryBuilder('v')
+        /** @phpstan-ignore return.type */
+        return $this->createQueryBuilder('v')
             ->where('v.handle = :handle')
             ->setParameter('handle', $handle)
             ->getQuery()
             ->getOneOrNullResult();
-        return $result instanceof AbstractValueObject ? $result : null;
     }
 }

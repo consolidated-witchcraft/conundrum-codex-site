@@ -51,6 +51,9 @@ class GameService implements GameServiceInterface
         return $game;
     }
 
+    /**
+     * @throws MismappedPuzzleTemplateException
+     */
     private function mapPuzzleInstances(Game $game): void
     {
         $game->setStaticPuzzleInstances($this->puzzleInstanceService->getStaticPuzzleInstancesForGame($game));
@@ -133,8 +136,8 @@ class GameService implements GameServiceInterface
     /**
      * @param bool $includeArchived
      * @return Game[]
+     * @throws MismappedPuzzleTemplateException
      */
-
     public function findAllGames(bool $includeArchived = false): iterable
     {
         $games = $this->gameRepository->findAllGames($includeArchived);

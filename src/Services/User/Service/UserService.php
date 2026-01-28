@@ -224,11 +224,17 @@ class UserService
         return $this->userRepository->find($id);
     }
 
+    /**
+     * @return User[]
+     */
     public function findUsersWithoutAccountType(): iterable
     {
         return $this->userRepository->findUsersWithoutAccountType();
     }
 
+    /**
+     * @return User[]
+     */
     public function findAll(): iterable
     {
         return $this->userRepository->findAll();

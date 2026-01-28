@@ -37,10 +37,10 @@ class Game extends AbstractDomainEntity
     private Collection $dynamicPuzzleInstances;
 
     /**
-    * @param Collection<int, User>|null $players
+    * @var Collection<int, User> $players
      */
     #[Groups(['extended'])]
-    #[ORM\ManyToMany(targetEntity: User::class, inversedBy: 'games')]
+    #[ORM\ManyToMany(targetEntity: User::class, inversedBy: 'games', fetch: 'EAGER')]
     private Collection $players;
 
     /**

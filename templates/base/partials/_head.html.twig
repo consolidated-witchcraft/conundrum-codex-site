@@ -1,6 +1,9 @@
 <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    {% for metatag in meta %}
+        <meta name="{{ metatag.name }}" content="{{ metatag.content }}" />
+    {% endfor %}
     <title>{{ pageTitle }} | {{ siteName }}</title>
 
     {% embed 'base/partials/_preloads.html.twig' %}{% endembed %}

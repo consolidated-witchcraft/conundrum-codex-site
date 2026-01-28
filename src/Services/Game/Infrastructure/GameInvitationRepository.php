@@ -22,7 +22,7 @@ class GameInvitationRepository extends ServiceEntityRepository
 
     /**
      * @param Game $game
-     * @return iterable<GameInvitation>
+     * @return GameInvitation[]
      */
     public function getOutstandingInvitationsForGame(Game $game) : iterable {
 
@@ -48,7 +48,8 @@ class GameInvitationRepository extends ServiceEntityRepository
         $qb->setParameter('now', new \DateTimeImmutable());
         $qb->setParameter(':invitationCode', $invitationCode);
 
-        return $qb->getQuery()->getOneOrNullResult();
+        $result = $qb->getQuery()->getOneOrNullResult();
+        return $result instanceof GameInvitation ? $result : null;
     }
 
     public function findByInvitationCodeAndEmailAddress(string $invitationCode, string $emailAddress): ? GameInvitation {

@@ -39,7 +39,6 @@ export class CasebookSubjectClue extends HTMLDivElement {
             throw new Error(`No Clue Type found`);
         }
 
-
         let revealedElement: HTMLElement | null = shadowRoot.querySelector('[slot="revealed-at"]');
         if (null === revealedElement) {
             throw new Error(`No revealed element found`);

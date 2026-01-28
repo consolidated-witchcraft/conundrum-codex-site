@@ -19,6 +19,11 @@ class ManagedFileRepository extends ServiceEntityRepository
         parent::__construct($registry, ManagedFile::class);
     }
 
+    /**
+     * @param int $firstResult
+     * @param int $maxResults
+     * @return ManagedFile[]
+     */
     public function findAllPaginated(int $firstResult, int $maxResults = 50): iterable {
         $qb = $this->createQueryBuilder('f')
             ->setFirstResult($firstResult)

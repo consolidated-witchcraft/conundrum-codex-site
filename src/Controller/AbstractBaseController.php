@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Controller;
 
+use App\Services\Page\Domain\MetaTag;
 use App\Services\Page\Domain\NavItem;
 use App\Services\Quotation\Service\QuotationService;
 use App\Services\User\Domain\User;
@@ -37,9 +38,7 @@ abstract class AbstractBaseController extends AbstractController
         ];
         $user = $this->getUser();
         if ($user instanceof User) {
-
             $pageVars['nav'][] = $this->buildGamesItem($user);
-
         }
         $this->setActiveTrail($pageVars['nav'], $route);
 
@@ -50,7 +49,7 @@ abstract class AbstractBaseController extends AbstractController
         $pageVars['hideBugReportLink'] = $pageVars['hideBugReportLink'] ?? false;
 
         $pageVars['showCookiesMessage'] = $this->shouldShowCookieMessage($request, $user);
-        return $pageVars;
+        return $this->populateMetaTags($pageVars);
     }
 
     private function shouldShowCookieMessage(Request $request, ?User $user = null): bool {
@@ -109,5 +108,24 @@ abstract class AbstractBaseController extends AbstractController
                 }
             }
         }
+    }
+
+    private function populateMetaTags(array $pageVars): array {
+        if (!isset($pageVars['meta'])) {
+            $pageVars['meta'] = [];
+        }
+        if (!isset($pageVars['meta']['description'])) {
+            $pageVars['meta']['description'] = new MetaTag(
+                name: 'description',
+                content: 'The Conundrum Codex is an online site that allows players of all ages and neurodiversity statuses to participate in online TTRPG puzzles.'
+            );
+        }
+        if (!isset($pageVars['meta']['viewport'])) {
+            $pageVars['meta']['viewport'] = new MetaTag(
+                name: "viewport",
+                content: "width=device-width, initial-scale=1"
+            );
+        }
+        return $pageVars;
     }
 }
