@@ -15,7 +15,7 @@ export default class RandomQuotation extends HTMLQuoteElement {
         let citationElement: HTMLSpanElement = document.createElement('span');
 
         this.client = createClient<paths>({ baseUrl: apiBaseUrl });
-
+        this.classList.add('random-quotation');
         quotationElement.classList.add('quotation');
         citationElement.classList.add('cite');
 
