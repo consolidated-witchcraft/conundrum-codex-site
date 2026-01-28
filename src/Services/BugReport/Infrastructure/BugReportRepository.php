@@ -21,11 +21,10 @@ class BugReportRepository extends ServiceEntityRepository
      */
     public function findUnactioned(): array {
         $qb  = $this->createQueryBuilder('br');
-        return self::mapArrayResult($qb
-            ->where($qb->expr()->isNull('br.actionedAt'))
+        return $qb->where($qb->expr()->isNull('br.actionedAt'))
             ->andWhere($qb->expr()->isNull('br.closedAt'))
             ->getQuery()
-            ->getArrayResult());
+            ->getResult();
     }
 
     /**

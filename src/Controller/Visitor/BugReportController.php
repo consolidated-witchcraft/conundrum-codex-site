@@ -23,9 +23,7 @@ class BugReportController extends AbstractBaseController
     public function __construct(
         private readonly EntityManagerInterface $entityManager,
         private readonly MessageBusInterface $bus
-    ) {
-        parent::__construct();
-    }
+    ) {}
 
     /**
      * @throws ExceptionInterface
