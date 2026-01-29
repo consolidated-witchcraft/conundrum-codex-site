@@ -28,6 +28,36 @@
     <hr class="row-divider">
     <div class="row">
         <section class="col">
+            <h2>Sessions</h2>
+            {% if game.getGameSessions is empty %}
+                <em>There are no sessions currently in your game. Why not add one?</em>
+            {% else %}
+                <div class="accordion-list" is="accordion-list">
+                    {% for session in game.getGameSessions %}
+                        <article class="accordion-entry" id="session-{{ session.id }}" is="accordion-entry" data-open="false">
+                            <h3 class="accordion-heading">{{ session.title }}</h3>
+                            <div class="accordion-body">
+                                <div class="accordion-content accordion-columns">
+                                    <div class="accordion-column">
+                                        {{ session.description }}
+                                    </div>
+                                    <div class="accordion-column">
+                                        <nav class="secondary">
+                                            <a href="{{ path('app.games.sessions.edit', {'gameSlug': game.getSlug, 'gameSessionId': session.getId}) }}">Edit Session</a>
+                                        </nav>
+                                    </div>
+                                </div>
+                            </div>
+                        </article>
+                    {% endfor  %}
+                </div>
+            {% endif %}
+            <a class="btn btn-secondary" href="{{ path('app.games.sessions.add', {'gameSlug': game.getSlug}) }}">Add a Session</a>
+        </section>
+    </div>
+    <hr class="row-divider">
+    <div class="row">
+        <section class="col">
             <h2>Players</h2>
         </section>
     </div>

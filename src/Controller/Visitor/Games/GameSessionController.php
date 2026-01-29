@@ -1,0 +1,182 @@
+<?php
+
+namespace App\Controller\Visitor\Games;
+
+use ApiPlatform\Validator\Exception\ValidationException;
+use ApiPlatform\Validator\ValidatorInterface;
+use App\Controller\AbstractBaseController;
+use App\Controller\Traits\HandlesFileUploadsTrait;
+use App\Dto\Visitor\Game\GameDto;
+use App\Dto\Visitor\Game\Sessions\GameSessionDto;
+use App\Form\Visitor\Game\ArchiveGameType;
+use App\Form\Visitor\Game\GameType;
+use App\Form\Visitor\Game\DeleteGameType;
+use App\Form\Visitor\Game\Sessions\AddSessionType;
+use App\Form\Visitor\Game\UnArchiveGameType;
+use App\Security\GameCreationVoter;
+use App\Security\GameManagerVoter;
+use App\Security\GamePlayerVoter;
+use App\Services\Files\Service\Interfaces\FilesServiceInterface;
+use App\Services\Game\Domain\Game;
+use App\Services\Game\Domain\GameSession;
+use App\Services\Game\Service\Interfaces\GameServiceInterface;
+use App\Services\User\Domain\User;
+use Symfony\Component\DependencyInjection\Attribute\Autowire;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpKernel\Exception\UnauthorizedHttpException;
+use Symfony\Component\Routing\Attribute\Route;
+use Symfony\Component\Security\Http\Attribute\IsGranted;
+use Symfony\Component\String\Slugger\SluggerInterface;
+
+final class GameSessionController extends AbstractBaseController
+{
+    use HandlesFileUploadsTrait;
+    public function __construct(
+        private readonly ValidatorInterface $validator,
+        private readonly GameServiceInterface $gameService,
+        protected SluggerInterface $slugger,
+        protected readonly FilesServiceInterface $filesService,
+        #[Autowire('%kernel.project_dir%/public/uploads/images/games/sessions/')] private string $publicImagesDirectory,
+    ) {
+    }
+
+    #[IsGranted(GameManagerVoter::MANAGE_GAME_ACTION, 'game')]
+    #[Route('games/{gameSlug}/sessions/add', name: 'app.games.sessions.add')]
+    public function add(
+        Game $game,
+        Request $request
+    ): Response
+    {
+        $dto = new GameSessionDto($game);
+        $form = $this->createForm(AddSessionType::class, $dto);
+
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()) {
+            $user = $this->getUser();
+            $image = null;
+            if ($user instanceof User) {
+                $imageData = $form->get('sessionImage')->getData();
+                if ($imageData) {
+                    $image = $this->filesService->uploadFile(
+                        file: $imageData,
+                        title: sprintf("Session image for %s", $dto->title),
+                        description: sprintf("Session image for %s", $dto->title),
+                        uploader: $user,
+                        destination: $this->publicImagesDirectory,
+                    );
+                }
+            }
+
+            $gameSession = new GameSession(
+                sessionDate: $dto->sessionDate,
+                game: $game,
+                title: $dto->title,
+                sessionImage: $image,
+                description: $dto->description,
+            );
+            $this->gameService->saveGameSession($gameSession);
+            $this->addFlash('success', 'Game session added.');
+            return $this->redirectToRoute('app.games.manage', ['gameSlug' => $game->getSlug()]);
+        }
+        $pageVars = [
+            'pageTitle' => sprintf("Add a session to %s", $game->getName()),
+            'breadcrumbs' => [
+                [
+                    'route' => 'app.games.index',
+                    'label' => 'My Games',
+                    'active' => false
+                ],
+                [
+                    'label' => $game->getName(),
+                    'active' => false
+                ],
+                [
+                    'label' => 'Manage',
+                    'active' => false
+                ],
+                [
+                    'label' => 'Sessions',
+                    'active' => false
+                ],
+                [
+                    'label' => 'Add',
+                    'active' => true
+                ],
+            ],
+            'form' => $form,
+            'game' => $game,
+        ];
+        return $this->render('/visitor/games/sessions/add.html.twig', $this->populatePageVars($pageVars, $request));
+    }
+
+    #[IsGranted(GameManagerVoter::MANAGE_GAME_ACTION, 'game')]
+    #[Route('games/{gameSlug}/sessions/{gameSessionId}/edit', name: 'app.games.sessions.edit')]
+    public function edit(
+        Game $game,
+        GameSession $gameSession,
+        Request $request
+    ): Response {
+        $dto = GameSessionDto::makeFromGameSession($gameSession);
+        $form = $this->createForm(AddSessionType::class, $dto);
+
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()) {
+            $user = $this->getUser();
+            $image = null;
+            if ($user instanceof User) {
+                $imageData = $form->get('sessionImage')->getData();
+                if ($imageData) {
+                    $image = $this->filesService->uploadFile(
+                        file: $imageData,
+                        title: sprintf("Session image for %s", $dto->title),
+                        description: sprintf("Session image for %s", $dto->title),
+                        uploader: $user,
+                        destination: $this->publicImagesDirectory,
+                    );
+                }
+            }
+
+            $gameSession->setSessionDate($dto->sessionDate);
+            $gameSession->setTitle($dto->title);
+            $gameSession->setDescription($dto->description);
+            $gameSession->setSessionImage($image);
+            if ($image) {
+                $gameSession->setSessionImage($image);
+            }
+
+            $this->gameService->saveGameSession($gameSession);
+            $this->addFlash('success', 'Game session edited.');
+            return $this->redirectToRoute('app.games.manage', ['gameSlug' => $game->getSlug()]);
+        }
+        $pageVars = [
+            'pageTitle' => sprintf("Add a session to %s", $game->getName()),
+            'breadcrumbs' => [
+                [
+                    'route' => 'app.games.index',
+                    'label' => 'My Games',
+                    'active' => false
+                ],
+                [
+                    'label' => $game->getName(),
+                    'active' => false
+                ],
+                [
+                    'label' => 'Manage',
+                    'active' => false
+                ],
+                [
+                    'label' => 'Sessions',
+                    'active' => false
+                ],
+                [
+                    'label' => 'Add',
+                    'active' => true
+                ],
+            ],
+            'form' => $form,
+            'game' => $game,
+        ];
+        return $this->render('/visitor/games/sessions/add.html.twig', $this->populatePageVars($pageVars, $request));
+    }
+}

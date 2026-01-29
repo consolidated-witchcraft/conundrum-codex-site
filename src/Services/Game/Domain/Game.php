@@ -15,6 +15,7 @@ use Doctrine\ORM\Mapping as ORM;
 use Doctrine\ORM\Mapping\OrderBy;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Serializer\Attribute\Groups;
+use Doctrine\Common\Collections\Criteria;
 
 #[ORM\Entity(repositoryClass: GameRepository::class)]
 #[UniqueEntity(fields: ['slug'], message: 'There is already a game with this slug. Please choose another one.')]
@@ -42,6 +43,13 @@ class Game extends AbstractDomainEntity
     #[Groups(['extended'])]
     #[ORM\ManyToMany(targetEntity: User::class, inversedBy: 'games', fetch: 'EAGER')]
     private Collection $players;
+
+    /**
+     * @var Collection<int, GameSession>
+     */
+    #[Groups(['extended'])]
+    #[ORM\OneToMany(targetEntity: GameSession::class, mappedBy: 'game', orphanRemoval: true)]
+    private Collection $gameSessions;
 
     /**
      * @param string $name
@@ -93,6 +101,7 @@ class Game extends AbstractDomainEntity
         if ($this->staticPuzzleInstances === null) {
             $this->staticPuzzleInstances = new ArrayCollection();
         }
+        $this->gameSessions = new ArrayCollection();
 
     }
 
@@ -240,5 +249,42 @@ class Game extends AbstractDomainEntity
 
     public function isArchived(): bool {
         return $this->archivedDate !== null;
+    }
+
+    /**
+     * @return Collection<int, GameSession>
+     */
+    public function getGameSessions(): Collection
+    {
+        return $this->gameSessions;
+    }
+
+    public function getUpcomingGameSessions(): Collection {
+        $now = new \DateTime();
+        return $this->gameSessions->filter(function (GameSession $gameSession) use ($now) {
+            return $gameSession->getSessionDate() >= $now;
+        });
+    }
+
+    public function addGameSession(GameSession $gameSession): static
+    {
+        if (!$this->gameSessions->contains($gameSession)) {
+            $this->gameSessions->add($gameSession);
+            $gameSession->setGame($this);
+        }
+
+        return $this;
+    }
+
+    public function removeGameSession(GameSession $gameSession): static
+    {
+        if ($this->gameSessions->removeElement($gameSession)) {
+            // set the owning side to null (unless already changed)
+            if ($gameSession->getGame() === $this) {
+                $gameSession->setGame(null);
+            }
+        }
+
+        return $this;
     }
 }

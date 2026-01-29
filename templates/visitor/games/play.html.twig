@@ -5,6 +5,15 @@
             <h2>Description</h2>
             {{ game.getDescription }}
             <hr class="subtle">
+            <h2>Upcoming Sessions</h2>
+            {% if game.getUpcomingGameSessions is empty %}
+                <em>There are no upcoming sessions scheduled</em>
+            {% else %}
+                {% for gameSession in game.getUpcomingGameSessions() %}
+                    {{ gameSession.getTitle }}
+                {% endfor %}
+            {% endif %}
+            <hr class="subtle">
             <h2>Puzzles</h2>
             {% if game.getPublishedPuzzleInstances is not empty %}
                 <div class="accordion-list" is="accordion-list">

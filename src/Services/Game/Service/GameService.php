@@ -6,8 +6,10 @@ namespace App\Services\Game\Service;
 
 use App\Services\Game\Domain\Game;
 use App\Services\Game\Domain\GameInvitation;
+use App\Services\Game\Domain\GameSession;
 use App\Services\Game\Infrastructure\GameInvitationRepository;
 use App\Services\Game\Infrastructure\GameRepository;
+use App\Services\Game\Infrastructure\GameSessionRepository;
 use App\Services\Game\Service\Interfaces\GameServiceInterface;
 use App\Services\Puzzle\Domain\Exceptions\MismappedPuzzleTemplateException;
 use App\Services\Puzzle\Infrastructure\CodeGenerator;
@@ -17,14 +19,15 @@ use App\Services\User\Domain\User;
 use Doctrine\ORM\EntityManagerInterface;
 use Random\RandomException;
 
-class GameService implements GameServiceInterface
+readonly class GameService implements GameServiceInterface
 {
     public function __construct(
         private GameRepository $gameRepository,
         private GameInvitationRepository $gameInvitationRepository,
-        private PuzzleInstanceServiceInterface $puzzleInstanceService,
+        private PuzzleInstanceServiceInterface  $puzzleInstanceService,
         private EntityManagerInterface $entityManager,
         private PuzzleTemplateRegistryInterface $puzzleTemplateRegistry,
+        private GameSessionRepository $gameSessionRepository
     ) {}
 
     /**
@@ -152,5 +155,17 @@ class GameService implements GameServiceInterface
         $this->entityManager->persist($invitation);
         $this->entityManager->flush();
         return $invitation;
+    }
+
+    public function saveGameSession(GameSession $gameSession): GameSession
+    {
+        $this->entityManager->persist($gameSession);
+        $this->entityManager->flush();
+        return $gameSession;
+    }
+
+    public function findGameSessionById(int $id): ?GameSession
+    {
+        return $this->gameSessionRepository->find($id);
     }
 }

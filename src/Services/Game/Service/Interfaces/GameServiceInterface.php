@@ -7,6 +7,7 @@ namespace App\Services\Game\Service\Interfaces;
 use App\Services\Core\Service\Interfaces\DomainServiceInterface;
 use App\Services\Game\Domain\Game;
 use App\Services\Game\Domain\GameInvitation;
+use App\Services\Game\Domain\GameSession;
 use App\Services\User\Domain\User;
 
 interface GameServiceInterface extends DomainServiceInterface
@@ -54,4 +55,8 @@ interface GameServiceInterface extends DomainServiceInterface
     public function find(int $id): ? Game;
 
     public function saveInvitation(GameInvitation $invitation): GameInvitation;
+
+    public function saveGameSession(GameSession $gameSession): GameSession;
+
+    public function findGameSessionById(int $id): ? GameSession;
 }
