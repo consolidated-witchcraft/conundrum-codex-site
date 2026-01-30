@@ -4,29 +4,9 @@ declare(strict_types=1);
 
 namespace App\Controller\Visitor\Puzzles;
 
-use App\Dto\Visitor\Game\AddPuzzle\AddPuzzleStepOneDto;
-use App\Dto\Visitor\Game\AddPuzzle\ChooseGameDto;
-use App\Dto\Visitor\Puzzles\Dynamic\DynamicPuzzleConfigDto;
-use App\Form\Type\DieRollType;
-use App\Form\Visitor\Puzzle\AddPuzzle\ChooseGameType;
-use App\Security\GameManagerVoter;
-use App\Services\Game\Domain\Game;
-use App\Services\Puzzle\Domain\PuzzleInstance;
-use App\Services\Puzzle\Domain\PuzzleTemplate;
-use App\Services\User\Domain\User;
-use App\Validator\DiceRollConstraintValidator;
-use Symfony\Component\Form\Extension\Core\Type\CollectionType;
-use Symfony\Component\Form\Extension\Core\Type\SubmitType;
-use Symfony\Component\Form\Extension\Core\Type\TextareaType;
-use Symfony\Component\Form\Extension\Core\Type\TextType;
-use Symfony\Component\Form\FormInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Routing\Attribute\Route;
-use Symfony\Component\Security\Http\Attribute\IsGranted;
-use Symfony\Component\Serializer\Exception\ExceptionInterface;
-use Symfony\Component\Validator\Constraints\NotBlank;
 
 final class PuzzleTemplateController extends AbstractPuzzleController
 {

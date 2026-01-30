@@ -6,7 +6,7 @@ use ApiPlatform\Metadata\ApiResource;
 use ApiPlatform\Metadata\Get;
 use ApiPlatform\Metadata\Link;
 use App\ApiResource\PuzzleInstance\Static\Casebook\Providers\CasebookProvider;
-use App\Services\Puzzle\Domain\Casebook\Casebook;
+use App\Services\PuzzleInstance\Domain\Casebook\Casebook;
 
 #[ApiResource(
     uriTemplate: '/puzzles/instances/static/casebook/{instanceCode}',

@@ -2,8 +2,8 @@
 
 namespace App\DataFixtures;
 
-use App\Services\Puzzle\Domain\PuzzleCategory;
-use App\Services\Puzzle\Infrastructure\PuzzleCategoryRepository;
+use App\Services\PuzzleTemplate\Domain\PuzzleCategory;
+use App\Services\PuzzleTemplate\Infrastructure\PuzzleCategoryRepository;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Persistence\ObjectManager;
 

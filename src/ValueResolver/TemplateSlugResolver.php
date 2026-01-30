@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace App\ValueResolver;
 
-use App\Services\Puzzle\Domain\PuzzleTemplate;
-use App\Services\Puzzle\Service\Interfaces\PuzzleTemplateServiceInterface;
+use App\Services\PuzzleTemplate\Domain\PuzzleTemplate;
+use App\Services\PuzzleTemplate\Service\Interfaces\PuzzleTemplateServiceInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Controller\ValueResolverInterface;
 use Symfony\Component\HttpKernel\ControllerMetadata\ArgumentMetadata;

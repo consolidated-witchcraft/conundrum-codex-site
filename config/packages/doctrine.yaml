@@ -44,12 +44,19 @@ doctrine:
                 prefix: 'App\Services\User\Domain'
                 alias: User
 
-            Puzzle:
+            PuzzleInstance:
                 type: attribute
                 is_bundle: false
-                dir: '%kernel.project_dir%/src/Services/Puzzle/Domain'
-                prefix: 'App\Services\Puzzle\Domain'
-                alias: Puzzle
+                dir: '%kernel.project_dir%/src/Services/PuzzleInstance/Domain'
+                prefix: 'App\Services\PuzzleInstance\Domain'
+                alias: PuzzleInstance
+
+            PuzzleTemplate:
+                type: attribute
+                is_bundle: false
+                dir: '%kernel.project_dir%/src/Services/PuzzleTemplate/Domain'
+                prefix: 'App\Services\PuzzleTemplate\Domain'
+                alias: PuzzleTemplate
 
             Quotation:
                 type: attribute
@@ -85,6 +92,7 @@ doctrine:
                 dir: '%kernel.project_dir%/src/Services/Game/Domain'
                 prefix: 'App\Services\Game\Domain'
                 alias: Game
+
             ManagedFile:
                 type: attribute
                 is_bundle: false

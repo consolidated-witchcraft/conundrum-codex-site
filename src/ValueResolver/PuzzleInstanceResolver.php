@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace App\ValueResolver;
 
-use App\Services\Puzzle\Domain\Interfaces\DynamicPuzzleInstanceInterface;
-use App\Services\Puzzle\Domain\Interfaces\PuzzleInstanceInterface;
-use App\Services\Puzzle\Service\Interfaces\PuzzleInstanceServiceInterface;
+use App\Services\PuzzleInstance\Domain\Interfaces\DynamicPuzzleInstanceInterface;
+use App\Services\PuzzleInstance\Domain\Interfaces\PuzzleInstanceInterface;
+use App\Services\PuzzleInstance\Service\Interfaces\PuzzleInstanceServiceInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Controller\ValueResolverInterface;
 use Symfony\Component\HttpKernel\ControllerMetadata\ArgumentMetadata;

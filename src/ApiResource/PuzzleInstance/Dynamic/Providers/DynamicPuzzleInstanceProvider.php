@@ -7,15 +7,15 @@ namespace App\ApiResource\PuzzleInstance\Dynamic\Providers;
 use ApiPlatform\Metadata\Operation;
 use ApiPlatform\State\ProviderInterface;
 use App\ApiResource\PuzzleInstance\Dynamic\Dto\DynamicPuzzleInstanceDto;
-use App\Services\Puzzle\Domain\Interfaces\DynamicPuzzleInstanceInterface;
-use App\Services\Puzzle\Service\Exceptions\TemplateNotFoundException;
-use App\Services\Puzzle\Service\Interfaces\PuzzleInstanceServiceInterface;
+use App\Services\PuzzleInstance\Domain\Interfaces\DynamicPuzzleInstanceInterface;
+use App\Services\PuzzleTemplate\Service\Exceptions\TemplateNotFoundException;
+use App\Services\PuzzleInstance\Service\Interfaces\PuzzleInstanceServiceInterface;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
-class DynamicPuzzleInstanceProvider implements ProviderInterface
+readonly class DynamicPuzzleInstanceProvider implements ProviderInterface
 {
-    public function __construct(private readonly PuzzleInstanceServiceInterface $puzzleInstanceService) {}
+    public function __construct(private PuzzleInstanceServiceInterface $puzzleInstanceService) {}
     public function provide(Operation $operation, array $uriVariables = [], array $context = []): object|array|null
     {
         if (!$uriVariables['templateSlug']) {

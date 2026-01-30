@@ -7,8 +7,8 @@ namespace App\ApiResource\PuzzleInstance\Static\Casebook\Providers;
 use ApiPlatform\Metadata\Operation;
 use ApiPlatform\State\ProviderInterface;
 use App\ApiResource\PuzzleInstance\Static\Casebook\Dto\ApiCasebookDto;
-use App\Services\Puzzle\Domain\Casebook\Casebook;
-use App\Services\Puzzle\Infrastructure\Casebook\Repository\CasebookRepository;
+use App\Services\PuzzleInstance\Domain\Casebook\Casebook;
+use App\Services\PuzzleInstance\Infrastructure\Casebook\Repository\CasebookRepository;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 
 

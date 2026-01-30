@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace App\Dto\Visitor\Puzzles\Static\Casebook;
 
-use App\Services\Puzzle\Domain\Casebook\Casebook;
-use App\Services\Puzzle\Domain\Casebook\CasebookSubject;
-use App\Services\Puzzle\Domain\Casebook\CasebookSubjectClue;
-use App\Services\Puzzle\Domain\Casebook\CasebookSubjectType;
+use App\Services\PuzzleInstance\Domain\Casebook\Casebook;
+use App\Services\PuzzleInstance\Domain\Casebook\CasebookSubject;
+use App\Services\PuzzleInstance\Domain\Casebook\CasebookSubjectClue;
+use App\Services\PuzzleInstance\Domain\Casebook\CasebookSubjectType;
 use Doctrine\Common\Collections\Collection;
 
 class CasebookSubjectDto

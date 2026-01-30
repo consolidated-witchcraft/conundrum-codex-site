@@ -5,9 +5,8 @@ declare(strict_types=1);
 namespace App\Form\Type;
 
 use App\Dto\Visitor\Puzzles\Static\Casebook\CasebookSubjectClueDto;
-use App\Services\Puzzle\Domain\Casebook\CasebookSubjectClue;
-use App\Services\Puzzle\Domain\Casebook\CasebookSubjectClueType;
-use Predis\Command\Argument\Search\SchemaFields\TextField;
+use App\Services\PuzzleInstance\Domain\Casebook\CasebookSubjectClue;
+use App\Services\PuzzleInstance\Domain\Casebook\CasebookSubjectClueType;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;

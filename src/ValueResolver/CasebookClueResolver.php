@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace App\ValueResolver;
 
-use App\Services\Puzzle\Domain\Casebook\CasebookSubjectClue;
-use App\Services\Puzzle\Infrastructure\Casebook\Repository\CasebookSubjectClueRepository;
+use App\Services\PuzzleInstance\Domain\Casebook\CasebookSubjectClue;
+use App\Services\PuzzleInstance\Infrastructure\Casebook\Repository\CasebookSubjectClueRepository;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Controller\ValueResolverInterface;
 use Symfony\Component\HttpKernel\ControllerMetadata\ArgumentMetadata;

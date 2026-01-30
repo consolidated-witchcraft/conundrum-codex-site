@@ -8,7 +8,7 @@ use ApiPlatform\Metadata\ApiResource;
 use ApiPlatform\Metadata\Get;
 use ApiPlatform\Metadata\Link;
 use App\ApiResource\PuzzleInstance\Static\Casebook\Providers\CasebookSubjectProvider;
-use App\Services\Puzzle\Domain\Casebook\CasebookSubject;
+use App\Services\PuzzleInstance\Domain\Casebook\CasebookSubject;
 use Doctrine\Common\Collections\ArrayCollection;
 
 #[ApiResource(

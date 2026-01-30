@@ -19,7 +19,7 @@ use App\Form\Admin\Users\AdminUserSearchType;
 use App\Services\Abuse\Service\AbuseReportService;
 use App\Services\Files\Service\Interfaces\FilesServiceInterface;
 use App\Services\Game\Service\Interfaces\GameServiceInterface;
-use App\Services\Puzzle\Service\Interfaces\PuzzleInstanceServiceInterface;
+use App\Services\PuzzleInstance\Service\Interfaces\PuzzleInstanceServiceInterface;
 use App\Services\User\Domain\User;
 use App\Services\User\Domain\UserBlock;
 use App\Services\User\Service\Interfaces\UserServiceInterface;

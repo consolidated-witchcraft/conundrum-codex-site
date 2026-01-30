@@ -2,9 +2,9 @@
 
 namespace App\Command;
 
-use App\Services\Puzzle\Service\Factory\Exceptions\PuzzleTemplateRegistryBuildException;
-use App\Services\Puzzle\Service\Factory\PuzzleTemplateRegistryFactory;
-use App\Services\Puzzle\Service\PuzzleTemplateService;
+use App\Services\PuzzleTemplate\Service\Factory\Exceptions\PuzzleTemplateRegistryBuildException;
+use App\Services\PuzzleTemplate\Service\Factory\PuzzleTemplateRegistryFactory;
+use App\Services\PuzzleTemplate\Service\PuzzleTemplateService;
 use Psr\Cache\InvalidArgumentException;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;

@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Dto\Visitor\Puzzles\Static\Casebook;
 
-use App\Services\Puzzle\Domain\Casebook\Casebook;
+use App\Services\PuzzleInstance\Domain\Casebook\Casebook;
 use Symfony\Component\Validator\Constraints as Assert;
 
 class CasebookDto

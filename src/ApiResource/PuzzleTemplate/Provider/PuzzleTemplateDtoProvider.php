@@ -4,13 +4,11 @@ declare(strict_types=1);
 
 namespace App\ApiResource\PuzzleTemplate\Provider;
 
-use ApiPlatform\Metadata\Get;
 use ApiPlatform\Metadata\GetCollection;
 use ApiPlatform\Metadata\Operation;
 use ApiPlatform\State\ProviderInterface;
 use App\ApiResource\PuzzleTemplate\Dto\PuzzleTemplateDto;
-use App\Services\Puzzle\Service\Interfaces\PuzzleTemplateServiceInterface;
-use ContainerX7e8DEA\get_Security_RequestMatcher_GOpgIHxService;
+use App\Services\PuzzleTemplate\Service\Interfaces\PuzzleTemplateServiceInterface;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 
 readonly class PuzzleTemplateDtoProvider implements ProviderInterface

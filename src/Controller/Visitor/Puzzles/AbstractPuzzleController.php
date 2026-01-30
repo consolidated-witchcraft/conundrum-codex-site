@@ -6,7 +6,7 @@ namespace App\Controller\Visitor\Puzzles;
 
 use App\Controller\AbstractBaseController;
 use App\Services\Files\Service\Interfaces\FilesServiceInterface;
-use App\Services\Puzzle\Service\Interfaces\PuzzleTemplateServiceInterface;
+use App\Services\PuzzleTemplate\Service\Interfaces\PuzzleTemplateServiceInterface;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Serializer\SerializerInterface;
 use Symfony\Component\String\Slugger\SluggerInterface;

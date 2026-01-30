@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\ApiResource\PuzzleInstance\Static\Casebook\Dto;
 
-use App\Services\Puzzle\Domain\Casebook\CasebookSubjectClue;
+use App\Services\PuzzleInstance\Domain\Casebook\CasebookSubjectClue;
 
 class ApiCasebookSubjectClueDto
 {
