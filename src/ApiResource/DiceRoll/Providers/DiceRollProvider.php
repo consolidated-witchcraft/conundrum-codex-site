@@ -1,15 +1,15 @@
 <?php
 
-namespace App\State;
+namespace App\ApiResource\DiceRoll\Providers;
 
 use ApiPlatform\Metadata\Operation;
 use ApiPlatform\State\ProviderInterface;
-use App\ApiResource\DiceRoll;
-use App\State\Exceptions\UnprocessableRollStateException;
-use Symfony\Component\HttpKernel\Exception\UnprocessableEntityHttpException;
+use App\ApiResource\DiceRoll\Dto\DiceRollDto;
+use App\ApiResource\DiceRoll\Exceptions\UnprocessableRollStringException;
 use App\Validator\DiceRollConstraintValidator;
+use Symfony\Component\HttpKernel\Exception\UnprocessableEntityHttpException;
 
-class DiceStateProvider implements ProviderInterface
+class DiceRollProvider implements ProviderInterface
 {
 
 
@@ -33,14 +33,14 @@ class DiceStateProvider implements ProviderInterface
         $decodedRollState = urldecode($uriVariables['rollState']);
         try {
             DiceRollConstraintValidator::validateRollState($decodedRollState);
-        } catch (UnprocessableRollStateException $e) {
+        } catch (UnprocessableRollStringException $e) {
             throw new UnprocessableEntityHttpException($e->getMessage(), $e);
         }
 
         return $this->processRolls($decodedRollState);
     }
 
-    private function generateRoll(string $rollClause): DiceRoll {
+    private function generateRoll(string $rollClause): DiceRollDto {
         $bonus = 0;
         if (str_contains(needle: 'p', haystack: $rollClause)) {
             $components = explode('p', $rollClause);
@@ -54,7 +54,7 @@ class DiceStateProvider implements ProviderInterface
             $dieSides = $components[1];
         }
         $rolled = self::rollDice($numDice, $dieSides);
-        return new DiceRoll(id: $rollClause, dieSides: $dieSides, roll: $rolled, total: $rolled+$bonus, bonus: $bonus);
+        return new DiceRollDto(id: $rollClause, dieSides: $dieSides, roll: $rolled, total: $rolled+$bonus, bonus: $bonus);
     }
 
     public static function rollDice(int $numDice, int $dieSides): int {

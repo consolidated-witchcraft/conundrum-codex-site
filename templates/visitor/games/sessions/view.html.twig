@@ -1,0 +1,11 @@
+{% extends 'base/base.html.twig' %}
+{% block body %}
+    <div class="row single-centered">
+        <div class="col">
+            {% if gameSession.getSessionImage %}
+
+            {% endif %}
+            {{ gameSession.getDescription }}
+        </div>
+    </div>
+{% endblock %}

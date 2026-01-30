@@ -1,0 +1,17 @@
+{% extends 'base/base.html.twig' %}
+{% block body %}
+    <div class="row">
+        <div class="col">
+            {{ form_start(form) }}
+            {{ form_row(form.title) }}
+            {{ form_row(form.description) }}
+            {{ form_row(form.sessionDate) }}
+            {% if gameSession.getSessionImage %}
+                <img src="{{ gameSession.getSessionImage.getPath }}" alt="{{ gameSession.getSessionImage.getDescription }}">
+            {% endif %}
+            {{ form_row(form.sessionImage) }}
+
+            {{ form_end(form) }}
+        </div>
+    </div>
+{% endblock %}

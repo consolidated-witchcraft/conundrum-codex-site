@@ -2,17 +2,12 @@
 
 declare(strict_types=1);
 
-namespace App\ApiResource\Casebook\Providers;
+namespace App\ApiResource\PuzzleInstances\Static\Casebook\Providers;
 
-use ApiPlatform\Metadata\GetCollection;
 use ApiPlatform\Metadata\Operation;
 use ApiPlatform\State\ProviderInterface;
-use App\ApiResource\Casebook\Dto\ApiCasebookDto;
-use App\ApiResource\Casebook\Dto\ApiCasebookSubjectDto;
-use App\Services\Puzzle\Domain\Casebook\CasebookSubject;
-use App\Services\Puzzle\Infrastructure\Casebook\Repository\CasebookRepository;
+use App\ApiResource\PuzzleInstances\Static\Casebook\Dto\ApiCasebookSubjectDto;
 use App\Services\Puzzle\Infrastructure\Casebook\Repository\CasebookSubjectRepository;
-use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\HttpKernel\Exception\UnprocessableEntityHttpException;
 
 /**

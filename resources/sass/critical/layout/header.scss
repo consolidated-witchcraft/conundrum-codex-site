@@ -241,67 +241,7 @@ body {
 
                     }
 
-                    &.has-submenu {
-                        position: relative;
 
-                        .submenu-trigger {
-                            cursor: pointer;
-                            padding-right: 5rem;
-                        }
-                        ul.submenu {
-                            display: flex;
-                            flex-direction: column;
-                            opacity: 0;
-                            pointer-events: none;
-                            transition: opacity 200ms ease-in-out;
-                            position: absolute;
-
-                            background-color: palette.$offWhite;
-                            top: 100%;
-                            left: 0;
-                            min-width: 10vw;
-                            z-index: -2;
-                            border: variables.$baseBorderWidth solid transparent;
-                            border-image: palette.$goldFX 33%;
-                            border-radius: variables.$baseBorderRadius;
-                            padding: math.div(variables.$base-spacing, 4);
-                            box-shadow: palette.$baseBoxShadow;
-                            &:before {
-                                content: " ";
-                                display: block;
-                                width: 1rem;
-                                height: 1rem;
-                                background-color: palette.$offWhite;
-                                top: 0 - (0.5rem + variables.$baseBorderWidth);
-                                left: variables.$baseBorderWidth;
-                                border: variables.$baseBorderWidth solid transparent;
-                                border-image: palette.$goldFX 33%;
-                                position: absolute;
-                                transform: rotate(45deg);
-                                border-right: none;
-                                border-bottom: none;
-                            }
-                            li {
-                                flex: 1;
-
-                                margin: 0 auto !important;
-                                padding: 0 !important;
-                                &:after {
-                                    display: none !important;
-
-                                }
-
-                                a {
-                                    color: palette.$crimson;
-                                }
-
-                            }
-                            &.show {
-                                opacity: 1;
-                                pointer-events: initial;
-                            }
-                        }
-                    }
                 }
             }
         }
@@ -469,6 +409,68 @@ main {
                             flex: 1;
                             &:hover, &:focus, &:active {
                                 color: color.adjust(palette.$crimson, $saturation: 20%, $lightness: 15%, $space: hsl);
+                            }
+                        }
+
+                        &.has-submenu {
+                            position: relative;
+
+                            .submenu-trigger {
+                                cursor: pointer;
+                                padding-right: 5rem;
+                            }
+                            ul.submenu {
+                                display: flex;
+                                flex-direction: column;
+                                opacity: 0;
+                                pointer-events: none;
+                                transition: opacity 200ms ease-in-out;
+                                position: absolute;
+
+                                background-color: palette.$offWhite;
+                                top: 100%;
+                                left: 0;
+                                min-width: 10vw;
+                                z-index: -2;
+                                border: variables.$baseBorderWidth solid transparent;
+                                border-image: palette.$goldFX 33%;
+                                border-radius: variables.$baseBorderRadius;
+                                padding: math.div(variables.$base-spacing, 4);
+                                box-shadow: palette.$baseBoxShadow;
+                                &:before {
+                                    content: " ";
+                                    display: block;
+                                    width: 1rem;
+                                    height: 1rem;
+                                    background-color: palette.$offWhite;
+                                    top: 0 - (0.5rem + variables.$baseBorderWidth);
+                                    left: variables.$baseBorderWidth;
+                                    border: variables.$baseBorderWidth solid transparent;
+                                    border-image: palette.$goldFX 33%;
+                                    position: absolute;
+                                    transform: rotate(45deg);
+                                    border-right: none;
+                                    border-bottom: none;
+                                }
+                                li {
+                                    flex: 1;
+
+                                    margin: 0 auto !important;
+                                    padding: 0 !important;
+                                    &:after {
+                                        display: none !important;
+
+                                    }
+
+                                    a {
+                                        color: palette.$crimson;
+                                    }
+
+                                }
+                                &.show {
+                                    opacity: 1;
+                                    pointer-events: initial;
+                                }
                             }
                         }
                     }

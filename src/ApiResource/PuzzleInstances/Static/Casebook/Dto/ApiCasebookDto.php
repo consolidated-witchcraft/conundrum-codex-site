@@ -1,11 +1,11 @@
 <?php
 
-namespace App\ApiResource\Casebook\Dto;
+namespace App\ApiResource\PuzzleInstances\Static\Casebook\Dto;
 
 use ApiPlatform\Metadata\ApiResource;
 use ApiPlatform\Metadata\Get;
 use ApiPlatform\Metadata\Link;
-use App\ApiResource\Casebook\Providers\CasebookProvider;
+use App\ApiResource\Puzzles\Static\Casebook\Providers\CasebookProvider;
 use App\Services\Puzzle\Domain\Casebook\Casebook;
 
 #[ApiResource(

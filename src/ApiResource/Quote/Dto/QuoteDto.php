@@ -1,13 +1,12 @@
 <?php
 
 declare(strict_types=1);
-namespace App\ApiResource;
+namespace App\ApiResource\Quote\Dto;
 
 use ApiPlatform\Metadata\ApiResource;
 use ApiPlatform\Metadata\Get;
+use App\ApiResource\Quote\Providers\QuoteProvider;
 use App\Services\Quotation\Domain\Quotation;
-use App\State\DiceStateProvider;
-use App\State\QuoteProvider;
 
 #[ApiResource(
     uriTemplate: '/quote',

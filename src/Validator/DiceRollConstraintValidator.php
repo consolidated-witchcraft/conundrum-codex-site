@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Validator;
 
-use App\State\Exceptions\UnprocessableRollStateException;
+use App\ApiResource\DiceRoll\Exceptions\UnprocessableRollStringException;
 use Symfony\Component\Validator\Constraint;
 use Symfony\Component\Validator\ConstraintValidator;
 use Symfony\Component\Validator\Exception\UnexpectedTypeException;
@@ -25,7 +25,7 @@ class DiceRollConstraintValidator extends ConstraintValidator
 
         try {
             self::validateRollState($value);
-        } catch (UnprocessableRollStateException $e) {
+        } catch (UnprocessableRollStringException $e) {
             $this->context->buildViolation($e->getMessage())
                 ->addViolation();
         }
@@ -39,7 +39,7 @@ class DiceRollConstraintValidator extends ConstraintValidator
         $clauses = explode(',', $rollState);
         foreach ($clauses as $clause) {
             if (!preg_match(self::CLAUSE_PATTERN, $clause)) {
-                throw new UnprocessableRollStateException("Invalid string: must match 'xdy' or 'xdypz' where x,y and z are 1–100.");
+                throw new UnprocessableRollStringException("Invalid string: must match 'xdy' or 'xdypz' where x,y and z are 1–100.");
             }
         }
     }

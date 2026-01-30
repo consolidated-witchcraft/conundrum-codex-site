@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace App\ApiResource\Casebook\Providers;
+namespace App\ApiResource\PuzzleInstances\Static\Casebook\Providers;
 
 use ApiPlatform\Metadata\Operation;
 use ApiPlatform\State\ProviderInterface;
-use App\ApiResource\Casebook\Dto\ApiCasebookDto;
+use App\ApiResource\Puzzles\Static\Casebook\Dto\ApiCasebookDto;
 use App\Services\Puzzle\Domain\Casebook\Casebook;
 use App\Services\Puzzle\Infrastructure\Casebook\Repository\CasebookRepository;
 use Symfony\Component\HttpKernel\Exception\UnprocessableEntityHttpException;

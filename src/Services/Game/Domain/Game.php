@@ -11,6 +11,7 @@ use App\Services\Puzzle\Domain\PuzzleInstance;
 use App\Services\User\Domain\User;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
+use Doctrine\Common\Collections\Order;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\ORM\Mapping\OrderBy;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
@@ -22,7 +23,7 @@ use Doctrine\Common\Collections\Criteria;
 #[ORM\Index(name: 'gm_id', columns: ['games_master_id'])]
 class Game extends AbstractDomainEntity
 {
-
+    private const int MAX_UPCOMING_SESSIONS = 5;
     /**
      * @var Collection<int, GameInvitation>
      */
@@ -261,9 +262,13 @@ class Game extends AbstractDomainEntity
 
     public function getUpcomingGameSessions(): Collection {
         $now = new \DateTime();
-        return $this->gameSessions->filter(function (GameSession $gameSession) use ($now) {
+        $filteredSessions = $this->gameSessions->filter(function (GameSession $gameSession) use ($now) {
             return $gameSession->getSessionDate() >= $now;
         });
+        $criteria = Criteria::create()
+            ->orderBy(array("sessionDate" => Order::Ascending))
+            ->setMaxResults(self::MAX_UPCOMING_SESSIONS);
+        return $filteredSessions->matching($criteria);
     }
 
     public function addGameSession(GameSession $gameSession): static

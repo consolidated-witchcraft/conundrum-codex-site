@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace App\State;
+namespace App\ApiResource\Quote\Providers;
 
 use ApiPlatform\Metadata\Operation;
 use ApiPlatform\State\ProviderInterface;
-use App\ApiResource\QuoteDto;
+use App\ApiResource\Quote\Dto\QuoteDto;
 use App\Services\Quotation\Service\QuotationService;
 
 class QuoteProvider implements ProviderInterface

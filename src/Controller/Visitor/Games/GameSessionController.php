@@ -133,6 +133,7 @@ final class GameSessionController extends AbstractBaseController
                         description: sprintf("Session image for %s", $dto->title),
                         uploader: $user,
                         destination: $this->publicImagesDirectory,
+                        fileToReplace: $gameSession->getSessionImage(),
                     );
                 }
             }
@@ -150,7 +151,7 @@ final class GameSessionController extends AbstractBaseController
             return $this->redirectToRoute('app.games.manage', ['gameSlug' => $game->getSlug()]);
         }
         $pageVars = [
-            'pageTitle' => sprintf("Add a session to %s", $game->getName()),
+            'pageTitle' => sprintf("Edit %s session %s", $game->getName(), $gameSession->getTitle()),
             'breadcrumbs' => [
                 [
                     'route' => 'app.games.index',
@@ -170,13 +171,56 @@ final class GameSessionController extends AbstractBaseController
                     'active' => false
                 ],
                 [
-                    'label' => 'Add',
+                    'label' => $gameSession->getTitle(),
+                    'active' => false
+                ],
+                [
+                    'label' => 'Edit',
                     'active' => true
                 ],
             ],
             'form' => $form,
             'game' => $game,
+            'gameSession' => $gameSession,
         ];
-        return $this->render('/visitor/games/sessions/add.html.twig', $this->populatePageVars($pageVars, $request));
+        return $this->render('/visitor/games/sessions/edit.html.twig', $this->populatePageVars($pageVars, $request));
+    }
+
+    #[Route('games/{gameSlug}/sessions/{gameSessionId}', name: 'app.games.sessions.view')]
+    public function view(
+        Game $game,
+        GameSession $gameSession,
+        Request $request
+    ): Response {
+        $pageVars = [
+            'pageTitle' => $gameSession->getTitle(),
+            'heroImageUrl' => $gameSession->getSessionImage()?->getPath(),
+            'breadcrumbs' => [
+                [
+                    'route' => 'app.games.index',
+                    'label' => 'My Games',
+                    'active' => false
+                ],
+                [
+                    'label' => $game->getName(),
+                    'active' => false
+                ],
+                [
+                    'label' => 'Manage',
+                    'active' => false
+                ],
+                [
+                    'label' => 'Sessions',
+                    'active' => false
+                ],
+                [
+                    'label' => $gameSession->getTitle(),
+                    'active' => true
+                ],
+            ],
+            'game' => $game,
+            'gameSession' => $gameSession,
+        ];
+        return $this->render('/visitor/games/sessions/view.html.twig', $this->populatePageVars($pageVars, $request));
     }
 }
