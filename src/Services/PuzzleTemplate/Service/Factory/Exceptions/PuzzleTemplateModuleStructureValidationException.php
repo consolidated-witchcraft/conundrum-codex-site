@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Services\PuzzleTemplate\Service\Factory\Exceptions;
 
-class MissingRequiredFieldException extends PuzzleTemplateRegistryBuildException
+class PuzzleTemplateModuleStructureValidationException extends PuzzleTemplateRegistryBuildException
 {
 
 }

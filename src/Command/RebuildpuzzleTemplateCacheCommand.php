@@ -38,8 +38,8 @@ class RebuildpuzzleTemplateCacheCommand extends Command
 
         $io->info('Rebuilding Puzzle Template Cache');
         try {
-            $this->factory->createPuzzleTemplateRegistry(true, true);
-        } catch (PuzzleTemplateRegistryBuildException|InvalidArgumentException $e){
+            $this->factory->generatePuzzleTemplateRegistry(true, true);
+        } catch (PuzzleTemplateRegistryBuildException $e){
             $io->error($e->getMessage());
             return Command::FAILURE;
         }
