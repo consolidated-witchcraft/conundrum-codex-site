@@ -12,6 +12,7 @@ doctrine:
             rarity: App\Doctrine\Types\RarityType
             email: App\Doctrine\Types\EmailType
             non_empty_string: App\Doctrine\Types\NonEmptyStringType
+            puzzle_config_fields: App\Doctrine\Types\PuzzleConfigFieldType
     orm:
         auto_generate_proxy_classes: false
         enable_lazy_ghost_objects: true

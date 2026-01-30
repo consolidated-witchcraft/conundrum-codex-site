@@ -31,6 +31,7 @@ readonly class PuzzleTemplate
         private Collection $categories,
         private string $authorEmail,
         private bool $static,
+        private string $elementName,
         private array $credits = [],
         private array  $configuration = [],
         private ? string $staticCreateRoute = null,
@@ -139,6 +140,10 @@ readonly class PuzzleTemplate
     public function getStaticPlayRoute(): ? string {
         $this->validateStatic();
         return $this->staticPlayRoute;
+    }
+
+    public function getElementName(): string {
+        return $this->elementName;
     }
 
     /**

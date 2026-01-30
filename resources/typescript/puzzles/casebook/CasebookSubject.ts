@@ -80,7 +80,7 @@ export class CasebookSubject extends HTMLElement {
 
     private async buildContent() {
 
-        const { data, error } = await this.client.GET("/api/puzzles/static/casebook/{instanceCode}/subjects/{subject}",
+        const { data, error } = await this.client.GET("/api/puzzles/instances/static/casebook/{instanceCode}/subjects/{subject}",
             {
                 params: {
                     path: {

@@ -15,25 +15,14 @@
             {% if game.getUpcomingGameSessions is empty %}
                 <em>There are no upcoming sessions scheduled</em>
             {% else %}
-                <div class="accordion-list" is="accordion-list">
+                <ul>
+
                     {% for session in game.getUpcomingGameSessions %}
-                        <article class="accordion-entry" id="session-{{ session.id }}" is="accordion-entry" data-open="false">
-                            <h3 class="accordion-heading">{{ session.title }}</h3>
-                            <div class="accordion-body">
-                                <div class="accordion-content accordion-columns">
-                                    <div class="accordion-column">
-                                        {{ session.description }}
-                                    </div>
-                                    <div class="accordion-column">
-                                        <nav class="secondary">
-                                            <a href="{{ path('app.games.sessions.view', {'gameSlug': game.getSlug, 'gameSessionId': session.getId}) }}">View Session Notice</a>
-                                        </nav>
-                                    </div>
-                                </div>
-                            </div>
-                        </article>
+                        <li>
+                            <a href="{{ path('app.games.sessions.view', {'gameSlug': game.getSlug, 'gameSessionId': session.getId}) }}">{{ session.getTitle }} - {{ friendly_date(session.getSessionDate) }}</a>
+                        </li>
                     {% endfor  %}
-                </div>
+                </ul>
             {% endif %}
             <hr class="subtle">
             <h2>Puzzles</h2>

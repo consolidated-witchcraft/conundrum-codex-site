@@ -2,9 +2,12 @@
 {% block body %}
     <div class="row single-centered">
         <div class="col">
-            {% if gameSession.getSessionImage %}
-
-            {% endif %}
+            <dl>
+                <dt>Title</dt>
+                <dd>{{ gameSession.title }}</dd>
+                <dt>Date</dt>
+                <dd>{{ friendly_date(gameSession.getSessionDate) }}</dd>
+            </dl>
             {{ gameSession.getDescription }}
         </div>
     </div>

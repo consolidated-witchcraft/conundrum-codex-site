@@ -120,6 +120,21 @@ const config = [
         preserveEntrySignatures: false,
     },
     {
+        input: 'resources/typescript/puzzles/buttons/buttonsBoot.ts',
+        output: {
+            dir: './public/dist/js/',
+            format: 'es',
+        },
+
+        plugins: [
+            typescript(),
+            replace(envReplacements),
+            sass(),
+            resolve()
+        ],
+        preserveEntrySignatures: false,
+    },
+    {
         input: 'resources/sass/critical.scss',
         output: {
             dir: './public/dist/css/'

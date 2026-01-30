@@ -6,8 +6,6 @@ namespace App\Doctrine\Types;
 
 use App\Doctrine\Types\Exceptions\InvalidEmailException;
 use App\Doctrine\Types\Exceptions\InvalidNonEmptyStringException;
-use App\Services\User\Domain\ValueObjects\Exceptions\UnmappedRarityException;
-use App\Services\User\Domain\ValueObjects\Rarity;
 use Doctrine\DBAL\Types\Type;
 use Doctrine\DBAL\Platforms\AbstractPlatform;
 

@@ -58,4 +58,13 @@
             box-shadow: 0 0 2rem $highlightColour inset, 0 0 1rem $highlightColour inset, 0 0 0.5rem $highlightColour inset;
         }
     }
+
+    &.btn-lg {
+        font-size: 200%;
+    }
+
+    &.btn-square {
+        width: 5rem;
+        height: 5rem;
+    }
 }

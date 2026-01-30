@@ -1,15 +1,15 @@
 <?php
 
-namespace App\ApiResource\PuzzleInstances\Static\Casebook\Dto;
+namespace App\ApiResource\PuzzleInstance\Static\Casebook\Dto;
 
 use ApiPlatform\Metadata\ApiResource;
 use ApiPlatform\Metadata\Get;
 use ApiPlatform\Metadata\Link;
-use App\ApiResource\Puzzles\Static\Casebook\Providers\CasebookProvider;
+use App\ApiResource\PuzzleInstance\Static\Casebook\Providers\CasebookProvider;
 use App\Services\Puzzle\Domain\Casebook\Casebook;
 
 #[ApiResource(
-    uriTemplate: '/puzzles/static/casebook/{instanceCode}',
+    uriTemplate: '/puzzles/instances/static/casebook/{instanceCode}',
     operations: [
         new Get()
     ],

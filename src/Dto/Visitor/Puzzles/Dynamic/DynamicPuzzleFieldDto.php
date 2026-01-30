@@ -9,7 +9,7 @@ class DynamicPuzzleFieldDto
     public function __construct(
         private readonly string $name,
         private readonly string $type,
-        private mixed $value = null
+        private string|array|null $value = null
     ) {}
 
     public function getName(): string {
@@ -20,12 +20,30 @@ class DynamicPuzzleFieldDto
         return $this->type;
     }
 
-    public function getValue(): mixed {
+    /**
+     * @return string|string[]|null
+     */
+    public function getValue(): string|array|null {
+        if (null === $this->value) {
+            return null;
+        }
+        if (is_array($this->value)) {
+            return array_values($this->value);
+        }
         return $this->value;
     }
 
-    public function setValue(mixed $value): void {
-        $this->value = $value;
+    /**
+     * @param string|array<string>|null $value
+     * @return void
+     */
+    public function setValue(string|array|null|DynamicPuzzleFieldDto $value): void {
+        if ($value instanceof DynamicPuzzleFieldDto) {
+            $this->value = $value->getValue();
+        } else {
+            $this->value = $value;
+        }
+
     }
 
     public function clearValue(): void {

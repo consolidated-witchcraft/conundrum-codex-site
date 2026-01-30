@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\ApiResource\PuzzleInstances\Static\Casebook\Dto;
+namespace App\ApiResource\PuzzleInstance\Static\Casebook\Dto;
 
 use App\Services\Puzzle\Domain\Casebook\CasebookSubjectClue;
 

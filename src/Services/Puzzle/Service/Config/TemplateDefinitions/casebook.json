@@ -14,6 +14,7 @@
     "staticEditRoute": "app.puzzles.static.casebook.edit",
     "staticPlayRoute": "app.puzzles.static.casebook.play",
     "creator": "sam.baynham@gmail.com",
+    "elementName": "casebook-element",
     "credits": [
         {
             "name": "Conundrum Codex",

@@ -193,7 +193,7 @@ final class GameSessionController extends AbstractBaseController
         Request $request
     ): Response {
         $pageVars = [
-            'pageTitle' => $gameSession->getTitle(),
+            'pageTitle' => sprintf("%s - %s", $gameSession->getTitle(), $gameSession->getSessionDate()->format('H:i l, jS F, Y')),
             'heroImageUrl' => $gameSession->getSessionImage()?->getPath(),
             'breadcrumbs' => [
                 [

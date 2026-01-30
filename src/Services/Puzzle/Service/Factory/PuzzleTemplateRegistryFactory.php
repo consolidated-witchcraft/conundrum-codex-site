@@ -10,12 +10,14 @@ use App\Services\Puzzle\Domain\PuzzleCredit;
 use App\Services\Puzzle\Domain\PuzzleTemplate;
 use App\Services\Puzzle\Infrastructure\PuzzleCategoryRepository;
 use App\Services\Puzzle\Service\Factory\Exceptions\InvalidConfigOptionDefinitionException;
+use App\Services\Puzzle\Service\Factory\Exceptions\MissingRequiredFieldException;
 use App\Services\Puzzle\Service\Factory\Exceptions\PuzzleTemplateRegistryBuildException;
 use App\Services\Puzzle\Service\Interfaces\PuzzleTemplateRegistryInterface;
 use App\Services\Puzzle\Service\PuzzleTemplateRegistry;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\EntityManagerInterface;
 use Psr\Cache\InvalidArgumentException;
+use Psr\Log\LoggerInterface;
 use Symfony\Component\DependencyInjection\Attribute\AutoconfigureTag;
 use Symfony\Component\Finder\Finder;
 use Symfony\Component\Routing\Exception\RouteNotFoundException;
@@ -35,6 +37,8 @@ class PuzzleTemplateRegistryFactory implements CacheWarmerInterface
 
     private const string SLUG_REGEX = '/^[a-z0-9_]+$/';
 
+    private const string ELEMENT_NAME_REGEX = '/^[a-z0-9-]+$/';
+
     private const array TEMPLATE_FIELDS = [
         'title' => 'string',
         'created' => 'date',
@@ -48,7 +52,21 @@ class PuzzleTemplateRegistryFactory implements CacheWarmerInterface
         'staticPlayRoute' => 'route',
         'creator' => 'email',
         'credits' => 'array',
-        'configOptions' => 'configOptions'
+        'configOptions' => 'configOptions',
+        'elementName' => 'elementName'
+    ];
+
+    public const array REQUIRED_FIELDS = [
+        'title',
+        'created',
+        'slug',
+        'description',
+        'categories',
+        'type',
+        'static',
+        'creator',
+        'configOptions',
+        'elementName',
     ];
     private const array CONFIG_OPTION_FIELDS = [
         'configName' => 'configName',
@@ -67,22 +85,28 @@ class PuzzleTemplateRegistryFactory implements CacheWarmerInterface
         private readonly CacheInterface $cache,
         private readonly PuzzleCategoryRepository $puzzleCategoryRepository,
         private EntityManagerInterface $entityManager,
-        private RouterInterface $router
+        private RouterInterface $router,
+        private LoggerInterface $logger
     ) {
     }
+
     /**
-     * @throws PuzzleTemplateRegistryBuildException|\DateMalformedStringException
      * @throws InvalidArgumentException
+     * @throws PuzzleTemplateRegistryBuildException
      */
-    public function createPuzzleTemplateRegistry(bool $forceRefresh = false): PuzzleTemplateRegistryInterface {
+    public function createPuzzleTemplateRegistry(bool $forceRefresh = false, bool $verbose = false): PuzzleTemplateRegistryInterface {
         if ($forceRefresh) {
             $this->cache->delete(self::CACHE_KEY);
         }
-        return $this->buildRegistry();
+        return $this->buildRegistry($verbose);
     }
 
-    private function buildRegistry(): PuzzleTemplateRegistry {
-        return $this->cache->get(self::CACHE_KEY, function (ItemInterface $item) {
+    /**
+     * @throws InvalidArgumentException
+     * @throw PuzzleTemplateRegistryBuildException
+     */
+    private function buildRegistry(bool $verbose = false): PuzzleTemplateRegistry {
+        return $this->cache->get(self::CACHE_KEY, function (ItemInterface $item) use ($verbose) {
             $item->expiresAfter(self::DEFAULT_CACHE_TTL);
             $registryContent = [];
             $finder = new Finder();
@@ -92,26 +116,37 @@ class PuzzleTemplateRegistryFactory implements CacheWarmerInterface
             }
             if ($finder->hasResults()) {
                 foreach ($finder as $file) {
+                    $success = true;
                     $result = json_decode($file->getContents(), true );
-                    $this->validateDefinition($result);
-                    $template = new PuzzleTemplate(
-                        slug: $result['slug'],
-                        title: $result['title'],
-                        createdAt: new \DateTimeImmutable($result['created']),
-                        description: $result['description'],
-                        categories: $this->mapCategories($result['categories']),
-                        authorEmail: $result['creator'],
-                        static: $result['static'],
-                        credits: self::mapCredits($result['credits']),
-                        configuration: self::mapConfigOptions($result['configOptions']),
-                        staticCreateRoute: $result['staticCreateRoute'] ?? null,
-                        staticEditRoute: $result['staticEditRoute'] ?? null,
-                        staticPlayRoute: $result['staticPlayRoute'] ?? null
-                    );
+                    try {
+                        $this->validateRequiredFields($result);
+                        $this->validateDefinition($result);
+                    } catch (PuzzleTemplateRegistryBuildException  $e) {
+                        $success = false;
+                        $this->logger->error($e->getMessage());
+                        if ($verbose) {
+                            throw new PuzzleTemplateRegistryBuildException(sprintf("Failure building file %s: %s", $file->getFilename(), $e->getMessage()), $e->getCode(), $e);
+                        }
+                    }
+                    if ($success) {
+                        $template = new PuzzleTemplate(
+                            slug: $result['slug'],
+                            title: $result['title'],
+                            createdAt: new \DateTimeImmutable($result['created']),
+                            description: $result['description'],
+                            categories: $this->mapCategories($result['categories']),
+                            authorEmail: $result['creator'],
+                            static: $result['static'],
+                            elementName: $result['elementName'],
+                            credits: self::mapCredits($result['credits']),
+                            configuration: self::mapConfigOptions($result['configOptions']),
+                            staticCreateRoute: $result['staticCreateRoute'] ?? null,
+                            staticEditRoute: $result['staticEditRoute'] ?? null,
+                            staticPlayRoute: $result['staticPlayRoute'] ?? null
+                        );
 
-                    $registryContent[$template->getSlug()] = $template;
-
-
+                        $registryContent[$template->getSlug()] = $template;
+                    }
                 }
             }
             return new PuzzleTemplateRegistry(templates: $registryContent);
@@ -146,6 +181,18 @@ class PuzzleTemplateRegistryFactory implements CacheWarmerInterface
     }
 
     /**
+     * @param array $puzzleTemplateDefinitionArray
+     * @return void
+     * @throws MissingRequiredFieldException
+     */
+    private function validateRequiredFields(array $puzzleTemplateDefinitionArray): void {
+        foreach (self::REQUIRED_FIELDS as $requiredField) {
+            if (!array_key_exists($requiredField, $puzzleTemplateDefinitionArray)) {
+                throw new MissingRequiredFieldException(sprintf("Missing required %s field", $requiredField));
+            }
+        }
+    }
+    /**
      * @throws PuzzleTemplateRegistryBuildException
      */
     private function validateDefinition(array $puzzleTemplateDefinitionArray): void {
@@ -164,7 +211,7 @@ class PuzzleTemplateRegistryFactory implements CacheWarmerInterface
 
                     case 'slug':
                         if (!preg_match(self::SLUG_REGEX, $value)) {
-                            throw new PuzzleTemplateRegistryBuildException("Slugs may only contain lowercase letters, numbers and underscores.");
+                            throw new PuzzleTemplateRegistryBuildException(sprintf("Slugs may only contain lowercase letters, numbers and underscores. %s is invalid", $value));
                         }
                         break;
                     case 'array':
@@ -212,6 +259,11 @@ class PuzzleTemplateRegistryFactory implements CacheWarmerInterface
                         }
 
                         break;
+                    case 'elementName':
+                        if (preg_match(self::ELEMENT_NAME_REGEX, $value) !== 1) {
+                            throw new PuzzleTemplateRegistryBuildException(sprintf("%s must be a valid element name. It may only contain hyphens, lowercase letters and numbers.", $fieldName));
+                        }
+                        break;
                     default:
                         throw new PuzzleTemplateRegistryBuildException(sprintf("Unknown field type %s specified", $fieldType));
                 }
@@ -241,7 +293,7 @@ class PuzzleTemplateRegistryFactory implements CacheWarmerInterface
                 switch ($type) {
                     case 'configName':
                         if (!preg_match(self::SLUG_REGEX, $configOptionDefinition['configName'])) {
-                            throw new InvalidConfigOptionDefinitionException("Slugs may only contain lowercase letters, numbers and underscores.");
+                            throw new InvalidConfigOptionDefinitionException(sprintf("Config names may only contain lowercase letters, numbers and underscores. %s is invalid", $configOptionDefinition['configName']));
                         }
                         break;
                     case 'string':

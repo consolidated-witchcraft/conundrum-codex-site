@@ -27,6 +27,7 @@ body.loaded {
 @media only screen and (min-width: variables.$mobileBreakPointUpper) {
     body.loaded {
         img {
+            max-width: 100%;
             &.portrait {
                 max-height: initial;
                 max-width: 25vw;

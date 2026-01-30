@@ -46,6 +46,9 @@ class PuzzleInstanceService implements PuzzleInstanceServiceInterface
     }
 
 
+    /**
+     * @throws TemplateNotFoundException
+     */
     public function getInstanceByTemplateAndCode(string $templateSlug, string $instanceCode): ?PuzzleInstanceInterface
     {
         $template = $this->puzzleTemplateRegistry->getTemplate($templateSlug);

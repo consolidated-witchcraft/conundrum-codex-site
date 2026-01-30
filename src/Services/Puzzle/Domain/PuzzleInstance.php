@@ -24,7 +24,7 @@ class PuzzleInstance extends AbstractDomainEntity implements DynamicPuzzleInstan
      * @param Game $game
      * @param non-empty-string $templateSlug
      * @param \DateTimeInterface|null $publicationDate
-     * @param array $config
+     * @param DynamicPuzzleFieldDto[] $config
      * @param int|null $id
      */
     public function __construct(
@@ -47,11 +47,8 @@ class PuzzleInstance extends AbstractDomainEntity implements DynamicPuzzleInstan
         #[ORM\Column(type: 'datetime', nullable: true)]
         private ?\DateTimeInterface $publicationDate = null,
 
-        /**
-         * @var array<string, DynamicPuzzleFieldDto>
-         */
-        #[ORM\Column]
-        private array               $config = [],
+        #[ORM\Column(type: 'puzzle_config_fields', nullable: false)]
+        private array $config = [],
 
         ?int $id = null
     ){
@@ -117,7 +114,7 @@ class PuzzleInstance extends AbstractDomainEntity implements DynamicPuzzleInstan
     }
 
     /**
-     * @return array<string, DynamicPuzzleFieldDto>
+     * @return DynamicPuzzleFieldDto[]
      */
     public function getConfig(): array
     {
@@ -125,7 +122,7 @@ class PuzzleInstance extends AbstractDomainEntity implements DynamicPuzzleInstan
     }
 
     /**
-     * @param array<string, DynamicPuzzleFieldDto> $config
+     * @param DynamicPuzzleFieldDto[] $config
      */
     public function setConfig(array $config): void
     {

@@ -2,8 +2,12 @@
 {% block body %}
     <div
         class="puzzle-container"
-        is="puzzle-container"
-        data-template="{{ templateName }}"
-        data-config='{{ config }}'>
+        is="{{ elementName }}"
+        data-templateslug="{{ templateSlug }}"
+        data-instancecode="{{ instanceCode }}">
     </div>
+{% endblock %}
+
+{% block footerScripts %}
+    <script src="/dist/js/{{ templateSlug }}Boot.js"></script>
 {% endblock %}

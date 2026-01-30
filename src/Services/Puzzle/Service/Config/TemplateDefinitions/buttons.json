@@ -9,6 +9,7 @@
     "created": "2025-09-17",
     "static": false,
     "creator": "sam.baynham@gmail.com",
+    "elementName": "buttons-element",
     "credits": [
         {
             "name": "Sam Baynham",
@@ -22,6 +23,18 @@
             "label": "Clue",
             "type": "text",
             "helpText": " A clue that will be presented to the player."
+        },
+        {
+            "configName": "success_message",
+            "label": "Success Message",
+            "type": "text",
+            "helpText": " A message that will be presented to the player when they successfully solve the puzzle."
+        },
+        {
+            "configName": "failure_message",
+            "label": "Failure Message",
+            "type": "text",
+            "helpText": " A message that will be presented to the player if they submit an incorrect solution to the puzzle."
         },
         {
             "configName": "failure",

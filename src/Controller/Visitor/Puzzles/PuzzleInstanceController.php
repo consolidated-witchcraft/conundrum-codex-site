@@ -178,8 +178,9 @@ class PuzzleInstanceController extends AbstractPuzzleController
             if ($puzzleInstance instanceof DynamicPuzzleInstanceInterface) {
                 $pageVars = [
                     'pageTitle' => sprintf("Play puzzle %s", $puzzleInstance->getName()),
-                    'templateName' => $puzzleTemplate->getSlug(),
-                    'config' => $this->serializer->serialize($puzzleInstance->getConfig(), 'json'),
+                    'templateSlug' => $puzzleTemplate->getSlug(),
+                    'instanceCode' => $puzzleInstance->getInstanceCode(),
+                    'elementName' => $puzzleTemplate->getElementName(),
                 ];
                 return $this->render('/visitor/puzzleInstances/dynamic/play.html.twig', $this->populatePageVars($pageVars, $request));
             }
@@ -216,7 +217,7 @@ class PuzzleInstanceController extends AbstractPuzzleController
                 name: $optionsDto->puzzleName,
                 game: $game,
                 templateSlug: $templateSlug,
-                description: "SOME PUZZLE",
+                description: $optionsDto->puzzleName,
             );
             $instance->setConfig($dto->toArray());
             $success = true;

@@ -120,17 +120,17 @@ class DynamicPuzzleConfigDto implements \ArrayAccess
 
         $returnArray = [];
         foreach ($this->fields as  $definition) {
-            $returnArray[$definition->getName()] = $definition->getValue();
+            $returnArray[$definition->getName()] = $definition;
         }
         return $returnArray;
     }
 
     public function populateFromPuzzleInstance(DynamicPuzzleInstanceInterface $instance): void {
-        foreach ($instance->getConfig() as $fieldName => $fieldValue) {
-            if (!$this->offsetExists($fieldName)) {
-                throw new AttemptingToConfigureNonExistentFieldException($fieldName);
+        foreach ($instance->getConfig() as $fieldValue) {
+            if (!$this->offsetExists($fieldValue->getName())) {
+                throw new AttemptingToConfigureNonExistentFieldException($fieldValue->getName());
             }
-            $this->offsetSet($fieldName, $fieldValue);
+            $this->offsetSet($fieldValue->getName(), $fieldValue);
 
         }
     }
