@@ -10,7 +10,7 @@ use App\Services\PuzzleTemplate\Service\Factory\Validators\Exceptions\ConfigFiel
 use App\Services\PuzzleTemplate\Service\Factory\Validators\Exceptions\InvalidDateTimeException;
 use App\Services\PuzzleTemplate\Service\Factory\Validators\Exceptions\InvalidEmailAddressException;
 use App\Services\PuzzleTemplate\Service\Factory\Validators\Exceptions\InvalidRouteException;
-use App\Services\PuzzleTemplate\Service\Factory\Validators\Exceptions\MissingRequiredFieldException;
+use App\Services\PuzzleTemplate\Service\Factory\Validators\Exceptions\MissingRequiredTemplateFieldException;
 use App\Services\PuzzleTemplate\Service\Factory\Validators\Exceptions\MissingStaticRouteException;
 use App\Services\PuzzleTemplate\Service\Factory\Validators\Exceptions\UnknownFieldSpecifiedException;
 use Symfony\Component\Routing\Exception\RouteNotFoundException;
@@ -58,7 +58,7 @@ class PuzzleTemplateDefinitionValidator
 
     /**
      * @throws UnknownFieldSpecifiedException
-     * @throws MissingRequiredFieldException
+     * @throws MissingRequiredTemplateFieldException
      * @throws ConfigFieldTypeScalarMismatchException
      * @throws ConfigFieldTypeInvalidPatternException
      * @throws PuzzleTemplateRegistryBuildException
@@ -70,12 +70,12 @@ class PuzzleTemplateDefinitionValidator
     }
 
     /**
-     * @throws MissingRequiredFieldException
+     * @throws MissingRequiredTemplateFieldException
      */
     private function validateRequiredFieldsPresent(array $decodedJson, string $moduleName): void {
         foreach (self::REQUIRED_FIELDS as $requiredField) {
             if (!isset($decodedJson[$requiredField])) {
-                throw new MissingRequiredFieldException($requiredField, $moduleName);
+                throw new MissingRequiredTemplateFieldException($requiredField, $moduleName);
             }
         }
     }

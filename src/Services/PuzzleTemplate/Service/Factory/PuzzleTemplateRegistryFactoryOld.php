@@ -11,7 +11,7 @@ use App\Services\PuzzleTemplate\Domain\PuzzleTemplateConfigOptionDefinition;
 use App\Services\PuzzleTemplate\Infrastructure\PuzzleCategoryRepository;
 use App\Services\PuzzleTemplate\Service\Factory\Exceptions\PuzzleTemplateRegistryBuildException;
 use App\Services\PuzzleTemplate\Service\Factory\Validators\Exceptions\InvalidConfigOptionDefinitionException;
-use App\Services\PuzzleTemplate\Service\Factory\Validators\Exceptions\MissingRequiredFieldException;
+use App\Services\PuzzleTemplate\Service\Factory\Validators\Exceptions\MissingRequiredTemplateFieldException;
 use App\Services\PuzzleTemplate\Service\Interfaces\PuzzleTemplateRegistryInterface;
 use App\Services\PuzzleTemplate\Service\PuzzleTemplateRegistry;
 use Doctrine\Common\Collections\ArrayCollection;
@@ -181,12 +181,12 @@ class PuzzleTemplateRegistryFactoryOld
     /**
      * @param array $puzzleTemplateDefinitionArray
      * @return void
-     * @throws MissingRequiredFieldException
+     * @throws MissingRequiredTemplateFieldException
      */
     private function validateRequiredFields(array $puzzleTemplateDefinitionArray): void {
         foreach (self::REQUIRED_FIELDS as $requiredField) {
             if (!array_key_exists($requiredField, $puzzleTemplateDefinitionArray)) {
-                throw new MissingRequiredFieldException(sprintf("Missing required %s field", $requiredField));
+                throw new MissingRequiredTemplateFieldException(sprintf("Missing required %s field", $requiredField));
             }
         }
     }
