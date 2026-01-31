@@ -62,9 +62,7 @@ class PuzzleTemplateConfigOptionValidatorTest extends TestCase
      * @throws MissingConfigOptionSubfieldException
      * @throws ConfigFieldTypeInvalidPatternException
      * @throws ConfigFieldTypeScalarMismatchException
-     * @throws InvalidConfigOptionDefinitionException
-     * @throws UnknownFieldSpecifiedException
-     * @throws UnknownFieldTypeSpecifiedException
+     * @throws UnknownFieldTypeSpecifiedException|UnknownConfigFieldTypeSpecifiedException
      */
     #[DataProvider('provideFieldKeyTestData')]
     public function testValidateFieldKeys(
@@ -80,7 +78,6 @@ class PuzzleTemplateConfigOptionValidatorTest extends TestCase
 
     /**
      * @throws ConfigFieldTypeScalarMismatchException
-     * @throws UnknownFieldSpecifiedException
      * @throws MissingConfigOptionSubfieldException
      * @throws ConfigFieldTypeInvalidPatternException
      * @throws UnknownFieldTypeSpecifiedException
@@ -122,6 +119,14 @@ class PuzzleTemplateConfigOptionValidatorTest extends TestCase
         ];
     }
 
+    /**
+     * @throws ConfigFieldTypeScalarMismatchException
+     * @throws UnknownFieldSpecifiedException
+     * @throws MissingConfigOptionSubfieldException
+     * @throws UnknownConfigFieldTypeSpecifiedException
+     * @throws ConfigFieldTypeInvalidPatternException
+     * @throws UnknownFieldTypeSpecifiedException
+     */
     #[DataProvider('provideInvalidFieldTypeScalarTestData')]
     public function testValidateFieldTypeCompliance(
         array $configData,
