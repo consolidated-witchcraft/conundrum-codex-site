@@ -31,6 +31,7 @@ class PuzzleTemplateRegistryFactory implements CacheWarmerInterface
         private readonly CacheInterface $cache,
         private readonly PuzzleTemplateModuleStructureValidator $moduleStructureValidator,
         private readonly PuzzleTemplateDefinitionValidator $definitionValidator,
+        private readonly PuzzleTemplateMapper $mapper,
         private readonly LoggerInterface $logger,
         string $projectRootDirectory
     ) {
@@ -59,39 +60,56 @@ class PuzzleTemplateRegistryFactory implements CacheWarmerInterface
             $this->cache->delete(self::CACHE_KEY);
         }
         return $this->cache->get(self::CACHE_KEY, function (ItemInterface $item) use ($verbose) {
+            $mappedTemplates = [];
             $finder = new Finder();
             $finder->directories()->in($this->modulesDirectoryName);
             if (!$finder->hasResults()) {
                 throw new PuzzleTemplateRegistryBuildException("Could not build Template registry: puzzleTemplatesFolder is not populated");
             }
             foreach ($finder as $directory) {
+                $this->logger->info(sprintf("Attempting to build PuzzleTemplate for %s", $directory->getFileName()));
+                $success = true;
                 try {
                     $this->moduleStructureValidator->validate($this->modulesDirectoryName, $directory->getFilename());
                 } catch (PuzzleTemplateModuleStructureValidationException $e) {
+                    $success = false;
                     $this->logger->error($e->getMessage());
                     if ($verbose) {
                         throw new PuzzleTemplateRegistryBuildException($e->getMessage(), $e->getCode(), $e);
                     }
                 }
 
-                $templateDefinitionPath = sprintf("%s/%s/%s", $this->modulesDirectoryName, $directory->getFilename(), 'template.json');
-                $templateDefinition = file_get_contents($templateDefinitionPath);
+                $templateDefinitionJson = $this->decodeModule($directory);
                 try {
-                    $templateDefinitionJson = json_decode(json: $templateDefinition, associative: true, flags: JSON_THROW_ON_ERROR);
-                } catch (\JsonException $e) {
+                    $this->definitionValidator->validateJson($templateDefinitionJson, $directory->getFilename());
+                } catch (PuzzleTemplateRegistryBuildException $e) {
+                    $success = false;
                     $this->logger->error($e->getMessage());
                     if ($verbose) {
                         throw new PuzzleTemplateRegistryBuildException($e->getMessage(), $e->getCode(), $e);
                     }
                 }
 
-                $this->definitionValidator->validateJson($templateDefinitionJson, $directory->getFilename());
+                if ($success) {
+                    $this->logger->info(sprintf("Successfully decoded directory %s. Template Build Commencing", $directory->getFileName()));
+                    $mappedTemplates[] = $this->mapper->mapTemplate($templateDefinitionJson);
+                }
             }
-            $registry = new PuzzleTemplateRegistry([]);
-            //TODO- Build the registry
-            return $registry;
+            return new PuzzleTemplateRegistry($mappedTemplates);
         });
+    }
 
-
+    private function decodeModule($directory): array {
+        $templateDefinitionPath = sprintf("%s/%s/%s", $this->modulesDirectoryName, $directory->getFilename(), 'template.json');
+        $templateDefinition = file_get_contents($templateDefinitionPath);
+        try {
+            $templateDefinitionJson = json_decode(json: $templateDefinition, associative: true, flags: JSON_THROW_ON_ERROR);
+        } catch (\JsonException $e) {
+            $this->logger->error($e->getMessage());
+            if ($verbose) {
+                throw new PuzzleTemplateRegistryBuildException($e->getMessage(), $e->getCode(), $e);
+            }
+        }
+        return $templateDefinitionJson;
     }
 }

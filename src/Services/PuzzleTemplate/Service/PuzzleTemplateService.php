@@ -15,6 +15,7 @@ use App\Services\PuzzleTemplate\Service\Interfaces\PuzzleTemplateRegistryInterfa
 use App\Services\PuzzleTemplate\Service\Interfaces\PuzzleTemplateServiceInterface;
 use App\Services\PuzzleTemplate\Infrastructure\PuzzleCategoryRepository;
 use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\ORM\EntityManagerInterface;
 
 class PuzzleTemplateService implements PuzzleTemplateServiceInterface
 {
@@ -22,17 +23,16 @@ class PuzzleTemplateService implements PuzzleTemplateServiceInterface
 
     /**
      * @param PuzzleTemplateRegistryInterface $templateRegistry
-     * @param PuzzleCategoryRepository $categoryRepository
+     * @param PuzzleCategoryServiceInterface $puzzleCategoryService
      * @param CasebookRepository $casebookRepository
      * @param PuzzleInstanceRepository $instanceRepository
      */
     public function __construct(
         private readonly PuzzleTemplateRegistryInterface $templateRegistry,
-        private readonly PuzzleCategoryRepository $categoryRepository,
+        private readonly PuzzleCategoryServiceInterface $puzzleCategoryService,
         private readonly CasebookRepository $casebookRepository,
         private readonly PuzzleInstanceRepository $instanceRepository,
     ) {}
-
 
     /**
      * @return PuzzleTemplate[]
@@ -51,7 +51,7 @@ class PuzzleTemplateService implements PuzzleTemplateServiceInterface
      * @return PuzzleCategory[]
      */
     public function getAllCategories(): array {
-        return $this->categoryRepository->findAll();
+        return $this->puzzleCategoryService->getAllCategories();
     }
 
     /**
@@ -74,7 +74,7 @@ class PuzzleTemplateService implements PuzzleTemplateServiceInterface
 
     public function getCategoryBySlug(string $categorySlug): ?PuzzleCategory
     {
-        return $this->categoryRepository->findByHandle($categorySlug);
+        return $this->puzzleCategoryService->getCategoryBySlug($categorySlug);
     }
 
     /**
@@ -102,5 +102,10 @@ class PuzzleTemplateService implements PuzzleTemplateServiceInterface
 
 
         return $slug;
+    }
+
+    public function saveCategory(PuzzleCategory $category): PuzzleCategory
+    {
+        return $this->puzzleCategoryService->saveCategory($category);
     }
 }

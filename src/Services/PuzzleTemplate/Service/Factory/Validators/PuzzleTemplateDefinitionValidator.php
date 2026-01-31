@@ -183,7 +183,7 @@ class PuzzleTemplateDefinitionValidator
 
                 case 'route':
                     if ($value === null) {
-                        throw new InvalidTemplateFieldRouteException($value, $moduleName);
+                        break;
                     }
                     try {
                         $this->router->generate($value, [
@@ -192,7 +192,7 @@ class PuzzleTemplateDefinitionValidator
                             'instanceCode' => 'test'
                         ]);
                     } catch (RouteNotFoundException $e) {
-                        throw new InvalidTemplateFieldRouteException($value, $moduleName, $e->getCode(), $e);
+                        throw new InvalidTemplateFieldRouteException($value, $fieldName, $moduleName, $e->getCode(), $e);
                     }
 
                     break;

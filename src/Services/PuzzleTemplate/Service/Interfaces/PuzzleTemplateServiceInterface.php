@@ -31,4 +31,6 @@ interface PuzzleTemplateServiceInterface extends DomainServiceInterface
     public function getCategoryBySlug(string $categorySlug): ? PuzzleCategory;
 
     public function generatePuzzleSlug(string $puzzleName, string $puzzleClass): string;
+
+    public function saveCategory(PuzzleCategory $category): PuzzleCategory;
 }
