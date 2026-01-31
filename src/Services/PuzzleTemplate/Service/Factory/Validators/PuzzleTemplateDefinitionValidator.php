@@ -53,8 +53,7 @@ class PuzzleTemplateDefinitionValidator
     ];
 
     public function __construct(
-        private readonly RouterInterface $router,
-        private readonly PuzzleTemplateConfigOptionValidator $configOptionValidator
+        private readonly RouterInterface $router
     ) {}
 
     /**
@@ -163,7 +162,7 @@ class PuzzleTemplateDefinitionValidator
                         );
                     } else {
                         foreach ($value as $configOption) {
-                            $this->configOptionValidator->validateConfigOption($configOption, $moduleName);
+                            PuzzleTemplateConfigOptionValidator::validateConfigOption($configOption, $moduleName);
                         }
                     }
                     break;

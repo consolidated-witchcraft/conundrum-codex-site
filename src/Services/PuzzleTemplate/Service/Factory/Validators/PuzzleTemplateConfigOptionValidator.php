@@ -41,7 +41,7 @@ class PuzzleTemplateConfigOptionValidator
      * @throws UnknownFieldTypeSpecifiedException
      * @throws UnknownConfigFieldTypeSpecifiedException
      */
-    public function validateConfigOption(array $configOptionDefinition, string $moduleName): void {
+    public static function validateConfigOption(array $configOptionDefinition, string $moduleName): void {
 
         self::validateRequiredFieldKeys($configOptionDefinition, $moduleName);
 
