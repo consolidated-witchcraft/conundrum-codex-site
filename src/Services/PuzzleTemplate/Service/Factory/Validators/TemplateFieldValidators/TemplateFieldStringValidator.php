@@ -9,6 +9,9 @@ use App\Services\PuzzleTemplate\Service\Factory\Validators\Exceptions\TemplateFi
 class TemplateFieldStringValidator implements TemplateFieldValidatorInterface
 {
 
+    /**
+     * @throws TemplateFieldScalarMismatchException
+     */
     public static function validate(mixed $value, string $fieldName, string $moduleName): void
     {
         if (!is_string($value)) {

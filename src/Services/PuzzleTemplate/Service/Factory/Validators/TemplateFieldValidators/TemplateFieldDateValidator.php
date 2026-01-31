@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Services\PuzzleTemplate\Service\Factory\Validators\TemplateFieldValidators;
 
 use App\Services\PuzzleTemplate\Service\Factory\Validators\Exceptions\TemplateFields\InvalidTemplateFieldDateTimeException;
@@ -8,6 +10,9 @@ use App\Services\PuzzleTemplate\Service\Factory\Validators\TemplateFieldValidato
 class TemplateFieldDateValidator implements TemplateFieldValidatorInterface
 {
 
+    /**
+     * @throws InvalidTemplateFieldDateTimeException
+     */
     public static function validate(mixed $value, string $fieldName, string $moduleName): void
     {
         try {

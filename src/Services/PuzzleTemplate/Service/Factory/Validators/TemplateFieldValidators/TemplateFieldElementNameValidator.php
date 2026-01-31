@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Services\PuzzleTemplate\Service\Factory\Validators\TemplateFieldValidators;
 
 use App\Services\PuzzleTemplate\Service\Factory\Validators\Exceptions\TemplateFields\TemplateFieldInvalidPatternException;
@@ -9,6 +11,9 @@ class TemplateFieldElementNameValidator implements TemplateFieldValidatorInterfa
 
     private const string ELEMENT_NAME_REGEX = '/^[a-z0-9-]+$/';
 
+    /**
+     * @throws TemplateFieldInvalidPatternException
+     */
     public static function validate(mixed $value, string $fieldName, string $moduleName): void
     {
         if (preg_match(self::ELEMENT_NAME_REGEX, $value) !== 1) {

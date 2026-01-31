@@ -10,6 +10,9 @@ class TemplateFieldSlugValidator implements TemplateFieldValidatorInterface
 {
     private const string SLUG_REGEX = '/^[a-z0-9_]+$/';
 
+    /**
+     * @throws TemplateFieldInvalidPatternException
+     */
     public static function validate(mixed $value, string $fieldName, string $moduleName): void
     {
         if (!preg_match(self::SLUG_REGEX, $value)) {
