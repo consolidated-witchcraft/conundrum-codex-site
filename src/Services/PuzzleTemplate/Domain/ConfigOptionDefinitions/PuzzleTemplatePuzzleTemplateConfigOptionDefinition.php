@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace App\Services\PuzzleTemplate\Domain;
+namespace App\Services\PuzzleTemplate\Domain\ConfigOptionDefinitions;
 
-readonly class PuzzleTemplateConfigOptionDefinition
+readonly class PuzzleTemplatePuzzleTemplateConfigOptionDefinition implements PuzzleTemplateConfigOptionDefinitionInterface
 {
     public function __construct(
         private string $configName,

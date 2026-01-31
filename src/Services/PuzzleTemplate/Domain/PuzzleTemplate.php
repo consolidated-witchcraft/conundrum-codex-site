@@ -2,6 +2,7 @@
 
 namespace App\Services\PuzzleTemplate\Domain;
 
+use App\Services\PuzzleTemplate\Domain\ConfigOptionDefinitions\PuzzleTemplateConfigOptionDefinitionInterface;
 use App\Services\PuzzleTemplate\Domain\Exceptions\NonStaticConfigurationAttemptException;
 use App\Services\PuzzleTemplate\Domain\Exceptions\RoutelessStaticConfigurationAttemptException;
 use Doctrine\Common\Collections\ArrayCollection;
@@ -19,7 +20,7 @@ readonly class PuzzleTemplate
      * @param bool $static
      * @param string $elementName
      * @param PuzzleCredit[] $credits
-     * @param array<int, PuzzleTemplateConfigOptionDefinition> $configuration
+     * @param array<int, PuzzleTemplateConfigOptionDefinitionInterface> $configuration
      * @param non-empty-string|null $staticCreateRoute
      * @param non-empty-string|null $staticEditRoute
      * @param non-empty-string|null $staticPlayRoute
@@ -99,7 +100,7 @@ readonly class PuzzleTemplate
     }
 
     /**
-     * @return PuzzleTemplateConfigOptionDefinition[]
+     * @return PuzzleTemplateConfigOptionDefinitionInterface[]
      */
     public function getConfiguration(): array
     {

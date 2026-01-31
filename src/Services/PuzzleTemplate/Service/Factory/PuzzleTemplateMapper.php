@@ -5,12 +5,10 @@ declare(strict_types=1);
 namespace App\Services\PuzzleTemplate\Service\Factory;
 
 use App\Services\Core\Domain\Exceptions\InvalidHandleException;
+use App\Services\PuzzleTemplate\Domain\ConfigOptionDefinitions\PuzzleTemplatePuzzleTemplateConfigOptionDefinition;
 use App\Services\PuzzleTemplate\Domain\PuzzleCategory;
 use App\Services\PuzzleTemplate\Domain\PuzzleCredit;
 use App\Services\PuzzleTemplate\Domain\PuzzleTemplate;
-use App\Services\PuzzleTemplate\Domain\PuzzleTemplateConfigOptionDefinition;
-
-use App\Services\PuzzleTemplate\Service\Interfaces\PuzzleTemplateServiceInterface;
 use App\Services\PuzzleTemplate\Service\PuzzleCategoryServiceInterface;
 use Doctrine\Common\Collections\ArrayCollection;
 
@@ -53,7 +51,7 @@ class PuzzleTemplateMapper
     public static function mapConfigOptions(array $configOptionDefinitions): array {
         $configOptions = [];
         foreach ($configOptionDefinitions as $configOptionDefinition) {
-            $configOptions[] = new PuzzleTemplateConfigOptionDefinition(
+            $configOptions[] = new PuzzleTemplatePuzzleTemplateConfigOptionDefinition(
                 configName: $configOptionDefinition['configName'],
                 label: $configOptionDefinition['label'],
                 type: $configOptionDefinition['type'],

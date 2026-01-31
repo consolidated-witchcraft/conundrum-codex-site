@@ -8,11 +8,11 @@ use App\Services\PuzzleTemplate\Domain\PuzzleCategory;
 use App\Services\PuzzleTemplate\Infrastructure\PuzzleCategoryRepository;
 use Doctrine\ORM\EntityManagerInterface;
 
-class PuzzleCategoryService implements PuzzleCategoryServiceInterface
+readonly class PuzzleCategoryService implements PuzzleCategoryServiceInterface
 {
     public function __construct(
-        private readonly PuzzleCategoryRepository $repository,
-        private readonly EntityManagerInterface $entityManager
+        private PuzzleCategoryRepository $repository,
+        private EntityManagerInterface   $entityManager
     ) {}
 
     public function getAllCategories(): iterable
