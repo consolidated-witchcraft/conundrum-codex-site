@@ -8,12 +8,13 @@ use App\Services\PuzzleTemplate\Service\Factory\Validators\Exceptions\ConfigFiel
 use App\Services\PuzzleTemplate\Service\Factory\Validators\Exceptions\ConfigFieldTypeScalarMismatchException;
 use App\Services\PuzzleTemplate\Service\Factory\Validators\Exceptions\InvalidConfigOptionDefinitionException;
 use App\Services\PuzzleTemplate\Service\Factory\Validators\Exceptions\MissingConfigOptionSubfieldException;
+use App\Services\PuzzleTemplate\Service\Factory\Validators\Exceptions\UnknownConfigFieldTypeSpecifiedException;
 use App\Services\PuzzleTemplate\Service\Factory\Validators\Exceptions\UnknownFieldSpecifiedException;
 use App\Services\PuzzleTemplate\Service\Factory\Validators\Exceptions\UnknownFieldTypeSpecifiedException;
 
 class PuzzleTemplateConfigOptionValidator
 {
-    private const array CONFIG_OPTION_FIELDS = [
+    private const array REQUIRED_CONFIG_OPTION_FIELDS = [
         'configName' => 'configName',
         'label' => 'string',
         'type' => 'type'
@@ -29,26 +30,18 @@ class PuzzleTemplateConfigOptionValidator
     private const string CONFIG_NAME_REGEX = '/^[a-z0-9_]+$/';
 
     /**
-     * @throws InvalidConfigOptionDefinitionException
      * @throws UnknownFieldSpecifiedException
      * @throws ConfigFieldTypeScalarMismatchException
      * @throws MissingConfigOptionSubfieldException
      * @throws ConfigFieldTypeInvalidPatternException
      * @throws UnknownFieldTypeSpecifiedException
+     * @throws UnknownConfigFieldTypeSpecifiedException
      */
     public function validateConfigOption(array $configOptionDefinition, string $moduleName): void {
-        foreach (self::CONFIG_OPTION_FIELDS as $fieldName => $type) {
-            if (!isset($configOptionDefinition[$fieldName])) {
-                throw new MissingConfigOptionSubfieldException(
-                    subfieldName: $fieldName,
-                    moduleName: $moduleName
-                );
-            }
 
-            if (!in_array($configOptionDefinition['type'], self::KNOWN_CONFIG_OPTION_TYPES)) {
-                throw new InvalidConfigOptionDefinitionException(sprintf("Invalid Config option. The type '%s' is not known", $configOptionDefinition['type']));
-            }
-
+        $this->validateRequiredFieldKeys($configOptionDefinition, $moduleName);
+        $this->validateConfigFieldTypesKnown($configOptionDefinition, $moduleName);
+        foreach (self::REQUIRED_CONFIG_OPTION_FIELDS as $fieldName => $type) {
             switch ($type) {
                 case 'configName':
                     if (!preg_match(self::CONFIG_NAME_REGEX, $configOptionDefinition['configName'])) {
@@ -59,6 +52,7 @@ class PuzzleTemplateConfigOptionValidator
                         );
                     }
                     break;
+
                 case 'string':
                     if (!is_string($configOptionDefinition[$fieldName])) {
                         throw new ConfigFieldTypeScalarMismatchException(
@@ -69,6 +63,7 @@ class PuzzleTemplateConfigOptionValidator
                         );
                     }
                     break;
+
                 case 'type':
                     if (!in_array($configOptionDefinition[$fieldName], self::KNOWN_CONFIG_OPTION_TYPES)) {
                         throw new UnknownFieldSpecifiedException(
@@ -77,6 +72,7 @@ class PuzzleTemplateConfigOptionValidator
                         );
                     }
                     break;
+
                 case 'boolean':
                     if (!is_bool($configOptionDefinition[$fieldName])) {
                         throw new ConfigFieldTypeScalarMismatchException(
@@ -87,11 +83,41 @@ class PuzzleTemplateConfigOptionValidator
                         );
                     }
                     break;
+
                 default:
                     throw new UnknownFieldTypeSpecifiedException(
                         unknownFieldType: $type,
                         moduleName: $moduleName,
                     );
+            }
+        }
+    }
+
+    /**
+     * @throws MissingConfigOptionSubfieldException
+     */
+    private function validateRequiredFieldKeys(array $configOptionDefinition, string $moduleName): void {
+        foreach (self::REQUIRED_CONFIG_OPTION_FIELDS as $fieldName => $type) {
+            if (!isset($configOptionDefinition[$fieldName])) {
+                throw new MissingConfigOptionSubfieldException(
+                    subfieldName: $fieldName,
+                    moduleName: $moduleName
+                );
+            }
+        }
+    }
+
+    /**
+     * @throws UnknownConfigFieldTypeSpecifiedException
+     */
+    private function validateConfigFieldTypesKnown(array $configOptionDefinition, string $moduleName): void {
+        foreach (self::REQUIRED_CONFIG_OPTION_FIELDS as $fieldName => $type) {
+            if (!in_array($configOptionDefinition['type'], self::KNOWN_CONFIG_OPTION_TYPES)) {
+                throw new UnknownConfigFieldTypeSpecifiedException(
+                    unknownFieldType: (string) $configOptionDefinition['type'],
+                    configOptionName: $configOptionDefinition['configName'],
+                    moduleName: $moduleName,
+                );
             }
         }
     }

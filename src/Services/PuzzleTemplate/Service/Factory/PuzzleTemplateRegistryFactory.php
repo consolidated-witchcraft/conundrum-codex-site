@@ -43,6 +43,7 @@ class PuzzleTemplateRegistryFactory implements CacheWarmerInterface
 
     /**
      * @throws PuzzleTemplateRegistryBuildException
+     * @throws InvalidArgumentException
      */
     public function warmUp(string $cacheDir, ?string $buildDir = null): array
     {
@@ -51,7 +52,6 @@ class PuzzleTemplateRegistryFactory implements CacheWarmerInterface
     }
 
     /**
-     * @throws PuzzleTemplateRegistryBuildException
      * @throws InvalidArgumentException
      */
     public function generatePuzzleTemplateRegistry(bool $forceRefresh = false, bool $verbose = false): PuzzleTemplateRegistry {
@@ -68,7 +68,7 @@ class PuzzleTemplateRegistryFactory implements CacheWarmerInterface
                 try {
                     $this->moduleStructureValidator->validate($this->modulesDirectoryName, $directory->getFilename());
                 } catch (PuzzleTemplateModuleStructureValidationException $e) {
-                    $this->logger->critical($e->getMessage());
+                    $this->logger->error($e->getMessage());
                     if ($verbose) {
                         throw new PuzzleTemplateRegistryBuildException($e->getMessage(), $e->getCode(), $e);
                     }
@@ -79,7 +79,7 @@ class PuzzleTemplateRegistryFactory implements CacheWarmerInterface
                 try {
                     $templateDefinitionJson = json_decode(json: $templateDefinition, associative: true, flags: JSON_THROW_ON_ERROR);
                 } catch (\JsonException $e) {
-                    $this->logger->critical($e->getMessage());
+                    $this->logger->error($e->getMessage());
                     if ($verbose) {
                         throw new PuzzleTemplateRegistryBuildException($e->getMessage(), $e->getCode(), $e);
                     }
