@@ -4,13 +4,12 @@ declare(strict_types=1);
 
 namespace App\Tests\Unit\Services\PuzzleTemplate\Service\Factory\Validators;
 
-use App\Services\PuzzleTemplate\Service\Factory\Validators\Exceptions\ConfigFieldTypeInvalidPatternException;
-use App\Services\PuzzleTemplate\Service\Factory\Validators\Exceptions\ConfigFieldTypeScalarMismatchException;
-use App\Services\PuzzleTemplate\Service\Factory\Validators\Exceptions\InvalidConfigOptionDefinitionException;
-use App\Services\PuzzleTemplate\Service\Factory\Validators\Exceptions\MissingConfigOptionSubfieldException;
-use App\Services\PuzzleTemplate\Service\Factory\Validators\Exceptions\UnknownConfigFieldTypeSpecifiedException;
-use App\Services\PuzzleTemplate\Service\Factory\Validators\Exceptions\UnknownFieldSpecifiedException;
-use App\Services\PuzzleTemplate\Service\Factory\Validators\Exceptions\UnknownFieldTypeSpecifiedException;
+use App\Services\PuzzleTemplate\Service\Factory\Validators\Exceptions\ConfigOptions\ConfigOptionTypeInvalidPatternException;
+use App\Services\PuzzleTemplate\Service\Factory\Validators\Exceptions\ConfigOptions\ConfigOptionTypeScalarMismatchException;
+use App\Services\PuzzleTemplate\Service\Factory\Validators\Exceptions\ConfigOptions\MissingConfigOptionSubfieldException;
+use App\Services\PuzzleTemplate\Service\Factory\Validators\Exceptions\ConfigOptions\UnknownConfigOptionTypeSpecifiedException;
+use App\Services\PuzzleTemplate\Service\Factory\Validators\Exceptions\TemplateFields\UnknownFieldSpecifiedException;
+use App\Services\PuzzleTemplate\Service\Factory\Validators\Exceptions\TemplateFields\UnknownFieldTypeSpecifiedException;
 use App\Services\PuzzleTemplate\Service\Factory\Validators\PuzzleTemplateConfigOptionValidator;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
@@ -60,9 +59,9 @@ class PuzzleTemplateConfigOptionValidatorTest extends TestCase
      * @param string $expectedExceptionMessage
      * @return void
      * @throws MissingConfigOptionSubfieldException
-     * @throws ConfigFieldTypeInvalidPatternException
-     * @throws ConfigFieldTypeScalarMismatchException
-     * @throws UnknownFieldTypeSpecifiedException|UnknownConfigFieldTypeSpecifiedException
+     * @throws ConfigOptionTypeInvalidPatternException
+     * @throws ConfigOptionTypeScalarMismatchException
+     * @throws UnknownFieldTypeSpecifiedException|UnknownConfigOptionTypeSpecifiedException
      */
     #[DataProvider('provideFieldKeyTestData')]
     public function testValidateFieldKeys(
@@ -77,13 +76,13 @@ class PuzzleTemplateConfigOptionValidatorTest extends TestCase
     }
 
     /**
-     * @throws ConfigFieldTypeScalarMismatchException
+     * @throws ConfigOptionTypeScalarMismatchException
      * @throws MissingConfigOptionSubfieldException
-     * @throws ConfigFieldTypeInvalidPatternException
+     * @throws ConfigOptionTypeInvalidPatternException
      * @throws UnknownFieldTypeSpecifiedException
      */
     public function testValidateFieldUnknownType(): void {
-        $this->expectException(UnknownConfigFieldTypeSpecifiedException::class);
+        $this->expectException(UnknownConfigOptionTypeSpecifiedException::class);
         $this->expectExceptionMessage("An unknown subfield type 'unknowntype' was discovered in the config option named 'testname' in module 'testmodule'");
         $this->validator->validateConfigOption(
             [
@@ -103,7 +102,7 @@ class PuzzleTemplateConfigOptionValidatorTest extends TestCase
                 'configName' => 'testOName'
             ],
             'moduleName' => 'testmodule',
-            'expectedExceptionClass' => ConfigFieldTypeInvalidPatternException::class,
+            'expectedExceptionClass' => ConfigOptionTypeInvalidPatternException::class,
             'expectedExceptionMessage' => "The field definition 'configName' in template 'testmodule' is invalid: Config name keys may only contain lowercase letters, numbers, and underscores."
         ];
 
@@ -114,17 +113,17 @@ class PuzzleTemplateConfigOptionValidatorTest extends TestCase
                 'configName' => 'testname'
             ],
             'moduleName' => 'testmodule',
-            'expectedExceptionClass' => ConfigFieldTypeScalarMismatchException::class,
-            'expectedExceptionMessage' => "The field type 'label' defined in template 'testmodule' is invalid. Its expected type is string, its actual type is boolean"
+            'expectedExceptionClass' => ConfigOptionTypeScalarMismatchException::class,
+            'expectedExceptionMessage' => "The field 'label' defined in module 'testmodule' is invalid. Its expected type is string. Its actual type is boolean."
         ];
     }
 
     /**
-     * @throws ConfigFieldTypeScalarMismatchException
+     * @throws ConfigOptionTypeScalarMismatchException
      * @throws UnknownFieldSpecifiedException
      * @throws MissingConfigOptionSubfieldException
-     * @throws UnknownConfigFieldTypeSpecifiedException
-     * @throws ConfigFieldTypeInvalidPatternException
+     * @throws UnknownConfigOptionTypeSpecifiedException
+     * @throws ConfigOptionTypeInvalidPatternException
      * @throws UnknownFieldTypeSpecifiedException
      */
     #[DataProvider('provideInvalidFieldTypeScalarTestData')]

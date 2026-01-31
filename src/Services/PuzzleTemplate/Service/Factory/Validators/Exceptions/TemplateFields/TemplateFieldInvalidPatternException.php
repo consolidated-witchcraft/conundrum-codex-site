@@ -2,9 +2,11 @@
 
 declare(strict_types=1);
 
-namespace App\Services\PuzzleTemplate\Service\Factory\Validators\Exceptions;
+namespace App\Services\PuzzleTemplate\Service\Factory\Validators\Exceptions\TemplateFields;
 
-class ConfigFieldTypeInvalidPatternException extends AbstractTemplateDefinitionException
+use App\Services\PuzzleTemplate\Service\Factory\Validators\Exceptions\AbstractTemplateDefinitionException;
+
+class TemplateFieldInvalidPatternException extends AbstractTemplateDefinitionException
 {
     private const string MESSAGE_PATTERN = "The field definition '%s' in template '%s' is invalid: %s";
     public function __construct(string $fieldName, string $moduleName, string $infoMessage, int $code = 0, \Throwable $previous = null) {

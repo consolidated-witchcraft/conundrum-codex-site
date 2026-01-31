@@ -2,9 +2,11 @@
 
 declare(strict_types=1);
 
-namespace App\Services\PuzzleTemplate\Service\Factory\Validators\Exceptions;
+namespace App\Services\PuzzleTemplate\Service\Factory\Validators\Exceptions\ConfigOptions;
 
-class UnknownConfigFieldTypeSpecifiedException extends AbstractTemplateDefinitionException
+use App\Services\PuzzleTemplate\Service\Factory\Validators\Exceptions\AbstractTemplateDefinitionException;
+
+class UnknownConfigOptionTypeSpecifiedException extends AbstractTemplateDefinitionException
 {
     private const string ERROR_MESSAGE_PATTERN = "An unknown subfield type '%s' was discovered in the config option named '%s' in module '%s'";
 

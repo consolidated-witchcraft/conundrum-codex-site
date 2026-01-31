@@ -5,24 +5,26 @@ declare(strict_types=1);
 namespace App\Services\PuzzleTemplate\Service\Factory\Validators;
 
 use App\Services\PuzzleTemplate\Service\Factory\Exceptions\PuzzleTemplateRegistryBuildException;
-use App\Services\PuzzleTemplate\Service\Factory\Validators\Exceptions\ConfigFieldTypeInvalidPatternException;
-use App\Services\PuzzleTemplate\Service\Factory\Validators\Exceptions\ConfigFieldTypeScalarMismatchException;
-use App\Services\PuzzleTemplate\Service\Factory\Validators\Exceptions\InvalidDateTimeException;
-use App\Services\PuzzleTemplate\Service\Factory\Validators\Exceptions\InvalidEmailAddressException;
-use App\Services\PuzzleTemplate\Service\Factory\Validators\Exceptions\InvalidRouteException;
-use App\Services\PuzzleTemplate\Service\Factory\Validators\Exceptions\MissingRequiredTemplateFieldException;
-use App\Services\PuzzleTemplate\Service\Factory\Validators\Exceptions\MissingStaticRouteException;
-use App\Services\PuzzleTemplate\Service\Factory\Validators\Exceptions\UnknownFieldSpecifiedException;
+use App\Services\PuzzleTemplate\Service\Factory\Validators\Exceptions\ConfigOptions\ConfigOptionTypeInvalidPatternException;
+use App\Services\PuzzleTemplate\Service\Factory\Validators\Exceptions\ConfigOptions\ConfigOptionTypeScalarMismatchException;
+use App\Services\PuzzleTemplate\Service\Factory\Validators\Exceptions\TemplateFields\InvalidTemplateFieldRouteException;
+use App\Services\PuzzleTemplate\Service\Factory\Validators\Exceptions\TemplateFields\MissingRequiredTemplateFieldException;
+use App\Services\PuzzleTemplate\Service\Factory\Validators\Exceptions\TemplateFields\MissingTemplateFieldStaticRouteException;
+use App\Services\PuzzleTemplate\Service\Factory\Validators\Exceptions\TemplateFields\TemplateFieldScalarMismatchException;
+use App\Services\PuzzleTemplate\Service\Factory\Validators\Exceptions\TemplateFields\UnknownFieldSpecifiedException;
+use App\Services\PuzzleTemplate\Service\Factory\Validators\TemplateFieldValidators\TemplateFieldArrayValidator;
+use App\Services\PuzzleTemplate\Service\Factory\Validators\TemplateFieldValidators\TemplateFieldBooleanValidator;
+use App\Services\PuzzleTemplate\Service\Factory\Validators\TemplateFieldValidators\TemplateFieldDateValidator;
+use App\Services\PuzzleTemplate\Service\Factory\Validators\TemplateFieldValidators\TemplateFieldElementNameValidator;
+use App\Services\PuzzleTemplate\Service\Factory\Validators\TemplateFieldValidators\TemplateFieldEmailValidator;
+use App\Services\PuzzleTemplate\Service\Factory\Validators\TemplateFieldValidators\TemplateFieldSlugValidator;
+use App\Services\PuzzleTemplate\Service\Factory\Validators\TemplateFieldValidators\TemplateFieldStringValidator;
 use Symfony\Component\Routing\Exception\RouteNotFoundException;
 use Symfony\Component\Routing\RouterInterface;
 
 class PuzzleTemplateDefinitionValidator
 {
-    private const string SLUG_REGEX = '/^[a-z0-9_]+$/';
-
-    private const string ELEMENT_NAME_REGEX = '/^[a-z0-9-]+$/';
-
-    public const array REQUIRED_FIELDS = [
+    public const array REQUIRED_TEMPLATE_FIELDS = [
         'title',
         'created',
         'slug',
@@ -52,6 +54,12 @@ class PuzzleTemplateDefinitionValidator
         'elementName' => 'elementName'
     ];
 
+    private const array REQUIRED_STATIC_ROUTE_KEYS = [
+        'staticCreateRoute',
+        'staticEditRoute',
+        'staticPlayRoute'
+    ];
+
     public function __construct(
         private readonly RouterInterface $router
     ) {}
@@ -59,21 +67,22 @@ class PuzzleTemplateDefinitionValidator
     /**
      * @throws UnknownFieldSpecifiedException
      * @throws MissingRequiredTemplateFieldException
-     * @throws ConfigFieldTypeScalarMismatchException
-     * @throws ConfigFieldTypeInvalidPatternException
+     * @throws ConfigOptionTypeScalarMismatchException
+     * @throws ConfigOptionTypeInvalidPatternException
      * @throws PuzzleTemplateRegistryBuildException
      */
     public function validateJson(array $decodedJson, string $moduleName): void {
-        $this->validateRequiredFieldsPresent($decodedJson, $moduleName);
-        $this->validateAllFieldsKnown($decodedJson, $moduleName);
+        self::validateRequiredFieldsPresent($decodedJson, $moduleName);
+        self::validateAllFieldsKnown($decodedJson, $moduleName);
+        self::validateStaticRoutes($decodedJson, $moduleName);
         $this->validateFields($decodedJson, $moduleName);
     }
 
     /**
      * @throws MissingRequiredTemplateFieldException
      */
-    private function validateRequiredFieldsPresent(array $decodedJson, string $moduleName): void {
-        foreach (self::REQUIRED_FIELDS as $requiredField) {
+    private static function validateRequiredFieldsPresent(array $decodedJson, string $moduleName): void {
+        foreach (self::REQUIRED_TEMPLATE_FIELDS as $requiredField) {
             if (!isset($decodedJson[$requiredField])) {
                 throw new MissingRequiredTemplateFieldException($requiredField, $moduleName);
             }
@@ -83,7 +92,7 @@ class PuzzleTemplateDefinitionValidator
     /**
      * @throws UnknownFieldSpecifiedException
      */
-    private function validateAllFieldsKnown(array $decodedJson, string $moduleName): void {
+    private static function validateAllFieldsKnown(array $decodedJson, string $moduleName): void {
         foreach ($decodedJson as $key => $definition) {
             if (!in_array($key, array_keys(self::KNOWN_TEMPLATE_FIELDS))) {
                 throw new UnknownFieldSpecifiedException($key, $moduleName);
@@ -91,9 +100,22 @@ class PuzzleTemplateDefinitionValidator
         }
     }
 
+    public static function validateStaticRoutes(array $decodedJson, string $moduleName): void {
+        if ($decodedJson['static'] === true) {
+            foreach (self::REQUIRED_STATIC_ROUTE_KEYS as $requireStaticRouteKey) {
+                if (!isset($decodedJson[$requireStaticRouteKey]) || !is_string($decodedJson[$requireStaticRouteKey])) {
+                    throw new MissingTemplateFieldStaticRouteException(
+                        moduleName: $moduleName,
+                        routeKey: $requireStaticRouteKey
+                    );
+                }
+            }
+        }
+    }
+
     /**
-     * @throws ConfigFieldTypeInvalidPatternException
-     * @throws ConfigFieldTypeScalarMismatchException
+     * @throws ConfigOptionTypeInvalidPatternException
+     * @throws ConfigOptionTypeScalarMismatchException
      * @throws PuzzleTemplateRegistryBuildException
      */
     private function validateFields(array $decodedJson, string $moduleName): void {
@@ -101,60 +123,52 @@ class PuzzleTemplateDefinitionValidator
             $value = $decodedJson[$fieldName] ?? null;
             switch ($fieldType) {
                 case 'string':
-                    if (!is_string($value)) {
-                        throw new ConfigFieldTypeScalarMismatchException(
-                            fieldname: $fieldName,
-                            expectedType: 'string',
-                            actualType: gettype($value),
-                            moduleName: $moduleName
-                        );
-                    }
+                    TemplateFieldStringValidator::validate(
+                        value: $value,
+                        fieldName: $fieldName,
+                        moduleName: $moduleName
+                    );
                     break;
 
                 case 'slug':
-                    if (!preg_match(self::SLUG_REGEX, $value)) {
-                        throw new ConfigFieldTypeInvalidPatternException(
-                            fieldName: $fieldName,
-                            moduleName: $moduleName,
-                            infoMessage: "Slugs may only contain lowercase letters, numbers and underscores."
-                        );
-                    }
+                    TemplateFieldSlugValidator::validate(
+                        value: $value,
+                        fieldName: $fieldName,
+                        moduleName: $moduleName
+                    );
                     break;
                 case 'array':
-                    if (!is_array($value)) {
-                        throw new ConfigFieldTypeScalarMismatchException(
-                            fieldName: $fieldName,
-                            expectedType: 'array',
-                            actualType: gettype($value),
-                            moduleName: $moduleName
-                        );
-                    }
+                    TemplateFieldArrayValidator::validate(
+                        value: $value,
+                        fieldName: $fieldName,
+                        moduleName: $moduleName
+                    );
                     break;
                 case 'email':
-                    if (!filter_var($value, FILTER_VALIDATE_EMAIL)) {
-                        throw new InvalidEmailAddressException($fieldName, $moduleName);
-                    }
+                    TemplateFieldEmailValidator::validate(
+                        value: $value,
+                        fieldName: $fieldName,
+                        moduleName: $moduleName
+                    );
                     break;
                 case 'date':
-                    try {
-                        new \DateTime($value);
-                    } catch (\DateMalformedStringException $e) {
-                        throw new InvalidDateTimeException($fieldName, $moduleName);
-                    }
+                    TemplateFieldDateValidator::validate(
+                        value: $value,
+                        fieldName: $fieldName,
+                        moduleName: $moduleName
+                    );
                     break;
                 case 'boolean':
-                    if (!is_bool($value)) {
-                        throw new ConfigFieldTypeScalarMismatchException(
-                            fieldName: $fieldName,
-                            expectedType: 'boolean',
-                            actualType: gettype($value),
-                            moduleName: $moduleName
-                        );
-                    }
+                    TemplateFieldBooleanValidator::validate(
+                        value: $value,
+                        fieldName: $fieldName,
+                        moduleName: $moduleName
+                    );
+
                     break;
                 case 'configOptions':
                     if (!is_array($value)) {
-                        throw new ConfigFieldTypeScalarMismatchException(
+                        throw new TemplateFieldScalarMismatchException(
                             fieldName: $fieldName,
                             expectedType: 'array',
                             actualType: gettype($value),
@@ -169,11 +183,7 @@ class PuzzleTemplateDefinitionValidator
 
                 case 'route':
                     if ($value === null) {
-                        if ($decodedJson['static'] === true) {
-                            throw new MissingStaticRouteException($moduleName);
-                        } else {
-                            break;
-                        }
+                        throw new InvalidTemplateFieldRouteException($value, $moduleName);
                     }
                     try {
                         $this->router->generate($value, [
@@ -182,24 +192,17 @@ class PuzzleTemplateDefinitionValidator
                             'instanceCode' => 'test'
                         ]);
                     } catch (RouteNotFoundException $e) {
-                        throw new InvalidRouteException($value, $moduleName);
+                        throw new InvalidTemplateFieldRouteException($value, $moduleName, $e->getCode(), $e);
                     }
 
                     break;
                 case 'elementName':
-                    if (preg_match(self::ELEMENT_NAME_REGEX, $value) !== 1) {
-                        throw new ConfigFieldTypeInvalidPatternException(
-                            fieldName: $fieldName,
-                            moduleName: $moduleName,
-                            infoMessage: "Element names may only contain lowercase letters, numbers and hyphens."
-                        );
-                    }
-                    break;
-                default:
-                    throw new UnknownFieldSpecifiedException(
-                        $fieldName,
-                        $moduleName,
+                    TemplateFieldElementNameValidator::validate(
+                        value: $value,
+                        fieldName: $fieldName,
+                        moduleName: $moduleName
                     );
+                    break;
             }
         }
     }

@@ -2,7 +2,9 @@
 
 declare(strict_types=1);
 
-namespace App\Services\PuzzleTemplate\Service\Factory\Validators\Exceptions;
+namespace App\Services\PuzzleTemplate\Service\Factory\Validators\Exceptions\TemplateFields;
+
+use App\Services\PuzzleTemplate\Service\Factory\Validators\Exceptions\AbstractTemplateDefinitionException;
 
 class UnknownFieldSpecifiedException extends AbstractTemplateDefinitionException
 {

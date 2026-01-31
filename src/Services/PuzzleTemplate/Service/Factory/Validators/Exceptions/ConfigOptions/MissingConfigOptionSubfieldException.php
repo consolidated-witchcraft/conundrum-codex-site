@@ -1,6 +1,8 @@
 <?php
 
-namespace App\Services\PuzzleTemplate\Service\Factory\Validators\Exceptions;
+namespace App\Services\PuzzleTemplate\Service\Factory\Validators\Exceptions\ConfigOptions;
+
+use App\Services\PuzzleTemplate\Service\Factory\Validators\Exceptions\AbstractTemplateDefinitionException;
 
 class MissingConfigOptionSubfieldException extends AbstractTemplateDefinitionException
 {

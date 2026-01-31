@@ -4,11 +4,11 @@ declare(strict_types=1);
 
 namespace App\Services\PuzzleTemplate\Service\Factory\Validators;
 
-use App\Services\PuzzleTemplate\Service\Factory\Validators\Exceptions\ConfigFieldTypeInvalidPatternException;
-use App\Services\PuzzleTemplate\Service\Factory\Validators\Exceptions\ConfigFieldTypeScalarMismatchException;
-use App\Services\PuzzleTemplate\Service\Factory\Validators\Exceptions\MissingConfigOptionSubfieldException;
-use App\Services\PuzzleTemplate\Service\Factory\Validators\Exceptions\UnknownConfigFieldTypeSpecifiedException;
-use App\Services\PuzzleTemplate\Service\Factory\Validators\Exceptions\UnknownFieldTypeSpecifiedException;
+use App\Services\PuzzleTemplate\Service\Factory\Validators\Exceptions\ConfigOptions\ConfigOptionTypeInvalidPatternException;
+use App\Services\PuzzleTemplate\Service\Factory\Validators\Exceptions\ConfigOptions\ConfigOptionTypeScalarMismatchException;
+use App\Services\PuzzleTemplate\Service\Factory\Validators\Exceptions\ConfigOptions\MissingConfigOptionSubfieldException;
+use App\Services\PuzzleTemplate\Service\Factory\Validators\Exceptions\ConfigOptions\UnknownConfigOptionTypeSpecifiedException;
+use App\Services\PuzzleTemplate\Service\Factory\Validators\Exceptions\TemplateFields\UnknownFieldTypeSpecifiedException;
 
 class PuzzleTemplateConfigOptionValidator
 {
@@ -35,11 +35,11 @@ class PuzzleTemplateConfigOptionValidator
     private const string CONFIG_NAME_REGEX = '/^[a-z0-9_]+$/';
 
     /**
-     * @throws ConfigFieldTypeScalarMismatchException
+     * @throws ConfigOptionTypeScalarMismatchException
      * @throws MissingConfigOptionSubfieldException
-     * @throws ConfigFieldTypeInvalidPatternException
+     * @throws ConfigOptionTypeInvalidPatternException
      * @throws UnknownFieldTypeSpecifiedException
-     * @throws UnknownConfigFieldTypeSpecifiedException
+     * @throws UnknownConfigOptionTypeSpecifiedException
      */
     public static function validateConfigOption(array $configOptionDefinition, string $moduleName): void {
 
@@ -79,11 +79,11 @@ class PuzzleTemplateConfigOptionValidator
 
 
     /**
-     * @throws ConfigFieldTypeInvalidPatternException
+     * @throws ConfigOptionTypeInvalidPatternException
      */
     public static function validateConfigNameField(string $fieldName, string $configName, string $moduleName): void {
         if (!preg_match(self::CONFIG_NAME_REGEX, $configName)) {
-            throw new ConfigFieldTypeInvalidPatternException(
+            throw new ConfigOptionTypeInvalidPatternException(
                 fieldName: $fieldName,
                 moduleName: $moduleName,
                 infoMessage: "Config name keys may only contain lowercase letters, numbers, and underscores."
@@ -106,11 +106,11 @@ class PuzzleTemplateConfigOptionValidator
     }
 
     /**
-     * @throws UnknownConfigFieldTypeSpecifiedException
+     * @throws UnknownConfigOptionTypeSpecifiedException
      */
     private static function validateConfigFieldTypeKnown(array $configOptionDefinition, string $moduleName): void {
         if (!in_array($configOptionDefinition['type'], self::KNOWN_CONFIG_OPTION_TYPES)) {
-            throw new UnknownConfigFieldTypeSpecifiedException(
+            throw new UnknownConfigOptionTypeSpecifiedException(
                 unknownFieldType: (string) $configOptionDefinition['type'],
                 configOptionName: $configOptionDefinition['configName'],
                 moduleName: $moduleName,
@@ -119,11 +119,11 @@ class PuzzleTemplateConfigOptionValidator
     }
 
     /**
-     * @throws ConfigFieldTypeScalarMismatchException
+     * @throws ConfigOptionTypeScalarMismatchException
      */
     private static function validateStringField(string $fieldName, mixed $fieldValue, string $moduleName): void {
         if (!is_string($fieldValue)) {
-            throw new ConfigFieldTypeScalarMismatchException(
+            throw new ConfigOptionTypeScalarMismatchException(
                 fieldName: $fieldName,
                 expectedType: 'string',
                 actualType: gettype($fieldValue),

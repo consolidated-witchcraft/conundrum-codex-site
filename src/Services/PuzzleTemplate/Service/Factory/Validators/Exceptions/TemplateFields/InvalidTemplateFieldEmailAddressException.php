@@ -1,8 +1,10 @@
 <?php
 
-namespace App\Services\PuzzleTemplate\Service\Factory\Validators\Exceptions;
+namespace App\Services\PuzzleTemplate\Service\Factory\Validators\Exceptions\TemplateFields;
 
-class InvalidEmailAddressException extends AbstractTemplateDefinitionException
+use App\Services\PuzzleTemplate\Service\Factory\Validators\Exceptions\AbstractTemplateDefinitionException;
+
+class InvalidTemplateFieldEmailAddressException extends AbstractTemplateDefinitionException
 {
     private const string MESSAGE_PATTERN = "The field '%s' defined in template '%s' is not a valid email address.";
     public function __construct(string $fieldName, string $moduleName, int $code = 0, \Throwable $previous = null) {
