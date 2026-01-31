@@ -27,7 +27,12 @@ class PuzzleTemplateRegistry implements PuzzleTemplateRegistryInterface
 
     public function getTemplate(string $slug): ?PuzzleTemplate
     {
-        return $this->templates[$slug] ?? null;
+        foreach ($this->templates as $template) {
+            if ($template->getSlug() === $slug) {
+                return $template;
+            }
+        }
+        return null;
     }
 
     /**
