@@ -5,12 +5,10 @@ declare(strict_types=1);
 namespace App\Dto\Visitor\Puzzles\Dynamic;
 
 use App\Dto\Visitor\Puzzles\Dynamic\Exceptions\NonExistentOffsetSetGetException;
-use App\Services\Puzzle\Domain\ConfigOptionDefinition;
-use App\Services\Puzzle\Domain\Exceptions\AttemptingToConfigureNonExistentFieldException;
-use App\Services\Puzzle\Domain\Interfaces\DynamicPuzzleInstanceInterface;
-use App\Services\Puzzle\Domain\Interfaces\PuzzleInstanceInterface;
-use App\Services\Puzzle\Domain\PuzzleInstance;
-use App\Services\Puzzle\Domain\PuzzleTemplate;
+use App\Services\PuzzleTemplate\Domain\Exceptions\AttemptingToConfigureNonExistentFieldException;
+use App\Services\PuzzleInstance\Domain\Interfaces\DynamicPuzzleInstanceInterface;
+
+use App\Services\PuzzleTemplate\Domain\PuzzleTemplate;
 use App\Validator as CustomAssert;
 
 /**

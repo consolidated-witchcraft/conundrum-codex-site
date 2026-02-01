@@ -21,7 +21,12 @@ class ChooseGameDto
         #[Assert\NotBlank]
         #[Assert\Length(min: 10, max: 255)]
         #[Groups(['basic'])]
-        public ? string $puzzleName = null
+        public ? string $puzzleName = null,
+
+        #[Assert\NotBlank]
+        #[Assert\Length(min: 10, max: 1024)]
+        #[Groups(['basic'])]
+        public ? string $description = null
     ) {}
 
 }

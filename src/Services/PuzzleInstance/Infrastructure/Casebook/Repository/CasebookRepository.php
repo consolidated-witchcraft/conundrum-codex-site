@@ -71,4 +71,9 @@ class CasebookRepository extends ServiceEntityRepository implements StaticPuzzle
     {
         return $this->findBySlug($instanceCode);
     }
+
+    public function generateNewInstanceCode(?string $candidateInstanceCode, int $attempts = 0): string
+    {
+        // TODO: Implement generateNewInstanceCode() method.
+    }
 }

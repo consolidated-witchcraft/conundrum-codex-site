@@ -4,10 +4,12 @@ declare(strict_types=1);
 
 namespace App\Services\PuzzleInstance\Service\Interfaces;
 
+use App\ApiResource\PuzzleInstance\Dynamic\Dto\DynamicPuzzleInstanceDto;
 use App\Services\Core\Service\Interfaces\DomainServiceInterface;
 use App\Services\Game\Domain\Game;
 use App\Services\PuzzleInstance\Domain\Interfaces\PuzzleInstanceInterface;
 use App\Services\PuzzleInstance\Domain\Interfaces\StaticPuzzleInstanceInterface;
+use App\Services\PuzzleTemplate\Domain\PuzzleTemplate;
 use App\Services\PuzzleTemplate\Service\Exceptions\TemplateNotFoundException;
 use Doctrine\Common\Collections\ArrayCollection;
 
@@ -29,4 +31,6 @@ interface PuzzleInstanceServiceInterface extends DomainServiceInterface
      * @return ArrayCollection<int, StaticPuzzleInstanceInterface>
      */
     public function getStaticPuzzleInstancesForGame(Game $game): ArrayCollection;
+
+    public function generateNewInstanceCode(PuzzleTemplate $puzzleTemplate): string;
 }

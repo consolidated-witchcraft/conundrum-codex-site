@@ -29,5 +29,6 @@ readonly class PuzzleCategoryService implements PuzzleCategoryServiceInterface
     {
         $this->entityManager->persist($category);
         $this->entityManager->flush();
+        return $category;
     }
 }

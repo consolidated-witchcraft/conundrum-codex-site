@@ -25,11 +25,14 @@ class PuzzleTemplateConfigOptionValidator
      * These are the valid value for the 'type' field in the above config option field.
      */
     private const array KNOWN_CONFIG_OPTION_TYPES = [
-        'text',
+        'string',
+        'integer',
         'stringArray',
+        'integerArray',
         'dieRoll',
         'route',
         'boolean',
+        'booleanArray',
     ];
 
     private const string CONFIG_NAME_REGEX = '/^[a-z0-9_]+$/';

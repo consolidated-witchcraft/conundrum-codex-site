@@ -4,11 +4,15 @@ declare(strict_types=1);
 
 namespace App\Services\PuzzleInstance\Service;
 
+use App\ApiResource\PuzzleInstance\Dynamic\Dto\DynamicPuzzleInstanceDto;
 use App\Services\Game\Domain\Game;
+use App\Services\PuzzleInstance\Domain\Interfaces\PuzzleInstanceCodeProviderInterface;
+use App\Services\PuzzleInstance\Service\Exceptions\AttemptingToGenerateDtoForStaticPuzzleException;
 use App\Services\PuzzleTemplate\Domain\Exceptions\MismappedPuzzleTemplateException;
 use App\Services\PuzzleInstance\Domain\Interfaces\PuzzleInstanceInterface;
 use App\Services\PuzzleInstance\Domain\Interfaces\StaticPuzzleInstanceInterface;
 use App\Services\PuzzleInstance\Infrastructure\PuzzleInstanceRepository;
+use App\Services\PuzzleTemplate\Domain\PuzzleTemplate;
 use App\Services\PuzzleTemplate\Service\Exceptions\TemplateNotFoundException;
 use App\Services\PuzzleTemplate\Service\Interfaces\PuzzleTemplateRegistryInterface;
 use App\Services\PuzzleInstance\Service\Interfaces\PuzzleInstanceServiceInterface;
@@ -43,7 +47,6 @@ class PuzzleInstanceService implements PuzzleInstanceServiceInterface
             $this->staticInstanceProviders[$provider->providesTemplateInstances()] = $provider;
         }
     }
-
 
     /**
      * @throws TemplateNotFoundException
@@ -105,5 +108,12 @@ class PuzzleInstanceService implements PuzzleInstanceServiceInterface
             throw new MismappedPuzzleTemplateException(sprintf("Could not find a template with slug %s", $puzzleInstance->getTemplateSlug()));
         }
         $puzzleInstance->setTemplate($template);
+    }
+
+    public function generateNewInstanceCode(PuzzleTemplate $puzzleTemplate): string
+    {
+        if ($puzzleTemplate->isStatic()) {
+            
+        }
     }
 }

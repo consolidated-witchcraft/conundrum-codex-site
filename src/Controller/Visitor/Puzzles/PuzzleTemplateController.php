@@ -43,15 +43,15 @@ final class PuzzleTemplateController extends AbstractPuzzleController
 
         $pageVars = [
             'pageTitle' => 'Puzzles and Tools',
-            'templates' => $this->puzzleService->getTemplates(),
-            'categories' => $this->puzzleService->getAllCategories(),
+            'templates' => $this->puzzleTemplateService->getTemplates(),
+            'categories' => $this->puzzleTemplateService->getAllCategories(),
         ];
         return $this->render('/visitor/puzzles/templates/index.html.twig', $this->populatePageVars($pageVars, $request));
     }
 
     #[Route('/puzzles/templates/{templateSlug}', name: 'app.puzzles.template.show')]
     public function templateGet(string $templateSlug, Request $request): Response {
-        $template = $this->puzzleService->getTemplateBySlug($templateSlug);
+        $template = $this->puzzleTemplateService->getTemplateBySlug($templateSlug);
 
         if (!$template) {
             throw $this->createNotFoundException('Template not found');
@@ -83,7 +83,7 @@ final class PuzzleTemplateController extends AbstractPuzzleController
 
     #[Route('/puzzles/categories/{categorySlug}', name: 'app.puzzles.categorySlug.show')]
     public function categoryGet(string $categorySlug, Request $request): Response {
-        $category = $this->puzzleService->getCategoryBySlug($categorySlug);
+        $category = $this->puzzleTemplateService->getCategoryBySlug($categorySlug);
 
         if (!$category) {
             throw $this->createNotFoundException('Category not found');
@@ -91,7 +91,7 @@ final class PuzzleTemplateController extends AbstractPuzzleController
 
         $pageVars = [
             'pageTitle' => $category->getLabel(),
-            'templates' => $this->puzzleService->getTemplatesByCategory($category),
+            'templates' => $this->puzzleTemplateService->getTemplatesByCategory($category),
 
             'breadcrumbs' => [
                 [

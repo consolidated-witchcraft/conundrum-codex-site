@@ -1,0 +1,66 @@
+{
+    "title": "Test Type",
+    "slug": "test_type",
+    "description": "This is a test type puzzle",
+    "categories": [
+        "test"
+    ],
+    "type": "test",
+    "created": "2025-09-17",
+    "static": false,
+    "creator": "sam.baynham@gmail.com",
+    "elementName": "test-element",
+    "credits": [
+        {
+            "name": "Sam Baynham",
+            "email": "sam.baynham@gmail.com",
+            "created": "Code, Styling"
+        }
+    ],
+
+    "configOptions": [
+        {
+            "configName": "string",
+            "label": "A String field",
+            "type": "string",
+            "helpText": "A string field"
+        },
+
+        {
+            "configName": "dir_roll",
+            "label": "Die Roll",
+            "type": "dieRoll",
+            "helpText": "A Die Roll Field"
+        },
+        {
+            "configName": "string_array",
+            "label": "String Array",
+            "type": "stringArray",
+            "helpText": "An array of strings"
+        },
+        {
+            "configName": "integer",
+            "label": "Int",
+            "type": "integer",
+            "helpText": "An Integer field"
+        },
+        {
+            "configName": "integer_array",
+            "label": "Int Array",
+            "type": "integerArray",
+            "helpText": "An array of Integers"
+        },
+        {
+            "configName": "boolean",
+            "label": "Boolean",
+            "type": "boolean",
+            "helpText": "A boolean field"
+        },
+        {
+            "configName": "boolean_array",
+            "label": "Boolean Array",
+            "type": "booleanArray",
+            "helpText": "An array of Booleans"
+        }
+    ]
+}

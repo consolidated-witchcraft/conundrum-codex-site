@@ -45,7 +45,7 @@ class CasebookSubjectController extends AbstractPuzzleController
         FilesServiceInterface $filesService,
     ) {
         parent::__construct(
-            puzzleService: $puzzleService, serializer: $serializer, entityManager:  $entityManager, slugger: $slugger, validator: $validator, filesService: $filesService);
+            puzzleTemplateService: $puzzleService, serializer: $serializer, entityManager:  $entityManager, slugger: $slugger, validator: $validator, filesService: $filesService);
     }
     #[IsGranted(GameManagerVoter::MANAGE_GAME_ACTION, 'game')]
     #[Route('games/{gameSlug}/puzzles/static/{templateSlug}/{instanceCode}/subjects/add', name: 'app.puzzles.static.casebook.subjects.add')]

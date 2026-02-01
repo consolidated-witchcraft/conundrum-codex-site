@@ -43,7 +43,7 @@ class CasebookPuzzleController extends AbstractPuzzleController
         if ($form->isSubmitted() && $form->isValid()) {
             $casebook = new Casebook(
                 name: $dto->puzzleName,
-                slug: $this->puzzleService->generatePuzzleSlug($options->puzzleName, Casebook::class),
+                slug: $this->puzzleTemplateService->generatePuzzleSlug($options->puzzleName, Casebook::class),
                 game: $game,
                 brief: $dto->brief
             );

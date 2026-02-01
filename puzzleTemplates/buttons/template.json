@@ -22,19 +22,19 @@
         {
             "configName": "clue",
             "label": "Clue",
-            "type": "text",
+            "type": "string",
             "helpText": " A clue that will be presented to the player."
         },
         {
             "configName": "success_message",
             "label": "Success Message",
-            "type": "text",
+            "type": "string",
             "helpText": " A message that will be presented to the player when they successfully solve the puzzle."
         },
         {
             "configName": "failure_message",
             "label": "Failure Message",
-            "type": "text",
+            "type": "string",
             "helpText": " A message that will be presented to the player if they submit an incorrect solution to the puzzle."
         },
         {

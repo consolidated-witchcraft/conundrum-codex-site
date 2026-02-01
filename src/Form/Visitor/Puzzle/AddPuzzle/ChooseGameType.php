@@ -10,6 +10,7 @@ use Symfony\Bundle\SecurityBundle\Security;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -47,6 +48,13 @@ class ChooseGameType extends AbstractType
                             'minlength' => 10,
                             'maxlength' => 255
                         ]
+                    ]
+                )
+                ->add(
+                    'description',
+                    TextAreaType::class,
+                    [
+                        'help' => 'Give your puzzle an Evocative description that will give your players some flavour.',
                     ]
                 )
                 ->add(

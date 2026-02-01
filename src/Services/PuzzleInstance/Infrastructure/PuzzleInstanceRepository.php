@@ -35,4 +35,9 @@ class PuzzleInstanceRepository extends ServiceEntityRepository implements Puzzle
             return $this->decollideInstanceCode($candidateInstanceCode, $attempts);
         }
     }
+
+    public function generateNewInstanceCode(?string $candidateInstanceCode, int $attempts = 0): string
+    {
+        // TODO: Implement generateNewInstanceCode() method.
+    }
 }

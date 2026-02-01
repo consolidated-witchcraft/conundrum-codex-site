@@ -38,7 +38,7 @@ class RebuildpuzzleTemplateCacheCommand extends Command
 
         $io->info('Rebuilding Puzzle Template Cache');
         try {
-            $this->factory->generatePuzzleTemplateRegistry(true, true);
+            $this->factory->generatePuzzleTemplateRegistry(forceRefresh: true, verbose: true);
         } catch (PuzzleTemplateRegistryBuildException $e){
             $io->error($e->getMessage());
             return Command::FAILURE;

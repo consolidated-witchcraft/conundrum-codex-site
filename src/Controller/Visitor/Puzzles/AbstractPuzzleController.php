@@ -6,6 +6,7 @@ namespace App\Controller\Visitor\Puzzles;
 
 use App\Controller\AbstractBaseController;
 use App\Services\Files\Service\Interfaces\FilesServiceInterface;
+use App\Services\PuzzleInstance\Service\Interfaces\PuzzleInstanceServiceInterface;
 use App\Services\PuzzleTemplate\Service\Interfaces\PuzzleTemplateServiceInterface;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Serializer\SerializerInterface;
@@ -18,7 +19,8 @@ abstract class AbstractPuzzleController extends AbstractBaseController
     public const string ADD_TO_GAME_SESSION_KEY = 'add-to-game';
 
     public function __construct(
-        protected readonly PuzzleTemplateServiceInterface $puzzleService,
+        protected readonly PuzzleTemplateServiceInterface $puzzleTemplateService,
+        protected readonly PuzzleInstanceServiceInterface $puzzleInstanceService,
         protected readonly SerializerInterface $serializer,
         protected readonly EntityManagerInterface $entityManager,
         protected readonly SluggerInterface $slugger,
