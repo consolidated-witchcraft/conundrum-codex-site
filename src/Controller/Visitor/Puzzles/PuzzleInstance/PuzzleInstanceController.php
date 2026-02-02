@@ -9,6 +9,7 @@ use App\Controller\Visitor\Puzzles\PuzzleInstance\Traits\GeneratesDynamicPuzzleI
 use App\Dto\Visitor\Puzzles\Dynamic\DynamicPuzzleConfigDto;
 use App\Dto\Visitor\Puzzles\PublishPuzzleInstanceDto;
 use App\Form\Type\DieRollType;
+use App\Form\Visitor\DeletePuzzleInstanceType;
 use App\Form\Visitor\PublishPuzzleInstanceType;
 use App\Security\GameManagerVoter;
 use App\Security\GamePlayerVoter;
@@ -140,5 +141,30 @@ class PuzzleInstanceController extends AbstractPuzzleController
             }
             throw new MismappedPuzzleTemplateException("Puzzle instance is not static, but does not implement DynamicPuzzleInstanceInterface");
         }
+    }
+
+    #[IsGranted(GameManagerVoter::MANAGE_GAME_ACTION, 'game')]
+    #[Route('/games/{gameSlug}/puzzles/{templateSlug}/{instanceCode}/delete', name: 'app.games.puzzles.instance.delete')]
+    public function deleteInstance(
+        Game $game,
+        PuzzleTemplate $puzzleTemplate,
+        PuzzleInstanceInterface $puzzleInstance,
+        Request $request
+    ) {
+        $form = $this->createForm(DeletePuzzleInstanceType::class);
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()) {
+            $this->puzzleInstanceService->deleteInstance($puzzleInstance);
+            $this->addFlash('success', 'Puzzle instance deleted!');
+            return $this->redirectToRoute('app.games.manage', [
+                'gameSlug' => $game->getSlug(),
+            ]);
+        }
+        $pageVars = [
+            'pageTitle' => sprintf("Really delete puzzle %s", $puzzleInstance->getName()),
+            'form' => $form
+        ];
+        return $this->render('/visitor/puzzleInstances/delete.html.twig', $this->populatePageVars($pageVars, $request));
+
     }
 }

@@ -19,6 +19,7 @@ class DynamicInstanceDataMapper implements DataMapperInterface
      */
     public function mapDataToForms(mixed $viewData, \Traversable $forms): void
     {
+        dd($viewData);
     }
 
     /**

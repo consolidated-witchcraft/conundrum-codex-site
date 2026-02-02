@@ -68,7 +68,8 @@ class PuzzleInstanceService implements PuzzleInstanceServiceInterface
 
     public function saveInstance(PuzzleInstanceInterface $instance): void
     {
-        // TODO: Implement saveInstance() method.
+        $this->entityManager->persist($instance);
+        $this->entityManager->flush();
     }
 
     public function deleteInstance(PuzzleInstanceInterface $instance): void

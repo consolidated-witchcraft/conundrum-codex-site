@@ -118,24 +118,26 @@
                                     <div class="accordion-content accordion-columns">
                                         <div class="accordion-column">
                                             {{ puzzleInstance.getDescription }}
+                                            <dl>
+                                                <dt>Type:</dt>
+                                                <dd>{{ puzzleInstance.getTemplate.getTitle }}</dd>
+                                                <dt>Publication Date:</dt>
+                                                <dd>{{ puzzleInstance.publicationDate is not null ? puzzleInstance.getPublicationDate.format('Y-m-d H:i') : 'Not set' }}</dd>
+                                            </dl>
                                         </div>
-                                        <dl class="accordion-column">
-                                            <dt>Type:</dt>
-                                            <dd>{{ puzzleInstance.getTemplate.getTitle }}</dd>
-                                            <dt>Publication Date:</dt>
-                                            <dd>{{ puzzleInstance.publicationDate is not null ? puzzleInstance.getPublicationDate.format('Y-m-d H:i') : 'Not set' }}</dd>
-                                        </dl>
 
-                                        <nav class="secondary accordion-column">
+
+                                        <div class="accordion-column">
                                             <div class="btn-group">
                                                 <a class="btn btn-primary" href="{{ path('app.games.puzzles.instance.manage', {'gameSlug': game.getSlug, 'templateSlug': puzzleInstance.getTemplate.getSlug, 'instanceCode': puzzleInstance.getInstanceCode }) }}">Edit puzzle</a>
                                                 <a class="btn btn-success" href="{{ path('app.games.puzzles.instance.play', {'gameSlug': game.getSlug, 'templateSlug': puzzleInstance.getTemplate.getSlug, 'instanceCode': puzzleInstance.getInstanceCode }) }}">View as Player</a>
                                                 {% if puzzleInstance.getPublicationDate is null %}
                                                     <a class="btn btn-secondary" href="{{ path('app.games.puzzles.instance.publish', {'gameSlug': game.getSlug, 'templateSlug': puzzleInstance.getTemplate.getSlug, 'instanceCode': puzzleInstance.getInstanceCode }) }}">Publish puzzle</a>
                                                 {% endif %}
+                                                <a class="btn btn-danger" href="{{ path('app.games.puzzles.instance.delete', {'gameSlug': game.getSlug, 'templateSlug': puzzleInstance.getTemplate.getSlug, 'instanceCode': puzzleInstance.getInstanceCode }) }}">Delete puzzle</a>
                                             </div>
 
-                                        </nav>
+                                        </div>
                                     </div>
                                 </div>
                             </article>
