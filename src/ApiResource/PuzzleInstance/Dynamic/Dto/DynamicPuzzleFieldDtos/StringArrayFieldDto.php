@@ -19,7 +19,7 @@ class StringArrayFieldDto extends AbstractDynamicFieldDto implements DynamicPuzz
      */
     public function getValue(): array
     {
-        return $this->value;
+        return $this->value ?? [];
     }
 
     public function setValue(bool|array|int|string $value): void

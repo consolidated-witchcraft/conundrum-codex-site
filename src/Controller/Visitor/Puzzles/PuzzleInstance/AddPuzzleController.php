@@ -9,15 +9,17 @@ use App\Controller\Visitor\Puzzles\AbstractPuzzleController;
 use App\Controller\Visitor\Puzzles\PuzzleTemplateController;
 use App\Dto\Visitor\Game\AddPuzzle\AddPuzzleStepOneDto;
 use App\Dto\Visitor\Game\AddPuzzle\ChooseGameDto;
+use App\Form\Type\DynamicFormElementTypes\DynamicDieRollType;
+use App\Form\Type\DynamicFormElementTypes\DynamicTextType;
 use App\Form\Visitor\Puzzle\AddPuzzle\ChooseGameType;
 use App\Security\GameManagerVoter;
 use App\Services\Game\Domain\Game;
-use App\Services\PuzzleInstance\Domain\PuzzleInstance;
 use App\Services\PuzzleTemplate\Domain\PuzzleTemplate;
 use App\Services\User\Domain\User;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+use Symfony\Component\Form\FormInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
 use Symfony\Component\Serializer\Exception\ExceptionInterface;
@@ -98,16 +100,17 @@ class AddPuzzleController extends AbstractPuzzleController
             puzzleTemplate: $puzzleTemplate,
         );
         $dto->setInstanceCode($this->puzzleInstanceService->generateNewInstanceCode($puzzleTemplate));
-        dd($dto);
-//        $form = $this->generateTemplateForm($template, $dto);
+
+        $form = $this->generateTemplateForm($puzzleTemplate, $dto);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
-
+            die("Submitting");
+            /*
             $instance = new PuzzleInstance(
                 instanceCode: $this->puzzleTemplateService->generatePuzzleSlug(puzzleName: $optionsDto->puzzleName, puzzleClass: PuzzleInstance::class),
                 name: $optionsDto->puzzleName,
                 game: $game,
-                templateSlug: $templateSlug,
+                templateSlug: $puzzleTemplate->getSlug(),
                 description: $optionsDto->puzzleName,
             );
             $instance->setConfig($dto->toArray());
@@ -124,13 +127,39 @@ class AddPuzzleController extends AbstractPuzzleController
                 $this->entityManager->flush();
                 $this->addFlash('success', 'Puzzle added!');
                 return $this->redirectToRoute('app.games.manage', ['gameSlug' => $game->getSlug()]);
-            }
+            }*/
         }
 
         $pageVars = [
-            'pageTitle' => sprintf("Configure %s puzzle", $template->getTitle()),
+            'pageTitle' => sprintf("Configure %s puzzle", $puzzleTemplate->getTitle()),
             'form' => $form
         ];
         return $this->render('/visitor/puzzles/templates/addToGame/configure.html.twig', $this->populatePageVars($pageVars, $request));
+    }
+
+    private function generateTemplateForm(PuzzleTemplate $puzzleTemplate, DynamicPuzzleInstanceDto $dto): FormInterface {
+        $builder = $this->createFormBuilder();
+
+        foreach ($puzzleTemplate->getConfiguration() as $configurationOption) {
+            switch ($configurationOption->getType()) {
+                case 'string':
+                    $builder->add(
+                        $configurationOption->getConfigName(),
+                        DynamicTextType::class
+                    );
+                    break;
+                case 'dieRoll':
+                    $builder->add(
+                        $configurationOption->getConfigName(),
+                        DynamicDieRollType::class
+                    );
+                    break;
+                default:
+                    dump($configurationOption->getType());
+            }
+        }
+        $builder->setData($dto);
+        $builder->add('submit', SubmitType::class);
+        return $builder->getForm();
     }
 }

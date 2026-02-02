@@ -6,18 +6,20 @@ namespace App\Services\PuzzleInstance\Infrastructure\Casebook\Repository;
 
 use App\Services\Game\Domain\Game;
 use App\Services\PuzzleInstance\Domain\Casebook\Casebook;
-use App\Services\PuzzleInstance\Domain\Interfaces\PuzzleInstanceCodeProviderInterface;
+use App\Services\PuzzleInstance\Domain\Interfaces\PuzzleInstanceProviderInterface;
 use App\Services\PuzzleInstance\Domain\Interfaces\PuzzleInstanceInterface;
 use App\Services\PuzzleInstance\Domain\Interfaces\StaticPuzzleInstanceProviderInterface;
+use App\Services\PuzzleInstance\Infrastructure\CodeGenerator;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\Persistence\ManagerRegistry;
+use Random\RandomException;
 
 /**
  * @extends ServiceEntityRepository<Casebook>
  */
-class CasebookRepository extends ServiceEntityRepository implements StaticPuzzleInstanceProviderInterface, PuzzleInstanceCodeProviderInterface
+class CasebookRepository extends ServiceEntityRepository implements StaticPuzzleInstanceProviderInterface, PuzzleInstanceProviderInterface
 {
     public function __construct(ManagerRegistry $registry)
     {
@@ -72,8 +74,14 @@ class CasebookRepository extends ServiceEntityRepository implements StaticPuzzle
         return $this->findBySlug($instanceCode);
     }
 
-    public function generateNewInstanceCode(?string $candidateInstanceCode, int $attempts = 0): string
+    /**
+     * @throws RandomException
+     */
+    public function generateNewInstanceCode(?string $candidateInstanceCode = null, int $attempts = 0): string
     {
-        // TODO: Implement generateNewInstanceCode() method.
+        if ($candidateInstanceCode === null) {
+            $candidateInstanceCode = CodeGenerator::generateRandomCode();
+        }
+        return $this->decollideInstanceCode($candidateInstanceCode, $attempts);
     }
 }

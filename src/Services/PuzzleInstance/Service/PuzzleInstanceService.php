@@ -6,7 +6,7 @@ namespace App\Services\PuzzleInstance\Service;
 
 use App\ApiResource\PuzzleInstance\Dynamic\Dto\DynamicPuzzleInstanceDto;
 use App\Services\Game\Domain\Game;
-use App\Services\PuzzleInstance\Domain\Interfaces\PuzzleInstanceCodeProviderInterface;
+use App\Services\PuzzleInstance\Domain\Interfaces\PuzzleInstanceProviderInterface;
 use App\Services\PuzzleInstance\Service\Exceptions\AttemptingToGenerateDtoForStaticPuzzleException;
 use App\Services\PuzzleTemplate\Domain\Exceptions\MismappedPuzzleTemplateException;
 use App\Services\PuzzleInstance\Domain\Interfaces\PuzzleInstanceInterface;
@@ -112,8 +112,18 @@ class PuzzleInstanceService implements PuzzleInstanceServiceInterface
 
     public function generateNewInstanceCode(PuzzleTemplate $puzzleTemplate): string
     {
+            return $this->getProviderForTemplate($puzzleTemplate)->generateNewInstanceCode();
+    }
+
+    private function getProviderForTemplate(PuzzleTemplate $puzzleTemplate): PuzzleInstanceProviderInterface {
         if ($puzzleTemplate->isStatic()) {
-            
+            foreach ($this->staticInstanceProviders as $provider) {
+                if ($provider->providesTemplateInstances() === $puzzleTemplate->getSlug()) {
+                    return $provider;
+                }
+            }
+        } else {
+            return $this->puzzleInstanceRepository;
         }
     }
 }

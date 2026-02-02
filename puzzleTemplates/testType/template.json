@@ -20,44 +20,44 @@
 
     "configOptions": [
         {
-            "configName": "string",
+            "configName": "string_field",
             "label": "A String field",
             "type": "string",
             "helpText": "A string field"
         },
 
         {
-            "configName": "dir_roll",
+            "configName": "die_roll_field",
             "label": "Die Roll",
             "type": "dieRoll",
             "helpText": "A Die Roll Field"
         },
         {
-            "configName": "string_array",
+            "configName": "string_array_field",
             "label": "String Array",
             "type": "stringArray",
             "helpText": "An array of strings"
         },
         {
-            "configName": "integer",
+            "configName": "integer_field",
             "label": "Int",
             "type": "integer",
             "helpText": "An Integer field"
         },
         {
-            "configName": "integer_array",
+            "configName": "integer_array_field",
             "label": "Int Array",
             "type": "integerArray",
             "helpText": "An array of Integers"
         },
         {
-            "configName": "boolean",
+            "configName": "boolean_field",
             "label": "Boolean",
             "type": "boolean",
             "helpText": "A boolean field"
         },
         {
-            "configName": "boolean_array",
+            "configName": "boolean_array_field",
             "label": "Boolean Array",
             "type": "booleanArray",
             "helpText": "An array of Booleans"

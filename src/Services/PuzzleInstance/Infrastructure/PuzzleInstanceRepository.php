@@ -2,7 +2,7 @@
 
 namespace App\Services\PuzzleInstance\Infrastructure;
 
-use App\Services\PuzzleInstance\Domain\Interfaces\PuzzleInstanceCodeProviderInterface;
+use App\Services\PuzzleInstance\Domain\Interfaces\PuzzleInstanceProviderInterface;
 use App\Services\PuzzleInstance\Domain\PuzzleInstance;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
@@ -10,7 +10,7 @@ use Doctrine\Persistence\ManagerRegistry;
 /**
  * @extends ServiceEntityRepository<PuzzleInstance>
  */
-class PuzzleInstanceRepository extends ServiceEntityRepository implements PuzzleInstanceCodeProviderInterface
+class PuzzleInstanceRepository extends ServiceEntityRepository implements PuzzleInstanceProviderInterface
 {
     public function __construct(ManagerRegistry $registry)
     {
@@ -36,8 +36,10 @@ class PuzzleInstanceRepository extends ServiceEntityRepository implements Puzzle
         }
     }
 
-    public function generateNewInstanceCode(?string $candidateInstanceCode, int $attempts = 0): string
+    public function generateNewInstanceCode(?string $candidateInstanceCode = null, int $attempts = 0): string
     {
-        // TODO: Implement generateNewInstanceCode() method.
-    }
+        if ($candidateInstanceCode === null) {
+            $candidateInstanceCode = CodeGenerator::generateRandomCode();
+        }
+        return $this->decollideInstanceCode($candidateInstanceCode, $attempts);    }
 }

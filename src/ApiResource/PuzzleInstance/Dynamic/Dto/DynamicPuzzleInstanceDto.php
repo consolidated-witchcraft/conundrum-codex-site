@@ -42,7 +42,7 @@ use App\Services\PuzzleTemplate\Domain\PuzzleTemplate;
     stateless: false,
     provider: DynamicPuzzleInstanceProvider::class
 )]
-class DynamicPuzzleInstanceDto
+class DynamicPuzzleInstanceDto implements \ArrayAccess
 {
     private function __construct(
         public readonly Game $game,
@@ -179,5 +179,27 @@ class DynamicPuzzleInstanceDto
             label: $booleanArrayConfigurationOption->getLabel(),
             value: $value
         );
+    }
+
+    public function offsetExists(mixed $offset): bool
+    {
+        return isset($this->config[$offset]);
+    }
+
+    public function offsetGet(mixed $offset): mixed
+    {
+        if ($this->offsetExists($offset)) {
+            return $this->config[$offset]->getValue();
+        }
+    }
+
+    public function offsetSet(mixed $offset, mixed $value): void
+    {
+        // TODO: Implement offsetSet() method.
+    }
+
+    public function offsetUnset(mixed $offset): void
+    {
+        // TODO: Implement offsetUnset() method.
     }
 }

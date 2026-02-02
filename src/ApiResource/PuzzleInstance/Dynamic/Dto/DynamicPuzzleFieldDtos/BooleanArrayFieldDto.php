@@ -14,7 +14,7 @@ class BooleanArrayFieldDto extends AbstractDynamicFieldDto implements DynamicPuz
         return 'bool[]';
     }
 
-    public function getValue(): array
+    public function getValue(): ?array
     {
         return $this->value;
     }

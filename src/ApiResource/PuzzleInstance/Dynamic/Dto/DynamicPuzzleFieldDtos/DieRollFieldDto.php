@@ -17,7 +17,7 @@ class DieRollFieldDto extends AbstractDynamicFieldDto implements DynamicPuzzleFi
 
     public function getValue(): array
     {
-        return $this->value;
+        return $this->value ?? [];
     }
 
     /**

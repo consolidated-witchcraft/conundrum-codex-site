@@ -19,7 +19,7 @@ class BooleanFieldDto extends AbstractDynamicFieldDto implements DynamicPuzzleFi
      */
     public function getValue(): bool
     {
-        return $this->value;
+        return $this->value ?? false;
     }
 
     /**

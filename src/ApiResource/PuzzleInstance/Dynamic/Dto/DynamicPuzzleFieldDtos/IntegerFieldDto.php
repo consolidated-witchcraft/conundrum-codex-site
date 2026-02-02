@@ -17,7 +17,7 @@ class IntegerFieldDto extends AbstractDynamicFieldDto implements DynamicPuzzleFi
     /**
      * @return int
      */
-    public function getValue(): int
+    public function getValue(): ?int
     {
         return $this->value;
     }
