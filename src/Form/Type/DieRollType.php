@@ -58,6 +58,7 @@ class DieRollType extends AbstractType
                     'max' => 1000,
                     'step' => 1,
                 ],
+                'html5' => true,
                 'help' => 'Add this number to the total of rolls (optional)'
             ]
         );

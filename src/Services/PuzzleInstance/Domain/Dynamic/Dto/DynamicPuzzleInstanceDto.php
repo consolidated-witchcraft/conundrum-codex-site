@@ -2,26 +2,26 @@
 
 declare(strict_types=1);
 
-namespace App\ApiResource\PuzzleInstance\Dynamic\Dto;
+namespace App\Services\PuzzleInstance\Domain\Dynamic\Dto;
 
 use ApiPlatform\Metadata\ApiResource;
 use ApiPlatform\Metadata\Get;
 use ApiPlatform\Metadata\Link;
-use App\ApiResource\PuzzleInstance\Dynamic\Dto\DynamicPuzzleFieldDtos\BooleanArrayFieldDto;
-use App\ApiResource\PuzzleInstance\Dynamic\Dto\DynamicPuzzleFieldDtos\BooleanFieldDto;
-use App\ApiResource\PuzzleInstance\Dynamic\Dto\DynamicPuzzleFieldDtos\DieRollFieldDto;
-use App\ApiResource\PuzzleInstance\Dynamic\Dto\DynamicPuzzleFieldDtos\Exceptions\UnmappableDynamicFieldTypeException;
-use App\ApiResource\PuzzleInstance\Dynamic\Dto\DynamicPuzzleFieldDtos\IntegerArrayFieldDto;
-use App\ApiResource\PuzzleInstance\Dynamic\Dto\DynamicPuzzleFieldDtos\IntegerFieldDto;
-use App\ApiResource\PuzzleInstance\Dynamic\Dto\DynamicPuzzleFieldDtos\StringArrayFieldDto;
-use App\ApiResource\PuzzleInstance\Dynamic\Dto\DynamicPuzzleFieldDtos\StringFieldDto;
-use App\ApiResource\PuzzleInstance\Dynamic\Providers\DynamicPuzzleInstanceProvider;
 use App\ApiResource\PuzzleTemplate\Dto\PuzzleTemplateDto;
-use App\Dto\Visitor\Puzzles\Dynamic\DynamicPuzzleFieldDto;
 use App\Services\Game\Domain\Game;
-use App\Services\PuzzleInstance\Domain\Interfaces\DynamicPuzzleInstanceInterface;
+use App\Services\PuzzleInstance\Domain\Dynamic\Fields\BooleanArrayField;
+use App\Services\PuzzleInstance\Domain\Dynamic\Fields\BooleanField;
+use App\Services\PuzzleInstance\Domain\Dynamic\Fields\DieRollField;
+use App\Services\PuzzleInstance\Domain\Dynamic\Fields\Exceptions\UnmappableDynamicFieldTypeException;
+use App\Services\PuzzleInstance\Domain\Dynamic\Fields\IntegerArrayField;
+use App\Services\PuzzleInstance\Domain\Dynamic\Fields\IntegerField;
+use App\Services\PuzzleInstance\Domain\Dynamic\Fields\StringArrayField;
+use App\Services\PuzzleInstance\Domain\Dynamic\Fields\StringField;
+use App\Services\PuzzleInstance\Domain\Dynamic\Providers\DynamicPuzzleInstanceProvider;
+use App\Services\PuzzleInstance\Domain\Dynamic\PuzzleInstance;
 use App\Services\PuzzleInstance\Service\Exceptions\AttemptingToGenerateDtoForStaticPuzzleException;
 use App\Services\PuzzleTemplate\Domain\ConfigOptionDefinitions\PuzzleTemplateConfigOptionDefinitionInterface;
+use App\Services\PuzzleTemplate\Domain\Exceptions\PuzzleTemplateNotMappedException;
 use App\Services\PuzzleTemplate\Domain\PuzzleTemplate;
 
 #[ApiResource(
@@ -42,7 +42,7 @@ use App\Services\PuzzleTemplate\Domain\PuzzleTemplate;
     stateless: false,
     provider: DynamicPuzzleInstanceProvider::class
 )]
-class DynamicPuzzleInstanceDto implements \ArrayAccess
+class DynamicPuzzleInstanceDto
 {
     private function __construct(
         public readonly Game $game,
@@ -54,10 +54,13 @@ class DynamicPuzzleInstanceDto implements \ArrayAccess
     ) {
     }
 
-
+    public function setPublicationDate(\DateTimeInterface $publicationDate): void
+    {
+        $this->publicationDate = $publicationDate;
+    }
 
     /**
-     * @throws AttemptingToGenerateDtoForStaticPuzzleException
+     * @throws AttemptingToGenerateDtoForStaticPuzzleException|UnmappableDynamicFieldTypeException
      */
     public static function makeFromPuzzleTemplate(
         string $puzzleName,
@@ -74,7 +77,23 @@ class DynamicPuzzleInstanceDto implements \ArrayAccess
             puzzleDescription: $puzzleDescription,
             config: self::mapConfig($puzzleTemplate),
         );
+    }
 
+    /**
+     * @throws UnmappableDynamicFieldTypeException
+     * @throws AttemptingToGenerateDtoForStaticPuzzleException
+     * @throws PuzzleTemplateNotMappedException
+     */
+    public static function makeFromPuzzleInstance(PuzzleInstance $puzzleInstance): DynamicPuzzleInstanceDto {
+        if ($puzzleInstance->getTemplate()->isStatic()) {
+            throw new AttemptingToGenerateDtoForStaticPuzzleException($puzzleInstance->getTemplate()->getTitle());
+        }
+        return new static(
+            game: $puzzleInstance->getGame(),
+            puzzleName: $puzzleInstance->getName(),
+            puzzleDescription: $puzzleInstance->getDescription(),
+            config: self::mapConfig($puzzleInstance->getTemplate()),
+        );
     }
 
     public function setInstanceCode(string $instanceCode): void {
@@ -82,7 +101,17 @@ class DynamicPuzzleInstanceDto implements \ArrayAccess
     }
 
     /**
-     * @param PuzzleTemplateConfigOptionDefinitionInterface[] $templateConfigurationOptions
+     * @throws UnmappableDynamicFieldTypeException
+     */
+    public function setConfigFieldValue(string $configFieldName, mixed $value): void {
+        if (!array_key_exists($configFieldName, $this->config)) {
+            throw new UnmappableDynamicFieldTypeException($configFieldName);
+        }
+        $this->config[$configFieldName]->setValue($value);
+    }
+
+    /**
+     * @param PuzzleTemplate $template
      * @return array
      * @throws UnmappableDynamicFieldTypeException
      */
@@ -107,8 +136,8 @@ class DynamicPuzzleInstanceDto implements \ArrayAccess
     public static function mapFromStringConfig(
         PuzzleTemplateConfigOptionDefinitionInterface $textConfigurationOption,
         mixed $value = null
-    ): StringFieldDto {
-        return new StringFieldDto(
+    ): StringField {
+        return new StringField(
             name: $textConfigurationOption->getConfigName(),
             label: $textConfigurationOption->getLabel(),
             value: $value
@@ -118,8 +147,8 @@ class DynamicPuzzleInstanceDto implements \ArrayAccess
     public static function mapFromDieRollConfig(
         PuzzleTemplateConfigOptionDefinitionInterface $dieRollConfigurationOption,
         mixed $value = null
-    ): DieRollFieldDto {
-        return new DieRollFieldDto(
+    ): DieRollField {
+        return new DieRollField(
             name: $dieRollConfigurationOption->getConfigName(),
             label: $dieRollConfigurationOption->getLabel(),
             value: $value
@@ -129,8 +158,8 @@ class DynamicPuzzleInstanceDto implements \ArrayAccess
     public static function mapFromStringArrayConfig(
         PuzzleTemplateConfigOptionDefinitionInterface $stringArrayConfigurationOption,
         mixed $value = null
-    ): StringArrayFieldDto {
-        return new StringArrayFieldDto(
+    ): StringArrayField {
+        return new StringArrayField(
             name: $stringArrayConfigurationOption->getConfigName(),
             label: $stringArrayConfigurationOption->getLabel(),
             value: null
@@ -140,8 +169,8 @@ class DynamicPuzzleInstanceDto implements \ArrayAccess
     public static function mapFromIntegerConfig(
         PuzzleTemplateConfigOptionDefinitionInterface $integerConfigurationOption,
         mixed $value = null
-    ): IntegerFieldDto {
-        return new IntegerFieldDto(
+    ): IntegerField {
+        return new IntegerField(
             name: $integerConfigurationOption->getConfigName(),
             label: $integerConfigurationOption->getLabel(),
             value: $value
@@ -151,8 +180,8 @@ class DynamicPuzzleInstanceDto implements \ArrayAccess
     public static function mapFromIntegerArrayConfig(
         PuzzleTemplateConfigOptionDefinitionInterface $integerArrayConfigurationOption,
         mixed $value = null
-    ): IntegerArrayFieldDto {
-        return new IntegerArrayFieldDto(
+    ): IntegerArrayField {
+        return new IntegerArrayField(
             name: $integerArrayConfigurationOption->getConfigName(),
             label: $integerArrayConfigurationOption->getLabel(),
             value: $value
@@ -162,8 +191,8 @@ class DynamicPuzzleInstanceDto implements \ArrayAccess
     public static function mapFromBooleanConfig(
         PuzzleTemplateConfigOptionDefinitionInterface $booleanConfigurationOption,
         mixed $value = null
-    ): BooleanFieldDto {
-        return new BooleanFieldDto(
+    ): BooleanField {
+        return new BooleanField(
             name: $booleanConfigurationOption->getConfigName(),
             label: $booleanConfigurationOption->getLabel(),
             value: $value
@@ -173,33 +202,11 @@ class DynamicPuzzleInstanceDto implements \ArrayAccess
     public static function mapFromBooleanArrayConfig(
         PuzzleTemplateConfigOptionDefinitionInterface $booleanArrayConfigurationOption,
         mixed $value = null
-    ): BooleanArrayFieldDto {
-        return new BooleanArrayFieldDto(
+    ): BooleanArrayField {
+        return new BooleanArrayField(
             name: $booleanArrayConfigurationOption->getConfigName(),
             label: $booleanArrayConfigurationOption->getLabel(),
             value: $value
         );
-    }
-
-    public function offsetExists(mixed $offset): bool
-    {
-        return isset($this->config[$offset]);
-    }
-
-    public function offsetGet(mixed $offset): mixed
-    {
-        if ($this->offsetExists($offset)) {
-            return $this->config[$offset]->getValue();
-        }
-    }
-
-    public function offsetSet(mixed $offset, mixed $value): void
-    {
-        // TODO: Implement offsetSet() method.
-    }
-
-    public function offsetUnset(mixed $offset): void
-    {
-        // TODO: Implement offsetUnset() method.
     }
 }

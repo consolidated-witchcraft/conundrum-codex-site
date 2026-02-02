@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\ApiResource\PuzzleInstance\Dynamic\Dto\DynamicPuzzleFieldDtos\Exceptions;
+namespace App\Services\PuzzleInstance\Domain\Dynamic\Fields\Exceptions;
 
 class UnmappableDynamicFieldTypeException extends \Exception
 {

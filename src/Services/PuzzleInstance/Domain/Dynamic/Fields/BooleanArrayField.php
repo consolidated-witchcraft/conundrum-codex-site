@@ -2,11 +2,12 @@
 
 declare(strict_types=1);
 
-namespace App\ApiResource\PuzzleInstance\Dynamic\Dto\DynamicPuzzleFieldDtos;
+namespace App\Services\PuzzleInstance\Domain\Dynamic\Fields;
 
-use App\ApiResource\PuzzleInstance\Dynamic\Dto\DynamicPuzzleFieldDtos\Exceptions\DynamicFieldValueMismatchException;
+use App\Services\PuzzleInstance\Domain\Dynamic\Fields\Exceptions\DynamicFieldValueMismatchException;
+use App\Services\PuzzleTemplate\Service\ValidPuzzleConfigOptionTypes;
 
-class BooleanArrayFieldDto extends AbstractDynamicFieldDto implements DynamicPuzzleFieldDtoInterface
+class BooleanArrayField extends AbstractDynamicField implements DynamicPuzzleFieldInterface
 {
 
     public static function getAcceptedScalarTypeDescription(): string
@@ -19,7 +20,23 @@ class BooleanArrayFieldDto extends AbstractDynamicFieldDto implements DynamicPuz
         return $this->value;
     }
 
-    public function setValue(array|bool|int|string $value): void
+    public function setValue(array|bool|int|string|float $value): void
+    {
+
+        $this->value = $value;
+    }
+
+    public function getType(): string
+    {
+        return ValidPuzzleConfigOptionTypes::BOOLEAN_ARRAY_TYPE_KEY;
+    }
+
+    /**
+     * @param float|array|bool|int|string $value
+     * @return void
+     * @throws DynamicFieldValueMismatchException
+     */
+    public function guard(float|array|bool|int|string $value): void
     {
         if (!is_array($value)) {
             throw new DynamicFieldValueMismatchException(
@@ -29,7 +46,7 @@ class BooleanArrayFieldDto extends AbstractDynamicFieldDto implements DynamicPuz
             );
         }
         foreach ($value as $item) {
-            if (!is_bool($item)) {
+            if ($item !== null && !is_bool($item)) {
                 throw new DynamicFieldValueMismatchException(
                     fieldName: $this->getName(),
                     acceptedType: $this->getAcceptedScalarTypeDescription(),

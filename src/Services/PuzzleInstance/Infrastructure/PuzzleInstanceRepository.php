@@ -2,8 +2,8 @@
 
 namespace App\Services\PuzzleInstance\Infrastructure;
 
+use App\Services\PuzzleInstance\Domain\Dynamic\PuzzleInstance;
 use App\Services\PuzzleInstance\Domain\Interfaces\PuzzleInstanceProviderInterface;
-use App\Services\PuzzleInstance\Domain\PuzzleInstance;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 

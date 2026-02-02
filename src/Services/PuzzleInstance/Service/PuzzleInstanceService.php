@@ -4,22 +4,20 @@ declare(strict_types=1);
 
 namespace App\Services\PuzzleInstance\Service;
 
-use App\ApiResource\PuzzleInstance\Dynamic\Dto\DynamicPuzzleInstanceDto;
 use App\Services\Game\Domain\Game;
-use App\Services\PuzzleInstance\Domain\Interfaces\PuzzleInstanceProviderInterface;
-use App\Services\PuzzleInstance\Service\Exceptions\AttemptingToGenerateDtoForStaticPuzzleException;
-use App\Services\PuzzleTemplate\Domain\Exceptions\MismappedPuzzleTemplateException;
 use App\Services\PuzzleInstance\Domain\Interfaces\PuzzleInstanceInterface;
+use App\Services\PuzzleInstance\Domain\Interfaces\PuzzleInstanceProviderInterface;
 use App\Services\PuzzleInstance\Domain\Interfaces\StaticPuzzleInstanceInterface;
+use App\Services\PuzzleInstance\Domain\Interfaces\StaticPuzzleInstanceProviderInterface;
 use App\Services\PuzzleInstance\Infrastructure\PuzzleInstanceRepository;
+use App\Services\PuzzleInstance\Service\Interfaces\PuzzleInstanceServiceInterface;
+use App\Services\PuzzleTemplate\Domain\Exceptions\MismappedPuzzleTemplateException;
 use App\Services\PuzzleTemplate\Domain\PuzzleTemplate;
 use App\Services\PuzzleTemplate\Service\Exceptions\TemplateNotFoundException;
 use App\Services\PuzzleTemplate\Service\Interfaces\PuzzleTemplateRegistryInterface;
-use App\Services\PuzzleInstance\Service\Interfaces\PuzzleInstanceServiceInterface;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\DependencyInjection\Attribute\AutowireIterator;
-use App\Services\PuzzleInstance\Domain\Interfaces\StaticPuzzleInstanceProviderInterface;
 
 class PuzzleInstanceService implements PuzzleInstanceServiceInterface
 {

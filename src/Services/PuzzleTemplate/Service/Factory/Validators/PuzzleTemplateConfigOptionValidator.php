@@ -9,6 +9,7 @@ use App\Services\PuzzleTemplate\Service\Factory\Validators\Exceptions\ConfigOpti
 use App\Services\PuzzleTemplate\Service\Factory\Validators\Exceptions\ConfigOptions\MissingConfigOptionSubfieldException;
 use App\Services\PuzzleTemplate\Service\Factory\Validators\Exceptions\ConfigOptions\UnknownConfigOptionTypeSpecifiedException;
 use App\Services\PuzzleTemplate\Service\Factory\Validators\Exceptions\TemplateFields\UnknownFieldTypeSpecifiedException;
+use App\Services\PuzzleTemplate\Service\ValidPuzzleConfigOptionTypes;
 
 class PuzzleTemplateConfigOptionValidator
 {
@@ -21,19 +22,6 @@ class PuzzleTemplateConfigOptionValidator
         'type' => 'type',
     ];
 
-    /**
-     * These are the valid value for the 'type' field in the above config option field.
-     */
-    private const array KNOWN_CONFIG_OPTION_TYPES = [
-        'string',
-        'integer',
-        'stringArray',
-        'integerArray',
-        'dieRoll',
-        'route',
-        'boolean',
-        'booleanArray',
-    ];
 
     private const string CONFIG_NAME_REGEX = '/^[a-z0-9_]+$/';
 
@@ -112,7 +100,7 @@ class PuzzleTemplateConfigOptionValidator
      * @throws UnknownConfigOptionTypeSpecifiedException
      */
     private static function validateConfigFieldTypeKnown(array $configOptionDefinition, string $moduleName): void {
-        if (!in_array($configOptionDefinition['type'], self::KNOWN_CONFIG_OPTION_TYPES)) {
+        if (!in_array($configOptionDefinition['type'], ValidPuzzleConfigOptionTypes::KNOWN_CONFIG_OPTION_TYPES)) {
             throw new UnknownConfigOptionTypeSpecifiedException(
                 unknownFieldType: (string) $configOptionDefinition['type'],
                 configOptionName: $configOptionDefinition['configName'],

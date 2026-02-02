@@ -5,23 +5,19 @@ declare(strict_types=1);
 namespace App\Controller\Visitor\Puzzles\PuzzleInstance;
 
 use App\Controller\Visitor\Puzzles\AbstractPuzzleController;
-use App\Controller\Visitor\Puzzles\PuzzleTemplateController;
-use App\Dto\Visitor\Game\AddPuzzle\AddPuzzleStepOneDto;
-use App\Dto\Visitor\Game\AddPuzzle\ChooseGameDto;
+use App\Controller\Visitor\Puzzles\PuzzleInstance\Traits\GeneratesDynamicPuzzleInstanceFormTrait;
 use App\Dto\Visitor\Puzzles\Dynamic\DynamicPuzzleConfigDto;
 use App\Dto\Visitor\Puzzles\PublishPuzzleInstanceDto;
 use App\Form\Type\DieRollType;
 use App\Form\Visitor\PublishPuzzleInstanceType;
-use App\Form\Visitor\Puzzle\AddPuzzle\ChooseGameType;
 use App\Security\GameManagerVoter;
 use App\Security\GamePlayerVoter;
 use App\Services\Game\Domain\Game;
+use App\Services\PuzzleInstance\Domain\Dynamic\Dto\DynamicPuzzleInstanceDto;
 use App\Services\PuzzleInstance\Domain\Interfaces\DynamicPuzzleInstanceInterface;
 use App\Services\PuzzleInstance\Domain\Interfaces\PuzzleInstanceInterface;
-use App\Services\PuzzleInstance\Domain\PuzzleInstance;
 use App\Services\PuzzleTemplate\Domain\Exceptions\MismappedPuzzleTemplateException;
 use App\Services\PuzzleTemplate\Domain\PuzzleTemplate;
-use App\Services\User\Domain\User;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
@@ -29,15 +25,13 @@ use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
-use Symfony\Component\Serializer\Exception\ExceptionInterface;
 use Symfony\Component\Validator\Constraints\NotBlank;
 
 class PuzzleInstanceController extends AbstractPuzzleController
 {
-
+    use GeneratesDynamicPuzzleInstanceFormTrait;
 
     #[IsGranted(GameManagerVoter::MANAGE_GAME_ACTION, 'game')]
     #[Route('/games/{gameSlug}/puzzles/{templateSlug}/{instanceCode}/manage', name: 'app.games.puzzles.instance.manage')]
@@ -56,8 +50,13 @@ class PuzzleInstanceController extends AbstractPuzzleController
             ]);
         }
 
-
-        $form = $this->generateTemplateForm($puzzleTemplate, $dto);
+        $dto = DynamicPuzzleInstanceDto::makeFromPuzzleInstance($puzzleInstance);
+        $form = $this->generateTemplateForm(
+            builder: $this->createFormBuilder(),
+            dynamicInstanceDataMapper: $this->dynamicInstanceDataMapper,
+            puzzleTemplate: $puzzleTemplate,
+            dto: $dto,
+        );
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
             $puzzleInstance->setConfig($dto->toArray());
@@ -141,72 +140,5 @@ class PuzzleInstanceController extends AbstractPuzzleController
             }
             throw new MismappedPuzzleTemplateException("Puzzle instance is not static, but does not implement DynamicPuzzleInstanceInterface");
         }
-    }
-
-
-
-    /**
-     * @throws \Exception
-     */
-    private function generateTemplateForm(PuzzleTemplate $template, DynamicPuzzleConfigDto $dto): FormInterface {
-        $builder = $this->createFormBuilder();
-
-        foreach ($template->getConfiguration() as $configurationOption) {
-            switch ($configurationOption->getType()) {
-                case 'text':
-                    $builder->add(
-                        $configurationOption->getConfigName(),
-                        TextareaType::class,
-                        [
-                            'label' => $configurationOption->getLabel(),
-                            'help' => $configurationOption->getHelpText(),
-                            'constraints' => [
-                                new NotBlank(),
-                            ]
-                        ]
-                    );
-                    break;
-                case 'dieRoll':
-                    $builder->add(
-                        $configurationOption->getConfigName(),
-                        DieRollType::class,
-                        [
-                            'label' => $configurationOption->getLabel(),
-                            'help' => $configurationOption->getHelpText(),
-                            'constraints' => []
-                        ]
-                    );
-                    break;
-                case 'stringArray':
-                    $builder->add(
-                        $configurationOption->getConfigName(),
-                        CollectionType::class,
-                        [
-                            'entry_type' => TextType::class,
-                            'allow_add' => true,
-                            'allow_delete' => true,
-                            'delete_empty' => true,
-                            'prototype' => true,
-                            'prototype_options' => [
-                                'required' => false,
-                                'label' => 'Add an Entry',
-                            ],
-                            'entry_options' => [
-                                'constraints' => [
-                                    new NotBlank(),
-                                ]
-                            ]
-                        ]
-                    );
-                    break;
-                default:
-                    throw new \Exception(sprintf("Unprocessable option type %s", $configurationOption->getType()));
-            }
-
-        }
-        $builder->add('submit', SubmitType::class);
-        $builder->setData($dto);
-
-        return $builder->getForm();
     }
 }

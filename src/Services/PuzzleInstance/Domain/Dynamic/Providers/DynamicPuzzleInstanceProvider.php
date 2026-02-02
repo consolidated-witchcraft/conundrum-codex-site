@@ -2,14 +2,14 @@
 
 declare(strict_types=1);
 
-namespace App\ApiResource\PuzzleInstance\Dynamic\Providers;
+namespace App\Services\PuzzleInstance\Domain\Dynamic\Providers;
 
 use ApiPlatform\Metadata\Operation;
 use ApiPlatform\State\ProviderInterface;
-use App\ApiResource\PuzzleInstance\Dynamic\Dto\DynamicPuzzleInstanceDto;
+use App\Services\PuzzleInstance\Domain\Dynamic\Dto\DynamicPuzzleInstanceDto;
 use App\Services\PuzzleInstance\Domain\Interfaces\DynamicPuzzleInstanceInterface;
-use App\Services\PuzzleTemplate\Service\Exceptions\TemplateNotFoundException;
 use App\Services\PuzzleInstance\Service\Interfaces\PuzzleInstanceServiceInterface;
+use App\Services\PuzzleTemplate\Service\Exceptions\TemplateNotFoundException;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 

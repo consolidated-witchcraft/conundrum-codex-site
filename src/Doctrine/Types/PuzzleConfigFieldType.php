@@ -5,9 +5,18 @@ namespace App\Doctrine\Types;
 use App\Doctrine\Types\Exceptions\UndecodableDynamicFieldNameException;
 use App\Doctrine\Types\Exceptions\UndecodableDynamicFieldValueException;
 use App\Doctrine\Types\Exceptions\UnencodableDynamicFieldValueException;
-use App\Dto\Visitor\Puzzles\Dynamic\DynamicPuzzleFieldDto;
+use App\Services\PuzzleInstance\Domain\Dynamic\Fields\BooleanArrayField;
+use App\Services\PuzzleInstance\Domain\Dynamic\Fields\BooleanField;
+use App\Services\PuzzleInstance\Domain\Dynamic\Fields\DieRollField;
+use App\Services\PuzzleInstance\Domain\Dynamic\Fields\DynamicPuzzleFieldInterface;
+use App\Services\PuzzleInstance\Domain\Dynamic\Fields\IntegerArrayField;
+use App\Services\PuzzleInstance\Domain\Dynamic\Fields\IntegerField;
+use App\Services\PuzzleInstance\Domain\Dynamic\Fields\StringArrayField;
+use App\Services\PuzzleInstance\Domain\Dynamic\Fields\StringField;
+use App\Services\PuzzleTemplate\Service\ValidPuzzleConfigOptionTypes;
 use Doctrine\DBAL\Platforms\AbstractPlatform;
 use Doctrine\DBAL\Types\Type;
+
 class PuzzleConfigFieldType extends Type
 {
 
@@ -23,26 +32,70 @@ class PuzzleConfigFieldType extends Type
     }
 
     /**
-     * @return DynamicPuzzleFieldDto[]
+     * @return DynamicPuzzleFieldInterface[]
      * @throws UndecodableDynamicFieldNameException
      * @throws UndecodableDynamicFieldValueException
      */
     public function convertToPHPValue($value, AbstractPlatform $platform): array {
+
+
         $decoded = json_decode($value, true);
+
+
         $values = [];
-        foreach ($decoded as $configValue) {
+
+        foreach ($decoded as $delta => $configValue) {
+
+
 
             if (!is_array($configValue)) {
                 throw new UndecodableDynamicFieldValueException(sprintf("Could not decode values for delta %d", $delta));
             }
+
             $this->validateConfigValueArray($configValue);
 
-            $values[] = new DynamicPuzzleFieldDto(
-                name: $configValue['name'],
-                type: $configValue['type'],
-                value: $configValue['value'],
-            );
+
+            $values[] = match ($configValue['type']) {
+                ValidPuzzleConfigOptionTypes::STRING_TYPE_KEY =>
+                    new StringField(
+                        $configValue['name'],
+                        $configValue['label'],
+                        $configValue['value'],
+                    ),
+                ValidPuzzleConfigOptionTypes::INTEGER_TYPE_KEY => new IntegerField(
+                    $configValue['name'],
+                    $configValue['label'],
+                    $configValue['value'],
+                ),
+                ValidPuzzleConfigOptionTypes::STRING_ARRAY_TYPE_KEY => new StringArrayField(
+                    $configValue['name'],
+                    $configValue['label'],
+                    $configValue['value'],
+                ),
+                ValidPuzzleConfigOptionTypes::INTEGER_ARRAY_TYPE_KEY => new IntegerArrayField(
+                    $configValue['name'],
+                    $configValue['label'],
+                    $configValue['value'],
+                ),
+                ValidPuzzleConfigOptionTypes::DIE_ROLL_TYPE_KEY => new DieRollField(
+                    $configValue['name'],
+                    $configValue['label'],
+                    $configValue['value'],
+                ),
+                ValidPuzzleConfigOptionTypes::BOOLEAN_TYPE_KEY => new BooleanField(
+                    $configValue['name'],
+                    $configValue['label'],
+                    $configValue['value'],
+                ),
+                ValidPuzzleConfigOptionTypes::BOOLEAN_ARRAY_TYPE_KEY => new BooleanArrayField(
+                    $configValue['name'],
+                    $configValue['label'],
+                    $configValue['value'],
+                )
+
+            };
         }
+
         return $values;
     }
 
@@ -53,14 +106,12 @@ class PuzzleConfigFieldType extends Type
        if (!is_array($value)) {
            throw new UnencodableDynamicFieldValueException("Could not encode values for Dynamic Configuration Field");
        }
-        $encodableArray = array_map(function ($configValue) {
-            return [
-                'name' => $configValue->getName(),
-                'type' => $configValue->getType(),
-                'value' => $configValue->getValue(),
-            ];
-        }, $value);
-       return json_encode($encodableArray);
+       $values = [];
+       foreach ($value as $delta => $configValue) {
+           $values[$delta] = $configValue->jsonSerialize();
+       }
+
+       return json_encode($values);
     }
 
     /**
@@ -81,8 +132,6 @@ class PuzzleConfigFieldType extends Type
 
         if (!isset($configValueArray['value'])) {
             throw new UndecodableDynamicFieldValueException("Missing value property on config field value");
-        } elseif (!is_string($configValueArray['value']) && !is_array($configValueArray['value'])) {
-            throw new UndecodableDynamicFieldValueException("value must be a string or array of strings");
         }
     }
 }

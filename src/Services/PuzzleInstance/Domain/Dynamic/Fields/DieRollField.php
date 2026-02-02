@@ -2,11 +2,12 @@
 
 declare(strict_types=1);
 
-namespace App\ApiResource\PuzzleInstance\Dynamic\Dto\DynamicPuzzleFieldDtos;
+namespace App\Services\PuzzleInstance\Domain\Dynamic\Fields;
 
-use App\ApiResource\PuzzleInstance\Dynamic\Dto\DynamicPuzzleFieldDtos\Exceptions\DynamicFieldValueMismatchException;
+use App\Services\PuzzleInstance\Domain\Dynamic\Fields\Exceptions\DynamicFieldValueMismatchException;
+use App\Services\PuzzleTemplate\Service\ValidPuzzleConfigOptionTypes;
 
-class DieRollFieldDto extends AbstractDynamicFieldDto implements DynamicPuzzleFieldDtoInterface
+class DieRollField extends AbstractDynamicField implements DynamicPuzzleFieldInterface
 {
     public const string ACCEPTED_SCALAR_TYPE_DESCRIPTION = 'array';
 
@@ -20,10 +21,17 @@ class DieRollFieldDto extends AbstractDynamicFieldDto implements DynamicPuzzleFi
         return $this->value ?? [];
     }
 
+    public function getType(): string
+    {
+        return ValidPuzzleConfigOptionTypes::DIE_ROLL_TYPE_KEY;
+    }
+
     /**
+     * @param float|array|bool|int|string $value
+     * @return void
      * @throws DynamicFieldValueMismatchException
      */
-    public function setValue(bool|array|int|string $value): void
+    public function guard(float|array|bool|int|string $value): void
     {
         if (!is_array($value)) {
             throw new DynamicFieldValueMismatchException(
@@ -32,6 +40,5 @@ class DieRollFieldDto extends AbstractDynamicFieldDto implements DynamicPuzzleFi
                 actualType: gettype($value),
             );
         }
-        $this->value = $value;
     }
 }

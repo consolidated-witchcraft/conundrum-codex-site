@@ -2,11 +2,12 @@
 
 declare(strict_types=1);
 
-namespace App\ApiResource\PuzzleInstance\Dynamic\Dto\DynamicPuzzleFieldDtos;
+namespace App\Services\PuzzleInstance\Domain\Dynamic\Fields;
 
-use App\ApiResource\PuzzleInstance\Dynamic\Dto\DynamicPuzzleFieldDtos\Exceptions\DynamicFieldValueMismatchException;
+use App\Services\PuzzleInstance\Domain\Dynamic\Fields\Exceptions\DynamicFieldValueMismatchException;
+use App\Services\PuzzleTemplate\Service\ValidPuzzleConfigOptionTypes;
 
-class StringArrayFieldDto extends AbstractDynamicFieldDto implements DynamicPuzzleFieldDtoInterface
+class StringArrayField extends AbstractDynamicField implements DynamicPuzzleFieldInterface
 {
 
     public static function getAcceptedScalarTypeDescription(): string
@@ -22,7 +23,12 @@ class StringArrayFieldDto extends AbstractDynamicFieldDto implements DynamicPuzz
         return $this->value ?? [];
     }
 
-    public function setValue(bool|array|int|string $value): void
+    public function getType(): string
+    {
+        return ValidPuzzleConfigOptionTypes::STRING_ARRAY_TYPE_KEY;
+    }
+
+    public function guard(float|array|bool|int|string $value): void
     {
         if (!is_array($value)) {
             throw new DynamicFieldValueMismatchException(

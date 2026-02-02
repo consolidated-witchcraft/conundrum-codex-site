@@ -5,18 +5,18 @@ namespace App\Services\Game\Domain;
 use App\Services\Core\Domain\AbstractDomainEntity;
 use App\Services\Files\Domain\ManagedFile;
 use App\Services\Game\Infrastructure\GameRepository;
+use App\Services\PuzzleInstance\Domain\Dynamic\PuzzleInstance;
 use App\Services\PuzzleInstance\Domain\Interfaces\PuzzleInstanceInterface;
 use App\Services\PuzzleInstance\Domain\Interfaces\StaticPuzzleInstanceInterface;
-use App\Services\PuzzleInstance\Domain\PuzzleInstance;
 use App\Services\User\Domain\User;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
+use Doctrine\Common\Collections\Criteria;
 use Doctrine\Common\Collections\Order;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\ORM\Mapping\OrderBy;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Serializer\Attribute\Groups;
-use Doctrine\Common\Collections\Criteria;
 
 #[ORM\Entity(repositoryClass: GameRepository::class)]
 #[UniqueEntity(fields: ['slug'], message: 'There is already a game with this slug. Please choose another one.')]

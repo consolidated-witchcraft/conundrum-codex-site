@@ -5,17 +5,15 @@ declare(strict_types=1);
 namespace App\Services\PuzzleTemplate\Service;
 
 use App\Services\PuzzleInstance\Domain\Casebook\Casebook;
-use App\Services\PuzzleTemplate\Domain\PuzzleCategory;
-use App\Services\PuzzleInstance\Domain\PuzzleInstance;
-use App\Services\PuzzleTemplate\Domain\PuzzleTemplate;
+use App\Services\PuzzleInstance\Domain\Dynamic\PuzzleInstance;
 use App\Services\PuzzleInstance\Infrastructure\Casebook\Repository\CasebookRepository;
 use App\Services\PuzzleInstance\Infrastructure\PuzzleInstanceRepository;
+use App\Services\PuzzleTemplate\Domain\PuzzleCategory;
+use App\Services\PuzzleTemplate\Domain\PuzzleTemplate;
 use App\Services\PuzzleTemplate\Service\Exceptions\SlugGenerationFailureException;
 use App\Services\PuzzleTemplate\Service\Interfaces\PuzzleTemplateRegistryInterface;
 use App\Services\PuzzleTemplate\Service\Interfaces\PuzzleTemplateServiceInterface;
-use App\Services\PuzzleTemplate\Infrastructure\PuzzleCategoryRepository;
 use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\ORM\EntityManagerInterface;
 
 class PuzzleTemplateService implements PuzzleTemplateServiceInterface
 {

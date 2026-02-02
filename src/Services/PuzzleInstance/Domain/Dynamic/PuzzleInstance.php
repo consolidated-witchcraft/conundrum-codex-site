@@ -1,13 +1,13 @@
 <?php
 
-namespace App\Services\PuzzleInstance\Domain;
+namespace App\Services\PuzzleInstance\Domain\Dynamic;
 
-use App\Dto\Visitor\Puzzles\Dynamic\DynamicPuzzleFieldDto;
 use App\Services\Core\Domain\AbstractDomainEntity;
 use App\Services\Game\Domain\Game;
-use App\Services\PuzzleTemplate\Domain\Exceptions\PuzzleTemplateNotMappedException;
+use App\Services\PuzzleInstance\Domain\Dynamic\Fields\DynamicPuzzleFieldInterface;
 use App\Services\PuzzleInstance\Domain\Interfaces\DynamicPuzzleInstanceInterface;
 use App\Services\PuzzleInstance\Infrastructure\PuzzleInstanceRepository;
+use App\Services\PuzzleTemplate\Domain\Exceptions\PuzzleTemplateNotMappedException;
 use App\Services\PuzzleTemplate\Domain\PuzzleTemplate;
 use Doctrine\ORM\Mapping as ORM;
 
@@ -24,7 +24,7 @@ class PuzzleInstance extends AbstractDomainEntity implements DynamicPuzzleInstan
      * @param Game $game
      * @param non-empty-string $templateSlug
      * @param \DateTimeInterface|null $publicationDate
-     * @param DynamicPuzzleFieldDto[] $config
+     * @param DynamicPuzzleFieldInterface[] $config
      * @param int|null $id
      */
     public function __construct(
@@ -114,7 +114,7 @@ class PuzzleInstance extends AbstractDomainEntity implements DynamicPuzzleInstan
     }
 
     /**
-     * @return DynamicPuzzleFieldDto[]
+     * @return DynamicPuzzleFieldInterface[]
      */
     public function getConfig(): array
     {
@@ -122,7 +122,7 @@ class PuzzleInstance extends AbstractDomainEntity implements DynamicPuzzleInstan
     }
 
     /**
-     * @param DynamicPuzzleFieldDto[] $config
+     * @param DynamicPuzzleFieldInterface[] $config
      */
     public function setConfig(array $config): void
     {

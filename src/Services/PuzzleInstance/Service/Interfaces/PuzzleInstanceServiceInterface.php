@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\Services\PuzzleInstance\Service\Interfaces;
 
-use App\ApiResource\PuzzleInstance\Dynamic\Dto\DynamicPuzzleInstanceDto;
 use App\Services\Core\Service\Interfaces\DomainServiceInterface;
 use App\Services\Game\Domain\Game;
 use App\Services\PuzzleInstance\Domain\Interfaces\PuzzleInstanceInterface;

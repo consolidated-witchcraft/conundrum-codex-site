@@ -1,8 +1,10 @@
 <?php
 
-namespace App\ApiResource\PuzzleInstance\Dynamic\Dto\DynamicPuzzleFieldDtos;
+namespace App\Services\PuzzleInstance\Domain\Dynamic\Fields;
 
-interface DynamicPuzzleFieldDtoInterface
+use App\Services\PuzzleInstance\Domain\Dynamic\Fields\Exceptions\DynamicFieldValueMismatchException;
+
+interface DynamicPuzzleFieldInterface
 {
 
     public static function getAcceptedScalarTypeDescription(): string;
@@ -21,7 +23,14 @@ interface DynamicPuzzleFieldDtoInterface
      * @param string|int|bool|array<int, string>|array<int, int>|array<int, bool>| $value
      * @return void
      */
-    public function setValue(bool|string|int|array $value): void;
+    public function setValue(bool|string|int|float|array $value): void;
 
     public function clearValue(): void;
+
+    /**
+     * @param bool|string|int|float|array $value
+     * @return void
+     * @throws DynamicFieldValueMismatchException
+     */
+    public function guard(bool|string|int|float|array $value): void;
 }
