@@ -46,8 +46,6 @@ class PuzzleConfigFieldType extends Type
 
         foreach ($decoded as $delta => $configValue) {
 
-
-
             if (!is_array($configValue)) {
                 throw new UndecodableDynamicFieldValueException(sprintf("Could not decode values for delta %d", $delta));
             }
@@ -55,7 +53,7 @@ class PuzzleConfigFieldType extends Type
             $this->validateConfigValueArray($configValue);
 
 
-            $values[] = match ($configValue['type']) {
+            $values[self::stringToKeySafe($configValue['name'])] = match ($configValue['type']) {
                 ValidPuzzleConfigOptionTypes::STRING_TYPE_KEY =>
                     new StringField(
                         $configValue['name'],
@@ -107,8 +105,8 @@ class PuzzleConfigFieldType extends Type
            throw new UnencodableDynamicFieldValueException("Could not encode values for Dynamic Configuration Field");
        }
        $values = [];
-       foreach ($value as $delta => $configValue) {
-           $values[$delta] = $configValue->jsonSerialize();
+       foreach ($value as $configValue) {
+           $values[] = $configValue->jsonSerialize();
        }
 
        return json_encode($values);
@@ -134,4 +132,9 @@ class PuzzleConfigFieldType extends Type
             throw new UndecodableDynamicFieldValueException("Missing value property on config field value");
         }
     }
+
+    public static function stringToKeySafe(string $string): string {
+        return str_replace(' ', '_', strtolower($string));
+    }
+
 }

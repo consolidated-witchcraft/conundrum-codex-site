@@ -52,9 +52,6 @@ class User extends AbstractDomainEntity implements UserInterface, PasswordAuthen
     #[ORM\ManyToMany(targetEntity: UserFeat::class, cascade: ['persist'], fetch: 'EAGER', indexBy: 'handle')]
     private Collection $feats;
 
-    #[ORM\OneToOne(mappedBy: 'user', cascade: ['persist'], fetch: 'EAGER', orphanRemoval: true)]
-    private ?UserBlock $userBlock = null;
-
     /**
      * @param non-empty-string $email
      * @param non-empty-string $username
@@ -76,6 +73,9 @@ class User extends AbstractDomainEntity implements UserInterface, PasswordAuthen
         #[ORM\ManyToOne(targetEntity: UserAccountType::class, fetch: 'EAGER')]
         #[ORM\JoinColumn(nullable: false)]
         private UserAccountType $userAccountType,
+
+        #[ORM\OneToMany(targetEntity: UserBlock::class, cascade: ['persist'], mappedBy: 'user')]
+        private readonly Collection $userBlocks,
 
         #[ORM\Column(type: 'non_empty_string', length: 255)]
         private string $password = 'REPLACEME',
@@ -287,14 +287,14 @@ class User extends AbstractDomainEntity implements UserInterface, PasswordAuthen
         $this->feats->add($userFeat);
     }
 
-    public function getUserBlock(): ?UserBlock {
-        return $this->userBlock;
+    public function getUserBlock(): Collection {
+        return $this->userBlocks;
     }
 
 
     public function isBlocked(): bool
     {
-        return $this->userBlock !== null;
+        return count($this->userBlocks) > 0;
     }
 
     public function canCreateGames(): bool

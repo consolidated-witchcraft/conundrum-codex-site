@@ -92,7 +92,7 @@ class DynamicPuzzleInstanceDto
             game: $puzzleInstance->getGame(),
             puzzleName: $puzzleInstance->getName(),
             puzzleDescription: $puzzleInstance->getDescription(),
-            config: self::mapConfig($puzzleInstance->getTemplate()),
+            config: self::mapConfig($puzzleInstance->getTemplate(), $puzzleInstance),
         );
     }
 
@@ -110,22 +110,30 @@ class DynamicPuzzleInstanceDto
         $this->config[$configFieldName]->setValue($value);
     }
 
+    public function getConfigFieldValue(string $configFieldName): mixed {
+        if (array_key_exists($configFieldName, $this->config)) {
+            return $this->config[$configFieldName]->getValue();
+        }
+        return null;
+    }
+
     /**
      * @param PuzzleTemplate $template
      * @return array
      * @throws UnmappableDynamicFieldTypeException
      */
-    private static function mapConfig(PuzzleTemplate $template): array {
+    private static function mapConfig(PuzzleTemplate $template, ?PuzzleInstance $instance = null): array {
+
         $mappedConfig = [];
         foreach ($template->getConfiguration() as $templateConfigurationOption) {
             $mappedConfig[$templateConfigurationOption->getConfigName()] = match ($templateConfigurationOption->getType()) {
-                'string' => self::mapFromStringConfig($templateConfigurationOption),
-                'dieRoll' => self::mapFromDieRollConfig($templateConfigurationOption),
-                'stringArray' => self::mapFromStringArrayConfig($templateConfigurationOption),
-                'integer' => self::mapFromIntegerConfig($templateConfigurationOption),
-                'integerArray' => self::mapFromIntegerArrayConfig($templateConfigurationOption),
-                'boolean' => self::mapFromBooleanConfig($templateConfigurationOption),
-                'booleanArray' => self::mapFromBooleanArrayConfig($templateConfigurationOption),
+                'string' => self::mapFromStringConfig($templateConfigurationOption, $instance ? $instance->getConfigValue($templateConfigurationOption->getConfigName()) : null),
+                'dieRoll' => self::mapFromDieRollConfig($templateConfigurationOption, $instance ? $instance->getConfigValue($templateConfigurationOption->getConfigName()) : null),
+                'stringArray' => self::mapFromStringArrayConfig($templateConfigurationOption, $instance ? $instance->getConfigValue($templateConfigurationOption->getConfigName()) : null),
+                'integer' => self::mapFromIntegerConfig($templateConfigurationOption, $instance ? $instance->getConfigValue($templateConfigurationOption->getConfigName()) : null),
+                'integerArray' => self::mapFromIntegerArrayConfig($templateConfigurationOption, $instance ? $instance->getConfigValue($templateConfigurationOption->getConfigName()) : null),
+                'boolean' => self::mapFromBooleanConfig($templateConfigurationOption, $instance ? $instance->getConfigValue($templateConfigurationOption->getConfigName()) : null),
+                'booleanArray' => self::mapFromBooleanArrayConfig($templateConfigurationOption, $instance ? $instance->getConfigValue($templateConfigurationOption->getConfigName()) : null),
                 default => throw new UnmappableDynamicFieldTypeException($templateConfigurationOption->getType())
             };
 
@@ -162,7 +170,7 @@ class DynamicPuzzleInstanceDto
         return new StringArrayField(
             name: $stringArrayConfigurationOption->getConfigName(),
             label: $stringArrayConfigurationOption->getLabel(),
-            value: null
+            value: $value
         );
     }
 

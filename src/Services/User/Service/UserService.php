@@ -84,8 +84,8 @@ class UserService
             throw new UserNotFoundException();
         }
 
-        if (null !== $user->getUserBlock()) {
-            $block = $user->getUserBlock();
+        if ($user->isBlocked()) {
+            $block = $user->getUserBlocks()->last();
 
             $message = sprintf("Your account has been banned for %s. ", $block->getReason());
             $expired = false;

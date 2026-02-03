@@ -31,13 +31,13 @@ export class MultiaddWrapper extends HTMLElement {
 
         this.addMoreButton.addEventListener('click', (e: MouseEvent) => {
             e.preventDefault();
-            let currentRows = this.querySelectorAll('div.multiadd-row');
-            this.rowWrapper.appendChild(this.createNewRow(currentRows.length))
+            this.rowWrapper.appendChild(this.createNewRow(this.calculateNextDelta()))
         });
 
         let children: NodeListOf<HTMLDivElement> = this.querySelectorAll('div.multiadd-row');
+
         if (children.length === 0) {
-            this.rowWrapper.appendChild(this.createNewRow(0));
+            this.rowWrapper.appendChild(this.createNewRow(this.calculateNextDelta()));
         }
 
     }
@@ -60,8 +60,6 @@ export class MultiaddWrapper extends HTMLElement {
         if (newRow.childNodes.length > 0) {
             this.processChildrenRecursive(newRow, lastDelta);
         }
-
-
         return newRow;
     }
 
@@ -84,5 +82,15 @@ export class MultiaddWrapper extends HTMLElement {
                 }
             }
         })
+    }
+
+    private calculateNextDelta(): Number {
+        //All currently populated rows.
+        let realRows: NodeListOf<HTMLDivElement> = this.querySelectorAll('div.rows input.multiadd-row');
+
+        //All rows created by this script.
+        let virtualRows: NodeListOf<HTMLDivElement> = this.querySelectorAll('div.multiadd-row');
+
+        return realRows.length + virtualRows.length;
     }
 }

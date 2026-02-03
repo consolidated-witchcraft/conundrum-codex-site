@@ -48,6 +48,6 @@ $glossGradient: linear-gradient(to top, black 0%, black 50%, white 51%, black 10
 $reflectiveGradient: linear-gradient(315deg, black 0%, black 25%, white 26%, black 50%, black 75%, white 75%, black 100%);
 $dividerGradient: $ink radial-gradient(circle at 50% 50%, transparent, $ink);
 $charcoalGradient: $charcoal linear-gradient(33deg, color.adjust($charcoal, $lightness: +25%), $charcoal);
-$brownGradient: $ink linear-gradient(45deg, $ink, color.adjust($ink, $lightness: -25%));
+$brownGradient: $ink linear-gradient(45deg, $ink, color.adjust($ink, $lightness: -5%));
 $crimsonGradient: $crimson linear-gradient(33deg, $crimson, color.adjust($crimson, $lightness: -5%));
 $whiteGradient: $offWhite linear-gradient(33deg, $offWhite 75%, color.adjust($offWhite, $lightness: -10%));

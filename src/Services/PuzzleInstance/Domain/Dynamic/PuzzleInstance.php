@@ -121,6 +121,15 @@ class PuzzleInstance extends AbstractDomainEntity implements DynamicPuzzleInstan
         return $this->config;
     }
 
+    public function getConfigValue(string $configOptionName): mixed {
+        foreach ($this->config as $configOption) {
+            if ($configOption->getName() === $configOptionName) {
+                return $configOption->getValue();
+            }
+        }
+        return null;
+    }
+
     /**
      * @param DynamicPuzzleFieldInterface[] $config
      */
@@ -147,7 +156,7 @@ class PuzzleInstance extends AbstractDomainEntity implements DynamicPuzzleInstan
     public function isPublished(): bool
     {
         $date= new \DateTime();
-        return $this->publicationDate !== null && $this->publicationDate >= $date;
+        return $this->publicationDate !== null && $date >= $this->publicationDate;
     }
 
     /**

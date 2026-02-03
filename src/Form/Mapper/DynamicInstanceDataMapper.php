@@ -19,7 +19,11 @@ class DynamicInstanceDataMapper implements DataMapperInterface
      */
     public function mapDataToForms(mixed $viewData, \Traversable $forms): void
     {
-        dd($viewData);
+        $forms = iterator_to_array($forms);
+
+        foreach ($forms as $key => $form) {
+            $form->setData($viewData->getConfigFieldValue($key));
+        }
     }
 
     /**
@@ -39,12 +43,12 @@ class DynamicInstanceDataMapper implements DataMapperInterface
 
         foreach ($forms as $fieldName =>  $fieldDefinition) {
             $fieldData = $fieldDefinition->getData();
-
             if ($fieldData === null) {
                 continue;
             }
 
             $viewData->setConfigFieldValue($fieldName, $fieldData);
         }
+
     }
 }

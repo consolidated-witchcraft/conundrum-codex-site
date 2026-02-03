@@ -58,9 +58,12 @@ class PuzzleInstanceController extends AbstractPuzzleController
             puzzleTemplate: $puzzleTemplate,
             dto: $dto,
         );
+
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
-            $puzzleInstance->setConfig($dto->toArray());
+            $puzzleInstance->setConfig($dto->config);
+
+
             $success = true;
             $violations = $this->validator->validate($puzzleInstance);
             if (count($violations) > 0) {
@@ -96,7 +99,7 @@ class PuzzleInstanceController extends AbstractPuzzleController
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
             $puzzleInstance->setPublicationDate($dto->publicationDate);
-            $this->entityManager->persist($puzzleInstance);
+            $this->puzzleInstanceService->saveInstance($puzzleInstance);
             $this->entityManager->flush();
             $this->addFlash('success', 'Publication Date set');
             return $this->redirectToRoute(
