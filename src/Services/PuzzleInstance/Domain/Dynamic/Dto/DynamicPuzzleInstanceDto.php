@@ -24,24 +24,7 @@ use App\Services\PuzzleTemplate\Domain\ConfigOptionDefinitions\PuzzleTemplateCon
 use App\Services\PuzzleTemplate\Domain\Exceptions\PuzzleTemplateNotMappedException;
 use App\Services\PuzzleTemplate\Domain\PuzzleTemplate;
 
-#[ApiResource(
-    uriTemplate: '/puzzles/instances/dynamic/{templateSlug}/{instanceCode}',
-    operations: [
-        new Get()
-    ],
-    uriVariables: [
-        'templateSlug' => new Link(
-            fromProperty: 'templateSlug',
-            fromClass: PuzzleTemplateDto::class
-        ),
-        'instanceCode' => new Link(
-            fromProperty: 'instanceCode',
-            fromClass: DynamicPuzzleInstanceDto::class
-        )
-    ],
-    stateless: false,
-    provider: DynamicPuzzleInstanceProvider::class
-)]
+
 class DynamicPuzzleInstanceDto
 {
     private function __construct(

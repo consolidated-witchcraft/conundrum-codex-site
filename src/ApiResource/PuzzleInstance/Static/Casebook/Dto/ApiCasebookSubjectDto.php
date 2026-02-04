@@ -7,6 +7,7 @@ namespace App\ApiResource\PuzzleInstance\Static\Casebook\Dto;
 use ApiPlatform\Metadata\ApiResource;
 use ApiPlatform\Metadata\Get;
 use ApiPlatform\Metadata\Link;
+use App\ApiResource\PuzzleInstance\ApiPuzzleInstanceDtoInterface;
 use App\ApiResource\PuzzleInstance\Static\Casebook\Providers\CasebookSubjectProvider;
 use App\Services\PuzzleInstance\Domain\Casebook\CasebookSubject;
 use Doctrine\Common\Collections\ArrayCollection;
@@ -19,7 +20,7 @@ use Doctrine\Common\Collections\ArrayCollection;
     uriVariables: [
         'instanceCode' => new Link(
             fromProperty: 'instanceCode',
-            fromClass: ApiCasebookDto::class
+            fromClass: ApiCasebookDtoApi::class
         ),
 
         'subject' => new Link(
@@ -28,9 +29,10 @@ use Doctrine\Common\Collections\ArrayCollection;
         ),
     ],
     stateless: false,
+    security: 'is_granted("play_instance", object)',
     provider: CasebookSubjectProvider::class
 )]
-class ApiCasebookSubjectDto
+class ApiCasebookSubjectDto implements ApiPuzzleInstanceDtoInterface
 {
 
     public function getSubjectId(): ?int {
@@ -43,6 +45,8 @@ class ApiCasebookSubjectDto
     public ArrayCollection $clues;
 
     final public function __construct(
+        public string $instanceCode,
+        public string $gameSlug,
         public string $name,
         public string $description,
         public string $type,
@@ -59,6 +63,8 @@ class ApiCasebookSubjectDto
     public static function makeFromSubject(CasebookSubject $subject): static {
 
         $dto = new static (
+            instanceCode: $subject->getCasebook()->getInstanceCode(),
+            gameSlug: $subject->getCasebook()->getGame()->getSlug(),
             name: $subject->getName(),
             description: $subject->getDescription(),
             type: $subject->getCasebookSubjectType()->getHandle(),
@@ -70,5 +76,15 @@ class ApiCasebookSubjectDto
             $dto->clues->add(ApiCasebookSubjectClueDto::makeFromCasebookSubjectClue($revealedClue));
         }
         return $dto;
+    }
+
+    public function getInstanceCode(): string
+    {
+        return $this->instanceCode;
+    }
+
+    public function getGameSlug(): string
+    {
+        return $this->gameSlug;
     }
 }

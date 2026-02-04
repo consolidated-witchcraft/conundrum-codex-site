@@ -22,10 +22,10 @@ class CasebookFormType extends AbstractType
                 ]
             )
             ->add(
-                'submit',
+                'next',
                 SubmitType::class,
                 [
-                    'attr' => ['class' => 'btn-primary'],
+                    'attr' => ['class' => 'btn-success'],
                 ]
             )
         ;

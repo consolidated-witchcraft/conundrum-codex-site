@@ -7,6 +7,7 @@ namespace App\Controller\Visitor\Puzzles\Static;
 use App\Controller\Traits\HandlesFileUploadsTrait;
 use App\Controller\Visitor\Puzzles\AbstractPuzzleController;
 use App\Dto\Visitor\Puzzles\Static\Casebook\CasebookSubjectDto;
+use App\Form\Mapper\DynamicInstanceDataMapper;
 use App\Form\Visitor\Puzzle\Static\Casebook\CasebookSubjectType;
 use App\Form\Visitor\Puzzle\Static\Casebook\DeleteCasebookSubjectType;
 use App\Security\GameManagerVoter;
@@ -16,6 +17,7 @@ use App\Services\PuzzleInstance\Domain\Casebook\Casebook;
 use App\Services\PuzzleInstance\Domain\Casebook\CasebookSubject;
 use App\Services\PuzzleInstance\Domain\Casebook\CasebookSubjectClue;
 use App\Services\PuzzleInstance\Domain\Interfaces\PuzzleInstanceInterface;
+use App\Services\PuzzleInstance\Service\Interfaces\PuzzleInstanceServiceInterface;
 use App\Services\PuzzleTemplate\Domain\PuzzleTemplate;
 use App\Services\PuzzleInstance\Infrastructure\Casebook\Repository\CasebookSubjectClueRepository;
 use App\Services\PuzzleTemplate\Service\Interfaces\PuzzleTemplateServiceInterface;
@@ -37,15 +39,25 @@ class CasebookSubjectController extends AbstractPuzzleController
     use HandlesFileUploadsTrait;
     public function __construct(
         #[Autowire('%kernel.project_dir%/public/uploads/images/casebook')] private string $publicImagesDirectory,
-        PuzzleTemplateServiceInterface $puzzleService,
+        PuzzleTemplateServiceInterface $puzzleTemplateService,
+        PuzzleInstanceServiceInterface $puzzleInstanceService,
         SerializerInterface $serializer,
         EntityManagerInterface $entityManager,
         SluggerInterface $slugger,
         ValidatorInterface $validator,
         FilesServiceInterface $filesService,
+        DynamicInstanceDataMapper $dynamicInstanceDataMapper,
     ) {
         parent::__construct(
-            puzzleTemplateService: $puzzleService, serializer: $serializer, entityManager:  $entityManager, slugger: $slugger, validator: $validator, filesService: $filesService);
+            puzzleTemplateService: $puzzleTemplateService,
+            puzzleInstanceTemplateService: $puzzleInstanceService,
+            serializer: $serializer,
+            entityManager: $entityManager,
+            slugger: $slugger,
+            validator: $validator,
+            filesService: $filesService,
+            dynamicInstanceDataMapper: $dynamicInstanceDataMapper,
+        );
     }
     #[IsGranted(GameManagerVoter::MANAGE_GAME_ACTION, 'game')]
     #[Route('games/{gameSlug}/puzzles/static/{templateSlug}/{instanceCode}/subjects/add', name: 'app.puzzles.static.casebook.subjects.add')]

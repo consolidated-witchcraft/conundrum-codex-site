@@ -9,9 +9,11 @@ use App\Controller\Visitor\Puzzles\PuzzleInstance\Traits\GeneratesDynamicPuzzleI
 use App\Controller\Visitor\Puzzles\PuzzleTemplateController;
 use App\Dto\Visitor\Game\AddPuzzle\AddPuzzleStepOneDto;
 use App\Dto\Visitor\Game\AddPuzzle\ChooseGameDto;
+use App\Dto\Visitor\Game\AddPuzzle\ChoosePuzzleDto;
 use App\Form\Mapper\DynamicInstanceDataMapper;
 use App\Form\Type\DieRollType;
 use App\Form\Visitor\Puzzle\AddPuzzle\ChooseGameType;
+use App\Form\Visitor\Puzzle\AddPuzzle\ChoosePuzzleType;
 use App\Security\GameManagerVoter;
 use App\Services\Files\Service\Interfaces\FilesServiceInterface;
 use App\Services\Game\Domain\Game;
@@ -46,7 +48,7 @@ class AddPuzzleController extends AbstractPuzzleController
      * @throws ExceptionInterface
      */
     #[Route('/puzzles/templates/{templateSlug}/add-to-game/step-1', name: 'app.puzzles.instance.add')]
-    public function addToGame(string $templateSlug, Request $request): Response {
+    public function addInstanceToGame(string $templateSlug, Request $request): Response {
         $template = $this->puzzleTemplateService->getTemplateBySlug($templateSlug);
 
         if (!$template) {
@@ -95,6 +97,58 @@ class AddPuzzleController extends AbstractPuzzleController
     }
 
     /**
+     * @throws ExceptionInterface
+     */
+    #[IsGranted(GameManagerVoter::MANAGE_GAME_ACTION, 'game')]
+    #[Route('games/{gameSlug}/puzzles/add', name: 'app.games.puzzles.add')]
+    public function addToGame(Game $game, Request $request): Response {
+
+        $user = $this->getUser();
+        if (null === $user) {
+            return $this->redirectToRoute('app.auth.login', ['_target_path' => '/dashboard']);
+        }
+        if ($user instanceof User) {
+            $dto = new ChoosePuzzleDto($game->getSlug());
+            $form = $this->createForm(ChoosePuzzleType::class, $dto);
+            $form->handleRequest($request);
+            if ($form->isSubmitted() && $form->isValid()) {
+                $serializedDto = $this->serializer->serialize(
+
+                    new AddPuzzleStepOneDto(
+                        templateSlug: $dto->templateSlug,
+                        gameSlug: $game->getSlug(),
+                        puzzleName: $dto->puzzleName,
+                        puzzleDescription: $dto->description
+                    ),
+                    'json'
+                );
+                $session = $request->getSession();
+                $session->set(self::ADD_TO_GAME_SESSION_KEY, $serializedDto);
+                $this->addFlash('success', 'Puzzle added! Now to configure it.');
+
+                $template = $this->puzzleTemplateService->getTemplateBySlug($dto->templateSlug);
+                return $template->isStatic() ? $this->redirectToRoute($template->getStaticCreateRoute(), ['gameSlug' => $game->getSlug()]) :
+                    $this->redirectToRoute(
+                        'app.puzzles.instance.configure',
+                        [
+                            'templateSlug' => $template->getSlug(),
+                            'gameSlug' => $game->getSlug()
+                        ]);
+            }
+            $pageVars = [
+                'pageTitle' => sprintf("Add a puzzle to %s", $game->getName()),
+                'form' => $form
+            ];
+
+        } else {
+            throw new \Exception("User is of incorrect type");
+        }
+
+        return $this->render('/visitor/games/addPuzzle/step1.html.twig', $this->populatePageVars($pageVars, $request));
+    }
+
+
+    /**
      * @throws \Exception
      */
     #[IsGranted(GameManagerVoter::MANAGE_GAME_ACTION, 'game')]
@@ -115,7 +169,7 @@ class AddPuzzleController extends AbstractPuzzleController
             game: $game,
             puzzleTemplate: $puzzleTemplate,
         );
-        $dto->setInstanceCode($this->puzzleInstanceService->generateNewInstanceCode($puzzleTemplate));
+        $dto->setInstanceCode($this->puzzleInstanceTemplateService->generateNewInstanceCode($puzzleTemplate));
 
         $form = $this->generateTemplateForm(
             builder: $this->createFormBuilder(),

@@ -16,6 +16,7 @@ class ChooseGameDto
         public string $template,
 
         #[Groups(['basic'])]
+        #[Assert\NotNull]
         public ? Game $game = null,
 
         #[Assert\NotBlank]

@@ -2,6 +2,16 @@
 {% block body %}
     <div class="row">
         <div class="col">
+            <nav class="secondary">
+                <a class="btn" href="{{ path('app.games.edit', {'gameSlug': game.getSlug}) }}">Edit Basic information</a>
+                <a href="{{ path('app.games.delete', {'gameSlug': game.getSlug}) }}">Delete this Game</a>
+                <a href="{{ path('app.games.play', {'gameSlug': game.getSlug}) }}">View this Game as a Player</a>
+            </nav>
+
+        </div>
+    </div>
+    <div class="row">
+        <div class="col">
             <h2>Basic Information</h2>
         </div>
     </div>
@@ -20,11 +30,7 @@
             </dl>
         </div>
     </div>
-    <div class="row">
-        <div class="col">
-            <a class="btn" href="{{ path('app.games.edit', {'gameSlug': game.getSlug}) }}">Edit this information</a>
-        </div>
-    </div>
+
     <hr class="row-divider">
     <div class="row">
         <section class="col">
@@ -56,56 +62,8 @@
         </section>
     </div>
     <hr class="row-divider">
-    <div class="row">
-        <section class="col">
-            <h2>Players</h2>
-        </section>
-    </div>
-    <div class="row equal-thirds">
-        <div class="col">
-            <article>
-                <h3>Active Players</h3>
-                {% for player in game.getPlayers %}
-                    {% embed 'visitor/account/partials/_userCard.html.twig' with {'user': player} %}{% endembed %}
-                {% endfor %}
-            </article>
-        </div>
-        <div class="col">
-            <article>
-                <h3>Outstanding Invitations</h3>
-                {% if invitations is empty %}
-                    <em>No players have been invited to your game. Why not invite some?</em>
-                {% else %}
-                    <div class="accordion-list" is="accordion-list">
-                        {% for invitation in invitations %}
-                            <article class="accordion-entry" id="invitation-{{ invitation.id }}" is="accordion-entry" data-open="false">
-                                <h3 class="accordion-heading">{{ invitation.email }}</h3>
-                                <div class="accordion-body">
-                                    <div class="accordion-content">
-                                        <dl>
-                                            <dt>Email</dt>
-                                            <dd>{{ invitation.email }}</dd>
-                                            <dt>Invitation Code</dt>
-                                            <dd>{{ invitation.invitationCode }}</dd>
-                                            <dt>Expires at</dt>
-                                            <dd>{{ invitation.expiresAt.format('Y-m-d H:i:s') }}</dd>
-                                        </dl>
-                                        <nav class="secondary">
-                                            <a href="{{ path('app.games.invite.revoke', {'gameSlug': game.getSlug, 'invitationCode': invitation.invitationCode}) }}" class="btn btn-danger">Revoke</a>
-                                        </nav>
-                                    </div>
 
-                                </div>
-                            </article>
-                        {% endfor  %}
-                    </div>
-                {% endif %}
-            </article>
-            <a href="{{ path('app.games.invite', {'gameSlug': game.getSlug}) }}" class="btn btn-blue">Invite Players</a>
-        </div>
-    </div>
-    <hr class="row-divider">
-    <div class="row">
+    <div class="row three-quarters-one-quarter">
         <div class="col">
             <article>
                 <h2>Puzzles</h2>
@@ -148,14 +106,49 @@
             </article>
             <article>
                 <div class="btn-group">
-                    <a href="" class="btn btn-primary">Add a Puzzle</a>
-                    <a href="{{ path('app.games.delete', {'gameSlug': game.getSlug}) }}" class="btn btn-danger">Delete this Game</a>
-                    <a href="{{ path('app.games.play', {'gameSlug': game.getSlug}) }}" class="btn btn-secondary">View this Game as a Player</a>
+                    <a href="{{ path('app.games.puzzles.add', {'gameSlug': game.getSlug}) }}" class="btn btn-primary">Add a Puzzle</a>
                 </div>
-
-
             </article>
         </div>
-    </div>
+        <div class="col">
+            <h2>Players</h2>
+            <article>
+                <h3>Active Players</h3>
+                {% for player in game.getPlayers %}
+                    {% embed 'visitor/account/partials/_userCard.html.twig' with {'user': player} %}{% endembed %}
+                {% endfor %}
+            </article>
+            <article>
+                <h3>Outstanding Invitations</h3>
+                {% if invitations is empty %}
+                    <em>No players have been invited to your game. Why not invite some?</em>
+                {% else %}
+                    <div class="accordion-list" is="accordion-list">
+                        {% for invitation in invitations %}
+                            <article class="accordion-entry" id="invitation-{{ invitation.id }}" is="accordion-entry" data-open="false">
+                                <h3 class="accordion-heading">{{ invitation.email }}</h3>
+                                <div class="accordion-body">
+                                    <div class="accordion-content">
+                                        <dl>
+                                            <dt>Email</dt>
+                                            <dd>{{ invitation.email }}</dd>
+                                            <dt>Invitation Code</dt>
+                                            <dd>{{ invitation.invitationCode }}</dd>
+                                            <dt>Expires at</dt>
+                                            <dd>{{ invitation.expiresAt.format('Y-m-d H:i:s') }}</dd>
+                                        </dl>
+                                        <nav class="secondary">
+                                            <a href="{{ path('app.games.invite.revoke', {'gameSlug': game.getSlug, 'invitationCode': invitation.invitationCode}) }}" class="btn btn-danger">Revoke</a>
+                                        </nav>
+                                    </div>
 
+                                </div>
+                            </article>
+                        {% endfor  %}
+                    </div>
+                {% endif %}
+            </article>
+            <a href="{{ path('app.games.invite', {'gameSlug': game.getSlug}) }}" class="btn btn-blue">Invite Players</a>
+        </div>
+    </div>
 {% endblock %}

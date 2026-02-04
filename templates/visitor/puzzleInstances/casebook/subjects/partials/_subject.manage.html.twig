@@ -55,7 +55,7 @@
                         'instanceCode': casebook.getInstanceCode,
                         'subjectId': subject.getId
                     }
-                ) }}" class="btn btn-primary">Edit</a>
+                ) }}" class="btn btn-primary">Edit {{ subject.getName }}</a>
                 <a href="{{ path(
                     'app.puzzles.static.casebook.subjects.delete',
                     {
@@ -64,7 +64,7 @@
                         'instanceCode': casebook.getInstanceCode,
                         'subjectId': subject.getId
                     }
-                ) }}" class="btn btn-danger">Delete</a>
+                ) }}" class="btn btn-danger">Delete {{ subject.getName }}</a>
                 {% if subject.isRevealed == false %}
                     <a href="{{ path(
                         'app.puzzles.static.casebook.subjects.discover',

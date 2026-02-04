@@ -9,7 +9,7 @@ use ApiPlatform\Metadata\Get;
 use ApiPlatform\Metadata\GetCollection;
 use ApiPlatform\Metadata\Link;
 use App\ApiResource\PuzzleTemplate\Provider\PuzzleTemplateDtoProvider;
-use App\Services\Puzzle\Domain\PuzzleTemplate;
+use App\Services\PuzzleTemplate\Domain\PuzzleTemplate;
 
 #[ApiResource(
     uriTemplate: '/puzzles/templates',
@@ -27,6 +27,7 @@ use App\Services\Puzzle\Domain\PuzzleTemplate;
     ],
 
     stateless: false,
+    security: 'is_granted("ROLE_USER")',
     provider: PuzzleTemplateDtoProvider::class
 )]
 readonly class PuzzleTemplateDto

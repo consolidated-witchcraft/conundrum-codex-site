@@ -99,7 +99,7 @@ class PuzzleInstanceController extends AbstractPuzzleController
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
             $puzzleInstance->setPublicationDate($dto->publicationDate);
-            $this->puzzleInstanceService->saveInstance($puzzleInstance);
+            $this->puzzleInstanceTemplateService->saveInstance($puzzleInstance);
             $this->entityManager->flush();
             $this->addFlash('success', 'Publication Date set');
             return $this->redirectToRoute(
@@ -157,7 +157,7 @@ class PuzzleInstanceController extends AbstractPuzzleController
         $form = $this->createForm(DeletePuzzleInstanceType::class);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
-            $this->puzzleInstanceService->deleteInstance($puzzleInstance);
+            $this->puzzleInstanceTemplateService->deleteInstance($puzzleInstance);
             $this->addFlash('success', 'Puzzle instance deleted!');
             return $this->redirectToRoute('app.games.manage', [
                 'gameSlug' => $game->getSlug(),

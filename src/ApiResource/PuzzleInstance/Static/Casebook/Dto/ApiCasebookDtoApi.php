@@ -5,6 +5,7 @@ namespace App\ApiResource\PuzzleInstance\Static\Casebook\Dto;
 use ApiPlatform\Metadata\ApiResource;
 use ApiPlatform\Metadata\Get;
 use ApiPlatform\Metadata\Link;
+use App\ApiResource\PuzzleInstance\ApiPuzzleInstanceDtoInterface;
 use App\ApiResource\PuzzleInstance\Static\Casebook\Providers\CasebookProvider;
 use App\Services\PuzzleInstance\Domain\Casebook\Casebook;
 
@@ -16,15 +17,17 @@ use App\Services\PuzzleInstance\Domain\Casebook\Casebook;
     uriVariables: [
         'instanceCode' => new Link(
             fromProperty: 'instanceCode',
-            fromClass: ApiCasebookDto::class
+            fromClass: ApiCasebookDtoApi::class
         )
     ],
     stateless: false,
+    security: 'is_granted("play_instance", object)',
     provider: CasebookProvider::class
 )]
-readonly class ApiCasebookDto
+readonly class ApiCasebookDtoApi implements ApiPuzzleInstanceDtoInterface
 {
     final public function __construct(
+        public string $gameSlug,
         public string $instanceCode,
         public string $name,
         public string $brief
@@ -32,9 +35,20 @@ readonly class ApiCasebookDto
 
     public static function makeFromInstance(Casebook $casebook): self {
         return new static(
+            gameSlug: $casebook->getGame()->getSlug(),
             instanceCode: $casebook->getInstanceCode(),
             name: $casebook->getName(),
             brief: $casebook->getBrief()
         );
+    }
+
+    public function getInstanceCode(): string
+    {
+        return $this->instanceCode;
+    }
+
+    public function getGameSlug(): string
+    {
+        return $this->gameSlug;
     }
 }

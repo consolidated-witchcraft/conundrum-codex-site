@@ -21,13 +21,13 @@ abstract class AbstractPuzzleController extends AbstractBaseController
 
     public function __construct(
         protected readonly PuzzleTemplateServiceInterface $puzzleTemplateService,
-        protected readonly PuzzleInstanceServiceInterface $puzzleInstanceService,
-        protected readonly SerializerInterface $serializer,
-        protected readonly EntityManagerInterface $entityManager,
-        protected readonly SluggerInterface $slugger,
-        protected readonly ValidatorInterface $validator,
-        protected readonly FilesServiceInterface $filesService,
-        protected readonly DynamicInstanceDataMapper $dynamicInstanceDataMapper,
+        protected readonly PuzzleInstanceServiceInterface $puzzleInstanceTemplateService,
+        protected readonly SerializerInterface            $serializer,
+        protected readonly EntityManagerInterface         $entityManager,
+        protected readonly SluggerInterface               $slugger,
+        protected readonly ValidatorInterface             $validator,
+        protected readonly FilesServiceInterface          $filesService,
+        protected readonly DynamicInstanceDataMapper      $dynamicInstanceDataMapper,
     ) {
     }
 }

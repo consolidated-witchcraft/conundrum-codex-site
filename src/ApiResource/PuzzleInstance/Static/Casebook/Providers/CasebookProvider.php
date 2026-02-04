@@ -6,14 +6,14 @@ namespace App\ApiResource\PuzzleInstance\Static\Casebook\Providers;
 
 use ApiPlatform\Metadata\Operation;
 use ApiPlatform\State\ProviderInterface;
-use App\ApiResource\PuzzleInstance\Static\Casebook\Dto\ApiCasebookDto;
+use App\ApiResource\PuzzleInstance\Static\Casebook\Dto\ApiCasebookDtoApi;
 use App\Services\PuzzleInstance\Domain\Casebook\Casebook;
 use App\Services\PuzzleInstance\Infrastructure\Casebook\Repository\CasebookRepository;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 
 
 /**
- * @template-implements ProviderInterface<ApiCasebookDto>
+ * @template-implements ProviderInterface<ApiCasebookDtoApi>
  */
 class CasebookProvider implements ProviderInterface
 {
@@ -31,7 +31,7 @@ class CasebookProvider implements ProviderInterface
         if (is_string($uriVariables['instanceCode'])) {
             $instance = $this->casebookRepository->getInstance($uriVariables['instanceCode']);
             if ($instance instanceof Casebook) {
-                return ApiCasebookDto::makeFromInstance($instance);
+                return ApiCasebookDtoApi::makeFromInstance($instance);
             }
         }
         return null;

@@ -5,9 +5,11 @@
             <h2>Description</h2>
             {{ game.getDescription }}
             {% if is_game_manager(app.user, game) %}
-                <div class="btn-group">
+                <nav class="secondary">
                     <a href="{{ path('app.games.manage', {'gameSlug': game.getSlug}) }}">Manage this game</a>
-                </div>
+                </nav>
+
+
 
             {% endif %}
             <hr class="subtle">

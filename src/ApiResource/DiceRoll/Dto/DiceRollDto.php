@@ -21,6 +21,7 @@ use App\ApiResource\DiceRoll\Providers\DiceRollProvider;
         )
     ],
     stateless: false,
+    security: 'is_granted("ROLE_USER")',
     provider: DiceRollProvider::class
 )]
 readonly class DiceRollDto
