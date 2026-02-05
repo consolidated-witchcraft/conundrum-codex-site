@@ -24,6 +24,7 @@ class UserTest extends TestCase
             email: $overrides['email'] ?? 'test@test.local',
             username: $overrides['username'] ?? 'Test User',
             userAccountType: $overrides['userAccountType'] ?? $this->createStub(UserAccountType::class),
+            userBlocks: $overrides['userBlocks'] ?? new ArrayCollection(),
             password: $overrides['password'] ?? 'Test Pass',
             hasAcceptedCookies: $overrides['hasAcceptedCookies'] ?? false,
             profilePublic: $overrides['profilePublic'] ?? false,
@@ -41,6 +42,7 @@ class UserTest extends TestCase
             email: $testEmail,
             username: $userName,
             userAccountType: $userAccountType,
+            userBlocks: new ArrayCollection(),
             password: $password,
             id: $id
         );
@@ -58,7 +60,7 @@ class UserTest extends TestCase
         self::assertEmpty($user->getArchivedGamesMastered());
         self::assertEmpty($user->getFeats());
         self::assertFalse($user->isBlocked());
-        self::assertNull($user->getUserBlock());
+        self::assertEmpty($user->getUserBlock());
     }
 
     public function testSetEmail(): void {

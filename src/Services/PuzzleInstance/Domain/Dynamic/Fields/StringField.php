@@ -42,4 +42,12 @@ class StringField extends AbstractDynamicField implements DynamicPuzzleFieldInte
             );
         }
     }
+
+    /**
+     * @throws DynamicFieldValueMismatchException
+     */
+    public function setValue(mixed $value): void {
+        $this->guard($value);
+        $this->value = AbstractDynamicField::xssCleanString($value);
+    }
 }

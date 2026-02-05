@@ -47,4 +47,11 @@ class StringArrayField extends AbstractDynamicField implements DynamicPuzzleFiel
             }
         }
     }
+
+    public function setValue(mixed $value): void {
+        $this->guard($value);
+        $this->value = array_map(function ($item) {
+            return AbstractDynamicField::xssCleanString($item);
+        }, $value);
+    }
 }

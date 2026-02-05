@@ -20,12 +20,6 @@ class BooleanArrayField extends AbstractDynamicField implements DynamicPuzzleFie
         return $this->value;
     }
 
-    public function setValue(array|bool|int|string|float $value): void
-    {
-
-        $this->value = $value;
-    }
-
     public function getType(): string
     {
         return ValidPuzzleConfigOptionTypes::BOOLEAN_ARRAY_TYPE_KEY;

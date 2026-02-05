@@ -16,9 +16,9 @@ class BooleanField extends AbstractDynamicField implements DynamicPuzzleFieldInt
     /**
      * @inheritDoc
      */
-    public function getValue(): bool
+    public function getValue(): ?bool
     {
-        return $this->value ?? false;
+        return $this->value;
     }
 
     public function getType(): string
@@ -31,7 +31,7 @@ class BooleanField extends AbstractDynamicField implements DynamicPuzzleFieldInt
      * @return void
      * @throws DynamicFieldValueMismatchException
      */
-    public function guard(float|array|bool|int|string $value): void
+    public function guard(mixed $value): void
     {
         if (!is_bool($value)) {
             throw new DynamicFieldValueMismatchException(

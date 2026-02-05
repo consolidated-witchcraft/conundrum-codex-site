@@ -9,16 +9,21 @@ use App\Services\PuzzleTemplate\Service\ValidPuzzleConfigOptionTypes;
 
 class DieRollField extends AbstractDynamicField implements DynamicPuzzleFieldInterface
 {
-    public const string ACCEPTED_SCALAR_TYPE_DESCRIPTION = 'array';
+    private const array KNOWN_SUBFIELDS = [
+        'x',
+        'd',
+        'p'
+    ];
+    public const string ACCEPTED_SCALAR_TYPE_DESCRIPTION = "array{'x': int, 'd': int, 'p': ?int}";
 
     public static function getAcceptedScalarTypeDescription(): string
     {
         return self::ACCEPTED_SCALAR_TYPE_DESCRIPTION;
     }
 
-    public function getValue(): array
+    public function getValue(): ?array
     {
-        return $this->value ?? [];
+        return $this->value;
     }
 
     public function getType(): string
@@ -31,7 +36,7 @@ class DieRollField extends AbstractDynamicField implements DynamicPuzzleFieldInt
      * @return void
      * @throws DynamicFieldValueMismatchException
      */
-    public function guard(float|array|bool|int|string $value): void
+    public function guard(mixed $value): void
     {
         if (!is_array($value)) {
             throw new DynamicFieldValueMismatchException(
@@ -39,6 +44,23 @@ class DieRollField extends AbstractDynamicField implements DynamicPuzzleFieldInt
                 acceptedType: 'array',
                 actualType: gettype($value),
             );
+        }
+        foreach ($value as $key => $item) {
+            if (!in_array($key, self::KNOWN_SUBFIELDS)) {
+                throw new DynamicFieldValueMismatchException(
+                    fieldName: $this->getName(),
+                    acceptedType: 'array[x,d,p]',
+                    actualType: gettype($value),
+                );
+            }
+
+            if (!is_int($item)) {
+                throw new DynamicFieldValueMismatchException(
+                    fieldName: $this->getName(),
+                    acceptedType: 'array[x,d,p]',
+                    actualType: gettype($item),
+                );
+            }
         }
     }
 }

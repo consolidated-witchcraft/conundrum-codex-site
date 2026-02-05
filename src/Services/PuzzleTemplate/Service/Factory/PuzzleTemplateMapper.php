@@ -12,10 +12,10 @@ use App\Services\PuzzleTemplate\Domain\PuzzleTemplate;
 use App\Services\PuzzleTemplate\Service\PuzzleCategoryServiceInterface;
 use Doctrine\Common\Collections\ArrayCollection;
 
-class PuzzleTemplateMapper
+readonly class PuzzleTemplateMapper
 {
     public function __construct(
-        private readonly PuzzleCategoryServiceInterface $puzzleCategoryService,
+        private PuzzleCategoryServiceInterface $puzzleCategoryService,
     ) {}
 
     public function mapTemplate(array $templateData): PuzzleTemplate {
