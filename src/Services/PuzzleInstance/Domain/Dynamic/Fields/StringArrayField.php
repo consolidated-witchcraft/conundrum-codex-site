@@ -4,23 +4,24 @@ declare(strict_types=1);
 
 namespace App\Services\PuzzleInstance\Domain\Dynamic\Fields;
 
-use App\Services\PuzzleInstance\Domain\Dynamic\Fields\Exceptions\DynamicFieldValueMismatchException;
+use App\Services\PuzzleInstance\Domain\Dynamic\Fields\Exceptions\DynamicFieldInvalidValueException;
+use App\Services\PuzzleInstance\Domain\Dynamic\Fields\Traits\ValidatesStringsTrait;
 use App\Services\PuzzleTemplate\Service\ValidPuzzleConfigOptionTypes;
 
 class StringArrayField extends AbstractDynamicField implements DynamicPuzzleFieldInterface
 {
-
+    use ValidatesStringsTrait;
     public static function getAcceptedScalarTypeDescription(): string
     {
         return 'string[]';
     }
 
     /**
-     * @return string[]
+     * @return array|null
      */
-    public function getValue(): array
+    public function getValue(): ?array
     {
-        return $this->value ?? [];
+        return $this->value;
     }
 
     public function getType(): string
@@ -28,10 +29,10 @@ class StringArrayField extends AbstractDynamicField implements DynamicPuzzleFiel
         return ValidPuzzleConfigOptionTypes::STRING_ARRAY_TYPE_KEY;
     }
 
-    public function guard(float|array|bool|int|string $value): void
+    public function guard(mixed $value): void
     {
         if (!is_array($value)) {
-            throw new DynamicFieldValueMismatchException(
+            throw new DynamicFieldInvalidValueException(
                 fieldName: $this->getName(),
                 acceptedType: self::getAcceptedScalarTypeDescription(),
                 actualType: gettype($value),
@@ -39,19 +40,16 @@ class StringArrayField extends AbstractDynamicField implements DynamicPuzzleFiel
         }
         foreach ($value as $item) {
             if (!is_string($item)) {
-                throw new DynamicFieldValueMismatchException(
+                throw new DynamicFieldInvalidValueException(
                     fieldName: $this->getName(),
                     acceptedType: $this->getAcceptedScalarTypeDescription(),
                     actualType: sprintf("%s[]", gettype($item)),
                 );
             }
+            $this->guardString(
+                fieldName: $this->getName(),
+                value: $item
+            );
         }
-    }
-
-    public function setValue(mixed $value): void {
-        $this->guard($value);
-        $this->value = array_map(function ($item) {
-            return AbstractDynamicField::xssCleanString($item);
-        }, $value);
     }
 }

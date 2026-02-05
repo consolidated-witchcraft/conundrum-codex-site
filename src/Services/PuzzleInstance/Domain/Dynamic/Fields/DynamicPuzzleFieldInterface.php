@@ -2,7 +2,7 @@
 
 namespace App\Services\PuzzleInstance\Domain\Dynamic\Fields;
 
-use App\Services\PuzzleInstance\Domain\Dynamic\Fields\Exceptions\DynamicFieldValueMismatchException;
+use App\Services\PuzzleInstance\Domain\Dynamic\Fields\Exceptions\DynamicFieldInvalidValueException;
 
 interface DynamicPuzzleFieldInterface
 {
@@ -15,22 +15,22 @@ interface DynamicPuzzleFieldInterface
     /**
      * @return null|string|int|bool|array<int, string>|array<int, int>|array<int, bool>
      */
-    public function getValue(): null|bool|string|int|array;
+    public function getValue(): mixed;
 
     public function getType(): string;
 
     /**
-     * @param string|int|bool|array<int, string>|array<int, int>|array<int, bool>| $value
+     * @param mixed $value
      * @return void
      */
-    public function setValue(bool|string|int|float|array $value): void;
+    public function setValue(mixed $value): void;
 
     public function clearValue(): void;
 
     /**
      * @param bool|string|int|float|array $value
      * @return void
-     * @throws DynamicFieldValueMismatchException
+     * @throws DynamicFieldInvalidValueException
      */
-    public function guard(bool|string|int|float|array $value): void;
+    public function guard(mixed $value): void;
 }

@@ -2,20 +2,16 @@
 
 namespace App\Services\PuzzleInstance\Domain\Dynamic\Fields;
 
-use App\Services\PuzzleInstance\Domain\Dynamic\Fields\Exceptions\DynamicFieldValueMismatchException;
+use App\Services\PuzzleInstance\Domain\Dynamic\Fields\Exceptions\DynamicFieldInvalidValueException;
+use App\Services\PuzzleInstance\Domain\Dynamic\Fields\Exceptions\DynamicFieldUnsafeValueException;
+use App\Services\PuzzleInstance\Domain\Dynamic\Fields\Traits\ValidatesStringsTrait;
 use App\Services\PuzzleTemplate\Service\ValidPuzzleConfigOptionTypes;
 
 class StringField extends AbstractDynamicField implements DynamicPuzzleFieldInterface
 {
     private const string ACCEPTED_SCALAR_TYPE_DESCRIPTION = 'string';
 
-    public function __construct(
-        string $name,
-        string $label,
-        ? string $value = null
-    ) {
-        parent::__construct($name, $label, $value);
-    }
+    use ValidatesStringsTrait;
 
     public function getValue(): ?string
     {
@@ -32,22 +28,15 @@ class StringField extends AbstractDynamicField implements DynamicPuzzleFieldInte
         return ValidPuzzleConfigOptionTypes::STRING_TYPE_KEY;
     }
 
-    public function guard(float|array|bool|int|string $value): void
+    public function guard(mixed $value): void
     {
         if (!is_string($value)) {
-            throw new DynamicFieldValueMismatchException(
+            throw new DynamicFieldInvalidValueException(
                 fieldName: $this->getName(),
                 acceptedType: self::getAcceptedScalarTypeDescription(),
                 actualType: gettype($value),
             );
         }
-    }
-
-    /**
-     * @throws DynamicFieldValueMismatchException
-     */
-    public function setValue(mixed $value): void {
-        $this->guard($value);
-        $this->value = AbstractDynamicField::xssCleanString($value);
+        $this->guardString($this->getName(), $value);
     }
 }

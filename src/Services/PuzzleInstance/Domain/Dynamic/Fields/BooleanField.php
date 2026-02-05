@@ -2,7 +2,7 @@
 
 namespace App\Services\PuzzleInstance\Domain\Dynamic\Fields;
 
-use App\Services\PuzzleInstance\Domain\Dynamic\Fields\Exceptions\DynamicFieldValueMismatchException;
+use App\Services\PuzzleInstance\Domain\Dynamic\Fields\Exceptions\DynamicFieldInvalidValueException;
 use App\Services\PuzzleTemplate\Service\ValidPuzzleConfigOptionTypes;
 
 class BooleanField extends AbstractDynamicField implements DynamicPuzzleFieldInterface
@@ -29,12 +29,12 @@ class BooleanField extends AbstractDynamicField implements DynamicPuzzleFieldInt
     /**
      * @param float|array|bool|int|string $value
      * @return void
-     * @throws DynamicFieldValueMismatchException
+     * @throws DynamicFieldInvalidValueException
      */
     public function guard(mixed $value): void
     {
         if (!is_bool($value)) {
-            throw new DynamicFieldValueMismatchException(
+            throw new DynamicFieldInvalidValueException(
                 fieldName: $this->getName(),
                 acceptedType: $this->getAcceptedScalarTypeDescription(),
                 actualType: gettype($value)

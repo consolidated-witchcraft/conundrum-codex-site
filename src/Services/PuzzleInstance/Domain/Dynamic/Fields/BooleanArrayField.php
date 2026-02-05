@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Services\PuzzleInstance\Domain\Dynamic\Fields;
 
-use App\Services\PuzzleInstance\Domain\Dynamic\Fields\Exceptions\DynamicFieldValueMismatchException;
+use App\Services\PuzzleInstance\Domain\Dynamic\Fields\Exceptions\DynamicFieldInvalidValueException;
 use App\Services\PuzzleTemplate\Service\ValidPuzzleConfigOptionTypes;
 
 class BooleanArrayField extends AbstractDynamicField implements DynamicPuzzleFieldInterface
@@ -26,14 +26,14 @@ class BooleanArrayField extends AbstractDynamicField implements DynamicPuzzleFie
     }
 
     /**
-     * @param float|array|bool|int|string $value
+     * @param mixed $value
      * @return void
-     * @throws DynamicFieldValueMismatchException
+     * @throws DynamicFieldInvalidValueException
      */
-    public function guard(float|array|bool|int|string $value): void
+    public function guard(mixed $value): void
     {
         if (!is_array($value)) {
-            throw new DynamicFieldValueMismatchException(
+            throw new DynamicFieldInvalidValueException(
                 fieldName: $this->getName(),
                 acceptedType: $this->getAcceptedScalarTypeDescription(),
                 actualType: gettype($value),
@@ -41,7 +41,7 @@ class BooleanArrayField extends AbstractDynamicField implements DynamicPuzzleFie
         }
         foreach ($value as $item) {
             if ($item !== null && !is_bool($item)) {
-                throw new DynamicFieldValueMismatchException(
+                throw new DynamicFieldInvalidValueException(
                     fieldName: $this->getName(),
                     acceptedType: $this->getAcceptedScalarTypeDescription(),
                     actualType: sprintf("%s[]", gettype($item)),

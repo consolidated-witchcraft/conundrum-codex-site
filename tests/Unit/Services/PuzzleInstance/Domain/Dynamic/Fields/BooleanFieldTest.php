@@ -6,7 +6,7 @@ namespace App\Tests\Unit\Services\PuzzleInstance\Domain\Dynamic\Fields;
 
 use App\Services\PuzzleInstance\Domain\Dynamic\Fields\BooleanArrayField;
 use App\Services\PuzzleInstance\Domain\Dynamic\Fields\BooleanField;
-use App\Services\PuzzleInstance\Domain\Dynamic\Fields\Exceptions\DynamicFieldValueMismatchException;
+use App\Services\PuzzleInstance\Domain\Dynamic\Fields\Exceptions\DynamicFieldInvalidValueException;
 use App\Services\PuzzleTemplate\Service\ValidPuzzleConfigOptionTypes;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
@@ -90,7 +90,7 @@ class BooleanFieldTest extends TestCase
 
     #[DataProvider('provideInvalidValues')]
     public function testValueInvalidOnConstruct(mixed $invalidValue): void {
-        $this->expectException(DynamicFieldValueMismatchException::class);
+        $this->expectException(DynamicFieldInvalidValueException::class);
         new BooleanField(
             'testName',
             'testLabel',
@@ -105,7 +105,7 @@ class BooleanFieldTest extends TestCase
             'testLabel',
             null
         );
-        $this->expectException(DynamicFieldValueMismatchException::class);
+        $this->expectException(DynamicFieldInvalidValueException::class);
         $arrayField->setValue($invalidValue);
     }
 

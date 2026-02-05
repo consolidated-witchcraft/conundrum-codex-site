@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Services\PuzzleInstance\Domain\Dynamic\Fields\Exceptions;
 
-class DynamicFieldValueMismatchException extends \Exception
+class DynamicFieldInvalidValueException extends \Exception
 {
     private const string MESSAGE_PATTERN = "Attempting to set invalid value for fieldName %s. The only accepted value(s) for this field are %s. The value set is %s";
 

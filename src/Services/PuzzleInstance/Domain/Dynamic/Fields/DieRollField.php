@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Services\PuzzleInstance\Domain\Dynamic\Fields;
 
-use App\Services\PuzzleInstance\Domain\Dynamic\Fields\Exceptions\DynamicFieldValueMismatchException;
+use App\Services\PuzzleInstance\Domain\Dynamic\Fields\Exceptions\DynamicFieldInvalidValueException;
 use App\Services\PuzzleTemplate\Service\ValidPuzzleConfigOptionTypes;
 
 class DieRollField extends AbstractDynamicField implements DynamicPuzzleFieldInterface
@@ -34,12 +34,12 @@ class DieRollField extends AbstractDynamicField implements DynamicPuzzleFieldInt
     /**
      * @param float|array|bool|int|string $value
      * @return void
-     * @throws DynamicFieldValueMismatchException
+     * @throws DynamicFieldInvalidValueException
      */
     public function guard(mixed $value): void
     {
         if (!is_array($value)) {
-            throw new DynamicFieldValueMismatchException(
+            throw new DynamicFieldInvalidValueException(
                 fieldName: $this->getName(),
                 acceptedType: 'array',
                 actualType: gettype($value),
@@ -47,17 +47,17 @@ class DieRollField extends AbstractDynamicField implements DynamicPuzzleFieldInt
         }
         foreach ($value as $key => $item) {
             if (!in_array($key, self::KNOWN_SUBFIELDS)) {
-                throw new DynamicFieldValueMismatchException(
+                throw new DynamicFieldInvalidValueException(
                     fieldName: $this->getName(),
-                    acceptedType: 'array[x,d,p]',
+                    acceptedType: self::ACCEPTED_SCALAR_TYPE_DESCRIPTION,
                     actualType: gettype($value),
                 );
             }
 
             if (!is_int($item)) {
-                throw new DynamicFieldValueMismatchException(
+                throw new DynamicFieldInvalidValueException(
                     fieldName: $this->getName(),
-                    acceptedType: 'array[x,d,p]',
+                    acceptedType: self::ACCEPTED_SCALAR_TYPE_DESCRIPTION,
                     actualType: gettype($item),
                 );
             }

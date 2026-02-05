@@ -2,7 +2,7 @@
 
 namespace App\Services\PuzzleInstance\Domain\Dynamic\Fields;
 
-use App\Services\PuzzleInstance\Domain\Dynamic\Fields\Exceptions\DynamicFieldValueMismatchException;
+use App\Services\PuzzleInstance\Domain\Dynamic\Fields\Exceptions\DynamicFieldInvalidValueException;
 use App\Services\PuzzleTemplate\Service\ValidPuzzleConfigOptionTypes;
 
 class IntegerField extends AbstractDynamicField implements DynamicPuzzleFieldInterface
@@ -24,7 +24,7 @@ class IntegerField extends AbstractDynamicField implements DynamicPuzzleFieldInt
     /**
      * @inheritDoc
      */
-    public function setValue(bool|array|int|float|string $value): void
+    public function setValue(mixed $value): void
     {
         $this->guard($value);
         $this->value = (int) $value;
@@ -36,14 +36,21 @@ class IntegerField extends AbstractDynamicField implements DynamicPuzzleFieldInt
     }
 
     /**
-     * @param float|array|bool|int|string $value
+     * @param mixed $value
      * @return void
-     * @throws DynamicFieldValueMismatchException
+     * @throws DynamicFieldInvalidValueException
      */
-    public function guard(float|array|bool|int|string $value): void
+    public function guard(mixed $value): void
     {
         if (!is_numeric($value)) {
-            throw new DynamicFieldValueMismatchException(
+            throw new DynamicFieldInvalidValueException(
+                fieldName: $this->getName(),
+                acceptedType: $this->getAcceptedScalarTypeDescription(),
+                actualType: gettype($value),
+            );
+        }
+        if (!is_integer($value)) {
+            throw new DynamicFieldInvalidValueException(
                 fieldName: $this->getName(),
                 acceptedType: $this->getAcceptedScalarTypeDescription(),
                 actualType: gettype($value),

@@ -4,7 +4,7 @@ namespace App\Tests\Unit\Services\PuzzleInstance\Domain\Dynamic\Fields;
 
 use App\Services\PuzzleInstance\Domain\Dynamic\Fields\BooleanField;
 use App\Services\PuzzleInstance\Domain\Dynamic\Fields\DieRollField;
-use App\Services\PuzzleInstance\Domain\Dynamic\Fields\Exceptions\DynamicFieldValueMismatchException;
+use App\Services\PuzzleInstance\Domain\Dynamic\Fields\Exceptions\DynamicFieldInvalidValueException;
 use App\Services\PuzzleTemplate\Service\ValidPuzzleConfigOptionTypes;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
@@ -98,7 +98,7 @@ class DieRollFieldTest extends TestCase
 
     #[DataProvider('provideInvalidValues')]
     public function testValueInvalidOnConstruct(mixed $invalidValue): void {
-        $this->expectException(DynamicFieldValueMismatchException::class);
+        $this->expectException(DynamicFieldInvalidValueException::class);
         new DieRollField(
             'testName',
             'testLabel',
@@ -113,7 +113,7 @@ class DieRollFieldTest extends TestCase
             'testLabel',
             null
         );
-        $this->expectException(DynamicFieldValueMismatchException::class);
+        $this->expectException(DynamicFieldInvalidValueException::class);
         $arrayField->setValue($invalidValue);
     }
 
