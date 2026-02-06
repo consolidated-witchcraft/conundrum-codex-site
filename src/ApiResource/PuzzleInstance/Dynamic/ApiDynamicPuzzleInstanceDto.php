@@ -9,6 +9,7 @@ use ApiPlatform\Metadata\Get;
 use ApiPlatform\Metadata\Link;
 use App\ApiResource\PuzzleInstance\ApiPuzzleInstanceDtoInterface;
 use App\ApiResource\PuzzleTemplate\Dto\PuzzleTemplateDto;
+use App\Dto\Visitor\Puzzles\Dynamic\DynamicPuzzleFieldDto;
 use App\Security\GameManagerVoter;
 use App\Services\PuzzleInstance\Domain\Dynamic\Dto\DynamicPuzzleInstanceDto;
 use App\Services\PuzzleInstance\Domain\Dynamic\Providers\DynamicPuzzleInstanceProvider;
@@ -18,7 +19,6 @@ use App\Services\PuzzleInstance\Domain\Interfaces\DynamicPuzzleInstanceInterface
 
 #[ApiResource(
     uriTemplate: '/puzzles/instances/dynamic/{templateSlug}/{instanceCode}',
-    security: 'is_granted("play_instance", object)',
     operations: [
         new Get()
     ],
@@ -33,10 +33,19 @@ use App\Services\PuzzleInstance\Domain\Interfaces\DynamicPuzzleInstanceInterface
         )
     ],
     stateless: false,
+    security: 'is_granted("play_instance", object)',
     provider: DynamicPuzzleInstanceProvider::class
 )]
 class ApiDynamicPuzzleInstanceDto implements ApiPuzzleInstanceDtoInterface
 {
+    /**
+     * @param string $gameSlug
+     * @param string $puzzleName
+     * @param string $puzzleDescription
+     * @param DynamicPuzzleFieldDto[] $config
+     * @param string $instanceCode
+     * @param \DateTimeInterface $publicationDate
+     */
     public function __construct(
         public string $gameSlug,
         public string $puzzleName,

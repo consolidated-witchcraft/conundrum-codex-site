@@ -2,7 +2,7 @@
 
 namespace App\Services\PuzzleInstance\Domain\Interfaces;
 
-use App\Dto\Visitor\PuzzleInstance\Dynamic\DynamicPuzzleFieldDto;
+use App\Dto\Visitor\Puzzles\Dynamic\DynamicPuzzleFieldDto;
 
 interface DynamicPuzzleInstanceInterface extends PuzzleInstanceInterface
 {
