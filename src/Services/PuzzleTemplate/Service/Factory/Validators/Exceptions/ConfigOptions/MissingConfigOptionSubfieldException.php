@@ -10,7 +10,6 @@ class MissingConfigOptionSubfieldException extends AbstractTemplateDefinitionExc
     public function __construct(
         string $subfieldName,
         string $moduleName,
-
         int $code = 0,
         ? \Throwable $previous = null
     ) {
