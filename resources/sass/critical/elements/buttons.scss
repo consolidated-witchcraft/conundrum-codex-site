@@ -88,13 +88,13 @@ table {
         border: variables.$baseBorderWidth solid transparent;
         border-image: palette.$goldFX 33%;
         box-shadow: palette.$baseBoxShadow;
+
         .btn {
             border-top: none !important;
             border-bottom: none !important;
-            margin-bottom: 0 !important;
-            margin-right: 0 !important;
             flex-grow: 1 !important;
             border-right: none !important;
+            margin: 0 !important;
             &:first-child {
                 border-left: none !important;
             }

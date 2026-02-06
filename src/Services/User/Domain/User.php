@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Services\User\Domain;
 
 use App\Services\Core\Domain\AbstractDomainEntity;
+use App\Services\Events\Domain\PostalAddress;
 use App\Services\Files\Domain\ManagedFile;
 use App\Services\Game\Domain\Game;
 use App\Services\User\Domain\ValueObjects\UserAccountType;
@@ -33,6 +34,9 @@ class User extends AbstractDomainEntity implements UserInterface, PasswordAuthen
     #[ORM\OneToMany(targetEntity: Game::class, mappedBy: 'gamesMaster', orphanRemoval: true)]
     #[OrderBy(["createdAt" => "DESC"])]
     private Collection $gamesMastered;
+
+    #[ORM\OneToMany(targetEntity: PostalAddress::class, mappedBy: 'user', orphanRemoval: true)]
+    private Collection $postalAddresses;
 
     /**
      * @var Collection<int, Game>
@@ -317,5 +321,15 @@ class User extends AbstractDomainEntity implements UserInterface, PasswordAuthen
     public function eraseCredentials(): void
     {
         // @deprecated, to be removed when upgrading to Symfony 8
+    }
+
+    public function getPostalAddresses(): Collection
+    {
+        return $this->postalAddresses;
+    }
+
+    public function setPostalAddresses(Collection $postalAddresses): void
+    {
+        $this->postalAddresses = $postalAddresses;
     }
 }

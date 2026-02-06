@@ -13,21 +13,19 @@
     display: flex;
     flex-direction: column;
     box-shadow: palette.$baseBoxShadow;
-    .btn {
-        &:not(:last-child) {
-            margin-bottom: math.div(variables.$base-spacing, 4);
-        }
-    }
+
+
 }
 
 @media only screen and (min-width: variables.$mobileBreakPointUpper) {
     .cookie-notice {
         flex-direction: row;
-        .btn {
-            margin-left: variables.$base-spacing;
-            &:not(:last-child) {
-                margin-bottom: 0;
-            }
+        p.notice {
+            flex-basis: 75%;
+        }
+
+        .btn-group {
+            flex-basis: 25%;
         }
     }
 }

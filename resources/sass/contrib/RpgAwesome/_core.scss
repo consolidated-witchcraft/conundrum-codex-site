@@ -1,7 +1,9 @@
+@use "variables";
+
 // Base Class Definition
 // -------------------------
 
-.#{$ra-css-prefix} {
+.#{variables.$ra-css-prefix} {
   font-family: RPGAwesome;
   -moz-osx-font-smoothing: grayscale;
   -webkit-font-smoothing: antialiased;
@@ -9,6 +11,6 @@
   font-variant: normal;
   font-weight: normal;
   line-height: 1;
-  speak: none;
+  speak: never;
   text-transform: none;
 }

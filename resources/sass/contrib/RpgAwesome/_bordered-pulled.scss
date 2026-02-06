@@ -1,8 +1,10 @@
+@use "variables";
+
 // Bordered & Pulled
 // -------------------------
 
-.#{$ra-css-prefix}-border {
-  border: solid .08em $ra-border-color;
+.#{variables.$ra-css-prefix}-border {
+  border: solid .08em variables.$ra-border-color;
   border-radius: .1em;
   padding: .2em .25em .15em;
 }
@@ -10,7 +12,7 @@
 .pull-right { float: right; }
 .pull-left { float: left; }
 
-.#{$ra-css-prefix} {
+.#{variables.$ra-css-prefix} {
   &.pull-left { margin-right: .3em; }
   &.pull-right { margin-left: .3em; }
 }

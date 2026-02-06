@@ -1,7 +1,9 @@
+@use "variables";
+
 // Stacked Icons
 // -------------------------
 
-.#{$ra-css-prefix}-stack {
+.#{variables.$ra-css-prefix}-stack {
   display: inline-block;
   height: 2em;
   line-height: 2em;
@@ -10,13 +12,13 @@
   width: 2em;
 }
 
-.#{$ra-css-prefix}-stack-1x, .#{$ra-css-prefix}-stack-2x {
+.#{variables.$ra-css-prefix}-stack-1x, .#{variables.$ra-css-prefix}-stack-2x {
   left: 0;
   position: absolute;
   text-align: center;
   width: 100%;
 }
 
-.#{$ra-css-prefix}-stack-1x { line-height: inherit; }
-.#{$ra-css-prefix}-stack-2x { font-size: 2em; }
-.#{$ra-css-prefix}-inverse { color: $ra-inverse; }
+.#{variables.$ra-css-prefix}-stack-1x { line-height: inherit; }
+.#{variables.$ra-css-prefix}-stack-2x { font-size: 2em; }
+.#{variables.$ra-css-prefix}-inverse { color: variables.$ra-inverse; }

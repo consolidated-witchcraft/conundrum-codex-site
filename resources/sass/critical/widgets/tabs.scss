@@ -28,7 +28,7 @@
             display: none;
         }
         .tab-content {
-            padding: math.div(variables.$base-spacing, 4);
+            padding: math.div(variables.$base-spacing, 2);
             background-color: palette.$offWhite;
             opacity: 0;
             pointer-events: none;

@@ -38,6 +38,7 @@ final class AccountController extends AbstractBaseController
     ) {
     }
 
+    #[IsGranted('ROLE_USER')]
     #[Route('/account', name: 'app.user.account')]
     public function index(Request $request): Response
     {
@@ -54,6 +55,7 @@ final class AccountController extends AbstractBaseController
         return $this->render('/visitor/account/index.html.twig', $this->populatePageVars($pageVars, $request));
     }
 
+    #[IsGranted('ROLE_USER')]
     #[Route('/account/change-details', name: 'app.user.account.edit')]
     public function edit(Request $request): Response
     {
@@ -97,6 +99,7 @@ final class AccountController extends AbstractBaseController
         return $this->render('/visitor/account/change-details.html.twig', $this->populatePageVars($pageVars, $request));
     }
 
+    #[IsGranted('ROLE_USER')]
     #[Route('/account/change-password', name: 'app.user.account.change-password')]
     public function changePassword(Request $request): Response
     {
@@ -122,7 +125,7 @@ final class AccountController extends AbstractBaseController
         return $this->render('/visitor/account/change-password.html.twig', $this->populatePageVars($pageVars, $request));
     }
 
-    #[IsGranted('IS_AUTHENTICATED_REMEMBERED')]
+    #[IsGranted('ROLE_USER')]
     #[Route('/account/{id}/view', name: 'app.user.account.view')]
     public function viewAccount(User $user, Request $request): Response {
         $currentUser = $this->getUser();
@@ -142,4 +145,8 @@ final class AccountController extends AbstractBaseController
         ];
         return $this->render('/visitor/account/view.html.twig', $this->populatePageVars($pageVars, $request));
     }
+
+
+
+
 }

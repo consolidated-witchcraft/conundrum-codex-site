@@ -1,8 +1,11 @@
 {% if showCookiesMessage %}
     <aside class="cookie-notice">
-        This site respects your privacy. The only cookie we use is a basic session cookie. No tracking, no targeted ads. By using this site, you consent to our use of this single basic cookie.
+        <p class="notice">
+            This site respects your privacy. The only cookie we use is a basic session cookie. No tracking, no targeted ads. By using this site, you consent to our use of this single basic cookie.
+        </p>
+
         <div class="btn-group">
-            <form action="{{ path('app.cookies.accept') }}" method="POST">
+            <form class="inline" action="{{ path('app.cookies.accept') }}" method="POST">
                 <button type="submit" class="btn btn-default">I accept.</button>
             </form>
 

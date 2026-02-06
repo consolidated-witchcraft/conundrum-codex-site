@@ -1,22 +1,25 @@
+@use "variables";
+
 // List Icons
 // -------------------------
+@use 'sass:math';
 
-.#{$ra-css-prefix}-ul {
+.#{variables.$ra-css-prefix}-ul {
   list-style-type: none;
-  margin-left: $ra-li-width;
+  margin-left: variables.$ra-li-width;
   padding-left: 0;
   > li { position: relative; }
 }
 
-.#{$ra-css-prefix}-li {
-  left: -$ra-li-width;
+.#{variables.$ra-css-prefix}-li {
+  left: -(variables.$ra-li-width);
   position: absolute;
   text-align: center;
-  top: (2em / 14);
-  width: $ra-li-width;
+  top: math.div(2em,14);
+  width: variables.$ra-li-width;
 
-  &.#{$ra-css-prefix}-lg {
-    left: -$ra-li-width + (4em / 14);
+  &.#{variables.$ra-css-prefix}-lg {
+    left: -(variables.$ra-li-width) + math.div(4em,14);
   }
 
 }

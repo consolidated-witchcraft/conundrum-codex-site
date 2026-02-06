@@ -6,15 +6,15 @@
 
 
 
-@import 'variables';
-@import 'mixins';
-@import 'path';
-@import 'core';
-@import 'larger';
-@import 'fixed-width';
-@import 'list';
-@import 'bordered-pulled';
-@import 'spinning';
-@import 'rotated-flipped';
-@import 'stacked';
-@import 'icons';
+@use 'variables';
+@use 'mixins';
+@use 'path';
+@use 'core';
+@use 'larger';
+@use 'fixed-width';
+@use 'list';
+@use 'bordered-pulled';
+@use 'spinning';
+@use 'rotated-flipped';
+@use 'stacked';
+@use 'icons';
