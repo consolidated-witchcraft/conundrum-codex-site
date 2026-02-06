@@ -10,7 +10,7 @@ class MissingTemplateFieldStaticRouteException extends AbstractTemplateDefinitio
 {
     private const string MESSAGE_PATTERN = "The template '%s' is marked as static, but is missing the '%s' route.";
 
-    public function __construct(string $moduleName, string $routeKey, int $code = 0, \Throwable $previous = null) {
+    public function __construct(string $moduleName, string $routeKey, int $code = 0, ?\Throwable $previous = null) {
         $message = sprintf(self::MESSAGE_PATTERN, $moduleName, $routeKey);
         parent::__construct($message, $code, $previous);
     }
