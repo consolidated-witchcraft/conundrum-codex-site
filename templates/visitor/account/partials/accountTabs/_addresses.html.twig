@@ -1,0 +1,30 @@
+<div id="addresses" class="tab-content">
+    <div class="row">
+        <div class="col">
+            {% if user.getPostalAddresses is empty %}
+                <em>You have not stored any Postal Addresses against your account.</em>
+            {% else %}
+                <div class="accordion-list" is="accordion-list">
+                    {% for postalAddress in user.getPostalAddresses %}
+                        <article class="accordion-entry" id="address-{{ postalAddress.id }}" is="accordion-entry" data-open="false">
+                            <h3 class="accordion-heading">{{ postalAddress.label }}</h3>
+                            <div class="accordion-body">
+                                <div class="accordion-content">
+                                    {% embed 'visitor/postalAddress/partials/_postalAddress.view.html.twig' with {'postalAddress': postalAddress} %}{% endembed %}
+                                    <nav class="secondary">
+                                        <a href="{{ path('app.user.address.edit', {'postalAddressId': postalAddress.getId}) }}">Edit this address</a>
+                                        <a href="{{ path('app.user.address.delete', {'postalAddressId': postalAddress.getId}) }}">Delete this address</a>
+                                    </nav>
+                                </div>
+                            </div>
+                        </article>
+                    {% endfor  %}
+                </div>
+            {% endif %}
+            <nav class="secondary">
+                <a href="{{ path('app.user.address.add', {'id': user.getId}) }}">Add a new Address</a>
+            </nav>
+        </div>
+    </div>
+
+</div>

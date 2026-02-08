@@ -3,138 +3,19 @@
     <div class="tabs-element" is="tabs-element">
         <nav class="tab-headings">
             <a href="#accountdetails" class="active">Account Details</a>
+            <a href="#feats">Feats</a>
             <a href="#games">Games</a>
             <a href="#invitations">Invitations</a>
             <a href="#addresses">Addresses</a>
         </nav>
         <div class="tab-content-container">
-            <div id="accountdetails" class="active tab-content">
-                <div class="row">
-                    <div class="col">
-                        <div class="avatar-wrapper">
-                            <img class="avatar" src="{{ user.getAvatar ? user.getAvatar.getPath :  '/dist/images/default-avatar.webp' }}" alt="Your Avatar">
-                        </div>
-                    </div>
-
-                    <div class="col">
-                        <strong>Name</strong>
-                        {{ user.userName }}
-
-                        <strong>Account Type</strong>
-                        <span class="badge badge-info">{{ user.getUserAccountType.getLabel }}</span>
-                        <strong>Profile Visibility</strong>
-                        <span class="badge badge-{{ user.isProfilePublic  ? 'info' : 'success' }}">{{ user.isProfilePublic  ? 'Public' : 'Private' }}</span>
+            {% embed 'visitor/account/partials/accountTabs/_accountDetails.html.twig' with {'user': user} %}{% endembed %}
+            {% embed 'visitor/account/partials/accountTabs/_feats.html.twig' with {'user': user} %}{% endembed %}
+            {% embed 'visitor/account/partials/accountTabs/_games.html.twig' with {'user': user} %}{% endembed %}
+            {% embed 'visitor/account/partials/accountTabs/_invitations.html.twig' with {'user': user} %}{% endembed %}
+            {% embed 'visitor/account/partials/accountTabs/_addresses.html.twig' with {'user': user} %}{% endembed %}
 
 
-                    </div>
-                    <div class="col">
-                        <strong>Email</strong>
-                        {{ user.email }}
-                    </div>
-                    <div class="col">
-                        <nav class="secondary">
-                            <a href="{{ path('app.user.account.edit') }}">Change these details</a>
-                            <a href="{{ path('app.user.account.change-password') }}">Change Password</a>
-                            <a href="{{ path('app.auth.logout') }}">Logout</a>
-                        </nav>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col">
-                        <h2>Your Feats</h2>
-                        {% if user.getFeats is empty %}
-                            <em>You've yet to earn any Feats. Feats can be awarded by Games Masters, or earned through various actions around the site.</em>
-                        {% else %}
-                            <div class="feats grid">
-                                {% for feat in user.getFeats %}
-                                    {% embed 'visitor/account/partials/_feat.view.html.twig' with {'feat': feat} %}{% endembed %}
-                                {% endfor %}
-                            </div>
-                        {% endif %}
-                    </div>
-                </div>
-            </div>
-            <div id="games" class="tab-content">
-                <div class="row">
-                    <div class="col">
-                        <h2>Games You Run</h2>
-                        {% if user.getGamesMastered is not empty %}
-                            {% for gameMastered in user.getGamesMastered %}
-                                {% embed 'visitor/games/partials/_gameCard.html.twig' with {'game': gameMastered, 'mode': 'gamesmaster'} %}{% endembed %}
-                            {% endfor %}
-
-                        {% else %}
-
-                            <em>{{ 'You are not currently the Games Master for any games. Why not create one?'|trans }}</em>
-
-                        {% endif %}
-                    </div>
-                    <div class="col">
-                        <h2>Games You're Playing</h2>
-
-                        {% if user.getGames is not empty %}
-
-                            {% for game in user.getGames %}
-                                {% embed 'visitor/games/partials/_gameCard.html.twig' with {'game': game, 'mode': 'player'} %}{% endembed %}
-                            {% endfor %}
-
-
-                        {% else %}
-
-                            <em>{{ 'You are not currently a player in any games.'|trans }}</em>
-
-                        {% endif %}
-                    </div>
-                </div>
-            </div>
-            <div id="invitations" class="tab-content">
-                {% if invitations is not empty %}
-                    <div class="accordion-list" is="accordion-list">
-                        {% for invitation in invitations %}
-                            <article class="accordion-entry" id="invitation-{{ invitation.id }}" is="accordion-entry">
-                                <h3 class="accordion-heading">Invitation from: {{ invitation.getGame.getGamesMaster.getUsername }}</h3>
-                                <div class="accordion-body">
-                                    <div class="accordion-content">
-                                        <dl class="invitation-header">
-                                            <dt>Game:</dt>
-                                            <dd>{{ invitation.getGame.getName }}</dd>
-                                            <dt>From:</dt>
-                                            <dd>{{ invitation.getGame.getGamesMaster.getEmail }}</dd>
-                                            <dt>Received:</dt>
-                                            <dd>
-                                                {{ invitation.getCreatedAt.format('Y-m-d H:i') }}
-                                            </dd>
-                                            <dt>Message:</dt>
-                                            <dd>{{ invitation.getInvitationMessage }}</dd>
-                                            <dt>This invitation will expire at:</dt>
-                                            <dd>{{ invitation.getExpiresAt.format('Y-m-d H:i') }}</dd>
-                                        </dl>
-                                    </div>
-
-                                    <div class="accordion-footer">
-                                        <nav class="secondary">
-                                            <a href="{{ path('app.games.invite.accept', {'invitationCode': invitation.getInvitationCode}) }}">Accept</a>
-                                            <a href="{{ path('app.games.invite.decline', {'invitationCode': invitation.getInvitationCode}) }}">Decline</a>
-                                        </nav>
-                                    </div>
-                                </div>
-
-
-                            </article>
-                        {% endfor %}
-                    </div>
-                {% else %}
-                    <em>You have no outstanding invitations.</em>
-                {% endif %}
-            </div>
-            <div id="addresses" class="tab-content">
-                {% if user.getPostalAddresses is empty %}
-                    <em>You have not stored any Postal Addresses against your account.</em>
-                {% endif %}
-                <nav class="secondary">
-                    <a href="{{ path('app.user.address.add', {'id': user.getId}) }}">Add a new Address</a>
-                </nav>
-            </div>
         </div>
     </div>
 {% endblock %}

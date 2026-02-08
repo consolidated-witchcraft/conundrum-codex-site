@@ -22,7 +22,7 @@ nav.lozenges {
         text-align: center;
         position: relative;
         z-index: 0;
-        transition: all 200ms ease-in-out;
+        transition: all variables.$animationSpeedNormal ease-in-out;
         transition-property: background-color, color;
         border: none;
 
@@ -103,13 +103,22 @@ nav.breadcrumbs {
     nav.secondary {
 
         flex-direction: row;
-        margin-bottom: math.div(variables.$base-spacing, 4);
-        a, span, em {
-            padding: 0 math.div(variables.$base-spacing, 4);
-            font-weight: bold;
+        margin: math.div(variables.$base-spacing, 4) 0;
 
-            &.active {
-                text-decoration: underline;
+        a, span, em {
+            padding: math.div(variables.$base-spacing, 4);
+            //background-color: palette.$teal;
+            border-radius: variables.$baseBorderRadius;
+            font-weight: bold;
+            margin-right: math.div(variables.$base-spacing, 4);
+            border: variables.$baseBorderWidth solid palette.$crimson;
+            transition: all variables.$animationSpeedNormal ease-in-out;
+            transition-property: background-color, color, border-color;
+
+            &.active,
+            &:hover{
+                background-color: palette.$crimson;
+                color: palette.$offWhite;
             }
         }
     }

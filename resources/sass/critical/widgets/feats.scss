@@ -21,7 +21,7 @@ $feat-height-sm: 2rem;
     box-shadow: palette.$baseBoxShadow;
     border: (variables.$baseBorderWidth * 2) solid transparent;
     border-image: palette.$goldFX 33%;
-    transition: background-position 200ms ease-in-out;
+    transition: background-position variables.$animationSpeedNormal ease-in-out;
 
 
     &:before, &:after {
@@ -123,7 +123,7 @@ $feat-height-sm: 2rem;
     .feat-description-popover {
         opacity: 0;
         pointer-events: none;
-        transition: opacity 200ms ease-in-out;
+        transition: opacity variables.$animationSpeedNormal ease-in-out;
         background: palette.$charcoalGradient;
         position: absolute;
         top: 110%;

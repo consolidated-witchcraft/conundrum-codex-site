@@ -206,8 +206,12 @@ class Casebook extends AbstractDomainEntity implements StaticPuzzleInstanceInter
         $typeHandle = strtolower($typeHandle);
         $filteredSubjects = $this->getSubjectsByTypeHandle($typeHandle);
 
-        return $filteredSubjects->filter(function (CasebookSubject $casebookSubject) use ( $initial) {
-           return substr(strtolower($casebookSubject->getName()), 0, 1) === $initial;
+        return $filteredSubjects->filter(function (CasebookSubject $casebookSubject) use ($initial) {
+            $nameToCheck = $casebookSubject->getName();
+            if (str_starts_with($nameToCheck, "The ")) {
+                $nameToCheck = substr($nameToCheck, strlen("The "));
+            }
+           return substr(strtolower($nameToCheck), 0, 1) === $initial;
         });
     }
 }

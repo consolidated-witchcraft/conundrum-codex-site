@@ -2,81 +2,97 @@
 
 namespace App\Services\Events\Domain;
 
+use App\Services\Core\Domain\AbstractDomainEntity;
 use App\Services\Events\Infrastructure\EventRepository;
 use App\Services\User\Domain\User;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: EventRepository::class)]
-class Event
+class Event extends AbstractDomainEntity
 {
-    #[ORM\Id]
-    #[ORM\GeneratedValue]
-    #[ORM\Column]
-    private ?int $id = null;
 
-    #[ORM\Column(length: 255)]
-    private ?string $title = null;
+    public function __construct(
+        #[ORM\Column(type: 'string', length: 255)]
+        private string $title,
 
-    #[ORM\Column]
-    private ?bool $invitationOnly = null;
+        #[ORM\Column]
+        private bool $invitationOnly,
 
-    #[ORM\ManyToOne]
-    #[ORM\JoinColumn(nullable: false)]
-    private ?User $owner = null;
+        #[ORM\ManyToOne(targetEntity: User::class)]
+        private User $owner,
 
-    #[ORM\Column]
-    private ?\DateTime $date = null;
+        #[ORM\Column]
+        private \DateTimeInterface $startDate,
 
-    public function getId(): ?int
-    {
-        return $this->id;
+        #[ORM\Column]
+        private \DateTimeInterface $endDate,
+
+        #[ORM\OneToOne(targetEntity: TicketType::class, inversedBy: 'event')]
+        #[ORM\JoinColumn(nullable: false)]
+        private Collection $ticketTypes,
+        ? int $id = null
+    ) {
+        parent::__construct($id);
     }
 
-    public function getTitle(): ?string
+    public function getTitle(): string
     {
         return $this->title;
     }
 
-    public function setTitle(string $title): static
+    public function setTitle(string $title): void
     {
         $this->title = $title;
-
-        return $this;
     }
 
-    public function isInvitationOnly(): ?bool
+    public function isInvitationOnly(): bool
     {
         return $this->invitationOnly;
     }
 
-    public function setInvitationOnly(bool $invitationOnly): static
+    public function setInvitationOnly(bool $invitationOnly): void
     {
         $this->invitationOnly = $invitationOnly;
-
-        return $this;
     }
 
-    public function getOwner(): ?User
+    public function getOwner(): User
     {
         return $this->owner;
     }
 
-    public function setOwner(?User $owner): static
+    public function setOwner(User $owner): void
     {
         $this->owner = $owner;
-
-        return $this;
     }
 
-    public function getDate(): ?\DateTime
+    public function getStartDate(): \DateTimeInterface
     {
-        return $this->date;
+        return $this->startDate;
     }
 
-    public function setDate(\DateTime $date): static
+    public function setStartDate(\DateTimeInterface $startDate): void
     {
-        $this->date = $date;
+        $this->startDate = $startDate;
+    }
 
-        return $this;
+    public function getEndDate(): \DateTimeInterface
+    {
+        return $this->endDate;
+    }
+
+    public function setEndDate(\DateTimeInterface $endDate): void
+    {
+        $this->endDate = $endDate;
+    }
+
+    public function getTicketTypes(): Collection
+    {
+        return $this->ticketTypes;
+    }
+
+    public function setTicketTypes(Collection $ticketTypes): void
+    {
+        $this->ticketTypes = $ticketTypes;
     }
 }

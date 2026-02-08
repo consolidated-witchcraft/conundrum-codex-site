@@ -1,0 +1,33 @@
+<div id="games" class="tab-content">
+    <div class="row">
+        <div class="col">
+            <h2>Games You Run</h2>
+            {% if user.getGamesMastered is not empty %}
+                {% for gameMastered in user.getGamesMastered %}
+                    {% embed 'visitor/games/partials/_gameCard.html.twig' with {'game': gameMastered, 'mode': 'gamesmaster'} %}{% endembed %}
+                {% endfor %}
+
+            {% else %}
+
+                <em>{{ 'You are not currently the Games Master for any games. Why not create one?'|trans }}</em>
+
+            {% endif %}
+        </div>
+        <div class="col">
+            <h2>Games You're Playing</h2>
+
+            {% if user.getGames is not empty %}
+
+                {% for game in user.getGames %}
+                    {% embed 'visitor/games/partials/_gameCard.html.twig' with {'game': game, 'mode': 'player'} %}{% endembed %}
+                {% endfor %}
+
+
+            {% else %}
+
+                <em>{{ 'You are not currently a player in any games.'|trans }}</em>
+
+            {% endif %}
+        </div>
+    </div>
+</div>

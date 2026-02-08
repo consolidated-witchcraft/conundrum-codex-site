@@ -1,16 +1,21 @@
 <?php
 
-namespace App\Services\Events\Domain;
+namespace App\Services\PostalAddress\Domain;
 
+use App\Dto\Visitor\User\PostalAddressDto;
 use App\Services\Core\Domain\AbstractDomainEntity;
-use App\Services\Events\Infrastructure\PostalAddressRepository;
+use App\Services\PostalAddress\Domain\ValueObjects\IsoCountry;
+use App\Services\PostalAddress\Infrastructure\PostalAddressRepository;
 use App\Services\User\Domain\User;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: PostalAddressRepository::class)]
 class PostalAddress extends AbstractDomainEntity
 {
-    public function __construct(
+    final public function __construct(
+        #[ORM\ManyToOne(targetEntity: User::class, inversedBy: 'postalAddresses')]
+        private readonly User $user,
+
         #[ORM\Column(length: 255)]
         private string $label,
 
@@ -23,8 +28,11 @@ class PostalAddress extends AbstractDomainEntity
         #[ORM\Column(length: 255)]
         private string $postalZip,
 
-        #[ORM\ManyToOne(targetEntity: User::class, inversedBy: 'postalAddresses')]
-        private readonly User $user,
+        #[ORM\Column(length: 255)]
+        private string $countryCode,
+
+        #[ORM\Column(length: 255)]
+        private string $countyProvince,
 
         #[ORM\Column(length: 255, nullable: true)]
         private ? string $addressLineTwo = null,
@@ -37,6 +45,26 @@ class PostalAddress extends AbstractDomainEntity
         ? int $id = null
     ) {
         parent::__construct($id);
+    }
+
+    public function getCountryCode(): string
+    {
+        return $this->countryCode;
+    }
+
+    public function setCountryCode(string $countryCode): void
+    {
+        $this->countryCode = $countryCode;
+    }
+
+    public function getCountyProvince(): string
+    {
+        return $this->countyProvince;
+    }
+
+    public function setCountyProvince(string $countyProvince): void
+    {
+        $this->countyProvince = $countyProvince;
     }
 
     public function getLabel(): string
@@ -114,4 +142,18 @@ class PostalAddress extends AbstractDomainEntity
         $this->longitude = $longitude;
     }
 
+    public static function makeFromDto(PostalAddressDto $dto): static {
+
+        return new static(
+            user: $dto->user,
+            label: $dto->postalAddress->label,
+            addressLineOne: $dto->postalAddress->addressLineOne,
+            townCity: $dto->postalAddress->townCity,
+            postalZip: $dto->postalAddress->postalZip,
+            countryCode: $dto->postalAddress->countryCode,
+            countyProvince: $dto->postalAddress->countyProvince,
+            addressLineTwo: $dto->postalAddress->addressLineTwo,
+            id: $dto->id
+        );
+    }
 }

@@ -8,7 +8,7 @@ body {
 }
 #overlay-container {
     opacity: 0;
-    transition: opacity 200ms ease-in-out;
+    transition: opacity variables.$animationSpeedNormal ease-in-out;
     pointer-events: none;
     position: absolute;
     top: 0;

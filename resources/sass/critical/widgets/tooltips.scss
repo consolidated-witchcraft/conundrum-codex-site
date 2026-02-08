@@ -23,7 +23,7 @@
         min-width: 30rem;
         pointer-events: none;
         opacity: 0;
-        transition: opacity 200ms ease-in-out;
+        transition: opacity variables.$animationSpeedNormal ease-in-out;
     }
 
     &.show {

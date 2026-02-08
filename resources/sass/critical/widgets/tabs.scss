@@ -28,11 +28,11 @@
             display: none;
         }
         .tab-content {
-            padding: math.div(variables.$base-spacing, 2);
             background-color: palette.$offWhite;
+            min-height: 33vh;
             opacity: 0;
+            transition: opacity variables.$animationSpeedNormal ease-in-out;
             pointer-events: none;
-
             &.active {
                 opacity: 1;
                 pointer-events: all;
@@ -62,6 +62,8 @@
                 background-color: color.mix(palette.$offWhite, palette.$vellum);
                 position: relative;
                 color: palette.$ink;
+                transition: all variables.$animationSpeedNormal ease-in-out;
+                transition-property: color, background-color;
 
                 &:after {
                     content: " ";
@@ -73,6 +75,7 @@
                     bottom: -0.5rem;
                     left: 0;
                     z-index: 9997;
+                    transition: background-color variables.$animationSpeedNormal ease-in-out;
                 }
 
                 &.active {
@@ -95,9 +98,8 @@
             .tab-content {
                 z-index: 9998;
                 box-shadow: palette.$baseBoxShadow;
+                padding: math.div(variables.$base-spacing, 2);
             }
-
         }
-
     }
 }

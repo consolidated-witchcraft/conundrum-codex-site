@@ -70,3 +70,56 @@
         </div>
     </div>
 {% endblock %}
+{% block postal_address_row %}
+    <div class="address-form-element">
+        <div class="label">
+            {{ form_label(form.label) }}
+            {{ form_widget(form.label) }}
+            {{ form_help(form.label) }}
+            {{ form_errors(form.label) }}
+        </div>
+        <address>
+            <div class="addressLineOne">
+                {{ form_label(form.addressLineOne) }}
+                {{ form_widget(form.addressLineOne) }}
+                {{ form_help(form.addressLineOne) }}
+                {{ form_errors(form.addressLineOne) }}
+            </div>
+            <div class="addressLineTwo">
+                {{ form_label(form.addressLineTwo) }}
+                {{ form_widget(form.addressLineTwo) }}
+                {{ form_help(form.addressLineTwo) }}
+                {{ form_errors(form.addressLineTwo) }}
+            </div>
+            <div class="townCity">
+                {{ form_label(form.townCity) }}
+                {{ form_widget(form.townCity) }}
+                {{ form_help(form.townCity) }}
+                {{ form_errors(form.townCity) }}
+            </div>
+
+            <div class="countyProvince">
+                {{ form_label(form.countyProvince) }}
+                {{ form_widget(form.countyProvince) }}
+                {{ form_help(form.countyProvince) }}
+                {{ form_errors(form.countyProvince) }}
+            </div>
+
+            <div class="countryCode">
+                {{ form_label(form.countryCode) }}
+                {{ form_widget(form.countryCode) }}
+                {{ form_help(form.countryCode) }}
+                {{ form_errors(form.countryCode) }}
+            </div>
+
+            <div class="postalZip">
+                {{ form_label(form.postalZip) }}
+                {{ form_widget(form.postalZip) }}
+                {{ form_help(form.postalZip) }}
+                {{ form_errors(form.postalZip) }}
+            </div>
+        </address>
+    </div>
+
+
+{% endblock %}

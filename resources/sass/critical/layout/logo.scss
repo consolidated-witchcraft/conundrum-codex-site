@@ -17,7 +17,7 @@ $logoHeight: 10vh;
     .logo-wrapper {
         display: block;
         position: relative;
-        transition: opacity 200ms ease-in-out;
+        transition: opacity variables.$animationSpeedNormal ease-in-out;
         padding: 2rem;
 
         .hero-image-wrapper {

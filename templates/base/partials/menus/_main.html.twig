@@ -5,7 +5,7 @@
         <button class="unstyle" type="submit">Search</button>
     </form>
     <ul class="main-menu" aria-label="Main navigation">
-        {% for navItem in nav %}
+        {% for navItem in mainNav %}
             {% if navItem.getChildren is empty %}
                 <li>
                     {% embed 'base/partials/menus/_navLink.html.twig' with {'navItem': navItem}%}{% endembed %}

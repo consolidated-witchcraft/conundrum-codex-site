@@ -35,7 +35,7 @@ $pulsarHeight: 3rem;
             margin-bottom: math.div(variables.$base-spacing, 4);
 
             img {
-                transition: opacity 200ms ease-in-out;
+                transition: opacity variables.$animationSpeedNormal ease-in-out;
                 position: absolute;
                 top: 0;
                 left: 0;
@@ -44,7 +44,7 @@ $pulsarHeight: 3rem;
             }
 
             .placeholder {
-                transition: opacity 200ms ease-in-out;
+                transition: opacity variables.$animationSpeedNormal ease-in-out;
                 display: block;
                 background-color: palette.$charcoal;
                 color: palette.$offWhite;

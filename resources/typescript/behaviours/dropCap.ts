@@ -11,7 +11,16 @@ export function initialiseDropCaps(): void {
             let trimmedContent: string = dropCap.innerHTML.substring(1);
 
             span.classList.add('dc');
+
             span.classList.add('dc-'+initial.toLowerCase());
+
+            if (dropCap.classList.contains('nofloat')) {
+                span.classList.add('nofloat');
+            }
+
+            if (dropCap.classList.contains('sm')) {
+                span.classList.add('sm');
+            }
             span.appendChild(content);
 
             dropCap.innerHTML = trimmedContent;

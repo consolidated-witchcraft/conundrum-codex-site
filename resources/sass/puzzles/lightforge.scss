@@ -1,4 +1,6 @@
 @use '../critical/base/palette';
+@use '../critical/base/variables';
+
 .lightforge-puzzle {
     padding: 3rem;
     background: palette.$silverFX;
@@ -49,7 +51,7 @@
         box-shadow: 1rem 1rem 1rem rgba(0, 0, 0, 0.25);
         opacity: 0;
         pointer-events: none;
-        transition: opacity 200ms ease-in-out;
+        transition: opacity variables.$animationSpeedNormal ease-in-out;
 
         &.show {
             pointer-events: all;

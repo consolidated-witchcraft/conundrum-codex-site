@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Tests\Unit\Services\Events\Domain;
 
-use App\Services\Events\Domain\PostalAddress;
+use App\Services\PostalAddress\Domain\PostalAddress;
 use App\Services\User\Domain\User;
 use PHPUnit\Framework\TestCase;
 

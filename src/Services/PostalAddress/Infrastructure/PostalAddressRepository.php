@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Services\Events\Infrastructure;
+namespace App\Services\PostalAddress\Infrastructure;
 
-use App\Services\Events\Domain\PostalAddress;
+use App\Services\PostalAddress\Domain\PostalAddress;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 

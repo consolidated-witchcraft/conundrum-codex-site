@@ -1,32 +1,30 @@
 <button id="user-nav-toggle" is="nav-toggle" class="nav-toggle user-nav-toggle unstyle" data-target="user-nav" data-open="false">Show User Nav</button>
 <nav class="mobile-nav" id="user-nav">
+
     {% if app.user %}
         <span class="user-greeting">Logged in as <a href="{{ path('app.user.account') }}">{{ app.user.userName }}</a></span>
-        <ul class="user-menu" aria-label="User Account Navigation">
-            {% if is_granted('admin_dash') %}
-                <li>
-                    <a class="" href="{{ path('admin.dashboard') }}">Admin Dashboard</a>
-                </li>
-            {% endif %}
-            <li>
-                <a class="" href="{{ path('app.user.account') }}">Account</a>
-            </li>
-            <li>
-                <a class="" href="{{ path('app.games.index') }}">My Games</a>
-            </li>
-            <li>
-                <a class="" href="{{ path('app.auth.logout') }}">Logout</a>
-            </li>
-        </ul>
     {% else %}
         <span class="user-greeting">Not logged in</span>
-        <ul class="user-menu" aria-label="User Account Navigation">
-            <li>
-                <a class="" href="{{ path('app.auth.login') }}">Login</a>
-            </li>
-            <li>
-                <a class="" href="{{ path('app.auth.register') }}">Register</a>
-            </li>
-        </ul>
     {% endif %}
+    <ul class="user-menu" aria-label="User Account Navigation">
+        {% for navItem in userNav %}
+            {% if navItem.getChildren is empty %}
+                <li>
+                    {% embed 'base/partials/menus/_navLink.html.twig' with {'navItem': navItem}%}{% endembed %}
+                </li>
+            {% else %}
+                <li class="has-submenu">
+                    <a is="submenu-trigger" data-targetsubmenu="{{ navItem.handle }}-submenu" class="nav-item submenu-trigger{% if navItem.isActiveTrail %} active-trail{% endif %}">{{ navItem.label }}</a>
+                    <ul class="submenu" id="{{ navItem.handle }}-submenu">
+                        {% for child in navItem.children %}
+                            <li>
+                                {% embed 'base/partials/menus/_navLink.html.twig' with {'navItem': child}%}{% endembed %}
+                            </li>
+                        {% endfor %}
+                    </ul>
+                </li>
+            {% endif %}
+        {% endfor %}
+    </ul>
+
 </nav>

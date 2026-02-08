@@ -33,3 +33,8 @@ services:
 
     App\Services\PuzzleTemplate\Service\Interfaces\PuzzleTemplateRegistryInterface:
         factory: ['@App\Services\PuzzleTemplate\Service\Factory\PuzzleTemplateRegistryFactory', 'generatePuzzleTemplateRegistry']
+
+    App\Services\PostalAddress\Domain\Factory\IsoCountryListFactory: ~
+
+    App\Services\PostalAddress\Domain\ValueObjects\IsoCountryList:
+        factory: [ '@App\Services\PostalAddress\Domain\Factory\IsoCountryListFactory', 'buildService' ]

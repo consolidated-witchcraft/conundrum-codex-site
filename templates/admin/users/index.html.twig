@@ -52,12 +52,19 @@
                             </ul>
                         </td>
                         <td>
-                            {% if user.getUserBlock is null %}
+                            {% if user.getUserBlock is empty %}
                                 <em>Not blocked.</em>
                             {% else %}
-                                <strong>Blocked for {{ user.getUserBlock.getReason }}</strong><br/>
-                                <em>Block
-                                    expires {{ user.getUserBlock.isPermanent ? 'never' : user.getUserBlock.getExpirationDate.format('Y-m-d H:i:s') }}</em>
+                                <ul>
+
+                                </ul>
+                                {% for block in user.getUserBlock %}
+                                    <li>
+                                        <strong>{{ block.getReason }}</strong>
+                                        <em>Block
+                                            expires {{ block.isPermanent ? 'never' : block.getExpirationDate.format('Y-m-d H:i:s') }}</em>
+                                    </li>
+                                {% endfor %}
 
                             {% endif %}
                         </td>

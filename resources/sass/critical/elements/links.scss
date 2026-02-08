@@ -1,11 +1,13 @@
 @use "sass:color";
 
 @use '../base/palette';
+@use '../base/variables';
+
 a {
     color: palette.$crimson;
     font-weight: bold;
     text-decoration: none;
-    transition: color 200ms ease-in-out;
+    transition: color variables.$animationSpeedNormal ease-in-out;
 
     &:visited {
         color: color.adjust(palette.$crimson, $lightness: -1%);

@@ -1,6 +1,8 @@
 <article class="casebook-subject" is="casebook-subject" data-type="{{ subject.getCasebookSubjectType.getHandle }}" data-subjectid="{{ subject.getId }}" data-instancecode="{{ casebook.getInstanceCode }}">
 </article>
+
 {% if is_game_manager(app.user, game) %}
+
     <a href="{{ path(
         'app.puzzles.static.casebook.subjects.edit',
         {
@@ -10,5 +12,8 @@
             'subjectId': subject.getId
         }
     ) }}" class="btn btn-primary">Edit {{ subject.getName }}</a>
-
+    <br/>
 {% endif %}
+<a href="#{{ subjectType }}">Back to Top</a>
+<br />
+

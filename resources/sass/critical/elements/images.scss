@@ -1,7 +1,7 @@
 @use '../base/variables';
 
 img {
-    transition: opacity 200ms ease-in-out;
+    transition: opacity variables.$animationSpeedNormal ease-in-out;
     opacity: 0;
 }
 

@@ -1,9 +1,11 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\DataFixtures;
 
-use App\Services\Puzzle\Domain\Casebook\CasebookSubjectType;
-use App\Services\Puzzle\Infrastructure\Casebook\Repository\CasebookSubjectTypeRepository;
+use App\Services\PuzzleInstance\Domain\Casebook\CasebookSubjectType;
+use App\Services\PuzzleInstance\Infrastructure\Casebook\Repository\CasebookSubjectTypeRepository;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Persistence\ObjectManager;
 

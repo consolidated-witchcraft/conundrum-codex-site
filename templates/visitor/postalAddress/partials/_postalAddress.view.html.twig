@@ -1,0 +1,10 @@
+<address>
+    <span>{{ postalAddress.getAddressLineOne }}</span><br/>
+    {% if postalAddress.getAddressLineTwo %}
+        <span>{{ postalAddress.getAddressLineTwo }}</span><br/>
+    {% endif %}
+    {{ postalAddress.getTownCity }}<br/>
+    {{ postalAddress.getCountyProvince }}<br/>
+    {{ postalAddress.getCountryCode }}<br/>
+    {{ postalAddress.getPostalZip }}
+</address>

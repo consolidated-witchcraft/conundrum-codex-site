@@ -36,7 +36,7 @@
         font-size: 3rem;
         line-height: 6rem;
         position: absolute !important;
-        transition: all 200ms ease-in-out;
+        transition: all variables.$animationSpeedNormal ease-in-out;
 
         &.broken {
             font-size: 3rem;
@@ -115,7 +115,7 @@
         box-shadow: 1rem 1rem 1rem rgba(0, 0, 0, 0.25);
         opacity: 0;
         pointer-events: none;
-        transition: opacity 200ms ease-in-out;
+        transition: opacity variables.$animationSpeedNormal ease-in-out;
 
         h2 {
             margin-bottom: 2rem;

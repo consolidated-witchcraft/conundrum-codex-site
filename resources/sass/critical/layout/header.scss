@@ -279,7 +279,7 @@ main {
                 left: 0;
                 bottom :0;
                 right: 0;
-                transition: opacity 200ms ease-in-out;
+                transition: opacity variables.$animationSpeedNormal ease-in-out;
                 opacity: 0;
             }
             top: 0;
@@ -424,7 +424,7 @@ main {
                                 flex-direction: column;
                                 opacity: 0;
                                 pointer-events: none;
-                                transition: opacity 200ms ease-in-out;
+                                transition: opacity variables.$animationSpeedNormal ease-in-out;
                                 position: absolute;
 
                                 background-color: palette.$offWhite;

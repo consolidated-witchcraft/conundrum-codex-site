@@ -5,16 +5,15 @@ declare(strict_types=1);
 namespace App\Services\User\Domain;
 
 use App\Services\Core\Domain\AbstractDomainEntity;
-use App\Services\Events\Domain\PostalAddress;
 use App\Services\Files\Domain\ManagedFile;
 use App\Services\Game\Domain\Game;
+use App\Services\PostalAddress\Domain\PostalAddress;
 use App\Services\User\Domain\ValueObjects\UserAccountType;
 use App\Services\User\Infrastructure\Repository\UserRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\Criteria;
 use Doctrine\ORM\Mapping as ORM;
-use Doctrine\ORM\Mapping\JoinColumn;
 use Doctrine\ORM\Mapping\OrderBy;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
@@ -260,6 +259,16 @@ class User extends AbstractDomainEntity implements UserInterface, PasswordAuthen
         return $this->roles->contains($role);
     }
 
+    public function hasPermissionKey(string $permissionKey): bool {
+        foreach ($this->roles as $role) {
+            foreach ($role->getPermissions() as $permission) {
+                if ($permission->getHandle() === $permissionKey) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
     /**
      * @param Collection<int, Role> $roles
      */

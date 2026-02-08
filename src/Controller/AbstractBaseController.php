@@ -19,28 +19,11 @@ abstract class AbstractBaseController extends AbstractController
     final public function populatePageVars(array $pageVars, Request $request): array {
         $route = $request->get('_route');
         $pageVars['siteName'] = 'The Conundrum Codex';
-        $pageVars['nav'] = [
-            new NavItem(
-                handle: 'home',
-                label: 'Home',
-                route: 'app.pages.home'
-            ),
-            new NavItem(
-                handle: 'puzzletemplates',
-                label: 'Puzzles & Tools',
-                route: 'app.puzzles.template.index'
-            ),
-            new NavItem(
-                handle: 'about',
-                label: 'About',
-                route: 'app.pages.about'
-            )
-        ];
         $user = $this->getUser();
-        if ($user instanceof User) {
-            $pageVars['nav'][] = $this->buildGamesItem($user);
-        }
-        $this->setActiveTrail($pageVars['nav'], $route);
+        $pageVars['mainNav'] = $this->buildMainNav($user);
+
+        $pageVars['userNav'] = $this->buildUserNav($user);
+        $this->setActiveTrail($pageVars['mainNav'], $route);
 
         if (!isset($pageVars['breadcrumbs'])) {
             $pageVars['breadcrumbs'] = [];
@@ -127,5 +110,85 @@ abstract class AbstractBaseController extends AbstractController
             );
         }
         return $pageVars;
+    }
+
+    private function buildUserNav(? User $user): array {
+        $navItems = [];
+        if ($user instanceof User) {
+            if ($user->hasPermissionKey('admin_dash')) {
+                $navItems['admin_dash'] =  new NavItem(
+                    handle: 'admin_dash',
+                    label: 'Admin Dashboard',
+                    route: 'admin.dashboard'
+                );
+            }
+
+            if ($user->hasPermissionKey('create_events')) {
+                $navItems['manage_events'] =  new NavItem(
+                    handle: 'manage_events',
+                    label: 'Manage Events',
+                    route: 'events.dashboard'
+                );
+            }
+
+            $navItems['account'] = new NavItem(
+                handle: 'account',
+                label: 'Account',
+                route: 'app.user.account'
+            );
+            $navItems['games'] = new NavItem(
+                handle: 'games',
+                label: 'My Games',
+                route: 'app.games.index'
+            );
+
+            $navItems['logout'] = new NavItem(
+                handle: 'logout',
+                label: 'Log Out',
+                route: 'app.auth.logout'
+            );
+        } else {
+            $navItems['login'] = new NavItem(
+                handle: 'login',
+                label: 'Login',
+                route: 'app.auth.login'
+            );
+            $navItems['register'] = new NavItem(
+                handle: 'register',
+                label: 'Register',
+                route: 'app.auth.register'
+            );
+        }
+        return $navItems;
+    }
+
+    private function buildMainNav(?User $user): array {
+        $mainNav = [
+            new NavItem(
+                handle: 'home',
+                label: 'Home',
+                route: 'app.pages.home'
+            ),
+            new NavItem(
+                handle: 'puzzletemplates',
+                label: 'Puzzles & Tools',
+                route: 'app.puzzles.template.index'
+            ),
+            new NavItem(
+                handle: 'about',
+                label: 'About',
+                route: 'app.pages.about'
+            ),
+            new NavItem(
+                handle: 'events',
+                label: 'My Events',
+                route: 'app.events.index'
+            )
+        ];
+
+        if ($user instanceof User) {
+            $mainNav['games'] = $this->buildGamesItem($user);
+        }
+        return $mainNav;
     }
 }

@@ -1,0 +1,26 @@
+<div id="accountdetails" class="active tab-content">
+    <div class="row one-third-two-thirds">
+        <div class="col">
+            <div class="avatar-wrapper">
+                <img class="avatar" src="{{ user.getAvatar ? user.getAvatar.getPath :  '/dist/images/default-avatar.webp' }}" alt="Your Avatar">
+            </div>
+        </div>
+
+        <div class="col">
+            <strong>Name</strong>
+            {{ user.userName }}
+            <strong>Email</strong>
+            {{ user.email }}
+            <strong>Account Type</strong>
+            <span class="badge badge-info">{{ user.getUserAccountType.getLabel }}</span>
+            <strong>Profile Visibility</strong>
+            <span class="badge badge-{{ user.isProfilePublic  ? 'info' : 'success' }}">{{ user.isProfilePublic  ? 'Public' : 'Private' }}</span>
+            <nav class="secondary">
+                <a href="{{ path('app.user.account.edit') }}">Change these details</a>
+                <a href="{{ path('app.user.account.change-password') }}">Change Password</a>
+                <a href="{{ path('app.auth.logout') }}">Logout</a>
+            </nav>
+
+        </div>
+    </div>
+</div>

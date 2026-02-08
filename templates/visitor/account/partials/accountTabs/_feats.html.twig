@@ -1,0 +1,16 @@
+<div id="feats" class="tab-content">
+    <div class="row">
+        <div class="col">
+            <h2>Your Feats</h2>
+            {% if user.getFeats is empty %}
+                <em>You've yet to earn any Feats. Feats can be awarded by Games Masters, or earned through various actions around the site.</em>
+            {% else %}
+                <div class="feats grid">
+                    {% for feat in user.getFeats %}
+                        {% embed 'visitor/account/partials/_feat.view.html.twig' with {'feat': feat} %}{% endembed %}
+                    {% endfor %}
+                </div>
+            {% endif %}
+        </div>
+    </div>
+</div>

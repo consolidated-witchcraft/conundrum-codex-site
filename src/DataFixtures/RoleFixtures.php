@@ -69,6 +69,10 @@ class RoleFixtures extends Fixture
             'label' => 'Manage All Files',
             'description' => 'Manage all files uploaded to the system.'
         ],
+        'create_events' => [
+            'label' => 'Create Events',
+            'description' => 'Create events.'
+        ]
     ];
 
     private const array ROLES = [
@@ -101,6 +105,12 @@ class RoleFixtures extends Fixture
                 'view_pages',
                 'admin_dash',
                 'block_users',
+            ]
+        ],
+        'ROLE_EVENT_CREATOR' => [
+            'name' => 'Event Creator',
+            'permissions' => [
+                'create_events'
             ]
         ]
     ];

@@ -94,7 +94,7 @@
             }
 
             &:after {
-                transition: opacity 200ms ease-in-out;
+                transition: opacity variables.$animationSpeedNormal ease-in-out;
                 content: "\2714";
                 border: (variables.$baseBorderWidth * 2) solid transparent;
                 opacity: 0;

@@ -6,7 +6,7 @@
 @use "../base/typography";
 
 $dropcap-scale: 5em;
-
+$miniDropcap-scale: 3em;
 
 @media only screen and (min-width: 1080px) {
 
@@ -45,5 +45,16 @@ $dropcap-scale: 5em;
 
             }
         }
+
+        &.nofloat {
+            float: none;
+        }
+
+        &.sm {
+            height: $miniDropcap-scale;
+            width: $miniDropcap-scale;
+            line-height: $miniDropcap-scale;
+        }
     }
+
 }

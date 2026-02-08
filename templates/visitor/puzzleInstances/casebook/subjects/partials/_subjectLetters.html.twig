@@ -9,15 +9,15 @@
     {% endfor %}
 </nav>
 {% if casebook.getSubjectsByTypeHandle(subjectType) is  empty %}
-    No items of this type have been revealed
+
+    <p>No items of this type have been revealed</p>
 {% else %}
     {% for letter,label in generate_alphabet() %}
         {% if casebook.getSubjectsByTypeHandleAndInitial(subjectType, letter) is not empty %}
-            <h2 id="{{ subjectType }}_{{ letter }}">{{ label }}</h2>
+            <h2 class="drop-cap sm nofloat" id="{{ subjectType }}_{{ letter }}">{{ label }}</h2><br/>
             {% for subject in casebook.getSubjectsByTypeHandleAndInitial(subjectType, letter) %}
-                {% embed 'visitor/puzzleInstances/casebook/subjects/partials/_subject.view.html.twig' with {'subject': subject} %}{% endembed %}
+                {% embed 'visitor/puzzleInstances/casebook/subjects/partials/_subject.view.html.twig' with {'subject': subject, 'subjectType': subjectType, 'letter': letter} %}{% endembed %}
             {% endfor %}
-
         {% endif %}
     {% endfor %}
 {% endif %}
