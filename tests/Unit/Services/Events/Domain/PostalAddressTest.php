@@ -15,15 +15,17 @@ final class PostalAddressTest extends TestCase
         $user = $this->createStub(User::class);
 
         $address = new PostalAddress(
-            'Home',
-            '123 Main St',
-            'Springfield',
-            '90210',
-            $user,
-            'Unit B',
-            40.7128,
-            -74.0060,
-            42
+            user: $user,
+            label: 'Home',
+            addressLineOne: '123 Main St',
+            townCity: 'Springfield',
+            postalZip: '90210',
+            countryCode: 'US',
+            countyProvince: 'Massachusetts',
+            addressLineTwo: 'Penny Lane',
+            latitude: -74.0060,
+            longitude: 40.7128,
+            id: 42
         );
 
         self::assertSame('Home', $address->getLabel());
@@ -31,9 +33,10 @@ final class PostalAddressTest extends TestCase
         self::assertSame('Springfield', $address->getTownCity());
         self::assertSame('90210', $address->getPostalZip());
         self::assertSame($user, $address->getUser());
-        self::assertSame('Unit B', $address->getAddressLineTwo());
-        self::assertSame(40.7128, $address->getLatitude());
-        self::assertSame(-74.0060, $address->getLongitude());
+        self::assertSame('Massachusetts', $address->getCountyProvince());
+        self::assertSame('US', $address->getCountryCode());
+        self::assertSame(-74.0060, $address->getLatitude());
+        self::assertSame(40.7128, $address->getLongitude());
         self::assertSame(42, $address->getId());
         self::assertInstanceOf(\DateTimeImmutable::class, $address->getCreatedAt());
         self::assertInstanceOf(\DateTimeImmutable::class, $address->getUpdatedAt());
@@ -44,11 +47,13 @@ final class PostalAddressTest extends TestCase
         $user = $this->createStub(User::class);
 
         $address = new PostalAddress(
-            'Work',
-            '1 First Ave',
-            'Oldtown',
-            '10000',
-            $user
+            user: $user,
+            label: 'Work',
+            addressLineOne: '1 First Ave',
+            townCity: 'Oldtown',
+            postalZip: '10000',
+            countyProvince: 'Massachusetts',
+            countryCode: 'US',
         );
 
         $address->setLabel('HQ');

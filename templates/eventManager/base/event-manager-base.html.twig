@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{{ pageTitle }} | {{ siteName }}</title>
+
+    {% embed 'base/partials/_preloads.html.twig' %}{% endembed %}
+    <script src="https://unpkg.com/@ungap/custom-elements"></script>
+
+    <link rel="stylesheet" href="/dist/css/admin.css" />
+    <script src="/dist/js/app.js"></script>
+
+</head>
+
+    <body>
+        <header>
+            <nav class="admin-navbar">
+                <a href="{{ path('events.dashboard') }}">Dashboard</a>
+                <a href="{{ path('app.pages.home') }}">Visitor Site</a>
+
+
+            </nav>
+        </header>
+        {% embed 'base/partials/_alerts.html.twig' %}{% endembed %}
+
+        <main>
+            <div class="row title-row">
+                <div class="col">
+                    <h1>{{ pageTitle }}</h1>
+                </div>
+            </div>
+            {% block body %}{% endblock %}
+        </main>
+
+    </body>
+</html>

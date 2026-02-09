@@ -1,0 +1,20 @@
+{% extends '/eventManager/base/event-manager-base.html.twig' %}
+{% block body %}
+    <div class="row">
+        <div class="col panel">
+            <h2>Your Organisations</h2>
+            {% if organisations is empty %}
+                <em>You are not a member of any organisations at the moment. You will not be able to create or manage events until one is created.</em>
+            {% else %}
+                {% for organisation in organisations %}
+                    {{ organisation.getName }}
+                {% endfor %}
+            {% endif %}
+            {% if is_granted('create_event_organisations') %}
+                <nav class="secondary">
+                    <a href="{{ path('events.organisations.add') }}">Create a new Organisation</a>
+                </nav>
+            {% endif %}
+        </div>
+    </div>
+{% endblock %}

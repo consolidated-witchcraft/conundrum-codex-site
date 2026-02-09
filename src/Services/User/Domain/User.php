@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Services\User\Domain;
 
 use App\Services\Core\Domain\AbstractDomainEntity;
+use App\Services\Events\Domain\Organisation;
 use App\Services\Files\Domain\ManagedFile;
 use App\Services\Game\Domain\Game;
 use App\Services\PostalAddress\Domain\PostalAddress;
@@ -62,6 +63,7 @@ class User extends AbstractDomainEntity implements UserInterface, PasswordAuthen
      * @param non-empty-string $password
      * @param bool $hasAcceptedCookies
      * @param bool $profilePublic
+     * @param Organisation|null $organisation
      * @param ManagedFile|null $avatar
      * @param int|null $id
      */
@@ -89,6 +91,9 @@ class User extends AbstractDomainEntity implements UserInterface, PasswordAuthen
         #[ORM\Column(type: 'boolean', nullable: false)]
         private bool $profilePublic = false,
 
+        #[ORM\ManyToOne(targetEntity: Organisation::class, fetch: 'EAGER')]
+        private ? Organisation $organisation = null,
+
         #[ORM\OneToOne(targetEntity: ManagedFile::class, fetch: 'EAGER')]
         #[ORM\JoinColumn(nullable: true, onDelete: 'SET NULL')]
         private ?ManagedFile $avatar = null,
@@ -100,6 +105,16 @@ class User extends AbstractDomainEntity implements UserInterface, PasswordAuthen
         $this->gamesMastered = new ArrayCollection();
         $this->games = new ArrayCollection();
         $this->feats = new ArrayCollection();
+    }
+
+    public function getOrganisation(): ?Organisation
+    {
+        return $this->organisation;
+    }
+
+    public function setOrganisation(?Organisation $organisation): void
+    {
+        $this->organisation = $organisation;
     }
 
     public function getAvatar(): ?ManagedFile

@@ -19,8 +19,8 @@ class Event extends AbstractDomainEntity
         #[ORM\Column]
         private bool $invitationOnly,
 
-        #[ORM\ManyToOne(targetEntity: User::class)]
-        private User $owner,
+        #[ORM\ManyToOne(targetEntity: Organisation::class)]
+        private Organisation $organisation,
 
         #[ORM\Column]
         private \DateTimeInterface $startDate,
@@ -54,11 +54,6 @@ class Event extends AbstractDomainEntity
     public function setInvitationOnly(bool $invitationOnly): void
     {
         $this->invitationOnly = $invitationOnly;
-    }
-
-    public function getOwner(): User
-    {
-        return $this->owner;
     }
 
     public function setOwner(User $owner): void

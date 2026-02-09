@@ -72,6 +72,10 @@ class RoleFixtures extends Fixture
         'create_events' => [
             'label' => 'Create Events',
             'description' => 'Create events.'
+        ],
+        'create_event_organisations' => [
+            'label' => 'Create Event Organisations',
+            'description' => 'Create event organisations.'
         ]
     ];
 
@@ -107,8 +111,15 @@ class RoleFixtures extends Fixture
                 'block_users',
             ]
         ],
-        'ROLE_EVENT_CREATOR' => [
-            'name' => 'Event Creator',
+        'ROLE_ORGANISATION_OWNER' => [
+            'name' => 'Event Organisation Owner',
+            'permissions' => [
+                'create_event_organisations',
+                'create_events'
+            ]
+        ],
+        'ROLE_EVENT_MANAGER' => [
+            'name' => 'Event Manager',
             'permissions' => [
                 'create_events'
             ]

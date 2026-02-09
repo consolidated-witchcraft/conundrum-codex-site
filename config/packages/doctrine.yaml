@@ -106,6 +106,14 @@ doctrine:
                 dir: '%kernel.project_dir%/src/Services/PostalAddress/Domain'
                 prefix: 'App\Services\PostalAddress\Domain'
                 alias: PostalAddress
+
+            Events:
+                type: attribute
+                is_bundle: false
+                dir: '%kernel.project_dir%/src/Services/Events/Domain'
+                prefix: 'App\Services\Events\Domain'
+                alias: Events
+
         controller_resolver:
             auto_mapping: false
 
