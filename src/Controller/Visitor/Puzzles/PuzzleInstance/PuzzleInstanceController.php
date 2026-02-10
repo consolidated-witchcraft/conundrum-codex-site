@@ -6,9 +6,7 @@ namespace App\Controller\Visitor\Puzzles\PuzzleInstance;
 
 use App\Controller\Visitor\Puzzles\AbstractPuzzleController;
 use App\Controller\Visitor\Puzzles\PuzzleInstance\Traits\GeneratesDynamicPuzzleInstanceFormTrait;
-use App\Dto\Visitor\Puzzles\Dynamic\DynamicPuzzleConfigDto;
 use App\Dto\Visitor\Puzzles\PublishPuzzleInstanceDto;
-use App\Form\Type\DieRollType;
 use App\Form\Visitor\DeletePuzzleInstanceType;
 use App\Form\Visitor\PublishPuzzleInstanceType;
 use App\Security\GameManagerVoter;
@@ -19,16 +17,10 @@ use App\Services\PuzzleInstance\Domain\Interfaces\DynamicPuzzleInstanceInterface
 use App\Services\PuzzleInstance\Domain\Interfaces\PuzzleInstanceInterface;
 use App\Services\PuzzleTemplate\Domain\Exceptions\MismappedPuzzleTemplateException;
 use App\Services\PuzzleTemplate\Domain\PuzzleTemplate;
-use Symfony\Component\Form\Extension\Core\Type\CollectionType;
-use Symfony\Component\Form\Extension\Core\Type\SubmitType;
-use Symfony\Component\Form\Extension\Core\Type\TextareaType;
-use Symfony\Component\Form\Extension\Core\Type\TextType;
-use Symfony\Component\Form\FormInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
-use Symfony\Component\Validator\Constraints\NotBlank;
 
 class PuzzleInstanceController extends AbstractPuzzleController
 {

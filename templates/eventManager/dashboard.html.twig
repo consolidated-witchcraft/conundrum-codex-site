@@ -11,6 +11,8 @@
                         <tr>
                             <th>Name</th>
                             <th>Handle</th>
+                            <th>Owner</th>
+                            <th>Event Managers</th>
                             <th>Events</th>
                             <th>Operations</th>
                         </tr>
@@ -20,13 +22,30 @@
                         <tr>
                             <td>{{ organisation.name }}</td>
                             <td>{{ organisation.handle }}</td>
+                            <td>{{ organisation.getOwner.getUserName }}</td>
                             <td>
-                                {% if organisation.getEvents is empty %}
+                                <ul>
+                                    {% for manager in organisation.getManagers %}
+                                        <li>
+                                            {{ manager.getUserName }}
+                                        </li>
+                                    {% endfor %}
+                                </ul>
+                            </td>
+                            <td>
+                                {% if organisation.getAllEvents is empty %}
                                     <em>There are no events scheduled by this organisation</em>
+                                {% else %}
+                                    <ul>
+                                    {% for event in organisation.getAllEvents %}
+                                        <li>{{ event.getTitle }}</li>
+                                    {% endfor %}
+                                    </ul>
                                 {% endif %}
                             </td>
                             <td>
                                 <nav class="secondary">
+                                    <a href="{{ path('events.organisations.manage', {'organisationHandle': organisation.getHandle}) }}">Manage Events</a>
                                     <a href="{{ path('events.organisations.edit', {'organisationHandle': organisation.getHandle}) }}">Edit this organisation</a>
                                     <a href="{{ path('events.organisations.deactivate', {'organisationHandle': organisation.getHandle}) }}">Deactivate this organisation</a>
                                 </nav>

@@ -54,6 +54,38 @@
         &:focus,&:active {
             border-image: var(--erodedFrameWhiteInnerGreen) 33%;
         }
+
+
+    }
+    .money-widget {
+        position: relative;
+        background-color: palette.$white;
+        border: (variables.$baseBorderWidth * 2) solid transparent;
+        border-image: var(--erodedFrameWhiteInner) 33%;
+        padding-left: 3rem;
+
+        .money-widget-addon {
+            height: 100%;
+            line-height: 1.5em;
+            width: 1.5em;
+            font-size: 1.5em;
+            display: block;
+            position: absolute;
+            left: 0;
+            top: 0;
+            text-align: center;
+            background-color: palette.$ink;
+            color: palette.$offWhite
+        }
+
+        input {
+            background-color: transparent;
+            border: none !important;
+        }
+
+        &:focus,&:active {
+            border-image: var(--erodedFrameWhiteInnerGreen) 33%;
+        }
     }
 
     .checkbox-wrapper {

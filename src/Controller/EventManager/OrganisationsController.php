@@ -10,6 +10,7 @@ use App\Form\EventManager\OrganisationType;
 use App\Services\Events\Domain\Organisation;
 use App\Services\User\Domain\User;
 use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
@@ -76,13 +77,16 @@ class OrganisationsController extends AbstractEventManagerController
         $form = $this->createForm(OrganisationType::class, $dto);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
-            $organisation = new Organisation(
-                name: $dto->name,
-                handle: $dto->handle,
-                owner: $user,
-                events: new ArrayCollection(),
-                managers: new ArrayCollection($dto->managers)
-            );
+
+            $organisation->setName($dto->name);
+            $organisation->setHandle($dto->handle);
+
+            $managers = $dto->managers instanceof Collection ? $dto->managers : new ArrayCollection($dto->managers);
+            foreach ($managers as $manager) {
+                $manager->setOrganisation($organisation);
+                $this->userService->saveUser($manager);
+            }
+            $organisation->setManagers($managers);
             $success = true;
             $violations = $this->validator->validate($organisation);
             if (count($violations) > 0) {
@@ -93,7 +97,7 @@ class OrganisationsController extends AbstractEventManagerController
             }
             if ($success) {
                 $this->eventService->saveOrganisation($organisation);
-                $this->addFlash('success', 'Organisation created.');
+                $this->addFlash('success', 'Organisation updated.');
                 return $this->redirectToRoute('events.dashboard');
             }
         }

@@ -14,5 +14,6 @@
         margin-bottom: math.div(variables.$base-spacing, 2);
         box-shadow: palette.$baseBoxShadow;
         border-radius: 0.25rem;
+        border: variables.$baseBorderWidth solid palette.$crimson;
     }
 }

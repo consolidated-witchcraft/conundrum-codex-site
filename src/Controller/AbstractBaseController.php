@@ -178,12 +178,13 @@ abstract class AbstractBaseController extends AbstractController
                 handle: 'about',
                 label: 'About',
                 route: 'app.pages.about'
-            ),
+            )
+            /*
             new NavItem(
                 handle: 'events',
                 label: 'My Events',
                 route: 'app.events.index'
-            )
+            )*/
         ];
 
         if ($user instanceof User) {

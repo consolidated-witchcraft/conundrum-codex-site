@@ -20,4 +20,5 @@ return [
     Craue\FormFlowBundle\CraueFormFlowBundle::class => ['all' => true],
     Symfony\WebpackEncoreBundle\WebpackEncoreBundle::class => ['all' => true],
     Karser\Recaptcha3Bundle\KarserRecaptcha3Bundle::class => ['all' => true],
+    Twig\Extra\TwigExtraBundle\TwigExtraBundle::class => ['all' => true],
 ];

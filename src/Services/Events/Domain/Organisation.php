@@ -6,6 +6,8 @@ use App\Services\Core\Domain\AbstractDomainEntity;
 use App\Services\Events\Infrastructure\OrganisationRepository;
 use App\Services\User\Domain\User;
 use Doctrine\Common\Collections\Collection;
+use Doctrine\Common\Collections\Criteria;
+use Doctrine\Common\Collections\Order;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
@@ -14,6 +16,15 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 class Organisation extends AbstractDomainEntity
 {
 
+    /**
+     * @param string $name
+     * @param string $handle
+     * @param User $owner
+     * @param Collection<int, Event> $events
+     * @param Collection<int, User> $managers
+     * @param \DateTimeInterface|null $deactivationDate
+     * @param int|null $id
+     */
     public function __construct(
         #[ORM\Column(type: 'string', length: 255)]
         private string $name,
@@ -43,8 +54,28 @@ class Organisation extends AbstractDomainEntity
         return $this->handle;
     }
 
-    public function getEvents(): Collection
+    public function setHandle(string $handle): void
     {
+        $this->handle = $handle;
+    }
+
+    /**
+     * @return Collection<int, Event>
+     */
+    public function getAllEvents(): Collection
+    {
+        return $this->events;
+    }
+
+    /**
+     * @return Collection<int, Event>
+     */
+    public function getUpcomingEvents(): Collection
+    {
+        $criteria = new Criteria();
+        $eb = Criteria::expr();
+        $criteria->where($eb->gt('endDate', new \DateTime()));
+        $criteria->orderBy(array("endDate" => Order::Ascending));
         return $this->events;
     }
 

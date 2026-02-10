@@ -4,11 +4,15 @@ namespace App\Services\Events\Domain;
 
 use App\Services\Core\Domain\AbstractDomainEntity;
 use App\Services\Events\Infrastructure\EventRepository;
+use App\Services\Files\Domain\ManagedFile;
 use App\Services\User\Domain\User;
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 #[ORM\Entity(repositoryClass: EventRepository::class)]
+#[UniqueEntity(fields: 'eventSlug', message: 'Event with this slug already exists')]
 class Event extends AbstractDomainEntity
 {
 
@@ -16,24 +20,73 @@ class Event extends AbstractDomainEntity
         #[ORM\Column(type: 'string', length: 255)]
         private string $title,
 
+        #[ORM\Column(type: 'string', length: 255, unique: true)]
+        private string $eventSlug,
+
+        #[ORM\Column(type: 'string', length: 2048)]
+        private string $description,
+
+        #[ORM\OneToOne(targetEntity: ManagedFile::class)]
+        private ManagedFile $heroImage,
+
         #[ORM\Column]
-        private bool $invitationOnly,
+        private bool $prebookOnly,
 
         #[ORM\ManyToOne(targetEntity: Organisation::class)]
         private Organisation $organisation,
 
-        #[ORM\Column]
+        #[ORM\Column(type: 'datetime')]
         private \DateTimeInterface $startDate,
 
-        #[ORM\Column]
+        #[ORM\Column(type: 'datetime')]
         private \DateTimeInterface $endDate,
 
-        #[ORM\OneToOne(targetEntity: TicketType::class, inversedBy: 'event')]
+        #[ORM\OneToMany(targetEntity: TicketType::class, mappedBy: 'event')]
         #[ORM\JoinColumn(nullable: false)]
-        private Collection $ticketTypes,
+        private Collection $ticketTypes = new ArrayCollection(),
         ? int $id = null
     ) {
         parent::__construct($id);
+    }
+
+    public function isPrebookOnly(): bool
+    {
+        return $this->prebookOnly;
+    }
+
+    public function setPrebookOnly(bool $prebookOnly): void
+    {
+        $this->prebookOnly = $prebookOnly;
+    }
+
+    public function getEventSlug(): string
+    {
+        return $this->eventSlug;
+    }
+
+    public function getDescription(): string
+    {
+        return $this->description;
+    }
+
+    public function setDescription(string $description): void
+    {
+        $this->description = $description;
+    }
+
+    public function getHeroImage(): ManagedFile
+    {
+        return $this->heroImage;
+    }
+
+    public function setHeroImage(ManagedFile $heroImage): void
+    {
+        $this->heroImage = $heroImage;
+    }
+
+    public function getOrganisation(): Organisation
+    {
+        return $this->organisation;
     }
 
     public function getTitle(): string
@@ -46,20 +99,7 @@ class Event extends AbstractDomainEntity
         $this->title = $title;
     }
 
-    public function isInvitationOnly(): bool
-    {
-        return $this->invitationOnly;
-    }
 
-    public function setInvitationOnly(bool $invitationOnly): void
-    {
-        $this->invitationOnly = $invitationOnly;
-    }
-
-    public function setOwner(User $owner): void
-    {
-        $this->owner = $owner;
-    }
 
     public function getStartDate(): \DateTimeInterface
     {
@@ -90,4 +130,5 @@ class Event extends AbstractDomainEntity
     {
         $this->ticketTypes = $ticketTypes;
     }
+
 }

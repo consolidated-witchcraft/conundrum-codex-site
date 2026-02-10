@@ -4,8 +4,12 @@ declare(strict_types=1);
 
 namespace App\Services\Events\Service;
 
+use App\Services\Events\Domain\Event;
 use App\Services\Events\Domain\Organisation;
+use App\Services\Events\Domain\TicketType;
+use App\Services\Events\Infrastructure\EventRepository;
 use App\Services\Events\Infrastructure\OrganisationRepository;
+use App\Services\Events\Infrastructure\TicketTypeRepository;
 use App\Services\User\Domain\User;
 use Doctrine\ORM\EntityManagerInterface;
 
@@ -13,7 +17,9 @@ class EventService implements EventServiceInterface
 {
     public function __construct(
         private readonly OrganisationRepository $organisationRepository,
-        private readonly EntityManagerInterface $entityManager
+        private readonly EventRepository $eventRepository,
+        private readonly EntityManagerInterface $entityManager,
+        public readonly TicketTypeRepository $ticketTypeRepository,
     ) {}
 
     public function getOrganisationByHandle(string $handle, bool $includeDeactivated = false): ?Organisation
@@ -35,5 +41,28 @@ class EventService implements EventServiceInterface
     public function getOrganisationsByManager(User $user, bool $includeDeactivated = false): array
     {
         return $this->organisationRepository->getOrganisationsByManager($user, $includeDeactivated);
+    }
+
+    public function saveEvent(Event $event): Event
+    {
+        $this->entityManager->persist($event);
+        $this->entityManager->flush();
+        return $event;
+    }
+
+    public function findEventBySlug(string $slug): ?Event
+    {
+        return $this->eventRepository->findOneBy(['eventSlug' => $slug]);
+    }
+
+    public function getTicketTypeByEventAndSlug(Event $event, string $slug): ?TicketType
+    {
+        return $this->ticketTypeRepository->findOneBy(['event' => $event, 'slug' => $slug]);
+    }
+
+    public function saveTicketType(TicketType $ticketType): TicketType {
+        $this->entityManager->persist($ticketType);
+        $this->entityManager->flush();
+        return $ticketType;
     }
 }

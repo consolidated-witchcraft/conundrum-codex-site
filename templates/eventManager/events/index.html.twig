@@ -1,0 +1,52 @@
+{% extends '/eventManager/base/event-manager-base.html.twig' %}
+{% block body %}
+    <div class="row">
+        <div class="col panel">
+            <table class="table table-bordered table-striped">
+                <thead>
+                    <tr>
+                        <th>Event Name</th>
+                        <th>Start Date</th>
+                        <th>End Date</th>
+                        <th>Ticket Types</th>
+                        <th>Operations</th>
+                    </tr>
+                </thead>
+                <tbody>
+                {% if organisation.getAllEvents is empty %}
+                    <tr>
+                        <td colspan="6">No events found</td>
+                    </tr>
+                {% else %}
+                    {% for event in organisation.getAllEvents %}
+                        <tr>
+                            <td>{{ event.getTitle }}</td>
+                            <td>{{ friendly_date(event.getStartDate) }}</td>
+                            <td>{{ friendly_date(event.getEndDate) }}</td>
+                            <td>
+                                {% if event.getTicketTypes is empty %}
+                                    <em>There are no ticket types currently configured for this event.</em>
+                                {% else %}
+                                    <ul>
+                                        {% for ticketType in event.getTicketTypes %}
+                                            <li>{{ ticketType.getName }} - {{ (ticketType.getPriceCentessimal/100)|format_currency('GBP') }}</li>
+                                        {% endfor %}
+                                    </ul>
+                                {% endif %}
+                            </td>
+                            <td>
+                                <nav class="secondary">
+                                    <a href="{{ path('events.organisations.ticket-types', {'organisationHandle': organisation.getHandle, 'eventSlug': event.getEventSlug}) }}">Manage ticket types</a>
+                                </nav>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                {% endif %}
+                </tbody>
+            </table>
+            <nav class="secondary">
+                <a href="{{ path('events.organisations.create', {'organisationHandle': organisation.getHandle}) }}">Create Event</a>
+            </nav>
+        </div>
+    </div>
+{% endblock %}

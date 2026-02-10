@@ -4,10 +4,13 @@ declare(strict_types=1);
 
 namespace App\Controller\Traits;
 use App\Services\Files\Domain\ManagedFile;
+use App\Services\Files\Service\Interfaces\FilesServiceInterface;
 use App\Services\User\Domain\User;
 use RuntimeException;
 use Symfony\Component\HttpFoundation\File\Exception\FileException;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
+use Symfony\Component\String\Slugger\SluggerInterface;
+
 trait HandlesFileUploadsTrait
 {
 
@@ -16,11 +19,11 @@ trait HandlesFileUploadsTrait
         string       $destination
     ): ManagedFile {
         $mimeType = ($uploadedFile->getMimeType());
-        if ($this->slugger === null) {
+        if (!isset($this->slugger) || ! $this->slugger instanceof SluggerInterface) {
             throw new RuntimeException('You must set a valid slugger');
         }
 
-        if (!isset($this->filesService)) {
+        if (!isset($this->filesService) || ! $this->filesService instanceof FilesServiceInterface) {
             throw new RuntimeException('You must set a managed file service');
         }
         $originalFilename = pathinfo($uploadedFile->getClientOriginalName(), PATHINFO_FILENAME);

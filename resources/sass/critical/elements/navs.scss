@@ -112,7 +112,7 @@ nav.breadcrumbs {
             font-weight: bold;
             margin-right: math.div(variables.$base-spacing, 4);
             border: variables.$baseBorderWidth solid palette.$crimson;
-            transition: all variables.$animationSpeedNormal ease-in-out;
+            transition: all variables.$animationSpeedFast ease-in-out;
             transition-property: background-color, color, border-color;
 
             &.active,
