@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Dto\EventManager;
 
+use App\Services\Events\Domain\Organisation;
 use App\Services\User\Domain\User;
 
 use Symfony\Component\Validator\Constraints as Assert;
@@ -16,6 +17,15 @@ class OrganisationDto
         #[Assert\NotBlank]
         public ? string $handle = null,
         #[Assert\NotBlank]
-        public array $managers = [],
+        public iterable $managers = [],
     ) {}
+
+    public static function makeFromOrganisation(Organisation $organisation): OrganisationDto {
+        return new static(
+            owner: $organisation->getOwner(),
+            name: $organisation->getName(),
+            handle: $organisation->getHandle(),
+            managers: $organisation->getManagers(),
+        );
+    }
 }

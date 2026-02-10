@@ -16,9 +16,9 @@ class EventService implements EventServiceInterface
         private readonly EntityManagerInterface $entityManager
     ) {}
 
-    public function getOrganisationByHandle(string $handle): ?Organisation
+    public function getOrganisationByHandle(string $handle, bool $includeDeactivated = false): ?Organisation
     {
-        return $this->organisationRepository->findOneBy('handle', $handle);
+        return $this->organisationRepository->findOneBy(['handle' => $handle]);
     }
 
     public function saveOrganisation(Organisation $organisation): Organisation
@@ -32,8 +32,8 @@ class EventService implements EventServiceInterface
      * @param User $user
      * @return Organisation[]
      */
-    public function getOrganisationsByManager(User $user): array
+    public function getOrganisationsByManager(User $user, bool $includeDeactivated = false): array
     {
-        return $this->organisationRepository->getOrganisationsByManager($user);
+        return $this->organisationRepository->getOrganisationsByManager($user, $includeDeactivated);
     }
 }

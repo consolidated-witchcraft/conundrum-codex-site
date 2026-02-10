@@ -18,9 +18,6 @@ class Organisation extends AbstractDomainEntity
         #[ORM\Column(type: 'string', length: 255)]
         private string $name,
 
-        #[ORM\Column]
-        private bool $active,
-
         #[ORM\Column(unique: true)]
         private string $handle,
 
@@ -32,6 +29,9 @@ class Organisation extends AbstractDomainEntity
 
         #[ORM\OneToMany(mappedBy: 'organisation', targetEntity: User::class)]
         private Collection $managers,
+
+        #[ORM\Column(type: 'datetime', nullable: true)]
+        private ? \DateTimeInterface $deactivationDate = null,
 
         ? int $id = null
     ) {
@@ -55,13 +55,13 @@ class Organisation extends AbstractDomainEntity
 
     public function isActive(): bool
     {
-        return $this->active;
+        return $this->deactivationDate === null;
     }
 
-    public function setActive(bool $active): void
-    {
-        $this->active = $active;
+    public function deactivate(): void {
+        $this->deactivationDate = new \DateTime();
     }
+
 
     public function getName(): string
     {

@@ -7,14 +7,14 @@
 
 table.table {
     border-collapse: collapse;
-    border: variables.$baseBorderWidth solid palette.$wyrdPurple;
+    border: variables.$baseBorderWidth solid palette.$crimson;
     text-align: left;
     transform: rotate(-0.125deg);
     margin-bottom: math.div(variables.$base-spacing, 2);
     width: 100%;
 
     tr, td, th {
-        border: variables.$baseBorderWidth solid palette.$wyrdPurple;
+        border: variables.$baseBorderWidth solid palette.$crimson;
         padding: math.div(variables.$base-spacing, 4);
         vertical-align: top;
         border-radius: 0;
@@ -31,7 +31,7 @@ table.table {
     }
 
     th {
-        background-color: palette.$wyrdPurple;
+        background-color: palette.$crimson;
         color: palette.$white;
     }
 

@@ -6,9 +6,37 @@
             {% if organisations is empty %}
                 <em>You are not a member of any organisations at the moment. You will not be able to create or manage events until one is created.</em>
             {% else %}
-                {% for organisation in organisations %}
-                    {{ organisation.getName }}
-                {% endfor %}
+                <table class="table table-bordered table-striped">
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Handle</th>
+                            <th>Events</th>
+                            <th>Operations</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    {% for organisation in organisations %}
+                        <tr>
+                            <td>{{ organisation.name }}</td>
+                            <td>{{ organisation.handle }}</td>
+                            <td>
+                                {% if organisation.getEvents is empty %}
+                                    <em>There are no events scheduled by this organisation</em>
+                                {% endif %}
+                            </td>
+                            <td>
+                                <nav class="secondary">
+                                    <a href="{{ path('events.organisations.edit', {'organisationHandle': organisation.getHandle}) }}">Edit this organisation</a>
+                                    <a href="{{ path('events.organisations.deactivate', {'organisationHandle': organisation.getHandle}) }}">Deactivate this organisation</a>
+                                </nav>
+                            </td>
+                        </tr>
+
+                    {% endfor %}
+                    </tbody>
+                </table>
+
             {% endif %}
             {% if is_granted('create_event_organisations') %}
                 <nav class="secondary">

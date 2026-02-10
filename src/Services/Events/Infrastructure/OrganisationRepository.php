@@ -23,7 +23,7 @@ class OrganisationRepository extends ServiceEntityRepository
      * @param User $user
      * @return Organisation[]
      */
-    public function getOrganisationsByManager(User $user): array {
+    public function getOrganisationsByManager(User $user, bool $includeDeactivated = false): array {
         $qb = $this->createQueryBuilder('o')
             ->select('o')
             ->leftJoin('o.managers', 'om')
@@ -32,6 +32,9 @@ class OrganisationRepository extends ServiceEntityRepository
                 'om = :user'
             )
             ->setParameter('user', $user);
+        if (!$includeDeactivated) {
+            $qb->andWhere('o.deactivationDate is NULL');
+        }
         return $qb->getQuery()->getResult();
 
     }
