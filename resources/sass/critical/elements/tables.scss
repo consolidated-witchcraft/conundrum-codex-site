@@ -42,3 +42,31 @@ table.table {
         }
     }
 }
+
+table.price-table {
+    border-collapse: collapse;
+
+    thead {
+        tr {
+            th {
+                border-bottom: variables.$baseBorderWidth solid palette.$ink;
+                padding: math.div(variables.$base-spacing, 2);
+            }
+        }
+    }
+    tbody {
+        tr {
+            td {
+                padding: math.div(variables.$base-spacing, 2);
+            }
+        }
+    }
+    tfoot {
+        tr {
+            td, th {
+                border-top: variables.$baseBorderWidth solid palette.$ink;
+                padding: math.div(variables.$base-spacing, 2);
+            }
+        }
+    }
+}

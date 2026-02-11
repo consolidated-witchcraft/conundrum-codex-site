@@ -1,0 +1,35 @@
+{% extends 'base/base.html.twig' %}
+{% block body %}
+    <div class="row one-third-two-thirds">
+        <div class="col">
+            <table class="price-table">
+                <thead>
+                <tr>
+                    <th>Type</th>
+                    <th>Amount</th>
+                    <th>Price</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for ticketDetail in ticketDetails %}
+                    <tr>
+                        <td>{{ ticketDetail.type.getName }}</td>
+                        <td>{{ ticketDetail.amount }}</td>
+                        <td>{{ ticketDetail.cost|format_currency('GBP') }}</td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+                <tfoot>
+                <tr>
+                    <td></td>
+                    <th>Total</th>
+                    <td>{{ totalPriceDecimal|format_currency('GBP') }}</td>
+                </tr>
+                </tfoot>
+            </table>
+        </div>
+        <div class="col panel">
+            {{ form(form) }}
+        </div>
+    </div>
+{% endblock %}

@@ -14,6 +14,7 @@ import RandomQuotation from "./components/RandomQuotation";
 import {HeadingElement} from "./components/HeadingElement";
 import {LazyImage} from "./components/LazyImage";
 import {SubmenuTrigger} from "./components/SubmenuTrigger";
+import {NumberSpinner} from "./components/NumberSpinner";
 
 (()=> {
     document.addEventListener('DOMContentLoaded', () => {
@@ -45,6 +46,7 @@ import {SubmenuTrigger} from "./components/SubmenuTrigger";
         customElementRegistry.define('heading-element', HeadingElement);
         customElementRegistry.define('lazy-image', LazyImage, {extends: 'img'});
         customElementRegistry.define('submenu-trigger', SubmenuTrigger, {extends: 'a'});
+        customElementRegistry.define('number-spinner', NumberSpinner, {extends: 'input'});
 
     }
 })();

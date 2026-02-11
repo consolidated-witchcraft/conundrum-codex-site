@@ -31,7 +31,7 @@ class TicketType extends AbstractDomainEntity
         #[ORM\ManyToOne(targetEntity: Event::class, inversedBy: 'ticketTypes')]
         private readonly Event $event,
 
-        ? int                  $id = null
+        ? int $id = null
     ) {
         parent::__construct($id);
     }
