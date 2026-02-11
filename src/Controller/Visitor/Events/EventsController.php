@@ -6,7 +6,10 @@ namespace App\Controller\Visitor\Events;
 
 use App\Controller\AbstractBaseController;
 use App\Dto\Visitor\Events\PersonalDetailsDto;
+use App\Dto\Visitor\Events\TicketPurchaseDto;
+use App\Form\EventManager\EventType;
 use App\Form\EventManager\PersonalDetailsType;
+use App\Form\Visitor\Events\TicketPurchaseType;
 use App\Services\Events\Domain\Event;
 use App\Services\Events\Domain\Organisation;
 use App\Services\Events\Service\EventServiceInterface;
@@ -39,54 +42,28 @@ class EventsController extends AbstractBaseController
         return $this->render('visitor/events/index.html.twig', $this->populatePageVars($pageVars, $request));
     }
 
-    #[Route('/events/{organisationHandle}/{eventSlug}/tickets', name: 'app.events.tickets')]
+    #[Route('/events/{organisationHandle}/{eventSlug}/get-tickets', name: 'app.events.tickets')]
     public function getTickets(
         Event $event,
         Organisation $organisation,
         Request $request
     ): Response {
-        $builder = $this->createFormBuilder();
-        foreach ($event->getTicketTypes() as $ticketType) {
-            $builder->add(
-                $ticketType->getSlug(),
-                NumberType::class,
-                [
-                    'label' => sprintf(" %s - £%s", $ticketType->getName(), $ticketType->getPriceDecimal()),
-                    'required' => false,
-                    'attr' => [
-                        'min' => 0,
-                        'max' => 10,
-                        'class' => 'number-spinner',
-                        'is' => 'number-spinner',
-                        'step' => 1,
-                        'length' => 2,
-                        'placeholder' => 1
-                    ],
-                    'html5' => true,
-                    'help' => $ticketType->getDescription(),
+        $user = $this->getUser();
+        $dto =  TicketPurchaseDto::makeFromEvent($event, $user instanceof User ? $user : null);
 
-                ]
-            );
-        }
-        $builder->add('submit', SubmitType::class, [
-            'label' => 'Proceed to your details',
-        ]);
-        $form = $builder->getForm();
+        $form = $this->createForm(TicketPurchaseType::class, $dto);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
             $totalTicketCount = 0;
-            foreach($form->getData() as $ticketTypeSlug => $amount) {
-                $totalTicketCount += $amount;
+            foreach ($dto->ticketTypes as $ticketType) {
+                $totalTicketCount += $ticketType['quantity'];
             }
+
             if ($totalTicketCount <= 0) {
                 $this->addFlash('error', 'You must add at least one ticket to proceed!');
             } else {
                 $session = $request->getSession();
-                $serializedData = $this->serializer->serialize(
-                    $form->getData(),
-                    'json'
-                );
-                $session->set(self::TICKET_DATA_KEY, $form->getData());
+                $session->set(self::TICKET_DATA_KEY, $dto);
                 return $this->redirectToRoute('app.events.tickets.personal-details', [
                     'eventSlug' => $event->getEventSlug(),
                     'organisationHandle' => $organisation->getHandle(),
@@ -108,6 +85,7 @@ class EventsController extends AbstractBaseController
     ) {
         $session = $request->getSession();
         $submittedTicketDetails = $session->get(self::TICKET_DATA_KEY);
+        dd($submittedTicketDetails);
         $ticketDetails = [];
         $totalCostCentessimal = 0;
         foreach ($submittedTicketDetails as $ticketTypeSlug => $amount) {
