@@ -15,13 +15,16 @@
         <dt>End</dt>
         <dd>{{ friendly_date(event.getEndDate) }}</dd>
     </dl>
-    <div class="event-location">
-
-    </div>
+    {% if event.getLocation is not null %}
+        <div class="event-location">
+            <strong>Location</strong>
+            {% embed 'visitor/postalAddress/partials/_postalAddress.view.html.twig' with {'postalAddress': event.getLocation} %}{% endembed %}
+        </div>
+    {% endif %}
     <div class="event-tickets">
         {% for ticketType in event.getTicketTypes %}
             <dl class="ticket-type">
-               <dt>{{ ticketType.getName }}</dt>
+                <dt>{{ ticketType.getName }}</dt>
                 <dd>{{ ticketType.getPriceDecimal|format_currency('GBP') }}</dd>
             </dl>
         {% endfor %}
@@ -29,4 +32,5 @@
     <div class="event-cta">
         <a href="{{ path('app.events.tickets', {'organisationHandle': event.getOrganisation.getHandle, 'eventSlug': event.getEventSlug}) }}" class="btn btn-primary">Get Tickets</a>
     </div>
+
 </article>

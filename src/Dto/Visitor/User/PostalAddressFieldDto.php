@@ -32,6 +32,8 @@ class PostalAddressFieldDto
         public ? float $latitude = null,
 
         public ? float $longitude = null,
+
+        public ? int $id = null
     ) {
 
     }
@@ -47,7 +49,7 @@ class PostalAddressFieldDto
             addressLineTwo: $address->getAddressLineTwo(),
             latitude: $address->getLatitude(),
             longitude: $address->getLongitude(),
-
+            id: $address->getId()
         );
     }
 }

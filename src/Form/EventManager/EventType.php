@@ -6,6 +6,7 @@ namespace App\Form\EventManager;
 
 use App\Dto\EventManager\EventDto;
 use App\Dto\EventManager\OrganisationDto;
+use App\Form\Type\PostalAddressType;
 use App\Services\User\Domain\User;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
@@ -31,6 +32,10 @@ class EventType extends AbstractType
                 'attr' => [
                     'accept' => 'image/jpeg, image/png, image/webp',
                 ]
+            ])
+            ->add('location', PostalAddressType::class,
+            [
+                'label' => 'Location'
             ])
             ->add(
                 'prebookOnly',

@@ -22,7 +22,11 @@ class PostalAddressType extends AbstractType implements DataMapperInterface
     {
         $builder->add(
             'label',
-            TextType::class
+            TextType::class,
+            [
+                'label' => 'Address label',
+                'help' => 'Give this address a name, such as \'Home Address\'',
+            ]
         );
         $builder->add(
             'addressLineOne',

@@ -5,6 +5,7 @@ namespace App\Services\Events\Domain;
 use App\Services\Core\Domain\AbstractDomainEntity;
 use App\Services\Events\Infrastructure\EventRepository;
 use App\Services\Files\Domain\ManagedFile;
+use App\Services\PostalAddress\Domain\PostalAddress;
 use App\Services\User\Domain\User;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
@@ -29,6 +30,9 @@ class Event extends AbstractDomainEntity
         #[ORM\OneToOne(targetEntity: ManagedFile::class)]
         private ManagedFile $heroImage,
 
+        #[ORM\OneToOne(targetEntity: PostalAddress::class)]
+        private ? PostalAddress $location,
+
         #[ORM\Column]
         private bool $prebookOnly,
 
@@ -47,6 +51,16 @@ class Event extends AbstractDomainEntity
         ? int $id = null
     ) {
         parent::__construct($id);
+    }
+
+    public function getLocation(): ?PostalAddress
+    {
+        return $this->location;
+    }
+
+    public function setLocation(?PostalAddress $location): void
+    {
+        $this->location = $location;
     }
 
     public function isPrebookOnly(): bool

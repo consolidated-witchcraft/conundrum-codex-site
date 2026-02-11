@@ -1,0 +1,31 @@
+@use 'sass:math';
+
+@use '../base/palette';
+@use '../base/variables';
+
+$organisationFlashHeight: 4rem;
+aside.organisation {
+    border: variables.$baseBorderWidth solid transparent;
+    border-image: palette.$goldFX 33%;
+    overflow: hidden;
+    border-bottom: none;
+    display: flex;
+    flex-direction: row;
+    background: palette.$charcoalGradient;
+    height: $organisationFlashHeight;
+    line-height: $organisationFlashHeight;
+
+    img.organisation-logo {
+        height: $organisationFlashHeight;
+        width: $organisationFlashHeight;
+    }
+
+    .organisation-name {
+        display: block;
+        flex: 1;
+        width: 75%;
+        padding: 0 math.div(variables.$base-spacing, 4);
+        color: palette.$offWhite;
+
+    }
+}

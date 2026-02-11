@@ -2,6 +2,8 @@
 
 namespace App\Dto\EventManager;
 
+use App\Dto\Visitor\User\PostalAddressDto;
+use App\Dto\Visitor\User\PostalAddressFieldDto;
 use App\Services\Events\Domain\Event;
 use App\Services\Events\Domain\Organisation;
 use App\Services\Events\Domain\TicketType;
@@ -40,6 +42,9 @@ class EventDto
 
         #[Assert\Type('datetime')]
         public ?\DateTimeInterface $endDate = null,
+
+        public ? PostalAddressFieldDto $location = null,
+
         /**
          * @var iterable<TicketType>|null
          */
@@ -55,6 +60,7 @@ class EventDto
             prebookOnly: $event->isPrebookOnly(),
             startDate: $event->getStartDate(),
             endDate: $event->getEndDate(),
+            location: $event->getLocation() ? PostalAddressFieldDto::makeFromAddress($event->getLocation()) : null,
             ticketTypes: $event->getTicketTypes(),
         );
     }

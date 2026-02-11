@@ -236,4 +236,14 @@
             border-image: var(--erodedFrameWhiteInnerGreen) 33%;
         }
     }
+
+    .address-form-element {
+        box-shadow: palette.$baseBoxShadow;
+        border: variables.$baseBorderWidth solid transparent;
+        border-image: palette.$goldFX 33%;
+        border-radius: variables.$baseBorderRadius;
+        background: palette.$whiteGradient;
+        padding: math.div(variables.$base-spacing, 4);
+        margin: math.div(variables.$base-spacing, 4) 0;
+    }
 }

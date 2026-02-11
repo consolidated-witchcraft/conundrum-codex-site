@@ -6,13 +6,17 @@ use App\Controller\Traits\HandlesFileUploadsTrait;
 use App\Dto\EventManager\EventDto;
 use App\Dto\EventManager\TicketTypeDto;
 use App\Dto\EventManager\TicketTypesDto;
+use App\Dto\Visitor\User\PostalAddressDto;
+use App\Dto\Visitor\User\PostalAddressFieldDto;
 use App\Form\EventManager\EventType;
 use App\Form\EventManager\TicketTypeType;
 use App\Security\EventManagerVoter;
 use App\Services\Events\Domain\Event;
 use App\Services\Events\Domain\Organisation;
 use App\Services\Events\Domain\TicketType;
+use App\Services\PostalAddress\Domain\PostalAddress;
 use Doctrine\Common\Collections\ArrayCollection;
+use phpDocumentor\Reflection\Location;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
@@ -52,10 +56,11 @@ class EventsController extends AbstractEventManagerController
                 eventSlug: $dto->eventSlug,
                 description: $dto->description,
                 heroImage: $heroImage,
+                location: $dto->location,
                 prebookOnly: $dto->prebookOnly,
                 organisation: $organisation,
                 startDate: $dto->startDate,
-                endDate: $dto->endDate
+                endDate: $dto->endDate,
             );
 
             $success = true;
@@ -98,6 +103,12 @@ class EventsController extends AbstractEventManagerController
             $event->setDescription($dto->description);
             $event->setStartDate($dto->startDate);
             $event->setEndDate($dto->endDate);
+            if ($dto->location instanceof PostalAddressFieldDto) {
+                $postalAddress = PostalAddress::makeFromPostalAddressFieldDto($organisation->getOwner(), $dto->location);
+                $this->postalAddressService->save($postalAddress);
+                $event->setLocation($postalAddress);
+            }
+
             $this->eventService->saveEvent($event);
 
             $success = true;

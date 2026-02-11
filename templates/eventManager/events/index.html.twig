@@ -8,6 +8,7 @@
                         <th>Event Name</th>
                         <th>Start Date</th>
                         <th>End Date</th>
+                        <th>Location</th>
                         <th>Ticket Types</th>
                         <th>Operations</th>
                     </tr>
@@ -23,6 +24,14 @@
                             <td>{{ event.getTitle }}</td>
                             <td>{{ friendly_date(event.getStartDate) }}</td>
                             <td>{{ friendly_date(event.getEndDate) }}</td>
+                            <td>
+                                {% if event.getLocation is null %}
+                                    <em>No Location set</em>
+                                {% else %}
+                                    {% embed 'visitor/postalAddress/partials/_postalAddress.view.html.twig' with {'postalAddress': event.getLocation} %}{% endembed %}
+                                {% endif %}
+
+                            </td>
                             <td>
                                 {% if event.getTicketTypes is empty %}
                                     <em>There are no ticket types currently configured for this event.</em>

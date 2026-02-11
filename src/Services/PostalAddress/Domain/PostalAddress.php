@@ -3,6 +3,7 @@
 namespace App\Services\PostalAddress\Domain;
 
 use App\Dto\Visitor\User\PostalAddressDto;
+use App\Dto\Visitor\User\PostalAddressFieldDto;
 use App\Services\Core\Domain\AbstractDomainEntity;
 use App\Services\PostalAddress\Domain\ValueObjects\IsoCountry;
 use App\Services\PostalAddress\Infrastructure\PostalAddressRepository;
@@ -153,6 +154,22 @@ class PostalAddress extends AbstractDomainEntity
             countryCode: $dto->postalAddress->countryCode,
             countyProvince: $dto->postalAddress->countyProvince,
             addressLineTwo: $dto->postalAddress->addressLineTwo,
+            id: $dto->id
+        );
+    }
+
+    public static function makeFromPostalAddressFieldDto(User $user, PostalAddressFieldDto $dto): static {
+        return new static(
+            user: $user,
+            label: $dto->label,
+            addressLineOne: $dto->addressLineOne,
+            townCity: $dto->townCity,
+            postalZip: $dto->postalZip,
+            countryCode: $dto->countryCode,
+            countyProvince: $dto->countyProvince,
+            addressLineTwo: $dto->addressLineTwo,
+            latitude: $dto->latitude,
+            longitude: $dto->longitude,
             id: $dto->id
         );
     }
