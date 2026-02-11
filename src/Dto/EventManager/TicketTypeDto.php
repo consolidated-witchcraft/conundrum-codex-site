@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace App\Dto\EventManager;
 
+use App\Services\Events\Domain\TicketType;
 use Symfony\Component\Validator\Constraints as Assert;
 use App\Validator as CustomAssert;
 class TicketTypeDto
@@ -28,6 +29,23 @@ class TicketTypeDto
 
         #[Assert\NotBlank()]
         #[Assert\Type('integer')]
-        public ? int $priceCentessimal = null
+        public ? int $priceCentessimal = null,
+
+        public ? int $id = null
     ) {}
+
+    public static function makeFromTicketType(TicketType $ticketType): TicketTypeDto {
+
+        return new self(
+            name: $ticketType->getName(),
+            slug: $ticketType->getSlug(),
+            description: $ticketType->getDescription(),
+            priceCentessimal: $ticketType->getPriceCentessimal(),
+            id: $ticketType->getId()
+        );
+    }
+
+    public function isEmpty(): bool {
+        return $this->name === null && $this->slug === null && $this->description === null && $this->id === 0;
+    }
 }

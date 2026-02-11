@@ -91,7 +91,7 @@ class User extends AbstractDomainEntity implements UserInterface, PasswordAuthen
         #[ORM\Column(type: 'boolean', nullable: false)]
         private bool $profilePublic = false,
 
-        #[ORM\ManyToOne(targetEntity: Organisation::class, fetch: 'EAGER')]
+        #[ORM\ManyToOne(targetEntity: Organisation::class, fetch: 'EAGER', inversedBy: 'managers')]
         private ? Organisation $organisation = null,
 
         #[ORM\OneToOne(targetEntity: ManagedFile::class, fetch: 'EAGER')]

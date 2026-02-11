@@ -65,4 +65,14 @@ class EventService implements EventServiceInterface
         $this->entityManager->flush();
         return $ticketType;
     }
+
+    public function findTicketType(int $id): ?TicketType
+    {
+        return $this->ticketTypeRepository->find($id);
+    }
+
+    public function getUpcomingEvents(): iterable
+    {
+        return $this->eventRepository->getUpcomingEvents();
+    }
 }

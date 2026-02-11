@@ -8,6 +8,7 @@ use App\Dto\EventManager\OrganisationDto;
 use App\Services\User\Domain\User;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -21,6 +22,10 @@ class OrganisationType extends AbstractType
             ->add('name', TextType::class, [
             ])
             ->add('handle', TextType::class, [
+            ])
+            ->add('organisationLogo', FileType::class, [
+                'label' => 'Logo',
+                'mapped' => false,
             ])
             ->add('managers', EntityType::class, [
                 'class' => User::class,

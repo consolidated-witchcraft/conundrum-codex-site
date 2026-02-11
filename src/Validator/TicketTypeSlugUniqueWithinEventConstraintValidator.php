@@ -38,8 +38,8 @@ class TicketTypeSlugUniqueWithinEventConstraintValidator extends ConstraintValid
 
         $ticketType = $this->eventService->getTicketTypeByEventAndSlug($data->getEvent(), $data->getSlug());
 
-        if ($ticketType !== null) {
-            $this->context->buildViolation(sprintf("The ticket type slug %s is not unique within the event.", $data->getSlug()))
+        if ($ticketType !== null && $data->getId() !== $ticketType->getId()) {
+            $this->context->buildViolation(sprintf("The ticket type slug '%s' is not unique within the event.", $data->getSlug()))
                 ->addViolation();
         }
     }

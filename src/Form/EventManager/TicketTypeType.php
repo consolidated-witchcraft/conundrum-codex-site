@@ -7,6 +7,7 @@ namespace App\Form\EventManager;
 use App\Dto\EventManager\EventDto;
 use App\Dto\EventManager\OrganisationDto;
 use App\Dto\EventManager\TicketTypeDto;
+use App\Dto\EventManager\TicketTypesDto;
 use App\Form\Type\ClueType;
 use App\Form\Type\TicketType;
 use App\Services\User\Domain\User;
@@ -29,7 +30,7 @@ class TicketTypeType extends AbstractType
     {
         $builder
             ->add(
-                'ticketType',
+                'ticketTypes',
                 CollectionType::class,
                 [
                     'entry_type' => TicketType::class,
@@ -61,6 +62,7 @@ class TicketTypeType extends AbstractType
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([
+            'data_class' => TicketTypesDto::class
         ]);
     }
 }

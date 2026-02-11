@@ -9,6 +9,7 @@
                 <table class="table table-bordered table-striped">
                     <thead>
                         <tr>
+                            <th>Organisation Logo</th>
                             <th>Name</th>
                             <th>Handle</th>
                             <th>Owner</th>
@@ -20,6 +21,9 @@
                     <tbody>
                     {% for organisation in organisations %}
                         <tr>
+                            <td>
+                                <img class="thumbnail" src="{{ organisation.getOrganisationLogo.getPath }}" alt="{{ organisation.name }}">
+                            </td>
                             <td>{{ organisation.name }}</td>
                             <td>{{ organisation.handle }}</td>
                             <td>{{ organisation.getOwner.getUserName }}</td>

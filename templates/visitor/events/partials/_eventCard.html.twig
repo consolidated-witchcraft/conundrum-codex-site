@@ -1,0 +1,32 @@
+<article class="event-card">
+    <a href="" class="event-hero">
+        <img class="game-hero" src="{{ event.getHeroImage.getPath }}" alt="{{ event.getTitle }}">
+        <h2 class="event-title" is="heading-element">{{ event.getTitle }}</h2>
+    </a>
+    <div class="event-organiser">
+        {% embed 'visitor/events/partials/_organisation.html.twig' with {'organisation': event.getOrganisation} %}{% endembed %}
+    </div>
+    <div class="event-detail">
+        {{ event.getDescription }}
+    </div>
+    <dl class="event-dates">
+        <dt>Start</dt>
+        <dd>{{ friendly_date(event.getStartDate) }}</dd>
+        <dt>End</dt>
+        <dd>{{ friendly_date(event.getEndDate) }}</dd>
+    </dl>
+    <div class="event-location">
+
+    </div>
+    <div class="event-tickets">
+        {% for ticketType in event.getTicketTypes %}
+            <dl class="ticket-type">
+               <dt>{{ ticketType.getName }}</dt>
+                <dd>{{ ticketType.getPriceDecimal|format_currency('GBP') }}</dd>
+            </dl>
+        {% endfor %}
+    </div>
+    <div class="event-cta">
+        <a href="{{ path('app.events.tickets', {'organisationHandle': event.getOrganisation.getHandle, 'eventSlug': event.getEventSlug}) }}" class="btn btn-primary">Get Tickets</a>
+    </div>
+</article>

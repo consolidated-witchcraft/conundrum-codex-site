@@ -29,4 +29,11 @@ interface EventServiceInterface extends DomainServiceInterface
     public function getTicketTypeByEventAndSlug(Event $event, string $slug): ?TicketType;
 
     public function saveTicketType(TicketType $ticketType): TicketType;
+
+    public function findTicketType(int $id): ?TicketType;
+
+    /**
+     * @return Event[]
+     */
+    public function getUpcomingEvents(): iterable;
 }

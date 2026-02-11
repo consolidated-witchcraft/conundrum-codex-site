@@ -4,6 +4,7 @@ namespace App\Services\Events\Domain;
 
 use App\Services\Core\Domain\AbstractDomainEntity;
 use App\Services\Events\Infrastructure\OrganisationRepository;
+use App\Services\Files\Domain\ManagedFile;
 use App\Services\User\Domain\User;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\Criteria;
@@ -32,6 +33,10 @@ class Organisation extends AbstractDomainEntity
         #[ORM\Column(unique: true)]
         private string $handle,
 
+        #[ORM\OneToOne(targetEntity: ManagedFile::class)]
+        #[ORM\JoinColumn(nullable: false)]
+        private ManagedFile $organisationLogo,
+
         #[ORM\ManyToOne(targetEntity: User::class)]
         private User $owner,
 
@@ -47,6 +52,16 @@ class Organisation extends AbstractDomainEntity
         ? int $id = null
     ) {
         parent::__construct($id);
+    }
+
+    public function getOrganisationLogo(): ManagedFile
+    {
+        return $this->organisationLogo;
+    }
+
+    public function setOrganisationLogo(ManagedFile $organisationLogo): void
+    {
+        $this->organisationLogo = $organisationLogo;
     }
 
     public function getHandle(): string

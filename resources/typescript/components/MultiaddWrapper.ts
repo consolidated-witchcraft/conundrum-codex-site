@@ -85,12 +85,12 @@ export class MultiaddWrapper extends HTMLElement {
     }
 
     private calculateNextDelta(): Number {
-        //All currently populated rows.
-        let realRows: NodeListOf<HTMLDivElement> = this.querySelectorAll('div.rows input.multiadd-row');
 
-        //All rows created by this script.
-        let virtualRows: NodeListOf<HTMLDivElement> = this.querySelectorAll('div.multiadd-row');
-
-        return realRows.length + virtualRows.length;
+        let total: number = 0;
+        let rows:NodeListOf<HTMLDivElement> = this.querySelectorAll('div.rows');
+        for (const row of rows) {
+            total += row.childNodes.length;
+        }
+        return total;
     }
 }

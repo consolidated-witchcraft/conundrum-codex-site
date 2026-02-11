@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Controller\EventManager;
 
+use App\Controller\Traits\HandlesFileUploadsTrait;
 use App\Dto\EventManager\OrganisationDto;
 use App\Form\EventManager\OrganisationDeactivationConfirmationType;
 use App\Form\EventManager\OrganisationType;
@@ -19,6 +20,9 @@ use Symfony\Component\Security\Http\Attribute\IsGranted;
 
 class OrganisationsController extends AbstractEventManagerController
 {
+    use HandlesFileUploadsTrait;
+
+
     #[Route('manage-events/organisations/add', name: 'events.organisations.add')]
     #[IsGranted('create_event_organisations')]
     public function create(Request $request): Response {
@@ -32,12 +36,15 @@ class OrganisationsController extends AbstractEventManagerController
         $form = $this->createForm(OrganisationType::class, $dto);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
+            $organisationLogo = $form->get('organisationLogo')->getData();
+            $this->handleFileUpload($organisationLogo, $this->organisationLogoImagesDirectory);
             $organisation = new Organisation(
                 name: $dto->name,
                 handle: $dto->handle,
+                organisationLogo: $organisationLogo,
                 owner: $user,
                 events: new ArrayCollection(),
-                managers: new ArrayCollection($dto->managers)
+                managers: new ArrayCollection($dto->managers),
             );
             $success = true;
             $violations = $this->validator->validate($organisation);
@@ -77,7 +84,8 @@ class OrganisationsController extends AbstractEventManagerController
         $form = $this->createForm(OrganisationType::class, $dto);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
-
+            $organisationLogo = $this->handleFileUpload($form->get('organisationLogo')->getData(), $this->organisationLogoImagesDirectory);
+            $organisation->setOrganisationLogo($organisationLogo);
             $organisation->setName($dto->name);
             $organisation->setHandle($dto->handle);
 

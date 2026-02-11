@@ -2,6 +2,7 @@
 
 namespace App\Dto\EventManager;
 
+use App\Services\Events\Domain\Event;
 use App\Services\Events\Domain\Organisation;
 use App\Services\Events\Domain\TicketType;
 use Symfony\Component\Validator\Constraints as Assert;
@@ -44,4 +45,17 @@ class EventDto
          */
         public ? iterable $ticketTypes = null,
     ) {}
+
+    public static function makeFromEvent(Event $event): EventDto {
+        return new static(
+            organisation: $event->getOrganisation(),
+            title: $event->getTitle(),
+            eventSlug: $event->getEventSlug(),
+            description: $event->getDescription(),
+            prebookOnly: $event->isPrebookOnly(),
+            startDate: $event->getStartDate(),
+            endDate: $event->getEndDate(),
+            ticketTypes: $event->getTicketTypes(),
+        );
+    }
 }

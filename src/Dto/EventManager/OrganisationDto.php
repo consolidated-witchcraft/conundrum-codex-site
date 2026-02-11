@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Dto\EventManager;
 
 use App\Services\Events\Domain\Organisation;
+use App\Services\Files\Domain\ManagedFile;
 use App\Services\User\Domain\User;
 
 use Symfony\Component\Validator\Constraints as Assert;
@@ -12,6 +13,7 @@ class OrganisationDto
 {
     public function __construct(
         public readonly User $owner,
+
         #[Assert\NotBlank]
         public ? string $name = null,
         #[Assert\NotBlank]
@@ -25,7 +27,7 @@ class OrganisationDto
             owner: $organisation->getOwner(),
             name: $organisation->getName(),
             handle: $organisation->getHandle(),
-            managers: $organisation->getManagers(),
+            managers: $organisation->getManagers()
         );
     }
 }

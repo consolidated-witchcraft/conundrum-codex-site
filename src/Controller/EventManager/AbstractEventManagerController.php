@@ -23,5 +23,6 @@ abstract class AbstractEventManagerController extends AbstractBaseController
         protected readonly FilesServiceInterface $filesService,
         protected readonly SluggerInterface $slugger,
         #[Autowire('%kernel.project_dir%/public/uploads/images/events/hero')] protected readonly string $eventsHeroImagesDirectory,
+        #[Autowire('%kernel.project_dir%/public/uploads/images/organisations/logos')] protected readonly string $organisationLogoImagesDirectory,
     ) {}
 }

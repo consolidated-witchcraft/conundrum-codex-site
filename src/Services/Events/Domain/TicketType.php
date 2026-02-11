@@ -20,7 +20,7 @@ class TicketType extends AbstractDomainEntity
 
         #[ORM\Column]
         #[CustomAssert\TicketTypeSlugUniqueWithinEventConstraint]
-        private string $slug,
+        private readonly string $slug,
 
         #[ORM\Column(length: 255)]
         private string $description,
@@ -29,9 +29,9 @@ class TicketType extends AbstractDomainEntity
         private int $priceCentessimal,
 
         #[ORM\ManyToOne(targetEntity: Event::class, inversedBy: 'ticketTypes')]
-        private Event $event,
+        private readonly Event $event,
 
-        ? int $id = null
+        ? int                  $id = null
     ) {
         parent::__construct($id);
     }
@@ -74,6 +74,10 @@ class TicketType extends AbstractDomainEntity
     public function getEvent(): Event
     {
         return $this->event;
+    }
+
+    public function getPriceDecimal(): float {
+        return $this->priceCentessimal/100;
     }
 
 }

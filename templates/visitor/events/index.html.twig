@@ -1,0 +1,9 @@
+{% extends 'base/base.html.twig' %}
+{% block body %}
+
+    <div class="grid">
+        {% for event in events %}
+            {% embed 'visitor/events/partials/_eventCard.html.twig' with {'event': event} %}{% endembed %}
+        {% endfor %}
+    </div>
+{% endblock %}

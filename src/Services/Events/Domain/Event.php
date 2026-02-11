@@ -32,7 +32,7 @@ class Event extends AbstractDomainEntity
         #[ORM\Column]
         private bool $prebookOnly,
 
-        #[ORM\ManyToOne(targetEntity: Organisation::class)]
+        #[ORM\ManyToOne(targetEntity: Organisation::class, inversedBy: 'events')]
         private Organisation $organisation,
 
         #[ORM\Column(type: 'datetime')]
@@ -130,5 +130,6 @@ class Event extends AbstractDomainEntity
     {
         $this->ticketTypes = $ticketTypes;
     }
+
 
 }
