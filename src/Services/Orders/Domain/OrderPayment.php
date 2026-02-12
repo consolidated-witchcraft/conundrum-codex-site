@@ -29,11 +29,13 @@ class OrderPayment extends AbstractDomainEntity
         #[ORM\Column(type: 'integer')]
         private readonly int $paymentAmountCentessimal,
 
+        #[ORM\ManyToOne(targetEntity: User::class, inversedBy: 'orderPayments')]
+        private readonly Order  $order,
+        
         #[ORM\Column(type: 'payment_status')]
         private ? PaymentStatus $paymentStatus = null,
 
-        #[ORM\ManyToOne(targetEntity: User::class, inversedBy: 'orderPayments')]
-        private readonly Order  $order,
+
 
         ? int $id = null
     ) {
