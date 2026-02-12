@@ -54,11 +54,12 @@
         "symfonycasts/reset-password-bundle": "^1.23",
         "symfonycasts/verify-email-bundle": "^1.17.4",
         "twig/extra-bundle": "*",
-        "twig/intl-extra": "*"
+        "twig/intl-extra": "*",
+        "doctrine/data-fixtures": "*",
+        "doctrine/doctrine-fixtures-bundle": "^4.3"
     },
     "require-dev": {
-        "doctrine/data-fixtures": "*",
-        "doctrine/doctrine-fixtures-bundle": "^4.3",
+
         "ekino/phpstan-banned-code": "*",
         "phpstan/phpstan-doctrine": "*",
         "phpstan/phpstan-symfony": "*",
