@@ -11,7 +11,7 @@ class OrderPaymentInvalidStatusChangeException extends AbstractOrderDomainExcept
         string $currentStatusHandle,
         string $attemptedStatusHandle,
         int $code = 0,
-        \Throwable $previous = null
+        ? \Throwable $previous = null
     ) {
         $message = sprintf(
             self::MESSAGE_KEY,
