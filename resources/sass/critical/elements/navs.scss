@@ -121,6 +121,12 @@ nav.breadcrumbs {
                 color: palette.$offWhite;
             }
         }
+
+        &.no-outline {
+            a, span, em {
+                border: none;
+            }
+        }
     }
 
     td {

@@ -58,13 +58,16 @@
                     {% endfor  %}
                 </div>
             {% endif %}
-            <a class="btn btn-secondary" href="{{ path('app.games.sessions.add', {'gameSlug': game.getSlug}) }}">Add a Session</a>
+            <nav class="secondary">
+                <a href="{{ path('app.games.sessions.add', {'gameSlug': game.getSlug}) }}">Add a Session</a>
+            </nav>
+
         </section>
     </div>
     <hr class="row-divider">
 
     <div class="row three-quarters-one-quarter">
-        <div class="col">
+        <nav class="col">
             <article>
                 <h2>Puzzles</h2>
                 {% if game.getPuzzleInstances is not empty %}
@@ -85,14 +88,14 @@
                                         </div>
 
                                         <div class="accordion-column">
-                                            <div class="btn-group">
-                                                <a class="btn btn-primary" href="{{ path('app.games.puzzles.instance.manage', {'gameSlug': game.getSlug, 'templateSlug': puzzleInstance.getTemplate.getSlug, 'instanceCode': puzzleInstance.getInstanceCode }) }}">Edit puzzle</a>
-                                                <a class="btn btn-success" href="{{ path('app.games.puzzles.instance.play', {'gameSlug': game.getSlug, 'templateSlug': puzzleInstance.getTemplate.getSlug, 'instanceCode': puzzleInstance.getInstanceCode }) }}">View as Player</a>
+                                            <nav class="secondary">
+                                                <a href="{{ path('app.games.puzzles.instance.manage', {'gameSlug': game.getSlug, 'templateSlug': puzzleInstance.getTemplate.getSlug, 'instanceCode': puzzleInstance.getInstanceCode }) }}">Edit puzzle</a>
+                                                <a href="{{ path('app.games.puzzles.instance.play', {'gameSlug': game.getSlug, 'templateSlug': puzzleInstance.getTemplate.getSlug, 'instanceCode': puzzleInstance.getInstanceCode }) }}">View as Player</a>
                                                 {% if puzzleInstance.getPublicationDate is null %}
-                                                    <a class="btn btn-secondary" href="{{ path('app.games.puzzles.instance.publish', {'gameSlug': game.getSlug, 'templateSlug': puzzleInstance.getTemplate.getSlug, 'instanceCode': puzzleInstance.getInstanceCode }) }}">Publish puzzle</a>
+                                                    <a href="{{ path('app.games.puzzles.instance.publish', {'gameSlug': game.getSlug, 'templateSlug': puzzleInstance.getTemplate.getSlug, 'instanceCode': puzzleInstance.getInstanceCode }) }}">Publish puzzle</a>
                                                 {% endif %}
-                                                <a class="btn btn-danger" href="{{ path('app.games.puzzles.instance.delete', {'gameSlug': game.getSlug, 'templateSlug': puzzleInstance.getTemplate.getSlug, 'instanceCode': puzzleInstance.getInstanceCode }) }}">Delete puzzle</a>
-                                            </div>
+                                                <a href="{{ path('app.games.puzzles.instance.delete', {'gameSlug': game.getSlug, 'templateSlug': puzzleInstance.getTemplate.getSlug, 'instanceCode': puzzleInstance.getInstanceCode }) }}">Delete puzzle</a>
+                                            </nav>
 
                                         </div>
                                     </div>
@@ -105,9 +108,9 @@
                 {% endif %}
             </article>
             <article>
-                <div class="btn-group">
-                    <a href="{{ path('app.games.puzzles.add', {'gameSlug': game.getSlug}) }}" class="btn btn-primary">Add a Puzzle</a>
-                </div>
+                <nav class="secondary">
+                    <a href="{{ path('app.games.puzzles.add', {'gameSlug': game.getSlug}) }}" >Add a Puzzle</a>
+                </nav>
             </article>
         </div>
         <div class="col">

@@ -3,6 +3,8 @@
 namespace App\Form\Visitor;
 
 use App\Dto\Visitor\Bugs\BugReportDto;
+use Karser\Recaptcha3Bundle\Form\Recaptcha3Type;
+use Karser\Recaptcha3Bundle\Validator\Constraints\Recaptcha3;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
@@ -54,6 +56,16 @@ class BugReportType extends AbstractType
                     ]
 
                 ]
+            )
+            ->add(
+                'captcha',
+                Recaptcha3Type::class,
+                [
+                    'constraints' => new Recaptcha3(),
+                    'action_name' => 'homepage',
+                    'locale' => 'en',
+                ]
+
             )
             ->add('submit', SubmitType::class, [])
         ;
