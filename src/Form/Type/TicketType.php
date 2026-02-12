@@ -10,6 +10,7 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\DataMapperInterface;
 use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use Symfony\Component\Form\Extension\Core\Type\MoneyType;
+use Symfony\Component\Form\Extension\Core\Type\NumberType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -50,11 +51,19 @@ class TicketType extends AbstractType implements DataMapperInterface
             'priceCentessimal',
             MoneyType::class,
             [
-                'label' => 'Price',
+                'label' => 'Pre-Tax Price',
                 'html5' => true,
-                'help' => 'Enter the cost of a ticket of this type.',
+                'help' => 'Enter the pre-tax cost of a ticket of this type.',
                 'currency' => 'GBP',
                 'divisor' => 100,
+            ]
+        )
+        ->add(
+            'initialQuantity',
+            NumberType::class,
+            [
+                'label' => 'Initial Quantity Available',
+                'html5' => true,
             ]
         );
         $builder->setDataMapper($this);
@@ -92,6 +101,9 @@ class TicketType extends AbstractType implements DataMapperInterface
                 case 'priceCentessimal':
                     $form->setData($viewData->priceCentessimal);
                     break;
+                case 'initialQuantity':
+                    $form->setData($viewData->initialQuantity);
+                    break;
             }
         }
     }
@@ -105,6 +117,7 @@ class TicketType extends AbstractType implements DataMapperInterface
             slug: $forms['slug']->getData(),
             description: $forms['description']->getData(),
             priceCentessimal: (int) ($forms['priceCentessimal']->getData()),
+            initialQuantity: (int) $forms['initialQuantity']->getData(),
             id: (int) $forms['id']->getData(),
         );
     }

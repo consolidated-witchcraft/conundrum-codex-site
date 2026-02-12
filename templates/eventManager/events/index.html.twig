@@ -38,7 +38,7 @@
                                 {% else %}
                                     <ul>
                                         {% for ticketType in event.getTicketTypes %}
-                                            <li>{{ ticketType.getName }} - {{ (ticketType.getPriceCentessimal/100)|format_currency('GBP') }}</li>
+                                            <li>{{ ticketType.getName }} - {{ (ticketType.getPriceCentessimal/100)|format_currency('GBP') }} - {{ ticketType.getProduct.getProductStock.getCurrentStockLevel }}/{{ ticketType.getProduct.getProductStock.getInitialStockLevel }} unsold</li>
                                         {% endfor %}
                                     </ul>
                                 {% endif %}
@@ -47,7 +47,6 @@
                                 <nav class="secondary">
                                     <a href="{{ path('events.organisations.events.edit', {'organisationHandle': organisation.getHandle, 'eventSlug': event.getEventSlug}) }}">Edit Basic Information</a>
                                     <a href="{{ path('events.organisations.ticket-types', {'organisationHandle': organisation.getHandle, 'eventSlug': event.getEventSlug}) }}">Manage ticket types</a>
-
                                 </nav>
                             </td>
                         </tr>

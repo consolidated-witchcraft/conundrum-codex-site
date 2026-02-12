@@ -7,9 +7,11 @@ use App\Services\User\Domain\Permission;
 use App\Services\User\Domain\Role;
 use App\Services\User\Domain\User;
 use App\Services\User\Domain\UserFeat;
+use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
+use Symfony\Component\Security\Core\User\UserProviderInterface;
 use Symfony\Component\Validator\ConstraintViolationListInterface;
 
-interface UserServiceInterface
+interface UserServiceInterface extends UserProviderInterface, UserPasswordHasherInterface
 {
     public function saveUser(User $user): User;
 

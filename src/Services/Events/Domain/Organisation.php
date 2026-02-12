@@ -20,6 +20,7 @@ class Organisation extends AbstractDomainEntity
     /**
      * @param string $name
      * @param string $handle
+     * @param ManagedFile $organisationLogo
      * @param User $owner
      * @param Collection<int, Event> $events
      * @param Collection<int, User> $managers

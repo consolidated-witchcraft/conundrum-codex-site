@@ -7,6 +7,7 @@ namespace App\Controller\EventManager;
 use App\Controller\AbstractBaseController;
 use App\Services\Events\Service\EventServiceInterface;
 use App\Services\Files\Service\Interfaces\FilesServiceInterface;
+use App\Services\Orders\Service\Interfaces\ProductServiceInterface;
 use App\Services\PostalAddress\Service\PostalAddressServiceInterface;
 use App\Services\User\Service\Interfaces\UserServiceInterface;
 use Symfony\Component\DependencyInjection\Attribute\Autowire;
@@ -24,6 +25,7 @@ abstract class AbstractEventManagerController extends AbstractBaseController
         protected readonly FilesServiceInterface $filesService,
         protected readonly SluggerInterface $slugger,
         protected readonly PostalAddressServiceInterface $postalAddressService,
+        protected readonly ProductServiceInterface $productService,
         #[Autowire('%kernel.project_dir%/public/uploads/images/events/hero')] protected readonly string $eventsHeroImagesDirectory,
         #[Autowire('%kernel.project_dir%/public/uploads/images/organisations/logos')] protected readonly string $organisationLogoImagesDirectory,
     ) {}

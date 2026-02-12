@@ -31,6 +31,10 @@ class TicketTypeDto
         #[Assert\Type('integer')]
         public ? int $priceCentessimal = null,
 
+        #[Assert\NotNull()]
+        #[Assert\Type('integer')]
+        public ? int $initialQuantity = null,
+
         public ? int $id = null
     ) {}
 
@@ -41,6 +45,7 @@ class TicketTypeDto
             slug: $ticketType->getSlug(),
             description: $ticketType->getDescription(),
             priceCentessimal: $ticketType->getPriceCentessimal(),
+            initialQuantity: $ticketType->getProduct()->getProductStock()->getInitialStockLevel(),
             id: $ticketType->getId()
         );
     }

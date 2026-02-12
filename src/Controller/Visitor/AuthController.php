@@ -9,6 +9,7 @@ use App\Form\Visitor\RegistrationForm;
 use App\Services\Game\Service\Interfaces\GameServiceInterface;
 use App\Services\Quotation\Service\QuotationService;
 use App\Services\User\Domain\User;
+use App\Services\User\Domain\UserCart\UserCart;
 use App\Services\User\Service\Interfaces\UserServiceInterface;
 use Doctrine\ORM\EntityManagerInterface;
 use Karser\Recaptcha3Bundle\Validator\Constraints\Recaptcha3Validator;
@@ -26,7 +27,6 @@ class AuthController extends AbstractBaseController
 
     public function __construct(
         private readonly AuthenticationUtils $authenticationUtils,
-        private readonly UserPasswordHasherInterface $userPasswordHasher,
         private readonly UserServiceInterface $userService,
         private readonly GameServiceInterface $gameService
     ) {
@@ -38,6 +38,7 @@ class AuthController extends AbstractBaseController
         Recaptcha3Validator $recaptcha3Validator,
         #[MapQueryParameter] ?string $emailAddress = null,
         #[MapQueryParameter] ?string $invitationCode = null,
+        #[MapQueryParameter] ?string $redirectRoute = null,
     ): Response{
 
         $userDto = new RegisterUserDto();
@@ -61,11 +62,11 @@ class AuthController extends AbstractBaseController
                 userAccountType: $accountType,
                 password: '',
                 hasAcceptedCookies: $userDto->acceptCookies,
-                profilePublic: $userDto->profilePublic
+                profilePublic: $userDto->profilePublic,
 
             );
 
-            $user->setPassword($this->userPasswordHasher->hashPassword($user, $plainPassword));
+            $user->setPassword($this->userService->hashPassword($user, $plainPassword));
 
             $success = true;
             $violations = $this->userService->validateUser($user);

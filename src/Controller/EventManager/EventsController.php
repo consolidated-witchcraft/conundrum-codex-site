@@ -14,7 +14,10 @@ use App\Security\EventManagerVoter;
 use App\Services\Events\Domain\Event;
 use App\Services\Events\Domain\Organisation;
 use App\Services\Events\Domain\TicketType;
+use App\Services\Orders\Domain\Product;
+use App\Services\Orders\Domain\ProductStock;
 use App\Services\PostalAddress\Domain\PostalAddress;
+use App\Services\User\Domain\User;
 use Doctrine\Common\Collections\ArrayCollection;
 use phpDocumentor\Reflection\Location;
 use Symfony\Component\HttpFoundation\Request;
@@ -141,7 +144,10 @@ class EventsController extends AbstractEventManagerController
         Request $request,
     ) {
         $dto = TicketTypesDto::makeFromEvent($event);
-
+        $user = $this->getUser();
+        if (!$user instanceof User) {
+            return $this->createAccessDeniedException();
+        }
         $form = $this->createForm(TicketTypeType::class, $dto);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
@@ -159,6 +165,12 @@ class EventsController extends AbstractEventManagerController
                     $ticketType->setDescription($ticketTypeData->description);
                     $ticketType->setPriceCentessimal($ticketTypeData->priceCentessimal);
                     $violations = $this->validator->validate($ticketType);
+
+                    $product = $ticketType->getProduct();
+                    $product->setPreTaxPriceCentessimal($ticketTypeData->priceCentessimal);
+                    $product->getProductStock()->setInitialStockLevel($ticketTypeData->initialQuantity);
+                    $product->getProductStock()->setCurrentStockLevel($ticketTypeData->initialQuantity);
+
                     if (count($violations) > 0) {
                         $success = false;
                         foreach ($violations as $violation) {
@@ -170,12 +182,25 @@ class EventsController extends AbstractEventManagerController
                     }
                 } else {
                     if (!$ticketTypeData->isEmpty()) {
+
+                        $product = new Product(
+                            sku: TicketType::generateSku($event, $ticketTypeData->slug),
+                            name: $ticketTypeData->name,
+                            description: $ticketTypeData->description,
+                            preTaxPriceCentessimal: $ticketTypeData->priceCentessimal,
+                            createdBy: $user
+                        );
+
+                        $productStock = new ProductStock($product, $ticketTypeData->initialQuantity, $ticketTypeData->initialQuantity);
+                        $product->setProductStock($productStock);
+                        $this->productService->saveProduct($product);
                         $ticketType = new TicketType(
                             name: $ticketTypeData->name,
                             slug: $ticketTypeData->slug,
                             description: $ticketTypeData->description,
                             priceCentessimal: $ticketTypeData->priceCentessimal,
-                            event: $event,
+                            product: $product,
+                            event: $event
                         );
                         $violations = $this->validator->validate($ticketType);
                         if (count($violations) > 0) {

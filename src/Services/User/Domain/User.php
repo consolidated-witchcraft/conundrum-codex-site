@@ -9,6 +9,7 @@ use App\Services\Events\Domain\Organisation;
 use App\Services\Files\Domain\ManagedFile;
 use App\Services\Game\Domain\Game;
 use App\Services\PostalAddress\Domain\PostalAddress;
+use App\Services\User\Domain\UserCart\UserCart;
 use App\Services\User\Domain\ValueObjects\UserAccountType;
 use App\Services\User\Infrastructure\Repository\UserRepository;
 use Doctrine\Common\Collections\ArrayCollection;
@@ -50,6 +51,7 @@ class User extends AbstractDomainEntity implements UserInterface, PasswordAuthen
     #[ORM\ManyToMany(targetEntity: Role::class, inversedBy: 'users', cascade: ['persist'], fetch: 'EAGER', indexBy: 'handle')]
     private Collection $roles;
 
+
     /**
      * @var Collection<int, UserFeat>
      */
@@ -79,9 +81,6 @@ class User extends AbstractDomainEntity implements UserInterface, PasswordAuthen
         #[ORM\JoinColumn(nullable: false)]
         private UserAccountType $userAccountType,
 
-        #[ORM\OneToMany(targetEntity: UserBlock::class, cascade: ['persist'], mappedBy: 'user')]
-        private readonly Collection $userBlocks,
-
         #[ORM\Column(type: 'non_empty_string', length: 255)]
         private string $password = 'REPLACEME',
 
@@ -91,8 +90,15 @@ class User extends AbstractDomainEntity implements UserInterface, PasswordAuthen
         #[ORM\Column(type: 'boolean', nullable: false)]
         private bool $profilePublic = false,
 
+        #[ORM\OneToMany(targetEntity: UserBlock::class, cascade: ['persist'], mappedBy: 'user')]
+        private ? Collection $userBlocks = null,
+
+        #[ORM\OneToOne(targetEntity: UserCart::class, mappedBy: 'user', cascade: ['persist'], orphanRemoval: true)]
+        private ? UserCart $userCart = null,
+
         #[ORM\ManyToOne(targetEntity: Organisation::class, fetch: 'EAGER', inversedBy: 'managers')]
         private ? Organisation $organisation = null,
+
 
         #[ORM\OneToOne(targetEntity: ManagedFile::class, fetch: 'EAGER')]
         #[ORM\JoinColumn(nullable: true, onDelete: 'SET NULL')]
@@ -105,6 +111,12 @@ class User extends AbstractDomainEntity implements UserInterface, PasswordAuthen
         $this->gamesMastered = new ArrayCollection();
         $this->games = new ArrayCollection();
         $this->feats = new ArrayCollection();
+        if ($this->userBlocks === null) {
+            $this->userBlocks = new ArrayCollection();
+        }
+        if ($this->userCart === null) {
+            $this->userCart = new UserCart($this);
+        }
     }
 
     public function getOrganisation(): ?Organisation
@@ -355,5 +367,9 @@ class User extends AbstractDomainEntity implements UserInterface, PasswordAuthen
     public function setPostalAddresses(Collection $postalAddresses): void
     {
         $this->postalAddresses = $postalAddresses;
+    }
+
+    public function getUserCart(): UserCart {
+        return $this->userCart;
     }
 }

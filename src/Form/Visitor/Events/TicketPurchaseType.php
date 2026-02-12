@@ -29,6 +29,9 @@ class TicketPurchaseType extends AbstractType implements DataMapperInterface
         $builder->add(
             'customerEmail',
             EmailType::class,
+            [
+                'help' => 'Your e-ticket will be delivered to this address'
+            ]
         );
 
         $subform = $builder->create('ticketTypes', null, [
@@ -39,11 +42,12 @@ class TicketPurchaseType extends AbstractType implements DataMapperInterface
             ]
         ]);
         foreach ($data->ticketTypes as $ticketTypeSlug => $ticketTypeArray) {
+            $namePattern = sprintf(" %s - £%s exc. Tax", $ticketTypeArray['name'], ($ticketTypeArray['priceCentessimal'])/100);
             $subform->add(
                 sprintf("%s_quantity", $ticketTypeSlug),
                 NumberType::class,
                 [
-                    'label' => sprintf(" %s - £%s", $ticketTypeArray['name'], ($ticketTypeArray['priceCentessimal'])/100),
+                    'label' => $namePattern,
                     'required' => false,
                     'attr' => [
                         'min' => 0,

@@ -23,22 +23,24 @@ use App\Services\User\Service\Exceptions\MissingDefaultRoleException;
 use App\Services\User\Service\Interfaces\UserServiceInterface;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Security\Core\Exception\BadCredentialsException;
 use Symfony\Component\Security\Core\Exception\CustomUserMessageAccountStatusException;
 use Symfony\Component\Security\Core\Exception\UnsupportedUserException;
 use Symfony\Component\Security\Core\Exception\UserNotFoundException;
+use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Security\Core\User\UserProviderInterface;
 use Symfony\Component\Security\Http\AccessToken\AccessTokenHandlerInterface;
 use Symfony\Component\Security\Http\Authenticator\Passport\Badge\UserBadge;
 use Symfony\Component\Validator\ConstraintViolationListInterface;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
-
+use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface as SymfonyUserPasswordHasherInterface;
 /**
  * @implements UserProviderInterface<User>
  */
 class UserService
-    implements UserProviderInterface, UserServiceInterface, AccessTokenHandlerInterface, DomainServiceInterface
+    implements UserServiceInterface, AccessTokenHandlerInterface, DomainServiceInterface
 {
     private const string DEFAULT_ROLE = 'ROLE_USER';
     public function __construct(
@@ -51,6 +53,7 @@ class UserService
         private readonly ValidatorInterface $validator,
         private readonly ResetPasswordRequestRepository $resetPasswordRequestRepository,
         private readonly UserAccountTypeRepository $accountTypeRepository,
+        private readonly SymfonyUserPasswordHasherInterface $passwordHasher,
     ) {
     }
 
@@ -238,5 +241,20 @@ class UserService
     public function findAll(): iterable
     {
         return $this->userRepository->findAll();
+    }
+
+    public function hashPassword(PasswordAuthenticatedUserInterface $user, #[\SensitiveParameter] string $plainPassword): string
+    {
+        return $this->passwordHasher->hashPassword($user, $plainPassword);
+    }
+
+    public function isPasswordValid(PasswordAuthenticatedUserInterface $user, #[\SensitiveParameter] string $plainPassword): bool
+    {
+        return $this->passwordHasher->isPasswordValid($user, $plainPassword);
+    }
+
+    public function needsRehash(PasswordAuthenticatedUserInterface $user): bool
+    {
+        return $this->passwordHasher->needsRehash($user);
     }
 }

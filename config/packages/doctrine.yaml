@@ -13,6 +13,8 @@ doctrine:
             email: App\Doctrine\Types\EmailType
             non_empty_string: App\Doctrine\Types\NonEmptyStringType
             puzzle_config_fields: App\Doctrine\Types\PuzzleConfigFieldType
+            payment_status: App\Doctrine\Types\PaymentStatusType
+            order_charge_type: App\Doctrine\Types\OrderChargeTypeType
     orm:
         auto_generate_proxy_classes: false
         enable_lazy_ghost_objects: true
@@ -113,6 +115,13 @@ doctrine:
                 dir: '%kernel.project_dir%/src/Services/Events/Domain'
                 prefix: 'App\Services\Events\Domain'
                 alias: Events
+
+            Orders:
+                type: attribute
+                is_bundle: false
+                dir: '%kernel.project_dir%/src/Services/Orders/Domain'
+                prefix: 'App\Services\Orders\Domain'
+                alias: Orders
 
         controller_resolver:
             auto_mapping: false

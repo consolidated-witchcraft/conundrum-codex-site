@@ -6,6 +6,7 @@ namespace App\Services\Events\Domain;
 
 use App\Services\Core\Domain\AbstractDomainEntity;
 use App\Services\Events\Infrastructure\TicketTypeRepository;
+use App\Services\Orders\Domain\Product;
 use App\Services\User\Domain\User;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
@@ -13,7 +14,7 @@ use App\Validator as CustomAssert;
 #[ORM\Entity(repositoryClass: TicketTypeRepository::class)]
 class TicketType extends AbstractDomainEntity
 {
-
+    private const string SKU_PATTERN = "%s.%s.%s";
     public function __construct(
         #[ORM\Column(length: 255)]
         private string $name,
@@ -27,6 +28,11 @@ class TicketType extends AbstractDomainEntity
 
         #[ORM\Column(type: 'integer')]
         private int $priceCentessimal,
+
+
+        #[ORM\OneToOne(targetEntity: Product::class, fetch: 'EAGER')]
+        #[ORM\JoinColumn(nullable: false)]
+        private Product $product,
 
         #[ORM\ManyToOne(targetEntity: Event::class, inversedBy: 'ticketTypes')]
         private readonly Event $event,
@@ -79,5 +85,11 @@ class TicketType extends AbstractDomainEntity
     public function getPriceDecimal(): float {
         return $this->priceCentessimal/100;
     }
+    public function getProduct(): Product {
+        return $this->product;
+    }
 
+    public static function generateSku(Event $event, string $ticketTypeSlug): string {
+        return strtoupper(sprintf(self::SKU_PATTERN, $event->getOrganisation()->getHandle(), $event->getEventSlug(), $ticketTypeSlug));
+    }
 }
