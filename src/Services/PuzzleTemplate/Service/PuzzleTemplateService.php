@@ -11,6 +11,7 @@ use App\Services\PuzzleInstance\Infrastructure\PuzzleInstanceRepository;
 use App\Services\PuzzleTemplate\Domain\PuzzleCategory;
 use App\Services\PuzzleTemplate\Domain\PuzzleTemplate;
 use App\Services\PuzzleTemplate\Service\Exceptions\SlugGenerationFailureException;
+use App\Services\PuzzleTemplate\Service\Interfaces\PuzzleCategoryEntityServiceInterface;
 use App\Services\PuzzleTemplate\Service\Interfaces\PuzzleTemplateRegistryInterface;
 use App\Services\PuzzleTemplate\Service\Interfaces\PuzzleTemplateServiceInterface;
 use Doctrine\Common\Collections\ArrayCollection;
@@ -21,15 +22,15 @@ class PuzzleTemplateService implements PuzzleTemplateServiceInterface
 
     /**
      * @param PuzzleTemplateRegistryInterface $templateRegistry
-     * @param PuzzleCategoryServiceInterface $puzzleCategoryService
+     * @param PuzzleCategoryEntityServiceInterface $puzzleCategoryService
      * @param CasebookRepository $casebookRepository
      * @param PuzzleInstanceRepository $instanceRepository
      */
     public function __construct(
-        private readonly PuzzleTemplateRegistryInterface $templateRegistry,
-        private readonly PuzzleCategoryServiceInterface $puzzleCategoryService,
-        private readonly CasebookRepository $casebookRepository,
-        private readonly PuzzleInstanceRepository $instanceRepository,
+        private readonly PuzzleTemplateRegistryInterface      $templateRegistry,
+        private readonly PuzzleCategoryEntityServiceInterface $puzzleCategoryService,
+        private readonly CasebookRepository                   $casebookRepository,
+        private readonly PuzzleInstanceRepository             $instanceRepository,
     ) {}
 
     /**

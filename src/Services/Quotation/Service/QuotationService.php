@@ -4,13 +4,13 @@ declare(strict_types=1);
 
 namespace App\Services\Quotation\Service;
 
-use App\Services\Core\Service\Interfaces\DomainServiceInterface;
+use App\Services\Core\Service\Interfaces\DomainEntityServiceInterface;
 use App\Services\Quotation\Domain\Quotation;
 use App\Services\Quotation\Infrastructure\QuotationRepository;
 use Symfony\Contracts\Cache\CacheInterface;
 use Symfony\Contracts\Cache\ItemInterface;
 
-class QuotationService implements DomainServiceInterface
+class QuotationService
 {
     private const string QUOTE_CACHE_KEY_PATTERN = "QUOTE_%d";
     private const int DEFAULT_CACHE_TTL = 31556952;

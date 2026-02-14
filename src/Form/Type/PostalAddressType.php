@@ -5,7 +5,7 @@ namespace App\Form\Type;
 use App\Dto\Visitor\User\PostalAddressDto;
 use App\Dto\Visitor\User\PostalAddressFieldDto;
 use App\Services\PostalAddress\Domain\ValueObjects\IsoCountry;
-use App\Services\PostalAddress\Service\PostalAddressServiceInterface;
+use App\Services\PostalAddress\Service\PostalAddressEntityServiceInterface;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\DataMapperInterface;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
@@ -15,7 +15,7 @@ use Symfony\Component\Form\FormBuilderInterface;
 class PostalAddressType extends AbstractType implements DataMapperInterface
 {
     public function __construct(
-        private readonly PostalAddressServiceInterface $postalAddressService
+        private readonly PostalAddressEntityServiceInterface $postalAddressService
     ) {}
 
     public function buildForm(FormBuilderInterface $builder, array $options)

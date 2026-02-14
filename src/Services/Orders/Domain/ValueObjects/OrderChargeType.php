@@ -8,7 +8,6 @@ readonly class OrderChargeType
 {
 
     public const array KNOWN_ORDER_CHARGE_TYPES = [
-        'tax' => 'Tax',
         'service_charge' => 'Service charge',
         'delivery_charge' => 'Delivery charge',
     ];
@@ -30,5 +29,6 @@ readonly class OrderChargeType
         if (!array_key_exists($handle, self::KNOWN_ORDER_CHARGE_TYPES)) {
             throw new UnknownPaymentStatusException($handle);
         }
+        return new self($handle, self::KNOWN_ORDER_CHARGE_TYPES[$handle]);
     }
 }

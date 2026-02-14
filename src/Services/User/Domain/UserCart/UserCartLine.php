@@ -14,7 +14,7 @@ use JsonSerializable;
 class UserCartLine extends AbstractDomainEntity implements JsonSerializable
 {
     public function __construct(
-        #[ORM\ManyToOne(targetEntity: UserCart::class, inversedBy: 'cartLines')]
+        #[ORM\ManyToOne(targetEntity: UserCart::class, cascade: ['persist', 'refresh'], fetch: 'EAGER', inversedBy: 'userCartLines')]
         private readonly UserCart $userCart,
 
         #[ORM\ManyToOne(targetEntity: Product::class)]

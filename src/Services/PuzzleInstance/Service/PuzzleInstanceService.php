@@ -4,13 +4,14 @@ declare(strict_types=1);
 
 namespace App\Services\PuzzleInstance\Service;
 
+use App\Services\Core\Service\AbstractDomainEntityService;
 use App\Services\Game\Domain\Game;
 use App\Services\PuzzleInstance\Domain\Interfaces\PuzzleInstanceInterface;
 use App\Services\PuzzleInstance\Domain\Interfaces\PuzzleInstanceProviderInterface;
 use App\Services\PuzzleInstance\Domain\Interfaces\StaticPuzzleInstanceInterface;
 use App\Services\PuzzleInstance\Domain\Interfaces\StaticPuzzleInstanceProviderInterface;
 use App\Services\PuzzleInstance\Infrastructure\PuzzleInstanceRepository;
-use App\Services\PuzzleInstance\Service\Interfaces\PuzzleInstanceServiceInterface;
+use App\Services\PuzzleInstance\Service\Interfaces\PuzzleInstanceEntityServiceInterface;
 use App\Services\PuzzleTemplate\Domain\Exceptions\MismappedPuzzleTemplateException;
 use App\Services\PuzzleTemplate\Domain\PuzzleTemplate;
 use App\Services\PuzzleTemplate\Service\Exceptions\TemplateNotFoundException;
@@ -19,7 +20,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\DependencyInjection\Attribute\AutowireIterator;
 
-class PuzzleInstanceService implements PuzzleInstanceServiceInterface
+class PuzzleInstanceService extends AbstractDomainEntityService implements PuzzleInstanceEntityServiceInterface
 {
 
     /**
@@ -35,15 +36,16 @@ class PuzzleInstanceService implements PuzzleInstanceServiceInterface
      * @param iterable<StaticPuzzleInstanceProviderInterface> $staticInstanceProviders
      */
     public function __construct(
-        private readonly EntityManagerInterface $entityManager,
         private readonly PuzzleTemplateRegistryInterface $puzzleTemplateRegistry,
         private readonly PuzzleInstanceRepository $puzzleInstanceRepository,
+        EntityManagerInterface $entityManager,
         #[AutowireIterator('app.static_puzzle_provider')]
         iterable $staticInstanceProviders
     ) {
         foreach ($staticInstanceProviders as $provider) {
             $this->staticInstanceProviders[$provider->providesTemplateInstances()] = $provider;
         }
+        parent::__construct($entityManager);
     }
 
     /**

@@ -4,22 +4,21 @@ namespace App\Controller\EventManager;
 
 use App\Controller\Traits\HandlesFileUploadsTrait;
 use App\Dto\EventManager\EventDto;
-use App\Dto\EventManager\TicketTypeDto;
-use App\Dto\EventManager\TicketTypesDto;
-use App\Dto\Visitor\User\PostalAddressDto;
 use App\Dto\Visitor\User\PostalAddressFieldDto;
 use App\Form\EventManager\EventType;
 use App\Form\EventManager\TicketTypeType;
 use App\Security\EventManagerVoter;
 use App\Services\Events\Domain\Event;
 use App\Services\Events\Domain\Organisation;
-use App\Services\Events\Domain\TicketType;
 use App\Services\Orders\Domain\Product;
 use App\Services\Orders\Domain\ProductStock;
+use App\Services\Orders\Domain\ValueObjects\ProductType;
 use App\Services\PostalAddress\Domain\PostalAddress;
+use App\Services\Ticket\Domain\TicketType;
+use App\Services\Ticket\Dto\TicketTypeDto;
+use App\Services\Ticket\Dto\TicketTypesDto;
+use App\Services\Ticket\Service\Exception\InvalidTicketTypeDefinitionException;
 use App\Services\User\Domain\User;
-use Doctrine\Common\Collections\ArrayCollection;
-use phpDocumentor\Reflection\Location;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
@@ -28,6 +27,7 @@ use Symfony\Component\Security\Http\Attribute\IsGranted;
 class EventsController extends AbstractEventManagerController
 {
     use HandlesFileUploadsTrait;
+
     #[IsGranted(EventManagerVoter::MANAGE_EVENTS_ACTION, 'organisation')]
     #[Route('manage-events/organisations/{organisationHandle}/events', name: 'events.organisations.manage')]
     public function manageEvents(
@@ -49,17 +49,22 @@ class EventsController extends AbstractEventManagerController
     ): Response {
         $dto = new EventDto($organisation);
         $form = $this->createForm(EventType::class, $dto);
-
+        $user = $this->getUser();
+        if (!$user instanceof User) {
+            throw $this->createAccessDeniedException();
+        }
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
             $heroImage = $this->handleFileUpload($form->get('heroImage')->getData(), $this->eventsHeroImagesDirectory);
 
+            $location = PostalAddress::makeFromPostalAddressFieldDto($user, $dto->location);
+            $location = $this->postalAddressService->save($location);
             $event = new Event(
                 title: $dto->title,
                 eventSlug: $dto->eventSlug,
                 description: $dto->description,
                 heroImage: $heroImage,
-                location: $dto->location,
+                location: $location,
                 prebookOnly: $dto->prebookOnly,
                 organisation: $organisation,
                 startDate: $dto->startDate,
@@ -151,6 +156,7 @@ class EventsController extends AbstractEventManagerController
         $form = $this->createForm(TicketTypeType::class, $dto);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
+            $success = true;
             /**
              * @var TicketTypeDto[] $ticketTypes
              */
@@ -181,41 +187,20 @@ class EventsController extends AbstractEventManagerController
                         $this->eventService->saveTicketType($ticketType);
                     }
                 } else {
+
                     if (!$ticketTypeData->isEmpty()) {
-
-                        $product = new Product(
-                            sku: TicketType::generateSku($event, $ticketTypeData->slug),
-                            name: $ticketTypeData->name,
-                            description: $ticketTypeData->description,
-                            preTaxPriceCentessimal: $ticketTypeData->priceCentessimal,
-                            createdBy: $user
-                        );
-
-                        $productStock = new ProductStock($product, $ticketTypeData->initialQuantity, $ticketTypeData->initialQuantity);
-                        $product->setProductStock($productStock);
-                        $this->productService->saveProduct($product);
-                        $ticketType = new TicketType(
-                            name: $ticketTypeData->name,
-                            slug: $ticketTypeData->slug,
-                            description: $ticketTypeData->description,
-                            priceCentessimal: $ticketTypeData->priceCentessimal,
-                            product: $product,
-                            event: $event
-                        );
-                        $violations = $this->validator->validate($ticketType);
-                        if (count($violations) > 0) {
+                        try {
+                            $ticketType = $this->ticketService->generateTicketTypeFromDto($ticketTypeData, $event, $user);
+                        } catch (InvalidTicketTypeDefinitionException $e) {
                             $success = false;
-                            foreach ($violations as $violation) {
-                                $errors[] = $violation->getMessage();
+                            foreach ($e->getErrors() as $error) {
+                                $this->addFlash('error', $error->getMessage());
                             }
-                        }
-                        if ($success) {
-                            $this->eventService->saveTicketType($ticketType);
                         }
                     }
                 }
             }
-            if (count($errors) > 0) {
+            if (!$success) {
                 $this->addFlash('error', implode("\n", $errors));
             } else {
                 $this->addFlash('success', 'Ticket types updated.');

@@ -1,0 +1,12 @@
+{% extends 'base/base.html.twig' %}
+{% block body %}
+    <div class="row three-quarters-one-quarter">
+        <div class="col">
+            {{ form(form) }}
+        </div>
+        <div class="col">
+            {% embed 'visitor/orders/partials/_orderSummary.html.twig' with {'order': order} %}{% endembed %}
+        </div>
+    </div>
+{% endblock %}
+

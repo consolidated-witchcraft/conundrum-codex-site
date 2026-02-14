@@ -37,7 +37,7 @@ class OrganisationsController extends AbstractEventManagerController
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
             $organisationLogo = $form->get('organisationLogo')->getData();
-            $this->handleFileUpload($organisationLogo, $this->organisationLogoImagesDirectory);
+            $organisationLogo = $this->handleFileUpload($organisationLogo, $this->organisationLogoImagesDirectory);
             $organisation = new Organisation(
                 name: $dto->name,
                 handle: $dto->handle,

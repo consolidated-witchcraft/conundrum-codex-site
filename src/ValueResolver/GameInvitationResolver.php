@@ -4,7 +4,7 @@ namespace App\ValueResolver;
 
 
 use App\Services\Game\Domain\GameInvitation;
-use App\Services\Game\Service\Interfaces\GameServiceInterface;
+use App\Services\Game\Service\Interfaces\GameEntityServiceInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Controller\ValueResolverInterface;
 use Symfony\Component\HttpKernel\ControllerMetadata\ArgumentMetadata;
@@ -12,7 +12,7 @@ use Symfony\Component\HttpKernel\ControllerMetadata\ArgumentMetadata;
 readonly class GameInvitationResolver implements ValueResolverInterface
 {
     public function __construct(
-        private GameServiceInterface $gameService
+        private GameEntityServiceInterface $gameService
     ) {
     }
 

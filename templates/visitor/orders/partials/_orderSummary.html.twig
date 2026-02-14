@@ -1,0 +1,55 @@
+<aside class="order-summary">
+    <h2>Order Summary</h2>
+    <div class="products summary-section">
+        <h3>Products</h3>
+        {% for productLine in order.getProductOrderLines %}
+            <div class="product-order-line section-line">
+                <span class="product-name item-name">{{ productLine.getProduct.getName }}</span>
+                <span class="product-type">{{ productLine.getProduct.getType.getName }}</span>
+                <span class="product-sku">{{ productLine.getProduct.getSku }}</span>
+                <span class="quantity">Qty. {{ productLine.getQuantity }}</span>
+                <em class="unit-price">
+                    {{ productLine.getProduct.getPreTaxPriceDecimal|format_currency('GBP') }} each.
+                </em>
+                <strong class="line-total total">
+                    {{ productLine.getTotalDecimal|format_currency('GBP') }} exc. Tax
+                </strong>
+            </div>
+        {% endfor %}
+    </div>
+    <div class="charges summary-section">
+        <h3>Charges</h3>
+        {% for chargeLine in order.getChargeLines %}
+            <div class="charge-line section-line">
+                <span class="charge-name item-name">
+                    {{ chargeLine.getName }}
+                </span>
+                <strong class="charge-total total">
+                    {{ chargeLine.getPriceDecimal|format_currency('GBP') }}
+                </strong>
+            </div>
+        {% endfor %}
+    </div>
+    <div class="tax summary-section">
+        <h3>Tax</h3>
+        {% for tax in order.getOrderTaxes %}
+            <div class="tax-line section-line">
+                <span class="tax-name item-name">
+                    {{ tax.getTaxRateName }}
+                </span>
+                <strong class="tax-total total">
+                    {{ tax.getAmountDecimal|format_currency('GBP') }}
+                </strong>
+            </div>
+        {% endfor %}
+    </div>
+    <div class="total summary-section">
+        <h3>Total</h3>
+        <strong class="total">
+            {{ order.getTotalPostTaxDecimal|format_currency('GBP') }}
+        </strong>
+        <span class="payment-status {{ order.getOrderPaymentStatus.getHandle }}">
+            {{ order.getOrderPaymentStatus }}
+        </span>
+    </div>
+</aside>

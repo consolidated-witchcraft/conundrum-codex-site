@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Dto\Visitor\Events;
 
 use App\Services\Events\Domain\Event;
-use App\Services\Events\Domain\TicketType;
+use App\Services\Ticket\Domain\TicketType;
 use App\Services\User\Domain\User;
 use Doctrine\Common\Collections\Collection;
 

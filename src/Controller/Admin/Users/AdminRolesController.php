@@ -18,7 +18,7 @@ class AdminRolesController extends AbstractBaseController
 {
     public function __construct(
         private readonly EntityManagerInterface $entityManager,
-        private readonly UserService $userService,
+        private readonly UserService            $userService,
     ) {
     }
 

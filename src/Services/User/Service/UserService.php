@@ -6,7 +6,7 @@ namespace App\Services\User\Service;
 
 use App\Entity\ResetPasswordRequest;
 use App\Repository\ResetPasswordRequestRepository;
-use App\Services\Core\Service\Interfaces\DomainServiceInterface;
+use App\Services\Core\Service\Interfaces\DomainEntityServiceInterface;
 use App\Services\Game\Domain\GameInvitation;
 use App\Services\User\Domain\Permission;
 use App\Services\User\Domain\Role;
@@ -40,7 +40,7 @@ use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface as Symfo
  * @implements UserProviderInterface<User>
  */
 class UserService
-    implements UserServiceInterface, AccessTokenHandlerInterface, DomainServiceInterface
+    implements UserServiceInterface, AccessTokenHandlerInterface, DomainEntityServiceInterface
 {
     private const string DEFAULT_ROLE = 'ROLE_USER';
     public function __construct(
@@ -256,5 +256,10 @@ class UserService
     public function needsRehash(PasswordAuthenticatedUserInterface $user): bool
     {
         return $this->passwordHasher->needsRehash($user);
+    }
+
+    public function flush(): void
+    {
+        $this->entityManager->flush();
     }
 }

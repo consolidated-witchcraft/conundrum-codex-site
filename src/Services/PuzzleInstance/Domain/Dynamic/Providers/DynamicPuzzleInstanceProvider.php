@@ -11,7 +11,7 @@ use App\Services\PuzzleInstance\Domain\Dynamic\Dto\DynamicPuzzleInstanceDto;
 use App\Services\PuzzleInstance\Domain\Dynamic\Fields\Exceptions\UnmappableDynamicFieldTypeException;
 use App\Services\PuzzleInstance\Domain\Interfaces\DynamicPuzzleInstanceInterface;
 use App\Services\PuzzleInstance\Service\Exceptions\AttemptingToGenerateDtoForStaticPuzzleException;
-use App\Services\PuzzleInstance\Service\Interfaces\PuzzleInstanceServiceInterface;
+use App\Services\PuzzleInstance\Service\Interfaces\PuzzleInstanceEntityServiceInterface;
 use App\Services\PuzzleTemplate\Domain\Exceptions\PuzzleTemplateNotMappedException;
 use App\Services\PuzzleTemplate\Service\Exceptions\TemplateNotFoundException;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
@@ -19,7 +19,7 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 readonly class DynamicPuzzleInstanceProvider implements ProviderInterface
 {
-    public function __construct(private PuzzleInstanceServiceInterface $puzzleInstanceService) {}
+    public function __construct(private PuzzleInstanceEntityServiceInterface $puzzleInstanceService) {}
 
     /**
      * @throws PuzzleTemplateNotMappedException

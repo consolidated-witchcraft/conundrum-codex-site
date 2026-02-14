@@ -10,8 +10,8 @@ use App\Dto\Visitor\User\UserChangePasswordDto;
 use App\Dto\Visitor\User\UserEditDto;
 use App\Form\Visitor\Account\ChangePasswordType;
 use App\Form\Visitor\Account\UserEditType;
-use App\Services\Files\Service\Interfaces\FilesServiceInterface;
-use App\Services\Game\Service\Interfaces\GameServiceInterface;
+use App\Services\Files\Service\Interfaces\FilesEntityServiceInterface;
+use App\Services\Game\Service\Interfaces\GameEntityServiceInterface;
 use App\Services\User\Domain\User;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\DependencyInjection\Attribute\Autowire;
@@ -28,12 +28,12 @@ final class AccountController extends AbstractBaseController
     use HandlesFileUploadsTrait;
 
     public function __construct(
-        private readonly GameServiceInterface $gameService,
-        private readonly EntityManagerInterface $entityManager,
-        private readonly ValidatorInterface $validator,
-        private readonly UserPasswordHasherInterface $passwordHasher,
-        protected readonly SluggerInterface $slugger,
-        protected readonly FilesServiceInterface $filesService,
+        private readonly GameEntityServiceInterface                                              $gameService,
+        private readonly EntityManagerInterface                                                  $entityManager,
+        private readonly ValidatorInterface                                                      $validator,
+        private readonly UserPasswordHasherInterface                                             $passwordHasher,
+        protected readonly SluggerInterface                                                      $slugger,
+        protected readonly FilesEntityServiceInterface                                           $filesService,
         #[Autowire('%kernel.project_dir%/public/uploads/images/avatar')] private readonly string $publicImagesDirectory,
     ) {
     }

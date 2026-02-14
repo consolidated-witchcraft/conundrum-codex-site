@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace App\Form\Type;
 
-use App\Dto\EventManager\TicketTypeDto;
-
+use App\Services\Ticket\Dto\TicketTypeDto;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\DataMapperInterface;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use Symfony\Component\Form\Extension\Core\Type\MoneyType;
 use Symfony\Component\Form\Extension\Core\Type\NumberType;
@@ -45,6 +45,19 @@ class TicketType extends AbstractType implements DataMapperInterface
                 'attr' => [
                     'rows' => 10,
                 ]
+            ]
+        )
+        ->add(
+            'ticketFormats',
+            ChoiceType::class,
+            [
+                'choices' => [
+                    'eTicket' => 'e_ticket',
+                    'Physical Ticket' => 'physical_ticket',
+                ],
+                'expanded' => true,
+                'multiple' => true,
+                'help' => 'Physical Tickets can be posted to the customer. eTickets are delivered via App and E-Mail'
             ]
         )
         ->add(
@@ -101,6 +114,9 @@ class TicketType extends AbstractType implements DataMapperInterface
                 case 'priceCentessimal':
                     $form->setData($viewData->priceCentessimal);
                     break;
+                case 'ticketFormats':
+                    $form->setData($viewData->ticketFormats);
+                    break;
                 case 'initialQuantity':
                     $form->setData($viewData->initialQuantity);
                     break;
@@ -118,6 +134,7 @@ class TicketType extends AbstractType implements DataMapperInterface
             description: $forms['description']->getData(),
             priceCentessimal: (int) ($forms['priceCentessimal']->getData()),
             initialQuantity: (int) $forms['initialQuantity']->getData(),
+            ticketFormats: $forms['ticketFormats']->getData(),
             id: (int) $forms['id']->getData(),
         );
     }

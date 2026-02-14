@@ -125,10 +125,21 @@
 
 {% endblock %}
 
-{%- block number_spinner_row -%}
-    I ASM A dSFJNISDFIFJSDIJ
-    {# type="number" doesn't work with floats in localized formats #}
-    {%- set type = type|default('text') -%}
-    {{ block('form_widget_simple') }}
-{%- endblock number_spinner_row -%}
+{% block user_cart_line_row %}
+    <tr class="user_cart_line_row">
+        <td>
+            {{ form_label(form.quantity) }}
+        </td>
+        <td>
+            {{ form_widget(form.quantity) }}
+        </td>
+        <td>
+            <span class="user_cart_line_total">
 
+            </span>
+        </td>
+        <td>
+            {{ form_widget(form.remove) }}
+        </td>
+    </tr>
+{% endblock %}

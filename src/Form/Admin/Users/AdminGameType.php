@@ -5,7 +5,7 @@ namespace App\Form\Admin\Users;
 use App\Dto\Admin\User\AdminUserGameDto;
 use App\Services\Game\Domain\Game;
 use App\Services\Game\Service\GameService;
-use App\Services\Game\Service\Interfaces\GameServiceInterface;
+use App\Services\Game\Service\Interfaces\GameEntityServiceInterface;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\ChoiceList\Loader\CallbackChoiceLoader;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
@@ -16,7 +16,7 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 class AdminGameType extends AbstractType
 {
     public function __construct(
-        private readonly GameServiceInterface $gameService
+        private readonly GameEntityServiceInterface $gameService
     ) {
     }
     public function buildForm(FormBuilderInterface $builder, array $options): void

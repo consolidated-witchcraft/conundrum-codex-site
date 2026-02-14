@@ -9,13 +9,13 @@ use App\Services\PuzzleTemplate\Domain\ConfigOptionDefinitions\PuzzleTemplatePuz
 use App\Services\PuzzleTemplate\Domain\PuzzleCategory;
 use App\Services\PuzzleTemplate\Domain\PuzzleCredit;
 use App\Services\PuzzleTemplate\Domain\PuzzleTemplate;
-use App\Services\PuzzleTemplate\Service\PuzzleCategoryServiceInterface;
+use App\Services\PuzzleTemplate\Service\Interfaces\PuzzleCategoryEntityServiceInterface;
 use Doctrine\Common\Collections\ArrayCollection;
 
 readonly class PuzzleTemplateMapper
 {
     public function __construct(
-        private PuzzleCategoryServiceInterface $puzzleCategoryService,
+        private PuzzleCategoryEntityServiceInterface $puzzleCategoryService,
     ) {}
 
     public function mapTemplate(array $templateData): PuzzleTemplate {

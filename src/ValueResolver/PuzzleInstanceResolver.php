@@ -6,7 +6,7 @@ namespace App\ValueResolver;
 
 use App\Services\PuzzleInstance\Domain\Interfaces\DynamicPuzzleInstanceInterface;
 use App\Services\PuzzleInstance\Domain\Interfaces\PuzzleInstanceInterface;
-use App\Services\PuzzleInstance\Service\Interfaces\PuzzleInstanceServiceInterface;
+use App\Services\PuzzleInstance\Service\Interfaces\PuzzleInstanceEntityServiceInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Controller\ValueResolverInterface;
 use Symfony\Component\HttpKernel\ControllerMetadata\ArgumentMetadata;
@@ -14,7 +14,7 @@ use Symfony\Component\HttpKernel\ControllerMetadata\ArgumentMetadata;
 readonly class PuzzleInstanceResolver implements ValueResolverInterface
 {
     public function __construct(
-        private PuzzleInstanceServiceInterface $puzzleInstanceService
+        private PuzzleInstanceEntityServiceInterface $puzzleInstanceService
     ) {
     }
 

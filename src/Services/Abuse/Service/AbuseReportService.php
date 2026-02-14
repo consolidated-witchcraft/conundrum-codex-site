@@ -6,16 +6,19 @@ namespace App\Services\Abuse\Service;
 
 use App\Services\Abuse\Domain\AbuseReport;
 use App\Services\Abuse\Infrastructure\AbuseReportRepository;
-use App\Services\Core\Service\Interfaces\DomainServiceInterface;
+use App\Services\Core\Service\AbstractDomainEntityService;
+use App\Services\Core\Service\Interfaces\DomainEntityServiceInterface;
 use App\Services\User\Domain\User;
 use Doctrine\ORM\EntityManagerInterface;
 
-class AbuseReportService implements DomainServiceInterface
+class AbuseReportService extends AbstractDomainEntityService implements DomainEntityServiceInterface
 {
     public function __construct(
-        private readonly EntityManagerInterface $entityManager,
+        EntityManagerInterface $entityManager,
         private readonly AbuseReportRepository $abuseReportRepository
-    ) {}
+    ) {
+        parent::__construct($entityManager);
+    }
 
     /**
      * @return AbuseReport[]

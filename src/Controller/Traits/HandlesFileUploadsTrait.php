@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Controller\Traits;
 use App\Services\Files\Domain\ManagedFile;
-use App\Services\Files\Service\Interfaces\FilesServiceInterface;
+use App\Services\Files\Service\Interfaces\FilesEntityServiceInterface;
 use App\Services\User\Domain\User;
 use RuntimeException;
 use Symfony\Component\HttpFoundation\File\Exception\FileException;
@@ -23,7 +23,7 @@ trait HandlesFileUploadsTrait
             throw new RuntimeException('You must set a valid slugger');
         }
 
-        if (!isset($this->filesService) || ! $this->filesService instanceof FilesServiceInterface) {
+        if (!isset($this->filesService) || ! $this->filesService instanceof FilesEntityServiceInterface) {
             throw new RuntimeException('You must set a managed file service');
         }
         $originalFilename = pathinfo($uploadedFile->getClientOriginalName(), PATHINFO_FILENAME);

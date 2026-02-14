@@ -28,6 +28,9 @@ class AdminUserEditType extends AbstractType
                 'required' => false,
                 'mapped' => false,
                 'label' => 'Avatar',
+                'attr' => [
+                    'accept' => 'image/jpeg, image/png, image/webp',
+                ],
                 'constraints' => [
                     new File(
                         maxSize: '5m',

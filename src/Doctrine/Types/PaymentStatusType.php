@@ -5,11 +5,9 @@ declare(strict_types=1);
 namespace App\Doctrine\Types;
 
 use App\Services\Orders\Domain\Exceptions\UnknownPaymentStatusException;
-use App\Services\Orders\Domain\ValueObjects\PaymentStatus;
-use App\Services\User\Domain\ValueObjects\Exceptions\UnmappedRarityException;
-use App\Services\User\Domain\ValueObjects\Rarity;
-use Doctrine\DBAL\Types\Type;
+use App\Services\Payment\Domain\ValueObjects\PaymentStatus;
 use Doctrine\DBAL\Platforms\AbstractPlatform;
+use Doctrine\DBAL\Types\Type;
 
 class PaymentStatusType extends Type
 {

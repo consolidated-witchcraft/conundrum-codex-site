@@ -6,8 +6,6 @@ namespace App\ValueResolver;
 
 use App\Services\Events\Domain\Event;
 use App\Services\Events\Service\EventServiceInterface;
-use App\Services\Game\Domain\Game;
-use App\Services\Game\Service\Interfaces\GameServiceInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Controller\ValueResolverInterface;
 use Symfony\Component\HttpKernel\ControllerMetadata\ArgumentMetadata;

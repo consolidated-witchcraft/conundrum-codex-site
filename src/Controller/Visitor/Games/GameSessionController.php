@@ -16,10 +16,10 @@ use App\Form\Visitor\Game\UnArchiveGameType;
 use App\Security\GameCreationVoter;
 use App\Security\GameManagerVoter;
 use App\Security\GamePlayerVoter;
-use App\Services\Files\Service\Interfaces\FilesServiceInterface;
+use App\Services\Files\Service\Interfaces\FilesEntityServiceInterface;
 use App\Services\Game\Domain\Game;
 use App\Services\Game\Domain\GameSession;
-use App\Services\Game\Service\Interfaces\GameServiceInterface;
+use App\Services\Game\Service\Interfaces\GameEntityServiceInterface;
 use App\Services\User\Domain\User;
 use Symfony\Component\DependencyInjection\Attribute\Autowire;
 use Symfony\Component\HttpFoundation\Request;
@@ -33,10 +33,10 @@ final class GameSessionController extends AbstractBaseController
 {
     use HandlesFileUploadsTrait;
     public function __construct(
-        private readonly ValidatorInterface $validator,
-        private readonly GameServiceInterface $gameService,
-        protected SluggerInterface $slugger,
-        protected readonly FilesServiceInterface $filesService,
+        private readonly ValidatorInterface                                                      $validator,
+        private readonly GameEntityServiceInterface                                              $gameService,
+        protected SluggerInterface                                                               $slugger,
+        protected readonly FilesEntityServiceInterface                                           $filesService,
         #[Autowire('%kernel.project_dir%/public/uploads/images/games/sessions/')] private string $publicImagesDirectory,
     ) {
     }

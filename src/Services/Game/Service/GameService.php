@@ -10,25 +10,28 @@ use App\Services\Game\Domain\GameSession;
 use App\Services\Game\Infrastructure\GameInvitationRepository;
 use App\Services\Game\Infrastructure\GameRepository;
 use App\Services\Game\Infrastructure\GameSessionRepository;
-use App\Services\Game\Service\Interfaces\GameServiceInterface;
+use App\Services\Game\Service\Interfaces\GameEntityServiceInterface;
 use App\Services\PuzzleTemplate\Domain\Exceptions\MismappedPuzzleTemplateException;
 use App\Services\PuzzleInstance\Infrastructure\CodeGenerator;
-use App\Services\PuzzleInstance\Service\Interfaces\PuzzleInstanceServiceInterface;
+use App\Services\PuzzleInstance\Service\Interfaces\PuzzleInstanceEntityServiceInterface;
 use App\Services\PuzzleTemplate\Service\Interfaces\PuzzleTemplateRegistryInterface;
 use App\Services\User\Domain\User;
 use Doctrine\ORM\EntityManagerInterface;
 use Random\RandomException;
+use App\Services\Core\Service\AbstractDomainEntityService;
 
-readonly class GameService implements GameServiceInterface
+class GameService extends AbstractDomainEntityService implements GameEntityServiceInterface
 {
     public function __construct(
-        private GameRepository $gameRepository,
-        private GameInvitationRepository $gameInvitationRepository,
-        private PuzzleInstanceServiceInterface  $puzzleInstanceService,
-        private EntityManagerInterface $entityManager,
-        private PuzzleTemplateRegistryInterface $puzzleTemplateRegistry,
-        private GameSessionRepository $gameSessionRepository
-    ) {}
+        private GameRepository                       $gameRepository,
+        private GameInvitationRepository             $gameInvitationRepository,
+        private PuzzleInstanceEntityServiceInterface $puzzleInstanceService,
+        private PuzzleTemplateRegistryInterface      $puzzleTemplateRegistry,
+        private GameSessionRepository                $gameSessionRepository,
+        EntityManagerInterface                       $entityManager
+    ) {
+        parent::__construct($entityManager);
+    }
 
     /**
      * @throws RandomException

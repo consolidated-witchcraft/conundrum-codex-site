@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Services\Orders\Domain;
 
 use App\Services\Files\Domain\ManagedFile;
+use App\Services\Orders\Domain\ValueObjects\ProductType;
 use App\Services\Orders\Infrastructure\ProductRepository;
 use App\Services\User\Domain\User;
 use Doctrine\Common\Collections\Collection;
@@ -23,6 +24,9 @@ class Product extends AbstractDomainEntity
         #[ORM\Column(type: 'string', length: 255)]
         private string $name,
 
+        #[ORM\Column(type: 'product_type', options: ['default' => 'e_ticket'])]
+        private ProductType $type,
+
         #[ORM\Column(type: 'string', length: 2198)]
         private string $description,
 
@@ -32,7 +36,7 @@ class Product extends AbstractDomainEntity
         #[ORM\ManyToOne(targetEntity: User::class)]
         private User $createdBy,
 
-        #[ORM\OneToOne(targetEntity: ProductStock::class, inversedBy: 'product', cascade: ['persist', 'remove'], fetch: 'EAGER')]
+        #[ORM\ManyToOne(targetEntity: ProductStock::class, cascade: ['persist', 'remove', 'refresh'], fetch: 'EAGER', inversedBy: 'products')]
         #[ORM\JoinColumn(nullable: false)]
         private ? ProductStock $productStock = null,
 
@@ -51,6 +55,16 @@ class Product extends AbstractDomainEntity
         ? int $id = null
     ) {
         parent::__construct($id);
+    }
+
+    public function getType(): ProductType
+    {
+        return $this->type;
+    }
+
+    public function setType(ProductType $type): void
+    {
+        $this->type = $type;
     }
 
     public function getProductStock(): ProductStock

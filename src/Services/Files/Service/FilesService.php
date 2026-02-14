@@ -4,13 +4,14 @@ declare(strict_types=1);
 
 namespace App\Services\Files\Service;
 
+use App\Services\Core\Service\AbstractDomainEntityService;
 use App\Services\Files\Domain\Exceptions\BlankFinalPathException;
 use App\Services\Files\Domain\Exceptions\GeneralFileManagementException;
 use App\Services\Files\Domain\Exceptions\MissingUploadPrefixException;
 use App\Services\Files\Domain\Exceptions\UndeterminedMimeTypeException;
 use App\Services\Files\Domain\ManagedFile;
 use App\Services\Files\Infrastructure\ManagedFileRepository;
-use App\Services\Files\Service\Interfaces\FilesServiceInterface;
+use App\Services\Files\Service\Interfaces\FilesEntityServiceInterface;
 use App\Services\User\Domain\User;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\DependencyInjection\Attribute\Autowire;
@@ -18,15 +19,17 @@ use Symfony\Component\HttpFoundation\File\Exception\FileException;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\String\Slugger\SluggerInterface;
 
-readonly class FilesService implements FilesServiceInterface
+class FilesService extends AbstractDomainEntityService implements FilesEntityServiceInterface
 {
     public function __construct(
         private ManagedFileRepository $managedFileRepository,
-        private EntityManagerInterface $entityManager,
+        EntityManagerInterface $entityManager,
         private SluggerInterface $slugger,
         #[Autowire('%kernel.project_dir%/public/uploads')]
         private string $publicFilesDirectory,
-    ){}
+    ){
+        parent::__construct($entityManager);
+    }
 
     public function save(ManagedFile $managedFile): ManagedFile
     {

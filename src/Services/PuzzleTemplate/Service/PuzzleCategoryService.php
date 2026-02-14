@@ -6,14 +6,17 @@ namespace App\Services\PuzzleTemplate\Service;
 
 use App\Services\PuzzleTemplate\Domain\PuzzleCategory;
 use App\Services\PuzzleTemplate\Infrastructure\PuzzleCategoryRepository;
+use App\Services\PuzzleTemplate\Service\Interfaces\PuzzleCategoryEntityServiceInterface;
 use Doctrine\ORM\EntityManagerInterface;
-
-readonly class PuzzleCategoryService implements PuzzleCategoryServiceInterface
+use App\Services\Core\Service\AbstractDomainEntityService;
+class PuzzleCategoryService extends AbstractDomainEntityService implements PuzzleCategoryEntityServiceInterface
 {
     public function __construct(
         private PuzzleCategoryRepository $repository,
-        private EntityManagerInterface   $entityManager
-    ) {}
+        EntityManagerInterface   $entityManager
+    ) {
+        parent::__construct($entityManager);
+    }
 
     public function getAllCategories(): iterable
     {

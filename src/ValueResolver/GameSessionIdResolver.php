@@ -6,14 +6,14 @@ namespace App\ValueResolver;
 
 use App\Services\Game\Domain\Game;
 use App\Services\Game\Domain\GameSession;
-use App\Services\Game\Service\Interfaces\GameServiceInterface;
+use App\Services\Game\Service\Interfaces\GameEntityServiceInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Controller\ValueResolverInterface;
 use Symfony\Component\HttpKernel\ControllerMetadata\ArgumentMetadata;
 
 readonly class GameSessionIdResolver implements ValueResolverInterface
 {
-    public function __construct(private GameServiceInterface $gameService)
+    public function __construct(private GameEntityServiceInterface $gameService)
     {
     }
 

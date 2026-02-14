@@ -11,13 +11,13 @@ use App\Form\Mapper\DynamicInstanceDataMapper;
 use App\Form\Visitor\Puzzle\Static\Casebook\CasebookSubjectType;
 use App\Form\Visitor\Puzzle\Static\Casebook\DeleteCasebookSubjectType;
 use App\Security\GameManagerVoter;
-use App\Services\Files\Service\Interfaces\FilesServiceInterface;
+use App\Services\Files\Service\Interfaces\FilesEntityServiceInterface;
 use App\Services\Game\Domain\Game;
 use App\Services\PuzzleInstance\Domain\Casebook\Casebook;
 use App\Services\PuzzleInstance\Domain\Casebook\CasebookSubject;
 use App\Services\PuzzleInstance\Domain\Casebook\CasebookSubjectClue;
 use App\Services\PuzzleInstance\Domain\Interfaces\PuzzleInstanceInterface;
-use App\Services\PuzzleInstance\Service\Interfaces\PuzzleInstanceServiceInterface;
+use App\Services\PuzzleInstance\Service\Interfaces\PuzzleInstanceEntityServiceInterface;
 use App\Services\PuzzleTemplate\Domain\PuzzleTemplate;
 use App\Services\PuzzleInstance\Infrastructure\Casebook\Repository\CasebookSubjectClueRepository;
 use App\Services\PuzzleTemplate\Service\Interfaces\PuzzleTemplateServiceInterface;
@@ -39,14 +39,14 @@ class CasebookSubjectController extends AbstractPuzzleController
     use HandlesFileUploadsTrait;
     public function __construct(
         #[Autowire('%kernel.project_dir%/public/uploads/images/casebook')] private string $publicImagesDirectory,
-        PuzzleTemplateServiceInterface $puzzleTemplateService,
-        PuzzleInstanceServiceInterface $puzzleInstanceService,
-        SerializerInterface $serializer,
-        EntityManagerInterface $entityManager,
-        SluggerInterface $slugger,
-        ValidatorInterface $validator,
-        FilesServiceInterface $filesService,
-        DynamicInstanceDataMapper $dynamicInstanceDataMapper,
+        PuzzleTemplateServiceInterface                                                    $puzzleTemplateService,
+        PuzzleInstanceEntityServiceInterface                                              $puzzleInstanceService,
+        SerializerInterface                                                               $serializer,
+        EntityManagerInterface                                                            $entityManager,
+        SluggerInterface                                                                  $slugger,
+        ValidatorInterface                                                                $validator,
+        FilesEntityServiceInterface                                                       $filesService,
+        DynamicInstanceDataMapper                                                         $dynamicInstanceDataMapper,
     ) {
         parent::__construct(
             puzzleTemplateService: $puzzleTemplateService,

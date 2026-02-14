@@ -2,9 +2,7 @@
 
 namespace App\Services\Events\Infrastructure;
 
-use App\Services\Events\Domain\Event;
 use App\Services\Events\Domain\Organisation;
-use App\Services\Events\Domain\TicketType;
 use App\Services\User\Domain\User;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;

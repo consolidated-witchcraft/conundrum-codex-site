@@ -2,11 +2,10 @@
 
 namespace App\Dto\EventManager;
 
-use App\Dto\Visitor\User\PostalAddressDto;
 use App\Dto\Visitor\User\PostalAddressFieldDto;
 use App\Services\Events\Domain\Event;
 use App\Services\Events\Domain\Organisation;
-use App\Services\Events\Domain\TicketType;
+use App\Services\Ticket\Domain\TicketType;
 use Symfony\Component\Validator\Constraints as Assert;
 
 class EventDto

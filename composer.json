@@ -13,8 +13,10 @@
         "api-platform/doctrine-orm": "^4.2",
         "api-platform/symfony": "^4.2",
         "craue/formflow-bundle": "^3.7",
+        "doctrine/data-fixtures": "*",
         "doctrine/dbal": "^3.10.2",
         "doctrine/doctrine-bundle": "^2.16.2",
+        "doctrine/doctrine-fixtures-bundle": "^4.3",
         "doctrine/doctrine-migrations-bundle": "^3.4.2",
         "doctrine/orm": "^3.5.2",
         "karser/karser-recaptcha3-bundle": "*",
@@ -38,7 +40,7 @@
         "symfony/json-streamer": "7.4.*",
         "symfony/mailer": "7.4.*",
         "symfony/maker-bundle": "*",
-        "symfony/messenger": "*",
+        "symfony/messenger": "7.4.*",
         "symfony/monolog-bundle": "^3.10",
         "symfony/property-access": "7.4.*",
         "symfony/property-info": "7.4.*",
@@ -46,6 +48,7 @@
         "symfony/security-bundle": "7.4.*",
         "symfony/serializer": "7.4.*",
         "symfony/twig-bundle": "7.4.*",
+        "symfony/uid": "7.4.*",
         "symfony/ux-live-component": "*",
         "symfony/ux-twig-component": "^2.30",
         "symfony/validator": "7.4.*",
@@ -54,9 +57,7 @@
         "symfonycasts/reset-password-bundle": "^1.23",
         "symfonycasts/verify-email-bundle": "^1.17.4",
         "twig/extra-bundle": "*",
-        "twig/intl-extra": "*",
-        "doctrine/data-fixtures": "*",
-        "doctrine/doctrine-fixtures-bundle": "^4.3"
+        "twig/intl-extra": "*"
     },
     "require-dev": {
 

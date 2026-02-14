@@ -15,7 +15,7 @@ use App\Form\Admin\Files\FileEditType;
 use App\Services\Abuse\Domain\AbuseReport;
 use App\Services\Abuse\Infrastructure\AbuseReportRepository;
 use App\Services\Files\Domain\ManagedFile;
-use App\Services\Files\Service\Interfaces\FilesServiceInterface;
+use App\Services\Files\Service\Interfaces\FilesEntityServiceInterface;
 use App\Services\Quotation\Service\QuotationService;
 use App\Services\User\Domain\User;
 use Doctrine\ORM\EntityManagerInterface;
@@ -33,7 +33,7 @@ class AdminFilesController extends AbstractBaseController
     use HandlesFileUploadsTrait;
     public function __construct(
         private EntityManagerInterface $entityManager,
-        private FilesServiceInterface $filesService
+        private FilesEntityServiceInterface $filesService
     ){
     }
 

@@ -55,17 +55,37 @@ body {
 
         a.brand {
             display: block;
-            line-height: $mobileHeaderHeight;
-            height: $mobileHeaderHeight;
-            position: absolute;
-            left: $mobileHeaderHeight;
-            right: $mobileHeaderHeight;
-            text-align: center;
+            height: $mobileHeaderHeight - 2vh;
+            width: $mobileHeaderHeight - 2vh;
+            margin: 1vh auto;
             color: transparent;
-            background: palette.$goldFX;
-            background-clip: text;
-            font-family: typography.$displayStack;
-            background-size: contain;
+            position: relative;
+
+            &:before, &:after {
+                content: " ";
+                display: block;
+                position: absolute;
+                top: 0;
+                left: 0;
+                bottom: 0;
+                right: 0;
+            }
+            &:before {
+                background: linear-gradient(33deg, color.adjust(cyan, $alpha: -0.25), color.adjust(magenta, $alpha: -0.25));
+                background-size: 400%;
+                backdrop-filter: blur(5px);
+                animation: gradient 5s ease infinite;
+                mask-image: var(--penroseMask);
+                mask-size: contain;
+                mask-repeat: no-repeat;
+            }
+
+            &:after {
+                background-image: var(--penroseOverlay);
+                background-size: contain;
+                background-repeat: no-repeat;
+            }
+
         }
 
         .nav-toggle {
@@ -117,6 +137,13 @@ body {
                 }
             }
 
+            &#cart-nav-toggle {
+                right: $mobileNavButtonHeight + 1vh + math.div(($mobileHeaderHeight - $mobileNavButtonHeight), 2);
+                &:after {
+                    background-image: var(--cartIconVellum);
+                }
+            }
+
             &#user-nav-toggle{
                 right: math.div(($mobileHeaderHeight - $mobileNavButtonHeight), 2);
                 &:after {
@@ -146,7 +173,8 @@ body {
                 }
             }
 
-            &#user-nav {
+            &#user-nav,
+            &#cart-nav{
                 right: 0;
                 transform: translateX(100vw);
                 &.open {
@@ -305,7 +333,8 @@ main {
                 display: none;
             }
 
-            button.nav-toggle#user-nav-toggle {
+            button.nav-toggle#user-nav-toggle,
+            button.nav-toggle#cart-nav-toggle{
                 flex: 1;
                 position: relative;
                 top: initial;
@@ -314,7 +343,7 @@ main {
                 right: initial;
                 display: block;
                 width: auto;
-                height: 100%;
+                height: 3rem;
                 flex-basis: 5%;
                 font-size: 0.95rem;
                 overflow: hidden;
@@ -325,16 +354,37 @@ main {
                 box-shadow: none;
 
                 &:after {
-                    background-image: var(--userIcon);
                     background-size: contain;
                 }
                 &:hover, &:active, &.open {
                     box-shadow: none;
+
+                }
+            }
+            button.nav-toggle#user-nav-toggle {
+                &:after {
+                    background-image: var(--userIcon);
+                }
+
+                &:hover, &:active, &.open {
                     &:after {
                         background-image: var(--userIconActive);
                     }
                 }
             }
+
+            button.nav-toggle#cart-nav-toggle {
+                &:after {
+                    background-image: var(--cartIcon);
+                }
+
+                &:hover, &:active, &.open {
+                    &:after {
+                        background-image: var(--cartIconActive);
+                    }
+                }
+            }
+
             nav#main-nav {
                 flex-direction: row-reverse;
                 position: relative;
@@ -478,6 +528,7 @@ main {
 
             }
 
+            nav.mobile-nav#cart-nav,
             nav.mobile-nav#user-nav {
                 display: block;
                 transform: none;
@@ -509,6 +560,8 @@ main {
                     bottom: 0.1rem;
                     right: 0.1rem;
                 }
+
+
 
 
                 &.open {
@@ -579,6 +632,18 @@ main {
                     &:hover, &:focus, .active {
                         &:after {
                             background-image: var(--userIconActive);
+                        }
+                    }
+                }
+
+                button.nav-toggle#cart-nav-toggle {
+                    &:after {
+                        background-image: var(--cartIconVellum);
+
+                    }
+                    &:hover, &:focus, .active {
+                        &:after {
+                            background-image: var(--cartIconActive);
                         }
                     }
                 }

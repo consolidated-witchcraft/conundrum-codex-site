@@ -26,9 +26,9 @@ class EventsController extends AbstractBaseController
     private const string PERSONAL_DATA_KEY = 'personalData';
 
     public function __construct(
-        private readonly EventServiceInterface $eventService,
+        private readonly EventServiceInterface   $eventService,
         private readonly ProductServiceInterface $productService,
-        private readonly UserServiceInterface $userService,
+        private readonly UserServiceInterface    $userService,
 
     ) {}
 
@@ -77,18 +77,14 @@ class EventsController extends AbstractBaseController
                     if ($ticketTypeData['quantity'] >= 1) {
                         $ticketTypeObject = $this->eventService->getTicketTypeByEventAndSlug($event, $ticketTypeSlug);
                         if (!$ticketTypeObject) {
-                            return $this->createNotFoundException("Not Found");
+                            throw $this->createNotFoundException("Not Found");
                         }
                         $product = $this->productService->getProductBySku($ticketTypeObject->getProduct()->getSku());
                         if (!$product) {
-                            return $this->createNotFoundException("Not Found");
+                            throw $this->createNotFoundException("Not Found");
                         }
-                        $cartLine = new UserCartLine(
-                            $cart,
-                            $product,
-                            $ticketTypeData['quantity'],
-                        );
-                        $cart->getUserCartLines()->add($cartLine);
+
+                        $cart->addCartLine($product, $ticketTypeData['quantity']);
                         $this->userService->saveUser($user);
                     }
 

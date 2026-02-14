@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Tools\PHPStan\Rules;
 
-use App\Services\Core\Service\Interfaces\DomainServiceInterface;
+use App\Services\Core\Service\Interfaces\DomainEntityServiceInterface;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\Persistence\ObjectRepository;
 use PhpParser\Node;
@@ -28,7 +28,7 @@ class NoNonServiceDoctrineUsageRule implements Rule
 
     private const string BASE_ENTITY_MANAGER_INTERFACE = EntityManagerInterface::class;
 
-    private const string BASE_DOMAIN_SERVICE_INTERFACE = DomainServiceInterface::class;
+    private const string BASE_DOMAIN_SERVICE_INTERFACE = DomainEntityServiceInterface::class;
 
     private const string ERROR_MESSAGE_DOCTRINE_REPOSITORY_INJECTION = "The constructor parameter $%s is typed as %s or a subclass of it.\n";
 

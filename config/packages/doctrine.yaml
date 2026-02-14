@@ -15,6 +15,7 @@ doctrine:
             puzzle_config_fields: App\Doctrine\Types\PuzzleConfigFieldType
             payment_status: App\Doctrine\Types\PaymentStatusType
             order_charge_type: App\Doctrine\Types\OrderChargeTypeType
+            product_type: App\Doctrine\Types\ProductTypeType
     orm:
         auto_generate_proxy_classes: false
         enable_lazy_ghost_objects: true
@@ -122,6 +123,20 @@ doctrine:
                 dir: '%kernel.project_dir%/src/Services/Orders/Domain'
                 prefix: 'App\Services\Orders\Domain'
                 alias: Orders
+
+            Payment:
+                type: attribute
+                is_bundle: false
+                dir: '%kernel.project_dir%/src/Services/Payment/Domain'
+                prefix: 'App\Services\Payment\Domain'
+                alias: Payment
+
+            Ticket:
+                type: attribute
+                is_bundle: false
+                dir: '%kernel.project_dir%/src/Services/Ticket/Domain'
+                prefix: 'App\Services\Ticket\Domain'
+                alias: Ticket
 
         controller_resolver:
             auto_mapping: false

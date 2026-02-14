@@ -4,11 +4,12 @@ declare(strict_types=1);
 
 namespace App\Services\Core\Domain;
 
+use App\Services\Core\Domain\Interfaces\DomainEntityInterface;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\MappedSuperclass]
 #[ORM\HasLifecycleCallbacks]
-abstract class AbstractDomainEntity
+abstract class AbstractDomainEntity implements DomainEntityInterface
 {
     #[ORM\Column(type: 'datetime_immutable')]
     private \DateTimeImmutable $createdAt;

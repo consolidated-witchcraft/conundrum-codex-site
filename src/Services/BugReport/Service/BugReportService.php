@@ -6,11 +6,18 @@ namespace App\Services\BugReport\Service;
 
 use App\Services\BugReport\Domain\BugReport;
 use App\Services\BugReport\Infrastructure\BugReportRepository;
-use App\Services\Core\Service\Interfaces\DomainServiceInterface;
+use App\Services\Core\Service\AbstractDomainEntityService;
+use App\Services\Core\Service\Interfaces\DomainEntityServiceInterface;
+use Doctrine\ORM\EntityManagerInterface;
 
-class BugReportService implements DomainServiceInterface
+class BugReportService extends AbstractDomainEntityService implements DomainEntityServiceInterface
 {
-    public function __construct(private BugReportRepository $bugReportRepository) {}
+    public function __construct(
+        private BugReportRepository $bugReportRepository,
+        EntityManagerInterface $entityManager
+    ) {
+        parent::__construct($entityManager);
+    }
 
     /**
      * @return BugReport[]

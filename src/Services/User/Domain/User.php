@@ -8,6 +8,7 @@ use App\Services\Core\Domain\AbstractDomainEntity;
 use App\Services\Events\Domain\Organisation;
 use App\Services\Files\Domain\ManagedFile;
 use App\Services\Game\Domain\Game;
+use App\Services\Orders\Domain\Order;
 use App\Services\PostalAddress\Domain\PostalAddress;
 use App\Services\User\Domain\UserCart\UserCart;
 use App\Services\User\Domain\ValueObjects\UserAccountType;
@@ -58,6 +59,12 @@ class User extends AbstractDomainEntity implements UserInterface, PasswordAuthen
     #[ORM\ManyToMany(targetEntity: UserFeat::class, cascade: ['persist'], fetch: 'EAGER', indexBy: 'handle')]
     private Collection $feats;
 
+    #[ORM\OneToMany(targetEntity: Order::class, mappedBy: 'user', orphanRemoval: false)]
+    #[OrderBy(["createdAt" => "DESC"])]
+    private Collection $orders;
+
+
+
     /**
      * @param non-empty-string $email
      * @param non-empty-string $username
@@ -93,7 +100,7 @@ class User extends AbstractDomainEntity implements UserInterface, PasswordAuthen
         #[ORM\OneToMany(targetEntity: UserBlock::class, cascade: ['persist'], mappedBy: 'user')]
         private ? Collection $userBlocks = null,
 
-        #[ORM\OneToOne(targetEntity: UserCart::class, mappedBy: 'user', cascade: ['persist'], orphanRemoval: true)]
+        #[ORM\OneToOne(targetEntity: UserCart::class, mappedBy: 'user', cascade: ['persist', 'refresh'], orphanRemoval: true)]
         private ? UserCart $userCart = null,
 
         #[ORM\ManyToOne(targetEntity: Organisation::class, fetch: 'EAGER', inversedBy: 'managers')]
@@ -111,12 +118,18 @@ class User extends AbstractDomainEntity implements UserInterface, PasswordAuthen
         $this->gamesMastered = new ArrayCollection();
         $this->games = new ArrayCollection();
         $this->feats = new ArrayCollection();
+        $this->orders = new ArrayCollection();
         if ($this->userBlocks === null) {
             $this->userBlocks = new ArrayCollection();
         }
         if ($this->userCart === null) {
             $this->userCart = new UserCart($this);
         }
+    }
+
+    public function getOrders(): Collection
+    {
+        return $this->orders;
     }
 
     public function getOrganisation(): ?Organisation
@@ -370,6 +383,9 @@ class User extends AbstractDomainEntity implements UserInterface, PasswordAuthen
     }
 
     public function getUserCart(): UserCart {
+        if (null === $this->userCart) {
+            $this->userCart = new UserCart($this);
+        }
         return $this->userCart;
     }
 }

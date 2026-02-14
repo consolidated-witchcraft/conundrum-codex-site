@@ -6,7 +6,7 @@ use App\Controller\AbstractBaseController;
 use App\Dto\Visitor\User\RegisterUserDto;
 use App\Form\Visitor\LoginType;
 use App\Form\Visitor\RegistrationForm;
-use App\Services\Game\Service\Interfaces\GameServiceInterface;
+use App\Services\Game\Service\Interfaces\GameEntityServiceInterface;
 use App\Services\Quotation\Service\QuotationService;
 use App\Services\User\Domain\User;
 use App\Services\User\Domain\UserCart\UserCart;
@@ -28,7 +28,7 @@ class AuthController extends AbstractBaseController
     public function __construct(
         private readonly AuthenticationUtils $authenticationUtils,
         private readonly UserServiceInterface $userService,
-        private readonly GameServiceInterface $gameService
+        private readonly GameEntityServiceInterface $gameService
     ) {
     }
 

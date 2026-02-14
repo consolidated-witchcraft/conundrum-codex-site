@@ -2,7 +2,7 @@
 
 namespace App\Command;
 
-use App\Services\Game\Service\Interfaces\GameServiceInterface;
+use App\Services\Game\Service\Interfaces\GameEntityServiceInterface;
 use App\Services\User\Domain\User;
 use App\Services\User\Service\UserService;
 use Doctrine\ORM\EntityManagerInterface;
@@ -23,9 +23,9 @@ use Symfony\Component\Security\Core\Exception\UserNotFoundException;
 class DeleteUserCommand extends Command
 {
     public function __construct(
-        private UserService $userService,
-        private EntityManagerInterface $entityManager,
-        private GameServiceInterface $gameService
+        private UserService                $userService,
+        private EntityManagerInterface     $entityManager,
+        private GameEntityServiceInterface $gameService
     )
     {
         parent::__construct();

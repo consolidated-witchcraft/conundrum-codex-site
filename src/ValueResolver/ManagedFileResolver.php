@@ -4,9 +4,9 @@ namespace App\ValueResolver;
 
 
 use App\Services\Files\Domain\ManagedFile;
-use App\Services\Files\Service\Interfaces\FilesServiceInterface;
+use App\Services\Files\Service\Interfaces\FilesEntityServiceInterface;
 use App\Services\Game\Domain\GameInvitation;
-use App\Services\Game\Service\Interfaces\GameServiceInterface;
+use App\Services\Game\Service\Interfaces\GameEntityServiceInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Controller\ValueResolverInterface;
 use Symfony\Component\HttpKernel\ControllerMetadata\ArgumentMetadata;
@@ -14,7 +14,7 @@ use Symfony\Component\HttpKernel\ControllerMetadata\ArgumentMetadata;
 readonly class ManagedFileResolver implements ValueResolverInterface
 {
     public function __construct(
-        private readonly FilesServiceInterface $filesService,
+        private readonly FilesEntityServiceInterface $filesService,
     ) {
     }
 

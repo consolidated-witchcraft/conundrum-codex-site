@@ -2,7 +2,24 @@
 {% block body %}
     <div class="row">
         <div class="col">
-            {{ form(form) }}
+            {{ form_start(form) }}
+            <table class="checkout-table">
+                <thead>
+                    <tr>
+                        <th>Product</th>
+                        <th>Quantity</th>
+                        <th></th>
+                    </tr>
+                <thead>
+                <tbody>
+                {% for line in form.userCartLines %}
+                    <tr>
+                        {{ form_row(line) }}
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+            {{ form_end(form) }}
         </div>
     </div>
 {% endblock %}

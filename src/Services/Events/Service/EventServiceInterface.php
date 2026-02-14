@@ -4,13 +4,13 @@ declare(strict_types=1);
 
 namespace App\Services\Events\Service;
 
-use App\Services\Core\Service\Interfaces\DomainServiceInterface;
+use App\Services\Core\Service\Interfaces\DomainEntityServiceInterface;
 use App\Services\Events\Domain\Event;
 use App\Services\Events\Domain\Organisation;
-use App\Services\Events\Domain\TicketType;
+use App\Services\Ticket\Domain\TicketType;
 use App\Services\User\Domain\User;
 
-interface EventServiceInterface extends DomainServiceInterface
+interface EventServiceInterface extends DomainEntityServiceInterface
 {
     public function getOrganisationByHandle(string $handle): ?Organisation;
 

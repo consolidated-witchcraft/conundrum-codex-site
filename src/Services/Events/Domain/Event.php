@@ -6,6 +6,7 @@ use App\Services\Core\Domain\AbstractDomainEntity;
 use App\Services\Events\Infrastructure\EventRepository;
 use App\Services\Files\Domain\ManagedFile;
 use App\Services\PostalAddress\Domain\PostalAddress;
+use App\Services\Ticket\Domain\TicketType;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;

@@ -7,7 +7,7 @@ namespace App\Security;
 use App\ApiResource\PuzzleInstance\ApiPuzzleInstanceDtoInterface;
 use App\ApiResource\PuzzleInstance\Dynamic\ApiDynamicPuzzleInstanceDto;
 use App\Services\Game\Domain\Game;
-use App\Services\Game\Service\Interfaces\GameServiceInterface;
+use App\Services\Game\Service\Interfaces\GameEntityServiceInterface;
 use App\Services\User\Domain\User;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Core\Authorization\Voter\Voter;
@@ -19,7 +19,7 @@ class PuzzleInstancePlayerVoter extends Voter
 {
     public const string PLAY_INSTANCE = 'play_instance';
 
-    public function __construct(private readonly GameServiceInterface $gameService) {}
+    public function __construct(private readonly GameEntityServiceInterface $gameService) {}
 
     protected function supports(string $attribute, mixed $subject): bool
     {

@@ -6,9 +6,10 @@ namespace App\Controller\EventManager;
 
 use App\Controller\AbstractBaseController;
 use App\Services\Events\Service\EventServiceInterface;
-use App\Services\Files\Service\Interfaces\FilesServiceInterface;
+use App\Services\Files\Service\Interfaces\FilesEntityServiceInterface;
 use App\Services\Orders\Service\Interfaces\ProductServiceInterface;
-use App\Services\PostalAddress\Service\PostalAddressServiceInterface;
+use App\Services\PostalAddress\Service\PostalAddressEntityServiceInterface;
+use App\Services\Ticket\Service\Interfaces\TicketServiceInterface;
 use App\Services\User\Service\Interfaces\UserServiceInterface;
 use Symfony\Component\DependencyInjection\Attribute\Autowire;
 use Symfony\Component\Routing\Attribute\Route;
@@ -19,14 +20,15 @@ use Symfony\Component\Validator\Validator\ValidatorInterface;
 abstract class AbstractEventManagerController extends AbstractBaseController
 {
     public function __construct(
-        protected readonly ValidatorInterface $validator,
-        protected readonly EventServiceInterface $eventService,
-        protected readonly UserServiceInterface $userService,
-        protected readonly FilesServiceInterface $filesService,
-        protected readonly SluggerInterface $slugger,
-        protected readonly PostalAddressServiceInterface $postalAddressService,
-        protected readonly ProductServiceInterface $productService,
-        #[Autowire('%kernel.project_dir%/public/uploads/images/events/hero')] protected readonly string $eventsHeroImagesDirectory,
+        protected readonly ValidatorInterface                                                                   $validator,
+        protected readonly EventServiceInterface                                                                $eventService,
+        protected readonly UserServiceInterface                                                                 $userService,
+        protected readonly FilesEntityServiceInterface                                                          $filesService,
+        protected readonly SluggerInterface                                                                     $slugger,
+        protected readonly PostalAddressEntityServiceInterface                                                  $postalAddressService,
+        protected readonly ProductServiceInterface                                                              $productService,
+        protected readonly TicketServiceInterface                                                               $ticketService,
+        #[Autowire('%kernel.project_dir%/public/uploads/images/events/hero')] protected readonly string         $eventsHeroImagesDirectory,
         #[Autowire('%kernel.project_dir%/public/uploads/images/organisations/logos')] protected readonly string $organisationLogoImagesDirectory,
     ) {}
 }

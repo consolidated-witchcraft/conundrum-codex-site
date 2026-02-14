@@ -19,8 +19,8 @@ class OrderRepository extends ServiceEntityRepository
     }
 
     public function findByOrderReference(string $orderReference): ?Order {
+
         return $this->createQueryBuilder('o')
-            ->select('o')
             ->where('o.orderReference = :orderReference')
             ->setParameter('orderReference', $orderReference)
             ->getQuery()

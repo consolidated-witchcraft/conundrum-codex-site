@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Form\Visitor\Game;
 
 use App\Dto\Visitor\Game\GameDto;
-use App\Services\Game\Service\Interfaces\GameServiceInterface;
+use App\Services\Game\Service\Interfaces\GameEntityServiceInterface;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\HiddenType;
@@ -20,7 +20,7 @@ class GameType extends AbstractType
 {
     public const array VALID_IMAGE_TYPES = ['jpeg', 'jpg', 'png', 'webp'];
 
-    public function __construct(private GameServiceInterface $gameService) {
+    public function __construct(private GameEntityServiceInterface $gameService) {
 
     }
     public function buildForm(FormBuilderInterface $builder, array $options): void

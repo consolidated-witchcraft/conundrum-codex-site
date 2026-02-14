@@ -1,0 +1,27 @@
+<div id="orders" class="tab-content">
+    <div class="row">
+        <div class="col">
+            {% if orders is empty %}
+                <em>There are no orders available</em>
+            {% else %}
+                <div class="accordion-list" is="accordion-list">
+                    {% for order in orders %}
+                        <article class="accordion-entry" id="order-{{ order.getOrderReference }}" is="accordion-entry" data-open="false">
+                            <h3 class="accordion-heading">{{ order.getOrderReference }}</h3>
+                            <div class="accordion-body">
+                                <div class="accordion-content">
+                                    <span class="order-summary-line">{{ order.getOrderReference }} - {{ friendly_date(order.getCreatedAt) }} - {{ order.getTotalPostTaxDecimal|format_currency('GBP') }}</span>
+                                    <nav class="secondary">
+                                        {% if order.getOrderPaymentStatus.getHandle !== 'paid' %}
+                                            <a href="{{ path('payments.pay', {'orderReference': order.getOrderReference, 'paymentReference': order.getOrderPayments.getPaymentReference}) }}">Pay Now</a>
+                                        {% endif %}
+                                    </nav>
+                                </div>
+                            </div>
+                        </article>
+                    {% endfor  %}
+                </div>
+            {% endif %}
+        </div>
+    </div>
+</div>

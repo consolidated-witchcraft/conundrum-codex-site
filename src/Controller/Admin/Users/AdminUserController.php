@@ -17,9 +17,9 @@ use App\Form\Admin\Users\AdminUnblockUserType;
 use App\Form\Admin\Users\AdminUserEditType;
 use App\Form\Admin\Users\AdminUserSearchType;
 use App\Services\Abuse\Service\AbuseReportService;
-use App\Services\Files\Service\Interfaces\FilesServiceInterface;
-use App\Services\Game\Service\Interfaces\GameServiceInterface;
-use App\Services\PuzzleInstance\Service\Interfaces\PuzzleInstanceServiceInterface;
+use App\Services\Files\Service\Interfaces\FilesEntityServiceInterface;
+use App\Services\Game\Service\Interfaces\GameEntityServiceInterface;
+use App\Services\PuzzleInstance\Service\Interfaces\PuzzleInstanceEntityServiceInterface;
 use App\Services\User\Domain\User;
 use App\Services\User\Domain\UserBlock;
 use App\Services\User\Service\Interfaces\UserServiceInterface;
@@ -41,15 +41,15 @@ class AdminUserController extends AbstractBaseController
     use GeneratesPagerTrait;
 
     public function __construct(
-        private readonly UserServiceInterface $userService,
-        private readonly UserPasswordHasherInterface $userPasswordHasher,
-        private readonly ValidatorInterface $validator,
-        private readonly EntityManagerInterface $entityManager,
-        private readonly PuzzleInstanceServiceInterface $puzzleInstanceService,
-        private readonly AbuseReportService $abuseReportService,
-        protected readonly SluggerInterface $slugger,
-        private readonly GameServiceInterface $gameService,
-        private readonly FilesServiceInterface $filesService,
+        private readonly UserServiceInterface                                                    $userService,
+        private readonly UserPasswordHasherInterface                                             $userPasswordHasher,
+        private readonly ValidatorInterface                                                      $validator,
+        private readonly EntityManagerInterface                                                  $entityManager,
+        private readonly PuzzleInstanceEntityServiceInterface                                    $puzzleInstanceService,
+        private readonly AbuseReportService                                                      $abuseReportService,
+        protected readonly SluggerInterface                                                      $slugger,
+        private readonly GameEntityServiceInterface                                              $gameService,
+        private readonly FilesEntityServiceInterface                                             $filesService,
         #[Autowire('%kernel.project_dir%/public/uploads/images/avatar')] private readonly string $publicImagesDirectory,
     ) {
     }

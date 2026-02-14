@@ -4,24 +4,27 @@ declare(strict_types=1);
 
 namespace App\Services\PostalAddress\Service;
 
+use App\Services\Core\Service\AbstractDomainEntityService;
 use App\Services\PostalAddress\Domain\PostalAddress;
-use App\Services\PostalAddress\Domain\ValueObjects\IsoCountry;
 use App\Services\PostalAddress\Domain\ValueObjects\IsoCountryList;
 use App\Services\PostalAddress\Infrastructure\PostalAddressRepository;
 use Doctrine\ORM\EntityManagerInterface;
 
-class PostalAddressService implements PostalAddressServiceInterface
+class PostalAddressService extends AbstractDomainEntityService implements PostalAddressEntityServiceInterface
 {
     /**
-     * @param array<string, IsoCountry> $countryCodeList
+     * @param IsoCountryList $isoCountryList
+     * @param PostalAddressRepository $postalAddressRepository
+     * @param EntityManagerInterface $entityManager
      */
     public function __construct(
         private readonly IsoCountryList $isoCountryList,
-        private readonly EntityManagerInterface $entityManager,
         private readonly PostalAddressRepository $postalAddressRepository,
+        EntityManagerInterface $entityManager,
     ) {
-
+        parent::__construct($entityManager);
     }
+
     public function getCountryCodeList(): array
     {
         return $this->isoCountryList->getCountryList();

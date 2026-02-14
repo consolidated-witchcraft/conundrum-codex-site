@@ -10,7 +10,7 @@ use App\Form\Visitor\Account\Address\DeletePostalAddressForm;
 use App\Form\Visitor\Account\Address\PostalAddressForm;
 use App\Security\PostalAddressVoter;
 use App\Services\PostalAddress\Domain\PostalAddress;
-use App\Services\PostalAddress\Service\PostalAddressServiceInterface;
+use App\Services\PostalAddress\Service\PostalAddressEntityServiceInterface;
 use App\Services\User\Domain\User;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -23,7 +23,7 @@ class PostalAddressController extends AbstractBaseController
 {
     public function __construct(
         private ValidatorInterface $validator,
-        private readonly PostalAddressServiceInterface $postalAddressService
+        private readonly PostalAddressEntityServiceInterface $postalAddressService
     ) {}
 
     #[IsGranted('ROLE_USER')]

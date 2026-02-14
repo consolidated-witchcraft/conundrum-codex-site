@@ -14,6 +14,8 @@ services:
         # services whose classes are instances of CustomInterface will be tagged automatically
         App\Services\PuzzleInstance\Domain\Interfaces\StaticPuzzleInstanceProviderInterface:
             tags: [ 'app.static_puzzle_provider' ]
+        App\Services\Tax\Domain\Interfaces\TaxRateProviderInterface:
+            tags: [ 'app.tax.provider' ]
     # default configuration for services in *this* file
     _defaults:
         autowire: true      # Automatically injects dependencies in your services.

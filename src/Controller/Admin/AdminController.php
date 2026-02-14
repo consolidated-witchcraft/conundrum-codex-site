@@ -20,7 +20,7 @@ class AdminController extends AbstractBaseController
 
     public function __construct(
         private AbuseReportService $abusereportService,
-        private BugReportService $bugReportService,
+        private BugReportService   $bugReportService,
     ) {
     }
 

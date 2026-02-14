@@ -20,7 +20,7 @@ use App\Services\Abuse\Domain\AbuseReport;
 use App\Services\Abuse\Service\AbuseReportService;
 use App\Services\Game\Domain\Game;
 use App\Services\Game\Domain\GameInvitation;
-use App\Services\Game\Service\Interfaces\GameServiceInterface;
+use App\Services\Game\Service\Interfaces\GameEntityServiceInterface;
 use App\Services\PuzzleInstance\Infrastructure\CodeGenerator;
 use App\Services\User\Domain\User;
 use App\Services\User\Infrastructure\Repository\UserRepository;
@@ -39,10 +39,10 @@ use Symfony\Component\Security\Http\Attribute\IsGranted;
 class GameInvitationController extends AbstractBaseController
 {
     public function __construct(
-        private MailerInterface $mailer,
-        private UserRepository $userRepository,
-        private GameServiceInterface $gameService,
-        private UserService $userService,
+        private MailerInterface            $mailer,
+        private UserRepository             $userRepository,
+        private GameEntityServiceInterface $gameService,
+        private UserService                $userService,
         private AbuseReportService $abuseReportService
     ) {
     }

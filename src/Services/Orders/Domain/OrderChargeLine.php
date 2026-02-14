@@ -7,7 +7,7 @@ namespace App\Services\Orders\Domain;
 use App\Services\Files\Domain\ManagedFile;
 use App\Services\Orders\Domain\ValueObjects\OrderChargeType;
 use App\Services\Orders\Infrastructure\OrderChargeLineRepository;
-use App\Services\Orders\Infrastructure\ProductOrderLineRepository;
+use App\Services\Orders\Infrastructure\OrderProductLineRepository;
 use App\Services\Orders\Infrastructure\ProductRepository;
 use App\Services\User\Domain\User;
 use Doctrine\Common\Collections\Collection;
@@ -23,7 +23,7 @@ class OrderChargeLine extends AbstractDomainEntity
         private OrderChargeType $chargeType,
 
         #[ORM\Column(type: 'string')]
-        private string          $name,
+        private string $name,
 
         #[ORM\ManyToOne(targetEntity: Order::class, inversedBy: 'chargeLines')]
         private readonly Order  $order,
@@ -63,6 +63,10 @@ class OrderChargeLine extends AbstractDomainEntity
     public function getPriceCentessimal(): int
     {
         return $this->priceCentessimal;
+    }
+
+    public function getPriceDecimal(): float {
+        return $this->getPriceCentessimal()/100;
     }
 
 }
