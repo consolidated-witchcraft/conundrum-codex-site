@@ -1,4 +1,6 @@
 @use 'sass:math';
+@use 'sass:color';
+
 @use '../base/variables';
 @use '../base/palette';
 
@@ -23,8 +25,10 @@
         flex-direction: column;
         padding: math.div(variables.$base-spacing, 4);
 
-        &.name {
+        &.dates {
             position: relative;
+            padding-right: math.div(variables.$base-spacing, 2);
+            color: color.adjust(palette.$ink, $alpha: -0.25);
             &:before {
                 content: " ";
                 display: block;

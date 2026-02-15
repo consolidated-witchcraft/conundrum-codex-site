@@ -29,7 +29,8 @@ class TicketTypePurchaseType extends AbstractType
                 'attr' => [
                     'min' => 0,
                     'max' => 10,
-                ]
+                ],
+                'help' => $ticketType->getDescription()
             ]
         )
         ->add('selectedFormatSlug', ChoiceType::class, [

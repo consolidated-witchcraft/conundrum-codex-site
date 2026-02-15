@@ -9,6 +9,7 @@ use App\Dto\Visitor\Events\TicketPurchaseDto;
 use App\Dto\Visitor\Events\TicketTypePurchaseTypeDto;
 use App\Form\Type\TicketTypePurchaseType;
 use App\Form\Type\VisitorTicketSelectionType;
+use App\Services\Ticket\Domain\TicketType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\DataMapperInterface;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
@@ -29,13 +30,18 @@ class TicketPurchaseType extends AbstractType implements DataMapperInterface
          *
          * 1. Loop through all the ticket types in an event and add a buy field for it.
          */
+        /**
+         * @var TicketType $ticketType
+         */
         foreach ($data->ticketTypes as $ticketTypeSlug => $ticketType) {
             $builder->add(
                 $ticketTypeSlug,
                 TicketTypePurchaseType::class,
                 [
                     'label' => sprintf("%s Ticket", $ticketType->getName()),
-                    'data' => TicketTypePurchaseTypeDto::makeFromTicketType($ticketType)
+                    'data' => TicketTypePurchaseTypeDto::makeFromTicketType($ticketType),
+                    'help' => sprintf("<p>%s</p><p>%s</p>", $ticketType->getEvent()->getStartDate()->format('Y-m-d H:i'), $ticketType->getEvent()->getEndDate()->format('Y-m-d H:i')),
+                    'help_html' => true
                 ]);
         }
 

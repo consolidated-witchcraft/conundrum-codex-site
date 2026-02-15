@@ -147,10 +147,13 @@
     <div class="ticket-type-purchase-row">
         <div class="name">
             {{ form_label(form) }}
+
         </div>
+        <div class="dates">{{ form_help(form) }}</div>
         <div class="quantity">
             {{ form_label(form.quantity) }}
             {{ form_widget(form.quantity) }}
+            {{ form_help(form.quantity) }}
         </div>
         <div class="format">
             {{ form_label(form.selectedFormatSlug) }}
