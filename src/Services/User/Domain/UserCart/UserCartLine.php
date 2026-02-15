@@ -5,7 +5,8 @@ declare(strict_types=1);
 namespace App\Services\User\Domain\UserCart;
 
 use App\Services\Core\Domain\AbstractDomainEntity;
-use App\Services\Products\Domain\Product;
+
+use App\Services\Product\Domain\ProductVariant;
 use App\Services\User\Infrastructure\UserCart\UserCartLineRepository;
 use Doctrine\ORM\Mapping as ORM;
 use JsonSerializable;
@@ -17,8 +18,8 @@ class UserCartLine extends AbstractDomainEntity implements JsonSerializable
         #[ORM\ManyToOne(targetEntity: UserCart::class, cascade: ['persist', 'refresh'], fetch: 'EAGER', inversedBy: 'userCartLines')]
         private readonly UserCart $userCart,
 
-        #[ORM\ManyToOne(targetEntity: Product::class)]
-        private readonly Product $product,
+        #[ORM\ManyToOne(targetEntity: ProductVariant::class)]
+        private readonly ProductVariant $productVariant,
 
         #[ORM\Column(type: 'integer')]
         private int $quantity,
@@ -31,8 +32,8 @@ class UserCartLine extends AbstractDomainEntity implements JsonSerializable
         return $this->userCart;
     }
 
-    public function getProduct(): Product {
-        return $this->product;
+    public function getProductVariant(): ProductVariant {
+        return $this->productVariant;
     }
 
     public function getQuantity(): int {
@@ -47,8 +48,8 @@ class UserCartLine extends AbstractDomainEntity implements JsonSerializable
     {
         return [
             'cartLineId' => $this->getId(),
-            'name' => $this->getProduct()->getName(),
-            'productSku' => $this->getProduct()->getSku(),
+            'name' => $this->getProductVariant()->getProductVariantName(),
+            'productSku' => $this->getProductVariant()->getSku(),
             'preTaxPriceCentessimal' => $this->getPretaxTotalCentessimal(),
             'quantity' => $this->getQuantity(),
             'createdAt' => $this->getCreatedAt(),
@@ -57,7 +58,7 @@ class UserCartLine extends AbstractDomainEntity implements JsonSerializable
     }
 
     public function getPretaxTotalCentessimal(): float {
-        return ($this->getProduct()->getPreTaxPriceCentessimal() * $this->getQuantity());
+        return ($this->getProductVariant()->getPreTaxPriceCentessimal() * $this->getQuantity());
     }
     public function getPretaxTotalDecimal(): float
     {

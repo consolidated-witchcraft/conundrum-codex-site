@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Doctrine\Types;
 
 use App\Doctrine\Types\Exceptions\UnmappableObjectException;
-use App\Services\Products\Domain\ValueObjects\ProductType;
+use App\Services\Product\Domain\ValueObjects\ProductType;
 use Doctrine\DBAL\Platforms\AbstractPlatform;
 use Doctrine\DBAL\Types\Type;
 
@@ -22,7 +22,6 @@ class ProductTypeType extends Type
     {
         return self::NAME;
     }
-
 
     /**
      * @param $value

@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Services\Products\Domain\ValueObjects;
+namespace App\Services\Product\Domain\ValueObjects;
 
 use App\Services\Orders\Domain\Exceptions\UnknownProductTypeException;
 

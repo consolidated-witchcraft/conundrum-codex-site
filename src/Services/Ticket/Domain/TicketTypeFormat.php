@@ -5,7 +5,8 @@ declare(strict_types=1);
 namespace App\Services\Ticket\Domain;
 
 use App\Services\Core\Domain\AbstractDomainEntity;
-use App\Services\Products\Domain\Product;
+
+use App\Services\Product\Domain\Product;
 use App\Services\Ticket\Domain\ValueObjects\TicketFormat;
 use App\Services\Ticket\Infrastructure\TicketTypeFormatRepository;
 use Doctrine\ORM\Mapping as ORM;

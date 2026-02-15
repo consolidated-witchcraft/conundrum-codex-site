@@ -8,7 +8,7 @@ use App\Controller\AbstractBaseController;
 use App\Services\Events\Service\EventServiceInterface;
 use App\Services\Files\Service\Interfaces\FilesEntityServiceInterface;
 use App\Services\PostalAddress\Service\PostalAddressEntityServiceInterface;
-use App\Services\Products\Service\Interfaces\ProductServiceInterface;
+use App\Services\Product\Service\Interfaces\ProductServiceInterface;
 use App\Services\Ticket\Service\Interfaces\TicketServiceInterface;
 use App\Services\User\Service\Interfaces\UserServiceInterface;
 use Symfony\Component\DependencyInjection\Attribute\Autowire;

@@ -2,12 +2,12 @@
 
 declare(strict_types=1);
 
-namespace App\Services\Products\Domain;
+namespace App\Services\Product\Domain;
 
 use App\Services\Core\Domain\AbstractDomainEntity;
 use App\Services\Files\Domain\ManagedFile;
-use App\Services\Products\Domain\ValueObjects\ProductType;
-use App\Services\Products\Infrastructure\ProductVariantRepository;
+use App\Services\Product\Domain\ValueObjects\ProductType;
+use App\Services\Product\Infrastructure\ProductVariantRepository;
 use App\Services\User\Domain\User;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
@@ -21,6 +21,9 @@ class ProductVariant extends AbstractDomainEntity
     public function __construct(
         #[ORM\Column(type: 'string', length: 255, unique: true)]
         private readonly string $sku,
+
+        #[ORM\Column(type: 'string', length: 255)]
+        private string $productVariantName,
 
         #[ORM\Column(type: 'product_type', options: ['default' => 'e_ticket'])]
         private readonly ProductType $type,
@@ -43,7 +46,10 @@ class ProductVariant extends AbstractDomainEntity
         #[ORM\Column(type: 'datetime', nullable: true)]
         private \DateTimeInterface $publicationDate,
 
-        #[ORM\OneToMany(targetEntity: ManagedFile::class)]
+        #[ORM\ManyToOne(targetEntity: ProductVariantStock::class, cascade: ['persist', 'refresh', 'remove'], inversedBy: 'productVariants')]
+        private readonly ProductVariantStock $productVariantStock,
+
+        #[ORM\ManyToMany(targetEntity: ManagedFile::class)]
         private Collection $productVariantImages = new ArrayCollection(),
 
         #[ORM\Column(type: 'datetime', nullable: true)]
@@ -58,8 +64,21 @@ class ProductVariant extends AbstractDomainEntity
         parent::__construct($id);
     }
 
+    public function getProductVariantStock(): ProductVariantStock
+    {
+        return $this->productVariantStock;
+    }
+
     public function getSku(): string {
         return $this->sku;
+    }
+
+    public function getProductVariantName(): string {
+        return $this->productVariantName;
+    }
+
+    public function setProductVariantName(string $productVariantName): void {
+        $this->productVariantName = $productVariantName;
     }
 
     public function getType(): ProductType {

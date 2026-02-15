@@ -2,12 +2,12 @@
 
 declare(strict_types=1);
 
-namespace App\Services\Products\Service;
+namespace App\Services\Product\Service;
 
 use App\Services\Core\Service\AbstractDomainEntityService;
-use App\Services\Products\Domain\Product;
-use App\Services\Products\Infrastructure\ProductRepository;
-use App\Services\Products\Service\Interfaces\ProductServiceInterface;
+use App\Services\Product\Domain\Product;
+use App\Services\Product\Infrastructure\ProductRepository;
+use App\Services\Product\Service\Interfaces\ProductServiceInterface;
 use Doctrine\ORM\EntityManagerInterface;
 
 class ProductService extends AbstractDomainEntityService implements ProductServiceInterface

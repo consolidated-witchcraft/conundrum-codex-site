@@ -61,7 +61,7 @@ class UserCart extends AbstractDomainEntity
         } else {
             $this->userCartLines->add(new UserCartLine(
                 userCart: $this,
-                product: $product,
+                productVariant: $product,
                 quantity: $quantity
             ));
         }

@@ -5,9 +5,10 @@ declare(strict_types=1);
 namespace App\Tests\Unit\Services\Product\Domain;
 
 use App\Services\Files\Domain\ManagedFile;
-use App\Services\Products\Domain\Product;
-use App\Services\Products\Domain\ProductVariant;
-use App\Services\Products\Domain\ValueObjects\ProductType;
+use App\Services\Product\Domain\Product;
+use App\Services\Product\Domain\ProductVariant;
+use App\Services\Product\Domain\ProductVariantStock;
+use App\Services\Product\Domain\ValueObjects\ProductType;
 use App\Services\User\Domain\User;
 use Doctrine\Common\Collections\ArrayCollection;
 use PHPUnit\Framework\Attributes\DataProvider;
@@ -19,6 +20,7 @@ class ProductVariantTest extends TestCase
     private function generateTestProductVariant(array $overrides = []): ProductVariant {
         return new ProductVariant(
             sku: $overrides['sku'] ?? 'ORGANISATION.EVENT.TICKETSLUG.ETICKET',
+            productVariantName: $overrides['name'] ?? 'Test Product',
             type: $overrides['type'] ?? ProductType::makeFromHandle('e_ticket'),
             delta: $overrides['delta'] ?? 1,
             preTaxPriceCentessimal: $overrides['preTaxPriceCentessimal'] ?? 500,
@@ -26,6 +28,7 @@ class ProductVariantTest extends TestCase
             taxExempt: $overrides['taxExempt'] ?? false,
             requiresPostage: $overrides['requiresPostage'] ?? false,
             publicationDate: $overrides['publicationDate'] ?? new \DateTime(),
+            productVariantStock: $overrides['productVariantStock'] ?? $this->createStub(ProductVariantStock::class),
             productVariantImages: $overrides['productVariantImages'] ?? new ArrayCollection([
                 $this->createStub(ManagedFile::class),
             ]),
@@ -40,6 +43,7 @@ class ProductVariantTest extends TestCase
     {
 
         $sku = 'ORGANISATION.EVENT.TICKETSLUG.ETICKET';
+        $variantName = 'Test Product Variant Name';
         $type = ProductType::makeFromHandle('e_ticket');
         $delta = 1;
         $preTaxPriceCentessimal = 1000;
@@ -52,11 +56,13 @@ class ProductVariantTest extends TestCase
             $this->createStub(ManagedFile::class),
             $this->createStub(ManagedFile::class)
         ]);
+        $productVariantStock = $this->createStub(ProductVariantStock::class);
 
         $product = $this->createStub(Product::class);
         $id = 456;
         $productVariant = new ProductVariant(
             sku: $sku,
+            productVariantName: $variantName,
             type: $type,
             delta: $delta,
             preTaxPriceCentessimal: $preTaxPriceCentessimal,
@@ -64,6 +70,7 @@ class ProductVariantTest extends TestCase
             taxExempt: $taxExempt,
             requiresPostage: false,
             publicationDate: $publicationDate,
+            productVariantStock: $productVariantStock,
             productVariantImages: $productVariantImages,
             retiredDate: $retiredDate,
             product: $product,
@@ -71,6 +78,7 @@ class ProductVariantTest extends TestCase
         );
 
         self::assertEquals($sku, $productVariant->getSku());
+        self::assertEquals($variantName, $productVariant->getProductVariantName());
         self::assertSame($type, $productVariant->getType());
         self::assertEquals($delta, $productVariant->getDelta());
         self::assertEquals($preTaxPriceCentessimal, $productVariant->getPreTaxPriceCentessimal());
@@ -81,6 +89,7 @@ class ProductVariantTest extends TestCase
         self::assertEquals($productVariantImages, $productVariant->getProductVariantImages());
         self::assertEquals($product, $productVariant->getProduct());
         self::assertEquals($id, $productVariant->getId());
+        self::assertEquals($productVariantStock, $productVariant->getProductVariantStock());
     }
 
     public function testSetDelta(): void {

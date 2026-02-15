@@ -10,7 +10,7 @@ use App\Form\Visitor\Events\TicketPurchaseType;
 use App\Services\Events\Domain\Event;
 use App\Services\Events\Domain\Organisation;
 use App\Services\Events\Service\EventServiceInterface;
-use App\Services\Products\Service\Interfaces\ProductServiceInterface;
+use App\Services\Product\Service\Interfaces\ProductServiceInterface;
 use App\Services\User\Domain\User;
 use App\Services\User\Service\Interfaces\UserServiceInterface;
 use Symfony\Component\HttpFoundation\Request;

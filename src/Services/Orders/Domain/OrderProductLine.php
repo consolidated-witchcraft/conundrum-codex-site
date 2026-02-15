@@ -6,7 +6,7 @@ namespace App\Services\Orders\Domain;
 
 use App\Services\Core\Domain\AbstractDomainEntity;
 use App\Services\Orders\Infrastructure\OrderProductLineRepository;
-use App\Services\Products\Domain\Product;
+use App\Services\Product\Domain\ProductVariant;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: OrderProductLineRepository::class)]
@@ -15,14 +15,14 @@ class OrderProductLine extends AbstractDomainEntity
     public function __construct(
         #[ORM\ManyToOne(targetEntity: Order::class, inversedBy: 'productOrderLines')]
 
-        private Order $order,
+        private Order          $order,
 
-        #[ORM\ManyToOne(targetEntity: Product::class)]
-        private Product $product,
+        #[ORM\ManyToOne(targetEntity: ProductVariant::class)]
+        private ProductVariant $productVariant,
 
         #[ORM\Column(type: 'integer')]
-        private int $quantity,
-        ? int $id = null
+        private int            $quantity,
+        ? int                  $id = null
     ) {
         parent::__construct($id);
     }
@@ -37,14 +37,14 @@ class OrderProductLine extends AbstractDomainEntity
         $this->order = $order;
     }
 
-    public function getProduct(): Product
+    public function getProductVariant(): ProductVariant
     {
-        return $this->product;
+        return $this->productVariant;
     }
 
-    public function setProduct(Product $product): void
+    public function setProductVariant(ProductVariant $productVariant): void
     {
-        $this->product = $product;
+        $this->productVariant = $productVariant;
     }
 
     public function getQuantity(): int
@@ -58,10 +58,10 @@ class OrderProductLine extends AbstractDomainEntity
     }
 
     public function getTotalCentessimal(): int {
-        return $this->getProduct()->getPreTaxPriceCentessimal() * $this->getQuantity();
+        return $this->getProductVariant()->getPreTaxPriceCentessimal() * $this->getQuantity();
     }
 
-    public function getTotalDecimal():float {
+    public function getTotalDecimal(): float {
         return $this->getTotalCentessimal()/100;
     }
 }

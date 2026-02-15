@@ -59,7 +59,7 @@ class OrderService extends AbstractDomainEntityService implements OrderServiceIn
         foreach ($userCart->getUserCartLines() as $cartLine) {
             $orderLine = new OrderProductLine(
                 order: $order,
-                product: $cartLine->getProduct(),
+                productVariant: $cartLine->getProduct(),
                 quantity: $cartLine->getQuantity()
             );
             $productOrderLines->add($orderLine);

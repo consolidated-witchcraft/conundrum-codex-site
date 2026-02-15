@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace App\Tests\Unit\Services\Product\Domain;
 
-use App\Services\Products\Domain\Product;
-use App\Services\Products\Domain\ProductVariant;
+use App\Services\Product\Domain\Product;
+use App\Services\Product\Domain\ProductVariant;
 use Doctrine\Common\Collections\ArrayCollection;
 use PHPUnit\Framework\TestCase;
 

@@ -5,10 +5,12 @@ namespace App\Services\Ticket\Service;
 use App\Services\Core\Service\AbstractDomainEntityService;
 use App\Services\Events\Domain\Event;
 use App\Services\Orders\Domain\Exceptions\UnknownProductTypeException;
-use App\Services\Orders\Domain\ProductStock;
-use App\Services\Products\Domain\Product;
-use App\Services\Products\Domain\ValueObjects\ProductType;
-use App\Services\Products\Service\Interfaces\ProductServiceInterface;
+
+use App\Services\Product\Domain\Product;
+use App\Services\Product\Domain\ProductVariant;
+use App\Services\Product\Domain\ProductVariantStock;
+use App\Services\Product\Domain\ValueObjects\ProductType;
+use App\Services\Product\Service\Interfaces\ProductServiceInterface;
 use App\Services\Ticket\Domain\Exceptions\InvalidTicketTypeDefinitionException;
 use App\Services\Ticket\Domain\Exceptions\UnknownTicketFormatException;
 use App\Services\Ticket\Domain\TicketType;
@@ -17,6 +19,7 @@ use App\Services\Ticket\Domain\ValueObjects\TicketFormat;
 use App\Services\Ticket\Dto\TicketTypeDto;
 use App\Services\Ticket\Service\Interfaces\TicketServiceInterface;
 use App\Services\User\Domain\User;
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 
@@ -59,10 +62,7 @@ class TicketService extends AbstractDomainEntityService implements TicketService
         if (!$success) {
             throw new InvalidTicketTypeDefinitionException($errors);
         }
-        $productStock = new ProductStock(
-            initialStockLevel: $ticketTypeDto->initialQuantity,
-            currentStockLevel: $ticketTypeDto->initialQuantity,
-        );
+
 
         $ticketType = new TicketType(
             name: $ticketTypeDto->name,
@@ -71,32 +71,49 @@ class TicketService extends AbstractDomainEntityService implements TicketService
             priceCentessimal: $ticketTypeDto->priceCentessimal,
             event: $event,
         );
-        $productType = ProductType::makeFromHandle('ticket');
+        $product = new Product(
+            baseSku: self::generateSku(
+                event: $event,
+                ticketTypeSlug: $ticketTypeDto->slug,
+                ticketFormatSlug: 'BASE'
+            ),
+            name: $ticketTypeDto->name,
+            description: $ticketTypeDto->description,
+        );
+
+        /**
+         * Physical and E-Ticket formats share a common stock.
+         */
+        $productVariantStock = new ProductVariantStock(
+            stockLevel: $ticketTypeDto->initialQuantity,
+        );
+
+        $productVariants = new ArrayCollection();
+        $delta = 0;
         foreach ($ticketTypeDto->ticketTypeFormats as $ticketFormatSlug) {
-            $format = new TicketTypeFormat(
-                TicketFormat::makeFromHandle($ticketFormatSlug),
-            );
-
-
-            $product = new Product(
+            $productVariantType = ProductType::makeFromHandle($ticketFormatSlug);
+            $productVariant = new ProductVariant(
                 sku: self::generateSku(
-                    $event->getOrganisation()->getHandle(),
-                    $event->getEventSlug(),
-                    $ticketTypeDto->slug,
-                    $ticketFormatSlug
+                    event: $event,
+                    ticketTypeSlug: $ticketTypeDto->slug,
+                    ticketFormatSlug: $ticketFormatSlug,
                 ),
-                name: sprintf("%s %s", $ticketTypeDto->name, $productType->getName()),
-                type: $productType,
-                description: $ticketTypeDto->description,
+                productVariantName: sprintf("%s %s", $ticketTypeDto->name, $productVariantType->getName()),
+                type: $productVariantType,
+                delta: $delta,
                 preTaxPriceCentessimal: $ticketTypeDto->priceCentessimal,
-                createdBy: $creatingUser
+                createdBy: $creatingUser,
+                taxExempt: false,
+                requiresPostage: $productVariantType->getHandle() === 'physical_ticket',
+                publicationDate: new \DateTime(),
+                productVariantStock: $productVariantStock
             );
-            $format->setProduct($product);
-            $productStock->addProduct($product);
-            $ticketType->addTicketTypeFormat($format);
-            $this->productService->saveProduct($product, false);
-        }
+            $productVariants->add($productVariant);
 
+            $delta++;
+        }
+        $product->setProductVariants($productVariants);
+        $this->productService->saveProduct($product, false);
 
         $this->entityManager->persist($ticketType);
         if ($flush) {
@@ -107,15 +124,14 @@ class TicketService extends AbstractDomainEntityService implements TicketService
     }
 
     public static function generateSku(
-        string $organisationHandle,
-        string $eventSlug,
+        Event $event,
         string $ticketTypeSlug,
         string $ticketFormatSlug,
     ): string {
         return strtoupper(sprintf(
             self::SKU_PATTERN,
-            $organisationHandle,
-            $eventSlug,
+            $event->getOrganisation()->getHandle(),
+            $event->getEventSlug(),
             $ticketTypeSlug,
             $ticketFormatSlug
         ));

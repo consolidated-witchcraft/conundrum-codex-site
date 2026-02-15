@@ -2,10 +2,11 @@
 
 declare(strict_types=1);
 
-namespace App\Services\Products\Domain;
+namespace App\Services\Product\Domain;
 
 use App\Services\Core\Domain\AbstractDomainEntity;
-use App\Services\Products\Infrastructure\ProductRepository;
+use App\Services\Product\Infrastructure\ProductRepository;
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
@@ -14,6 +15,13 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 #[UniqueEntity(fields: ['baseSku'], message: 'There is already a product with this SKU. Please choose another one.')]
 class Product extends AbstractDomainEntity
 {
+    /**
+     * @param string $baseSku
+     * @param string $name
+     * @param string $description
+     * @param Collection<int, ProductVariant> $productVariants
+     * @param int|null $id
+     */
     public function __construct(
         #[ORM\Column(type: 'string', length: 255, unique: true)]
         private readonly string $baseSku,
@@ -24,8 +32,8 @@ class Product extends AbstractDomainEntity
         #[ORM\Column(type: 'string', length: 2198)]
         private string $description,
 
-        #[ORM\OneToMany(mappedBy: 'product', targetEntity: ProductVariant::class)]
-        private Collection $productVariants,
+        #[ORM\OneToMany(targetEntity: ProductVariant::class, mappedBy: 'product', cascade: ['persist', 'refresh', 'remove'], orphanRemoval: true)]
+        private Collection $productVariants = new ArrayCollection(),
 
         ? int $id = null
     ) {
