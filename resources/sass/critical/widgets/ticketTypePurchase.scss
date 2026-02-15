@@ -8,15 +8,14 @@
     border: variables.$baseBorderWidth solid transparent;
     border-image: palette.$goldFX 33%;
     border-radius: variables.$baseBorderRadius;
-    margin: variables.$base-spacing 0;
+    margin: math.div(variables.$base-spacing, 2) 0;
     display: flex;
     flex-direction: column;
-
-
 
     &:first-child {
         margin-top: 0;
     }
+
     > div {
         margin-bottom: math.div(variables.$base-spacing, 3);
         width: 100%;
