@@ -5,13 +5,11 @@ declare(strict_types=1);
 namespace App\Form\Visitor\Events;
 
 use App\Dto\Visitor\Events\TicketPurchaseDto;
-use App\Dto\Visitor\User\PostalAddressFieldDto;
+
+use App\Form\Type\VisitorTicketSelectionType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\DataMapperInterface;
-use Symfony\Component\Form\Extension\Core\Type\EmailType;
-use Symfony\Component\Form\Extension\Core\Type\NumberType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
-use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
@@ -22,51 +20,18 @@ class TicketPurchaseType extends AbstractType implements DataMapperInterface
          * @var TicketPurchaseDto $data
          */
         $data = $options['data'];
-        $builder->add(
-            'customerName',
-            TextType::class,
-        );
-        $builder->add(
-            'customerEmail',
-            EmailType::class,
-            [
-                'help' => 'Your e-ticket will be delivered to this address'
-            ]
-        );
 
-        $subform = $builder->create('ticketTypes', null, [
-            'compound' => true,
-            'label' => 'Choose your tickets',
-            'attr' => [
-                'class' => 'number-spinner-wrapper',
-            ]
-        ]);
-        foreach ($data->ticketTypes as $ticketTypeSlug => $ticketTypeArray) {
-            $namePattern = sprintf(" %s - £%s exc. Tax", $ticketTypeArray['name'], ($ticketTypeArray['priceCentessimal'])/100);
-            $subform->add(
-                sprintf("%s_quantity", $ticketTypeSlug),
-                NumberType::class,
+
+        foreach ($data->ticketTypes as $ticketTypeSlug => $visitorTicketTypeDto) {
+
+            $builder->add(
+                $ticketTypeSlug,
+                VisitorTicketSelectionType::class,
                 [
-                    'label' => $namePattern,
-                    'required' => false,
-                    'attr' => [
-                        'min' => 0,
-                        'max' => 10,
-                        'class' => 'number-spinner',
-                        'is' => 'number-spinner',
-                        'step' => 1,
-                        'length' => 2,
-                        'placeholder' => 1,
-                    ],
-                    'data' => 0,
-                    'html5' => true,
-                    'help' => $ticketTypeArray['description'],
-                    'mapped' => true,
-
+                    'data' => $visitorTicketTypeDto,
                 ]
             );
         }
-        $builder->add($subform);
         $builder->add(
             'submit',
             SubmitType::class,
@@ -108,12 +73,10 @@ class TicketPurchaseType extends AbstractType implements DataMapperInterface
     public function mapFormsToData(\Traversable $forms, mixed &$viewData): void
     {
         $forms = iterator_to_array($forms);
-        $viewData->customerName = $forms['customerName']->getData();
-        $viewData->customerEmail = $forms['customerEmail']->getData();
-
         foreach ($forms['ticketTypes']->getData() as $key => $datum) {
             $strippedKey = str_replace('_quantity', '', $key);
             $viewData->ticketTypes[$strippedKey]['quantity'] = (int) $datum;
         }
     }
+
 }

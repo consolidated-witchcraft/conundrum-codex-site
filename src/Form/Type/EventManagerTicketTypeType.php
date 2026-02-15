@@ -4,10 +4,12 @@ declare(strict_types=1);
 
 namespace App\Form\Type;
 
+use App\Services\Ticket\Domain\ValueObjects\TicketFormat;
 use App\Services\Ticket\Dto\TicketTypeDto;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\DataMapperInterface;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
 use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use Symfony\Component\Form\Extension\Core\Type\MoneyType;
 use Symfony\Component\Form\Extension\Core\Type\NumberType;
@@ -16,7 +18,7 @@ use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-class TicketType extends AbstractType implements DataMapperInterface
+class EventManagerTicketTypeType extends AbstractType implements DataMapperInterface
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void {
 
@@ -31,17 +33,18 @@ class TicketType extends AbstractType implements DataMapperInterface
             'name',
             TextType::class,
             [
-                'help' => 'Enter a name for your ticket type, e.g: \'Child\', \'Adult\', \'VIP\', etc'
+                'help' => 'Enter a name for your ticket type, e.g: \'Child\', \'Adult\', \'VIP\', etc. This will be suffixed with the type  of the ticket.'
             ]
         )
         ->add('slug', TextType::class, [
-            'help' => 'A ticket type slug'
+            'help' => 'A slug for this ticket type. A slug will form part of the SKU for the products generated for this ticket. A slug must be unique within the same event.'
         ])
         ->add(
             'description',
             TextareaType::class,
             [
-                'help' => 'A brief description for this ticket type.',
+                'label' => 'Description/Terms and Conditions',
+                'help' => 'A brief description for this ticket type, and/or Terms and Conditions',
                 'attr' => [
                     'rows' => 10,
                 ]
@@ -51,13 +54,22 @@ class TicketType extends AbstractType implements DataMapperInterface
             'ticketFormats',
             ChoiceType::class,
             [
-                'choices' => [
-                    'eTicket' => 'e_ticket',
-                    'Physical Ticket' => 'physical_ticket',
-                ],
+                'label' => 'Available Ticket formats',
+                'choices' => TicketFormat::getKnownFormatsForForm(),
                 'expanded' => true,
                 'multiple' => true,
-                'help' => 'Physical Tickets can be posted to the customer. eTickets are delivered via App and E-Mail'
+                'help' => TicketFormat::generateHelpText(),
+                'help_html' => true,
+            ]
+        )
+        ->add(
+            'refundableUntil',
+            DateTimeType::class,
+            [
+                'widget' => 'single_text',
+                'html5' => true,
+                'required' => false,
+                'help' => 'Tickets will be refundable/returnable until this date. Leave this field blank if tickets are non-refundable.',
             ]
         )
         ->add(
@@ -114,8 +126,11 @@ class TicketType extends AbstractType implements DataMapperInterface
                 case 'priceCentessimal':
                     $form->setData($viewData->priceCentessimal);
                     break;
+                case 'refundableUntil':
+                    $form->setData($viewData->refundableUntil);
+                    break;
                 case 'ticketFormats':
-                    $form->setData($viewData->ticketFormats);
+                    $form->setData($viewData->ticketTypeFormats);
                     break;
                 case 'initialQuantity':
                     $form->setData($viewData->initialQuantity);
@@ -134,7 +149,8 @@ class TicketType extends AbstractType implements DataMapperInterface
             description: $forms['description']->getData(),
             priceCentessimal: (int) ($forms['priceCentessimal']->getData()),
             initialQuantity: (int) $forms['initialQuantity']->getData(),
-            ticketFormats: $forms['ticketFormats']->getData(),
+            ticketTypeFormats: $forms['ticketFormats']->getData(),
+            refundableUntil: $forms['refundableUntil']->getData(),
             id: (int) $forms['id']->getData(),
         );
     }

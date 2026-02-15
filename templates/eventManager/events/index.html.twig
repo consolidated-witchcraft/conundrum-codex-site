@@ -38,7 +38,7 @@
                                 {% else %}
                                     <ul>
                                         {% for ticketType in event.getTicketTypes %}
-                                            <li>{{ ticketType.getName }} - {{ (ticketType.getPriceCentessimal/100)|format_currency('GBP') }} - {{ ticketType.getProduct.getProductStock.getCurrentStockLevel }}/{{ ticketType.getProduct.getProductStock.getInitialStockLevel }} unsold</li>
+                                            <li>{{ ticketType.getName }} - {{ (ticketType.getPriceCentessimal/100)|format_currency('GBP') }}</li>
                                         {% endfor %}
                                     </ul>
                                 {% endif %}

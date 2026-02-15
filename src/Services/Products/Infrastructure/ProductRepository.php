@@ -2,12 +2,10 @@
 
 declare(strict_types=1);
 
-namespace App\Services\Orders\Infrastructure;
+namespace App\Services\Products\Infrastructure;
 
-use App\Services\Files\Domain\ManagedFile;
-use App\Services\Orders\Domain\Product;
+use App\Services\Products\Domain\Product;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
-use Doctrine\ORM\Tools\Pagination\Paginator;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**

@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace App\Doctrine\Types;
 
-use App\Services\Orders\Domain\Exceptions\UnknownProductTypeException;
-use App\Services\Orders\Domain\ValueObjects\ProductType;
-use Doctrine\DBAL\Types\Type;
+use App\Doctrine\Types\Exceptions\UnmappableObjectException;
+use App\Services\Products\Domain\ValueObjects\ProductType;
 use Doctrine\DBAL\Platforms\AbstractPlatform;
+use Doctrine\DBAL\Types\Type;
 
 class ProductTypeType extends Type
 {
@@ -36,7 +36,11 @@ class ProductTypeType extends Type
 
     public function convertToDatabaseValue($value, AbstractPlatform $platform) {
         if (!$value instanceof ProductType) {
-            throw new UnknownProductTypeException("Trying to map an instance of product_type that is not a ProductType type object.");
+            throw new UnmappableObjectException(
+                fieldType: $this->getName(),
+                expectedObject: ProductType::class,
+                actualValue: $value,
+            );
         }
         return $value->getHandle();
     }

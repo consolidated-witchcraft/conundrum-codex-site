@@ -2,6 +2,12 @@
 {% block body %}
     <div class="row">
         <div class="col panel">
+            {% embed '/eventManager/events/partials/_eventSummary.html.twig' with {'event': event} %}{% endembed %}
+        </div>
+    </div>
+    <div class="row">
+        <div class="col panel">
+            <h2>Ticket Types</h2>
             {{ form(form) }}
         </div>
     </div>

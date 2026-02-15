@@ -4,17 +4,18 @@
 @use "../mixins/inputs";
 @use '../base/palette';
 @use '../base/variables';
+@use '../base/typography';
 
 table.table {
     border-collapse: collapse;
-    border: variables.$baseBorderWidth solid palette.$crimson;
+    border: math.div(variables.$baseBorderWidth, 2) solid palette.$crimson;
     text-align: left;
     transform: rotate(-0.125deg);
     margin-bottom: math.div(variables.$base-spacing, 2);
     width: 100%;
 
     tr, td, th {
-        border: variables.$baseBorderWidth solid palette.$crimson;
+        border: math.div(variables.$baseBorderWidth, 2) solid palette.$crimson;
         padding: math.div(variables.$base-spacing, 4);
         vertical-align: top;
         border-radius: 0;
@@ -26,13 +27,16 @@ table.table {
         background-color: palette.$white;
 
         &:nth-child(even) {
-            background-color: color.mix(palette.$white, palette.$vellum, 66%);
+            background-color: color.mix(palette.$white, palette.$charcoal, 97.5%);
         }
     }
 
     th {
         background-color: palette.$crimson;
         color: palette.$white;
+        font-family: typography.$textStack;
+        font-size: 100%;
+        font-weight: bold;
     }
 
     tfoot {

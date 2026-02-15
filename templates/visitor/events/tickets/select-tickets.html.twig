@@ -1,14 +1,9 @@
 {% extends 'base/base.html.twig' %}
 {% block body %}
     {{ form_start(form) }}
-    <div class="row one-quarter-three-quarters">
+    <div class="row">
         <div class="col">
             {{ form_row(form.ticketTypes) }}
-        </div>
-        <div class="col panel">
-            <strong>Your Details</strong>
-            {{ form_row(form.customerName) }}
-            {{ form_row(form.customerEmail) }}
         </div>
     </div>
     <div class="row">

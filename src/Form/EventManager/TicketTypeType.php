@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Form\EventManager;
 
-use App\Form\Type\TicketType;
+use App\Form\Type\EventManagerTicketTypeType;
 use App\Services\Ticket\Dto\TicketTypesDto;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
@@ -21,7 +21,7 @@ class TicketTypeType extends AbstractType
                 'ticketTypes',
                 CollectionType::class,
                 [
-                    'entry_type' => TicketType::class,
+                    'entry_type' => EventManagerTicketTypeType::class,
                     'allow_add' => true,
                     'allow_delete' => true,
                     'delete_empty' => true,

@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\Dto\Visitor\Checkout;
 
-use App\Services\Orders\Domain\Product;
 use App\Services\User\Domain\UserCart\UserCartLine;
 
 class UserCartLineDto

@@ -3,20 +3,21 @@
 namespace App\Services\Ticket\Service;
 
 use App\Services\Core\Service\AbstractDomainEntityService;
+use App\Services\Events\Domain\Event;
 use App\Services\Orders\Domain\Exceptions\UnknownProductTypeException;
-use App\Services\Orders\Domain\Product;
 use App\Services\Orders\Domain\ProductStock;
-use App\Services\Orders\Domain\ValueObjects\ProductType;
-use App\Services\Orders\Service\Interfaces\ProductServiceInterface;
+use App\Services\Products\Domain\Product;
+use App\Services\Products\Domain\ValueObjects\ProductType;
+use App\Services\Products\Service\Interfaces\ProductServiceInterface;
+use App\Services\Ticket\Domain\Exceptions\InvalidTicketTypeDefinitionException;
+use App\Services\Ticket\Domain\Exceptions\UnknownTicketFormatException;
 use App\Services\Ticket\Domain\TicketType;
 use App\Services\Ticket\Domain\TicketTypeFormat;
+use App\Services\Ticket\Domain\ValueObjects\TicketFormat;
 use App\Services\Ticket\Dto\TicketTypeDto;
-use App\Services\Ticket\Service\Exception\InvalidTicketTypeDefinitionException;
 use App\Services\Ticket\Service\Interfaces\TicketServiceInterface;
 use App\Services\User\Domain\User;
-use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\EntityManagerInterface;
-use App\Services\Events\Domain\Event;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 
 class TicketService extends AbstractDomainEntityService implements TicketServiceInterface
@@ -36,10 +37,12 @@ class TicketService extends AbstractDomainEntityService implements TicketService
      * @param TicketTypeDto $ticketTypeDto
      * @param Event $event
      * @param User $creatingUser
+     * @param bool $flush
      * @return TicketType
      *
-     * @throws UnknownProductTypeException
      * @throws InvalidTicketTypeDefinitionException
+     * @throws UnknownProductTypeException
+     * @throws UnknownTicketFormatException
      */
     public function generateTicketTypeFromDto(TicketTypeDto $ticketTypeDto, Event $event, User $creatingUser, bool $flush = true): TicketType
     {
@@ -60,15 +63,21 @@ class TicketService extends AbstractDomainEntityService implements TicketService
             initialStockLevel: $ticketTypeDto->initialQuantity,
             currentStockLevel: $ticketTypeDto->initialQuantity,
         );
-        $formats = new ArrayCollection();
 
-        foreach ($ticketTypeDto->ticketFormats as $ticketFormatSlug) {
+        $ticketType = new TicketType(
+            name: $ticketTypeDto->name,
+            slug: $ticketTypeDto->slug,
+            description: $ticketTypeDto->description,
+            priceCentessimal: $ticketTypeDto->priceCentessimal,
+            event: $event,
+        );
+        $productType = ProductType::makeFromHandle('ticket');
+        foreach ($ticketTypeDto->ticketTypeFormats as $ticketFormatSlug) {
             $format = new TicketTypeFormat(
-                name: sprintf("%s %s", $ticketTypeDto->name, $ticketFormatSlug),
-                slug: $ticketFormatSlug,
+                TicketFormat::makeFromHandle($ticketFormatSlug),
             );
 
-            $productType = ProductType::makeFromHandle($ticketFormatSlug);
+
             $product = new Product(
                 sku: self::generateSku(
                     $event->getOrganisation()->getHandle(),
@@ -84,18 +93,11 @@ class TicketService extends AbstractDomainEntityService implements TicketService
             );
             $format->setProduct($product);
             $productStock->addProduct($product);
-            $formats->add($format);
+            $ticketType->addTicketTypeFormat($format);
             $this->productService->saveProduct($product, false);
         }
 
-        $ticketType = new TicketType(
-            name: $ticketTypeDto->name,
-            slug: $ticketTypeDto->slug,
-            description: $ticketTypeDto->description,
-            priceCentessimal: $ticketTypeDto->priceCentessimal,
-            ticketTypeFormats: $formats,
-            event: $event,
-        );
+
         $this->entityManager->persist($ticketType);
         if ($flush) {
             $this->entityManager->flush();

@@ -4,6 +4,7 @@ declare(strict_types=1);
 namespace App\Services\Ticket\Dto;
 
 use App\Services\Ticket\Domain\TicketType;
+use Doctrine\Common\Collections\Collection;
 use Symfony\Component\Validator\Constraints as Assert;
 
 class TicketTypeDto
@@ -35,8 +36,9 @@ class TicketTypeDto
         #[Assert\Type('integer')]
         public ? int $initialQuantity = null,
 
-        public array $ticketFormats = [],
+        public array $ticketTypeFormats = [],
 
+        public ? \DateTimeInterface $refundableUntil = null,
         public ? int $id = null
     ) {}
 
@@ -48,8 +50,18 @@ class TicketTypeDto
             description: $ticketType->getDescription(),
             priceCentessimal: $ticketType->getPriceCentessimal(),
             initialQuantity: 123,
+            ticketTypeFormats: self::mapTicketTypeFormats($ticketType->getTicketTypeFormats()),
+            refundableUntil: $ticketType->getRefundableUntil(),
             id: $ticketType->getId()
         );
+    }
+
+    private static function mapTicketTypeFormats(Collection $ticketTypeFormats): array {
+        $formats = [];
+        foreach ($ticketTypeFormats as $ticketTypeFormat) {
+
+        }
+        return $formats;
     }
 
     public function isEmpty(): bool {

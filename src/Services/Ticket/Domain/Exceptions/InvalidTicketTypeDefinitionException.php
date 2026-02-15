@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Services\Ticket\Service\Exception;
+namespace App\Services\Ticket\Domain\Exceptions;
 
 class InvalidTicketTypeDefinitionException extends AbstractTicketDomainException
 {

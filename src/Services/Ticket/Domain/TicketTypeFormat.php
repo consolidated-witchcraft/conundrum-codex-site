@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace App\Services\Ticket\Domain;
 
 use App\Services\Core\Domain\AbstractDomainEntity;
-use App\Services\Events\Domain\Event;
-use App\Services\Orders\Domain\Product;
+use App\Services\Products\Domain\Product;
+use App\Services\Ticket\Domain\ValueObjects\TicketFormat;
 use App\Services\Ticket\Infrastructure\TicketTypeFormatRepository;
 use Doctrine\ORM\Mapping as ORM;
 
@@ -14,11 +14,8 @@ use Doctrine\ORM\Mapping as ORM;
 class TicketTypeFormat extends AbstractDomainEntity
 {
     public function __construct(
-        #[ORM\Column]
-        private readonly string $name,
-
-        #[ORM\Column(unique: true)]
-        private readonly string $slug,
+        #[ORM\Column(type: 'ticket_format')]
+        private readonly TicketFormat $ticketFormat,
 
         #[ORM\ManyToOne(targetEntity: TicketType::class, inversedBy: "ticketTypeFormats")]
         private ? TicketType $ticketType = null,
@@ -30,14 +27,8 @@ class TicketTypeFormat extends AbstractDomainEntity
         parent::__construct($id);
     }
 
-    public function getName(): string
-    {
-        return $this->name;
-    }
-
-    public function getSlug(): string
-    {
-        return $this->slug;
+    public function getTicketFormat(): TicketFormat {
+        return $this->ticketFormat;
     }
 
     public function setTicketType(TicketType $ticketType): void {
@@ -56,6 +47,4 @@ class TicketTypeFormat extends AbstractDomainEntity
     {
         return $this->product;
     }
-
-
 }

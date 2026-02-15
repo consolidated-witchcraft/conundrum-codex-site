@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Doctrine\Types;
 
+use App\Doctrine\Types\Exceptions\UnmappableObjectException;
 use App\Services\Orders\Domain\Exceptions\UnknownPaymentStatusException;
 use App\Services\Payment\Domain\ValueObjects\PaymentStatus;
 use Doctrine\DBAL\Platforms\AbstractPlatform;
@@ -35,7 +36,11 @@ class PaymentStatusType extends Type
 
     public function convertToDatabaseValue($value, AbstractPlatform $platform) {
         if (!$value instanceof PaymentStatus) {
-            throw new UnknownPaymentStatusException("Trying to map an instance of paymentstatus that is not a paymentstatus type object.");
+            throw new UnmappableObjectException(
+                fieldType: $this->getName(),
+                expectedObject: PaymentStatus::class,
+                actualValue: $value,
+            );
         }
         return $value->getHandle();
     }

@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Doctrine\Types;
 
+use App\Doctrine\Types\Exceptions\UnmappableObjectException;
 use App\Services\Orders\Domain\Exceptions\UnknownPaymentStatusException;
 use App\Services\Orders\Domain\ValueObjects\OrderChargeType;
 use Doctrine\DBAL\Types\Type;
@@ -36,7 +37,11 @@ class OrderChargeTypeType extends Type
 
     public function convertToDatabaseValue($value, AbstractPlatform $platform) {
         if (!$value instanceof OrderChargeType) {
-            throw new UnknownPaymentStatusException("Trying to map an instance of order_charge_type that is not a OrderChargeType type object.");
+            throw new UnmappableObjectException(
+                fieldType: $this->getName(),
+                expectedObject: OrderChargeType::class,
+                actualValue: $value,
+            );
         }
         return $value->getHandle();
     }

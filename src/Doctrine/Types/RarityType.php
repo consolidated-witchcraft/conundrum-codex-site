@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Doctrine\Types;
 
+use App\Doctrine\Types\Exceptions\UnmappableObjectException;
 use App\Services\User\Domain\ValueObjects\Exceptions\UnmappedRarityException;
 use App\Services\User\Domain\ValueObjects\Rarity;
 use Doctrine\DBAL\Types\Type;
@@ -32,7 +33,11 @@ class RarityType extends Type
 
     public function convertToDatabaseValue($value, AbstractPlatform $platform) {
         if (!$value instanceof Rarity) {
-            throw new UnmappedRarityException("Trying to map an instance of rarity that is not a rarity type object.");
+            throw new UnmappableObjectException(
+                fieldType: $this->getName(),
+                expectedObject: Rarity::class,
+                actualValue: $value,
+            );
         }
         return $value->getKey();
     }

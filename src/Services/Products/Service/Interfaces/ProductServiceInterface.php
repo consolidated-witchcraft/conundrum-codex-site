@@ -1,9 +1,9 @@
 <?php
 
-namespace App\Services\Orders\Service\Interfaces;
+namespace App\Services\Products\Service\Interfaces;
 
 use App\Services\Core\Service\Interfaces\DomainEntityServiceInterface;
-use App\Services\Orders\Domain\Product;
+use App\Services\Products\Domain\Product;
 
 interface ProductServiceInterface extends DomainEntityServiceInterface
 {

@@ -6,6 +6,7 @@ namespace App\Dto\Visitor\Events;
 
 use App\Services\Events\Domain\Event;
 use App\Services\Ticket\Domain\TicketType;
+use App\Services\Ticket\Domain\TicketTypeFormat;
 use App\Services\User\Domain\User;
 use Doctrine\Common\Collections\Collection;
 
@@ -33,14 +34,25 @@ class TicketPurchaseDto
      */
     private static function mapTicketTypes(Collection $ticketTypes): array {
         $mappedTicketTypes = [];
+        /**
+         * @var TicketType $ticketType
+         */
         foreach ($ticketTypes as $ticketType) {
-            $mappedTicketTypes[$ticketType->getSlug()] = [
-                'name' => $ticketType->getName(),
-                'priceCentessimal' => $ticketType->getPriceCentessimal(),
-                'description' => $ticketType->getDescription(),
-                'quantity' => 0
-            ];
+
+            $mappedTicketTypes[$ticketType->getSlug()] = VisitorTicketTypeDto::makeFromTicketType($ticketType);
         }
         return $mappedTicketTypes;
+    }
+
+    private static function mapFormats(Collection $ticketTypeFormats): array {
+        $formats = [];
+
+        /**
+         * @var TicketTypeFormat $ticketTypeFormat
+         */
+        foreach ($ticketTypeFormats as $ticketTypeFormat) {
+            $formats[$ticketTypeFormat->getTicketFormat()->getHandle()] = TicketTypeFormatDto::makeFromTicketFormat($ticketTypeFormat);
+        }
+        return $formats;
     }
 }

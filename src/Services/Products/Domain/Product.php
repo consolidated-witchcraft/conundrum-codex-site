@@ -1,0 +1,68 @@
+<?php
+
+declare(strict_types=1);
+
+namespace App\Services\Products\Domain;
+
+use App\Services\Core\Domain\AbstractDomainEntity;
+use App\Services\Products\Infrastructure\ProductRepository;
+use Doctrine\Common\Collections\Collection;
+use Doctrine\ORM\Mapping as ORM;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+
+#[ORM\Entity(repositoryClass: ProductRepository::class)]
+#[UniqueEntity(fields: ['baseSku'], message: 'There is already a product with this SKU. Please choose another one.')]
+class Product extends AbstractDomainEntity
+{
+    public function __construct(
+        #[ORM\Column(type: 'string', length: 255, unique: true)]
+        private readonly string $baseSku,
+
+        #[ORM\Column(type: 'string', length: 255)]
+        private string $name,
+
+        #[ORM\Column(type: 'string', length: 2198)]
+        private string $description,
+
+        #[ORM\OneToMany(mappedBy: 'product', targetEntity: ProductVariant::class)]
+        private Collection $productVariants,
+
+        ? int $id = null
+    ) {
+        parent::__construct($id);
+    }
+
+    public function getBaseSku(): string {
+        return $this->baseSku;
+    }
+
+    public function getName(): string
+    {
+        return $this->name;
+    }
+
+    public function setName(string $name): void
+    {
+        $this->name = $name;
+    }
+
+    public function getDescription(): string
+    {
+        return $this->description;
+    }
+
+    public function setDescription(string $description): void
+    {
+        $this->description = $description;
+    }
+
+    public function getProductVariants(): Collection
+    {
+        return $this->productVariants;
+    }
+
+    public function setProductVariants(Collection $productVariants): void
+    {
+        $this->productVariants = $productVariants;
+    }
+}

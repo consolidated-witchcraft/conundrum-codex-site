@@ -2,16 +2,17 @@
 
 declare(strict_types=1);
 
-namespace App\Services\Orders\Domain\ValueObjects;
+namespace App\Services\Products\Domain\ValueObjects;
 
 use App\Services\Orders\Domain\Exceptions\UnknownProductTypeException;
 
 readonly class ProductType implements \Stringable
 {
     public const array KNOWN_PRODUCT_TYPES = [
-        'e_ticket' => 'E-Ticket',
         'physical_ticket' => 'Physical Ticket',
+        'e_ticket' => 'Electronic Ticket',
         'merchandise' => 'Merchandise',
+        'subscription' => 'Subscription',
         'misc' => 'Miscellaneous',
     ];
 

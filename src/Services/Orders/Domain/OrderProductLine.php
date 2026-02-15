@@ -4,14 +4,10 @@ declare(strict_types=1);
 
 namespace App\Services\Orders\Domain;
 
-use App\Services\Files\Domain\ManagedFile;
-use App\Services\Orders\Infrastructure\OrderProductLineRepository;
-use App\Services\Orders\Infrastructure\ProductRepository;
-use App\Services\User\Domain\User;
-use Doctrine\Common\Collections\Collection;
-use Doctrine\ORM\Mapping as ORM;
 use App\Services\Core\Domain\AbstractDomainEntity;
-use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use App\Services\Orders\Infrastructure\OrderProductLineRepository;
+use App\Services\Products\Domain\Product;
+use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: OrderProductLineRepository::class)]
 class OrderProductLine extends AbstractDomainEntity

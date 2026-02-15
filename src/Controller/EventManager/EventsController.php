@@ -10,14 +10,10 @@ use App\Form\EventManager\TicketTypeType;
 use App\Security\EventManagerVoter;
 use App\Services\Events\Domain\Event;
 use App\Services\Events\Domain\Organisation;
-use App\Services\Orders\Domain\Product;
-use App\Services\Orders\Domain\ProductStock;
-use App\Services\Orders\Domain\ValueObjects\ProductType;
 use App\Services\PostalAddress\Domain\PostalAddress;
-use App\Services\Ticket\Domain\TicketType;
+use App\Services\Ticket\Domain\Exceptions\InvalidTicketTypeDefinitionException;
 use App\Services\Ticket\Dto\TicketTypeDto;
 use App\Services\Ticket\Dto\TicketTypesDto;
-use App\Services\Ticket\Service\Exception\InvalidTicketTypeDefinitionException;
 use App\Services\User\Domain\User;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -211,7 +207,7 @@ class EventsController extends AbstractEventManagerController
 
         }
         $pageVars = [
-            'pageTitle' => sprintf("Create event for %s", $organisation->getName()),
+            'pageTitle' => sprintf("Manage Ticket Types for %s", $event->getTitle()),
             'form' => $form,
             'event' => $event
         ];

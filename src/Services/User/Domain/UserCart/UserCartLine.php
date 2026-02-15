@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Services\User\Domain\UserCart;
 
 use App\Services\Core\Domain\AbstractDomainEntity;
-use App\Services\Orders\Domain\Product;
+use App\Services\Products\Domain\Product;
 use App\Services\User\Infrastructure\UserCart\UserCartLineRepository;
 use Doctrine\ORM\Mapping as ORM;
 use JsonSerializable;

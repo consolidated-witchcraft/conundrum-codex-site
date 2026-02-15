@@ -16,6 +16,7 @@ doctrine:
             payment_status: App\Doctrine\Types\PaymentStatusType
             order_charge_type: App\Doctrine\Types\OrderChargeTypeType
             product_type: App\Doctrine\Types\ProductTypeType
+            ticket_format: App\Doctrine\Types\TicketFormatType
     orm:
         auto_generate_proxy_classes: false
         enable_lazy_ghost_objects: true

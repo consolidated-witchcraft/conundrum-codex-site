@@ -71,8 +71,4 @@ class Ticket extends AbstractDomainEntity
     public function getUser(): ? User {
         return $this->user;
     }
-
-    public function markPaid(): void {
-        $this->paidDate = new \DateTimeImmutable();
-    }
 }

@@ -6,9 +6,9 @@ namespace App\Services\Ticket\Domain;
 
 use App\Services\Core\Domain\AbstractDomainEntity;
 use App\Services\Events\Domain\Event;
-use App\Services\Orders\Domain\Product;
 use App\Services\Ticket\Infrastructure\TicketTypeRepository;
 use App\Validator as CustomAssert;
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
@@ -39,15 +39,29 @@ class TicketType extends AbstractDomainEntity
         #[ORM\Column(type: 'integer')]
         private int $priceCentessimal,
 
-        #[ORM\OneToMany(targetEntity: TicketTypeFormat::class, mappedBy: 'ticketType', cascade: ['persist', 'refresh', 'refresh'])]
-        private Collection $ticketTypeFormats,
-
         #[ORM\ManyToOne(targetEntity: Event::class, inversedBy: 'ticketTypes')]
         private readonly Event $event,
+
+        #[ORM\OneToMany(targetEntity: TicketTypeFormat::class, mappedBy: 'ticketType', cascade: ['persist', 'refresh', 'refresh'], fetch: 'EAGER')]
+        #[ORM\JoinColumn(nullable: false)]
+        private Collection $ticketTypeFormats = new ArrayCollection(),
+
+        #[ORM\Column(type: 'datetime', nullable: true)]
+        private ?\DateTimeInterface $refundableUntil = null,
 
         ? int $id = null
     ) {
         parent::__construct($id);
+    }
+
+    public function getRefundableUntil(): ?\DateTimeInterface
+    {
+        return $this->refundableUntil;
+    }
+
+    public function setRefundableUntil(?\DateTimeInterface $refundableUntil): void
+    {
+        $this->refundableUntil = $refundableUntil;
     }
 
     public function getTicketTypeFormats(): Collection
@@ -98,9 +112,10 @@ class TicketType extends AbstractDomainEntity
     public function getPriceDecimal(): float {
         return $this->priceCentessimal/100;
     }
-    public function getProduct(): Product {
-        return $this->product;
-    }
 
+    public function addTicketTypeFormat(TicketTypeFormat $ticketTypeFormat): void {
+        $ticketTypeFormat->setTicketType($this);
+        $this->ticketTypeFormats->add($ticketTypeFormat);
+    }
 
 }

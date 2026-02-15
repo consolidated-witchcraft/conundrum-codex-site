@@ -7,13 +7,11 @@ namespace App\Controller\EventManager;
 use App\Controller\AbstractBaseController;
 use App\Services\Events\Service\EventServiceInterface;
 use App\Services\Files\Service\Interfaces\FilesEntityServiceInterface;
-use App\Services\Orders\Service\Interfaces\ProductServiceInterface;
 use App\Services\PostalAddress\Service\PostalAddressEntityServiceInterface;
+use App\Services\Products\Service\Interfaces\ProductServiceInterface;
 use App\Services\Ticket\Service\Interfaces\TicketServiceInterface;
 use App\Services\User\Service\Interfaces\UserServiceInterface;
 use Symfony\Component\DependencyInjection\Attribute\Autowire;
-use Symfony\Component\Routing\Attribute\Route;
-use Symfony\Component\Security\Http\Attribute\IsGranted;
 use Symfony\Component\String\Slugger\SluggerInterface;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 
