@@ -72,5 +72,8 @@ class Product extends AbstractDomainEntity
     public function setProductVariants(Collection $productVariants): void
     {
         $this->productVariants = $productVariants;
+        foreach ($productVariants as $productVariant) {
+            $productVariant->setProduct($this);
+        }
     }
 }

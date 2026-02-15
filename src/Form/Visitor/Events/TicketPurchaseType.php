@@ -6,6 +6,8 @@ namespace App\Form\Visitor\Events;
 
 use App\Dto\Visitor\Events\TicketPurchaseDto;
 
+use App\Dto\Visitor\Events\TicketTypePurchaseTypeDto;
+use App\Form\Type\TicketTypePurchaseType;
 use App\Form\Type\VisitorTicketSelectionType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\DataMapperInterface;
@@ -22,16 +24,21 @@ class TicketPurchaseType extends AbstractType implements DataMapperInterface
         $data = $options['data'];
 
 
-        foreach ($data->ticketTypes as $ticketTypeSlug => $visitorTicketTypeDto) {
-
+        /**
+         * What needs to happen here?
+         *
+         * 1. Loop through all the ticket types in an event and add a buy field for it.
+         */
+        foreach ($data->ticketTypes as $ticketTypeSlug => $ticketType) {
             $builder->add(
                 $ticketTypeSlug,
-                VisitorTicketSelectionType::class,
+                TicketTypePurchaseType::class,
                 [
-                    'data' => $visitorTicketTypeDto,
-                ]
-            );
+                    'label' => sprintf("%s Ticket", $ticketType->getName()),
+                    'data' => TicketTypePurchaseTypeDto::makeFromTicketType($ticketType)
+                ]);
         }
+
         $builder->add(
             'submit',
             SubmitType::class,
@@ -58,12 +65,6 @@ class TicketPurchaseType extends AbstractType implements DataMapperInterface
         $forms = iterator_to_array($forms);
         foreach ($forms as $key => $form) {
             switch ($key) {
-                case 'customerName':
-                    $form->setData($viewData->customerName);
-                    break;
-                case 'customerEmail':
-                    $form->setData($viewData->customerEmail);
-                    break;
                 case 'ticketTypes':
                     $form->setData($viewData->ticketTypes);
             }

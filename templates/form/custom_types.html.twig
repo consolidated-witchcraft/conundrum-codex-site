@@ -143,3 +143,22 @@
         </td>
     </tr>
 {% endblock %}
+{% block ticket_type_purchase_row%}
+    <div class="ticket-type-purchase-row">
+        <div class="name">
+            {{ form_label(form) }}
+        </div>
+        <div class="quantity">
+            {{ form_label(form.quantity) }}
+            {{ form_widget(form.quantity) }}
+        </div>
+        <div class="format">
+            {{ form_label(form.selectedFormatSlug) }}
+            {{ form_widget(form.selectedFormatSlug) }}
+            <div class="format-help">
+                {{ form_help(form.selectedFormatSlug) }}
+            </div>
+
+        </div>
+    </div>
+{% endblock %}

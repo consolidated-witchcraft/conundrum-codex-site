@@ -21,7 +21,7 @@ class TicketType extends AbstractDomainEntity
      * @param string $slug
      * @param string $description
      * @param int $priceCentessimal
-     * @param Collection<int, TicketTypeFormat> $ticketTypeFormats
+     * @param Collection<int, TicketTypeProductVariantMap> $ticketTypeFormats
      * @param Event $event
      * @param int|null $id
      */
@@ -42,9 +42,9 @@ class TicketType extends AbstractDomainEntity
         #[ORM\ManyToOne(targetEntity: Event::class, inversedBy: 'ticketTypes')]
         private readonly Event $event,
 
-        #[ORM\OneToMany(targetEntity: TicketTypeFormat::class, mappedBy: 'ticketType', cascade: ['persist', 'refresh', 'refresh'], fetch: 'EAGER')]
+        #[ORM\OneToMany(targetEntity: TicketTypeProductVariantMap::class, mappedBy: 'ticketType', cascade: ['persist', 'refresh', 'refresh'], fetch: 'EAGER')]
         #[ORM\JoinColumn(nullable: false)]
-        private Collection $ticketTypeFormats = new ArrayCollection(),
+        private Collection $ticketTypeProductVariantMaps = new ArrayCollection(),
 
         #[ORM\Column(type: 'datetime', nullable: true)]
         private ?\DateTimeInterface $refundableUntil = null,
@@ -52,6 +52,16 @@ class TicketType extends AbstractDomainEntity
         ? int $id = null
     ) {
         parent::__construct($id);
+    }
+
+    public function getTicketTypeProductVariantMaps(): Collection
+    {
+        return $this->ticketTypeProductVariantMaps;
+    }
+
+    public function setTicketTypeProductVariantMaps(Collection $ticketTypeProductVariantMaps): void
+    {
+        $this->ticketTypeProductVariantMaps = $ticketTypeProductVariantMaps;
     }
 
     public function getRefundableUntil(): ?\DateTimeInterface
@@ -64,10 +74,6 @@ class TicketType extends AbstractDomainEntity
         $this->refundableUntil = $refundableUntil;
     }
 
-    public function getTicketTypeFormats(): Collection
-    {
-        return $this->ticketTypeFormats;
-    }
 
     public function getSlug(): string
     {
@@ -111,11 +117,6 @@ class TicketType extends AbstractDomainEntity
 
     public function getPriceDecimal(): float {
         return $this->priceCentessimal/100;
-    }
-
-    public function addTicketTypeFormat(TicketTypeFormat $ticketTypeFormat): void {
-        $ticketTypeFormat->setTicketType($this);
-        $this->ticketTypeFormats->add($ticketTypeFormat);
     }
 
 }

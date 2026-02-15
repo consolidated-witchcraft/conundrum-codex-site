@@ -52,45 +52,9 @@ class EventsController extends AbstractBaseController
             return $this->redirectToRoute('app.auth.register', [
                 'redirectRoute' => 'google.com'
             ]);
-
         }
-        $dto =  TicketPurchaseDto::makeFromEvent($event, $user instanceof User ? $user : null);
-
+        $dto = TicketPurchaseDto::makeFromEvent($event);
         $form = $this->createForm(TicketPurchaseType::class, $dto);
-        $form->handleRequest($request);
-        if ($form->isSubmitted() && $form->isValid()) {
-            $totalTicketCount = 0;
-            foreach ($dto->ticketTypes as $ticketType) {
-                $totalTicketCount += $ticketType['quantity'];
-            }
-
-            if ($totalTicketCount <= 0) {
-                $this->addFlash('error', 'You must add at least one ticket to proceed!');
-            } else {
-
-                /**
-                 * Add to cart.
-                 */
-                $cart = $user->getUserCart();
-                foreach ($dto->ticketTypes as $ticketTypeSlug => $ticketTypeData) {
-                    if ($ticketTypeData['quantity'] >= 1) {
-                        $ticketTypeObject = $this->eventService->getTicketTypeByEventAndSlug($event, $ticketTypeSlug);
-                        if (!$ticketTypeObject) {
-                            throw $this->createNotFoundException("Not Found");
-                        }
-                        $product = $this->productService->getProductBySku($ticketTypeObject->getProduct()->getSku());
-                        if (!$product) {
-                            throw $this->createNotFoundException("Not Found");
-                        }
-
-                        $cart->addCartLine($product, $ticketTypeData['quantity']);
-                        $this->userService->saveUser($user);
-                    }
-
-                }
-                return $this->redirectToRoute('checkout.checkout', []);
-            }
-        }
         $pageVars = [
             'pageTitle' => sprintf("Get tickets for %s", $event->getTitle()),
             'form' => $form

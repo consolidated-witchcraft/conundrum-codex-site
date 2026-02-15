@@ -45,7 +45,7 @@ class Event extends AbstractDomainEntity
         #[ORM\Column(type: 'datetime')]
         private \DateTimeInterface $endDate,
 
-        #[ORM\OneToMany(targetEntity: TicketType::class, mappedBy: 'event')]
+        #[ORM\OneToMany(targetEntity: TicketType::class, mappedBy: 'event', fetch: 'EAGER')]
         #[ORM\JoinColumn(nullable: false)]
         private Collection $ticketTypes = new ArrayCollection(),
         ? int $id = null

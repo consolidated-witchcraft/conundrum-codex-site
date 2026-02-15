@@ -14,7 +14,7 @@ use App\Services\Product\Service\Interfaces\ProductServiceInterface;
 use App\Services\Ticket\Domain\Exceptions\InvalidTicketTypeDefinitionException;
 use App\Services\Ticket\Domain\Exceptions\UnknownTicketFormatException;
 use App\Services\Ticket\Domain\TicketType;
-use App\Services\Ticket\Domain\TicketTypeFormat;
+use App\Services\Ticket\Domain\TicketTypeProductVariantMap;
 use App\Services\Ticket\Domain\ValueObjects\TicketFormat;
 use App\Services\Ticket\Dto\TicketTypeDto;
 use App\Services\Ticket\Service\Interfaces\TicketServiceInterface;
@@ -87,10 +87,13 @@ class TicketService extends AbstractDomainEntityService implements TicketService
         $productVariantStock = new ProductVariantStock(
             stockLevel: $ticketTypeDto->initialQuantity,
         );
-
+        $ticketTypeProductVariantMaps = new ArrayCollection();
         $productVariants = new ArrayCollection();
         $delta = 0;
         foreach ($ticketTypeDto->ticketTypeFormats as $ticketFormatSlug) {
+            $ticketTypeProductVariantMap = new TicketTypeProductVariantMap(
+                ticketType: $ticketType,
+            );
             $productVariantType = ProductType::makeFromHandle($ticketFormatSlug);
             $productVariant = new ProductVariant(
                 sku: self::generateSku(
@@ -109,11 +112,14 @@ class TicketService extends AbstractDomainEntityService implements TicketService
                 productVariantStock: $productVariantStock
             );
             $productVariants->add($productVariant);
+            $ticketTypeProductVariantMap->setProductVariant($productVariant);
+            $ticketTypeProductVariantMaps->add($ticketTypeProductVariantMap);
 
             $delta++;
         }
         $product->setProductVariants($productVariants);
         $this->productService->saveProduct($product, false);
+        $ticketType->setTicketTypeProductVariantMaps($ticketTypeProductVariantMaps);
 
         $this->entityManager->persist($ticketType);
         if ($flush) {
