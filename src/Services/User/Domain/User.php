@@ -37,7 +37,7 @@ class User extends AbstractDomainEntity implements UserInterface, PasswordAuthen
     #[OrderBy(["createdAt" => "DESC"])]
     private Collection $gamesMastered;
 
-    #[ORM\OneToMany(targetEntity: PostalAddress::class, mappedBy: 'user', orphanRemoval: true)]
+    #[ORM\OneToMany(targetEntity: PostalAddress::class, mappedBy: 'user', orphanRemoval: true, fetch: 'EAGER')]
     private Collection $postalAddresses;
 
     /**

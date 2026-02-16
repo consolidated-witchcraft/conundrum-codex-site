@@ -1,0 +1,43 @@
+{% extends 'base/base.html.twig' %}
+{% block body %}
+    <div class="row">
+        <div class="col">
+            <ol class="step-list">
+                <li>
+                    Choose Tickets
+                </li>
+                <li class="active">
+                    Delivery Information
+                </li>
+                <li>
+                    Review Order
+                </li>
+                <li>
+                    Pay
+                </li>
+
+            </ol>
+
+        </div>
+    </div>
+
+    <div class="row three-quarters-one-quarter">
+
+        <div class="col">
+            {{ form_start(form) }}
+            <h2>Receipt Email</h2>
+            {{ form_row(form.receiptEmail) }}
+            <h2>Your Addresses</h2>
+            {{ form_row(form.deliveryAddress) }}
+            {{ form_row(form.billingAddress) }}
+            {{ form_end(form) }}
+        </div>
+
+        <div class="col">
+            <h2>Your Cart</h2>
+            {% embed '/visitor/checkout/partials/_cartSummary.html.twig' with {'cart': cart} %}{% endembed %}
+        </div>
+    </div>
+
+{% endblock %}
+

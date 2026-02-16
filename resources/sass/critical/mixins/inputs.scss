@@ -255,5 +255,21 @@
         background: palette.$whiteGradient;
         padding: math.div(variables.$base-spacing, 4);
         margin: math.div(variables.$base-spacing, 4) 0;
+
+        &:first-of-type {
+            margin-top: 0;
+        }
+
+        div.defaults {
+            display: flex;
+            flex-direction: row;
+            margin-top: math.div(variables.$base-spacing, 4);
+            padding: math.div(variables.$base-spacing, 4);
+            .form-group {
+                &:not(:last-child) {
+                    margin-right: math.div(variables.$base-spacing, 4);
+                }
+            }
+        }
     }
 }

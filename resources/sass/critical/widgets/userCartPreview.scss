@@ -1,0 +1,82 @@
+@use 'sass:math';
+
+@use '../base/variables';
+@use '../base/palette';
+@use '../base/typography';
+
+div.cart-summary {
+
+    display: flex;
+    flex-direction: column;
+
+    dl {
+        flex: 1;
+        margin: math.div(variables.$base-spacing, 4) 0;
+
+        &:first-child {
+            margin-top: 0;
+        }
+        background-color: palette.$offWhite;
+        box-shadow: palette.$baseBoxShadow;
+        padding: math.div(variables.$base-spacing, 4);
+        border: variables.$baseBorderWidth solid palette.$gold;
+        border-radius: 1rem;
+        position: relative;
+        dd,dt {
+            text-indent: initial;
+
+
+        }
+        dt.name {
+            display: none;
+        }
+        dd.name {
+            font-family: typography.$displayStack;
+            font-size: 1.5rem;
+        }
+
+        &.e_ticket,
+        &.physical_ticket{
+            padding-left: 6rem;
+
+            &:before, &:after {
+                content: " ";
+                display: block;
+                position: absolute;
+            }
+
+            &:before {
+                width: 0;
+                height: 100%;
+                top: 0;
+                left: 5rem;
+                border-right: variables.$baseBorderWidth dashed palette.$ink;
+            }
+
+
+        }
+
+
+
+        &:after {
+            top: 1rem;
+            left: 1rem  ;
+            background-size: contain;
+            height: 3rem;
+            width: 3rem;
+        }
+
+        &.e_ticket {
+            &:after {
+                background-image: var(--qrCodeIcon);
+            }
+        }
+
+        &.physical_ticket {
+            &:after {
+                background-image: var(--ticketIcon);
+            }
+        }
+
+    }
+}

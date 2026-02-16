@@ -178,4 +178,8 @@ class ProductVariant extends AbstractDomainEntity
     public function getProduct(): ?Product {
         return $this->product;
     }
+
+    public function getFormSafeSku(): string {
+        return str_replace('.', ':', $this->getSku());
+    }
 }

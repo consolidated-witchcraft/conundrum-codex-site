@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\ValueResolver;
 
 use App\Services\PostalAddress\Domain\PostalAddress;
-use App\Services\PostalAddress\Service\PostalAddressEntityServiceInterface;
+use App\Services\PostalAddress\Service\PostalAddressServiceInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Controller\ValueResolverInterface;
 use Symfony\Component\HttpKernel\ControllerMetadata\ArgumentMetadata;
@@ -13,7 +13,7 @@ use Symfony\Component\HttpKernel\ControllerMetadata\ArgumentMetadata;
 readonly class PostalAddressIdResolver implements ValueResolverInterface
 {
     public function __construct(
-        private PostalAddressEntityServiceInterface $postalAddressService
+        private PostalAddressServiceInterface $postalAddressService
     )
     {
     }

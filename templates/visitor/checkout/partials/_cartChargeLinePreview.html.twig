@@ -1,0 +1,6 @@
+<dl class="cart-charge-line-preview">
+    <dt class="name">Name</dt>
+    <dd class="name">{{ chargeLine.getChargeType.getName }}</dd>
+    <dt class="line-total">Total (exc. Tax)</dt>
+    <dd class="line-total">{{ chargeLine.getPreTaxAmountDecimal|format_currency('GBP') }}</dd>
+</dl>

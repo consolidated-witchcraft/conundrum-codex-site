@@ -6,7 +6,7 @@ use App\Dto\Visitor\Checkout\UserCartDto;
 use App\Dto\Visitor\User\UserEditDto;
 use App\Form\Type\UserCartLineType;
 use App\Services\User\Domain\UserCart\UserCart;
-use App\Services\User\Domain\UserCart\UserCartLine;
+use App\Services\User\Domain\UserCart\UserCartProductLine;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\DataMapperInterface;
 use Symfony\Component\Form\Extension\Core\Type\ButtonType;
@@ -40,7 +40,13 @@ class UserCartType extends AbstractType
             );
         }
         $builder->add($subform);
-        $builder->add('submit', SubmitType::class);
+        $builder->add(
+            'submit',
+            SubmitType::class,
+            [
+                'label' => 'Proceed',
+            ]
+        );
     }
 
 }

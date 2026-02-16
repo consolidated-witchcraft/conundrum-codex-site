@@ -64,6 +64,13 @@ class PageController extends AbstractBaseController
                     'author' => 'Betsy Ogilvy',
                     'contribution' => 'Various Art',
                     'license' => 'https://creativecommons.org/licenses/by/4.0/deed.en'
+                ],
+                [
+                    'author' => 'SVGRepo',
+                    'contribution' => 'Icons',
+                    'license' => 'https://creativecommons.org/licenses/by/4.0/deed.en'
+
+
                 ]
             ]
         ];

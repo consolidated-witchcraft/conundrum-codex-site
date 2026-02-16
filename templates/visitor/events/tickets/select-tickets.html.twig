@@ -1,4 +1,30 @@
 {% extends 'base/base.html.twig' %}
 {% block body %}
-    {{ form(form) }}
+    <div class="row">
+        <div class="col">
+            <ol class="step-list">
+                <li class="active">
+                    Choose Tickets
+                </li>
+                <li>
+                    Delivery Information
+                </li>
+                <li>
+                    Review Order
+                </li>
+                <li>
+                    Pay
+                </li>
+
+            </ol>
+
+        </div>
+    </div>
+    <div class="row">
+        <div class="col">
+            <strong>Please note, all bookings are subject to a £1 service charge.</strong>
+            <hr class="subtle"/>
+            {{ form(form) }}
+        </div>
+    </div>
 {% endblock %}

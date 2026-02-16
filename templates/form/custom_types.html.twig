@@ -71,8 +71,9 @@
     </div>
 {% endblock %}
 {% block postal_address_row %}
+    {{ form_widget(form.id) }}
     <div class="address-form-element">
-        <strong>Address</strong>
+        <strong>{{ form_label(form) }}</strong>
         <div class="label">
             {{ form_label(form.label) }}
             {{ form_widget(form.label) }}
@@ -120,6 +121,10 @@
                 {{ form_errors(form.postalZip) }}
             </div>
         </address>
+        <div class="defaults">
+            {{ form_row(form.isDefaultBillingAddress) }}
+            {{ form_row(form.isDefaultShippingAddress) }}
+        </div>
     </div>
 
 

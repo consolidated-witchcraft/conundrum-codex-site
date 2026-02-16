@@ -35,6 +35,12 @@ class PostalAddress extends AbstractDomainEntity
         #[ORM\Column(length: 255)]
         private string $countyProvince,
 
+        #[ORM\Column]
+        private bool $isDefaultBillingAddress = false,
+
+        #[ORM\Column]
+        private bool $isDefaultShippingAddress = false,
+
         #[ORM\Column(length: 255, nullable: true)]
         private ? string $addressLineTwo = null,
 
@@ -141,6 +147,23 @@ class PostalAddress extends AbstractDomainEntity
     public function setLongitude(?float $longitude): void
     {
         $this->longitude = $longitude;
+    }
+
+    public function isDefaultBillingAddress(): bool
+    {
+        return $this->isDefaultBillingAddress;
+    }
+
+    public function setDefaultBillingAddress(bool $isDefaultBillingAddress): void {
+        $this->isDefaultBillingAddress = $isDefaultBillingAddress;
+    }
+
+    public function isDefaultShippingAddress(): bool {
+        return $this->isDefaultShippingAddress;
+    }
+
+    public function setDefaultShippingAddress(bool $isDefaultShippingAddress): void {
+        $this->isDefaultShippingAddress = $isDefaultShippingAddress;
     }
 
     public static function makeFromDto(PostalAddressDto $dto): static {

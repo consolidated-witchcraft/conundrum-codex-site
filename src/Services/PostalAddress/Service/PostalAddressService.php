@@ -10,7 +10,7 @@ use App\Services\PostalAddress\Domain\ValueObjects\IsoCountryList;
 use App\Services\PostalAddress\Infrastructure\PostalAddressRepository;
 use Doctrine\ORM\EntityManagerInterface;
 
-class PostalAddressService extends AbstractDomainEntityService implements PostalAddressEntityServiceInterface
+class PostalAddressService extends AbstractDomainEntityService implements PostalAddressServiceInterface
 {
     /**
      * @param IsoCountryList $isoCountryList
@@ -30,9 +30,10 @@ class PostalAddressService extends AbstractDomainEntityService implements Postal
         return $this->isoCountryList->getCountryList();
     }
 
-    public function save(PostalAddress $postalAddress): PostalAddress
+    public function save(PostalAddress $postalAddress, bool $flush = true): PostalAddress
     {
         $this->entityManager->persist($postalAddress);
+
         $this->entityManager->flush();
         return $postalAddress;
     }

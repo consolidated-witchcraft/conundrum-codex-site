@@ -1,0 +1,10 @@
+<dl class="cart-product-line-preview {{ productLine.getProductVariant.getType.getHandle }}"  data-sku="{{ productLine.getProductVariant.getFormSafeSku }}">
+    <dt class="name">Name</dt>
+    <dd class="name">{{ productLine.getProductVariant.getProductVariantName }}</dd>
+    <dt class="quantity">Quantity</dt>
+    <dd class="quantity">{{ productLine.getQuantity }}</dd>
+    <dt class="pricePerUnit">Price Per Unit (exc. Tax)</dt>
+    <dd class="quantity">{{ productLine.getProductVariant.getPreTaxPriceDecimal|format_currency('GBP') }}</dd>
+    <dt class="line-total">Total (exc. Tax)</dt>
+    <dd class="line-total">{{ productLine.getPreTaxTotalDecimal|format_currency('GBP') }}</dd>
+</dl>

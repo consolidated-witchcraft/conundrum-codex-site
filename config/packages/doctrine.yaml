@@ -14,7 +14,7 @@ doctrine:
             non_empty_string: App\Doctrine\Types\NonEmptyStringType
             puzzle_config_fields: App\Doctrine\Types\PuzzleConfigFieldType
             payment_status: App\Doctrine\Types\PaymentStatusType
-            order_charge_type: App\Doctrine\Types\OrderChargeTypeType
+            charge_type: App\Doctrine\Types\ChargeTypeType
             product_type: App\Doctrine\Types\ProductTypeType
             ticket_format: App\Doctrine\Types\TicketFormatType
     orm:

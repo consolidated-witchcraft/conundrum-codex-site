@@ -1,0 +1,10 @@
+<div class="cart-summary">
+    <h3>Products</h3>
+    {% for productLine in cart.getUserCartProductLines %}
+        {% embed '/visitor/checkout/partials/_cartProductLinePreview.html.twig' with {'productLine': productLine} %}{% endembed %}
+    {% endfor %}
+    <h3>Charges</h3>
+    {% for chargeLine in cart.getUserCartChargeLines %}
+        {% embed '/visitor/checkout/partials/_cartChargeLinePreview.html.twig' with {'chargeLine': chargeLine} %}{% endembed %}
+    {% endfor %}
+</div>

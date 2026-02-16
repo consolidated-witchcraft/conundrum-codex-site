@@ -4,10 +4,9 @@ namespace App\Services\Orders\Domain\ValueObjects;
 
 use App\Services\Orders\Domain\Exceptions\UnknownPaymentStatusException;
 
-readonly class OrderChargeType
+readonly class ChargeType
 {
-
-    public const array KNOWN_ORDER_CHARGE_TYPES = [
+    public const array KNOWN_CHARGE_TYPES = [
         'service_charge' => 'Service charge',
         'delivery_charge' => 'Delivery charge',
     ];
@@ -25,10 +24,10 @@ readonly class OrderChargeType
         return $this->name;
     }
 
-    public static function makeFromHandle(string $handle): OrderChargeType {
-        if (!array_key_exists($handle, self::KNOWN_ORDER_CHARGE_TYPES)) {
+    public static function makeFromHandle(string $handle): ChargeType {
+        if (!array_key_exists($handle, self::KNOWN_CHARGE_TYPES)) {
             throw new UnknownPaymentStatusException($handle);
         }
-        return new self($handle, self::KNOWN_ORDER_CHARGE_TYPES[$handle]);
+        return new self($handle, self::KNOWN_CHARGE_TYPES[$handle]);
     }
 }

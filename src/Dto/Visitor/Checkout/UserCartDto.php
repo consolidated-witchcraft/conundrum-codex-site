@@ -16,7 +16,7 @@ class UserCartDto
 
     public static function makeFromUserCart(UserCart $cart): static {
         $cartLines = [];
-        foreach ($cart->getUserCartLines() as $delta => $cartLine) {
+        foreach ($cart->getUserCartProductLines() as $delta => $cartLine) {
             $cartLines[$delta] = UserCartLineDto::makeFromUserCartLine($cartLine);
         }
         return new static(

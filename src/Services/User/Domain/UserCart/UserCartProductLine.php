@@ -7,15 +7,15 @@ namespace App\Services\User\Domain\UserCart;
 use App\Services\Core\Domain\AbstractDomainEntity;
 
 use App\Services\Product\Domain\ProductVariant;
-use App\Services\User\Infrastructure\UserCart\UserCartLineRepository;
+use App\Services\User\Infrastructure\UserCart\UserCartProductLineRepository;
 use Doctrine\ORM\Mapping as ORM;
 use JsonSerializable;
 
-#[ORM\Entity(repositoryClass: UserCartLineRepository::class)]
-class UserCartLine extends AbstractDomainEntity implements JsonSerializable
+#[ORM\Entity(repositoryClass: UserCartProductLineRepository::class)]
+class UserCartProductLine extends AbstractDomainEntity implements JsonSerializable
 {
     public function __construct(
-        #[ORM\ManyToOne(targetEntity: UserCart::class, cascade: ['persist', 'refresh'], fetch: 'EAGER', inversedBy: 'userCartLines')]
+        #[ORM\ManyToOne(targetEntity: UserCart::class, cascade: ['persist', 'refresh'], fetch: 'EAGER', inversedBy: 'userCartProductLines')]
         private readonly UserCart $userCart,
 
         #[ORM\ManyToOne(targetEntity: ProductVariant::class)]
@@ -57,9 +57,10 @@ class UserCartLine extends AbstractDomainEntity implements JsonSerializable
         ];
     }
 
-    public function getPretaxTotalCentessimal(): float {
+    public function getPretaxTotalCentessimal(): int {
         return ($this->getProductVariant()->getPreTaxPriceCentessimal() * $this->getQuantity());
     }
+
     public function getPretaxTotalDecimal(): float
     {
         return $this->getPretaxTotalCentessimal()/100;

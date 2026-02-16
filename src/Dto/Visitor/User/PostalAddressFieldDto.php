@@ -27,6 +27,10 @@ class PostalAddressFieldDto
         #[Assert\NotBlank]
         public ? string $postalZip = null,
 
+        public bool $isDefaultShippingAddress = false,
+
+        public bool $isDefaultBillingAddress = false,
+
         public ? string $addressLineTwo = null,
 
         public ? float $latitude = null,
@@ -46,6 +50,8 @@ class PostalAddressFieldDto
             countyProvince: $address->getCountyProvince(),
             countryCode: $address->getCountryCode(),
             postalZip: $address->getPostalZip(),
+            isDefaultShippingAddress: $address->isDefaultShippingAddress(),
+            isDefaultBillingAddress: $address->isDefaultBillingAddress(),
             addressLineTwo: $address->getAddressLineTwo(),
             latitude: $address->getLatitude(),
             longitude: $address->getLongitude(),

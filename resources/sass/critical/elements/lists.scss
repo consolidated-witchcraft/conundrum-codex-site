@@ -78,7 +78,7 @@ ol.step-list {
             top: 0;
             left: 50%;
             margin-left: 0 - math.div($stepIconHeight, 2);
-            background: palette.$charcoal linear-gradient(-33deg, color.adjust(palette.$charcoal, $lightness: +25%), palette.$charcoal);
+            background: palette.$charcoalGradient;
             color: palette.$white;
             border-radius: 50%;
             box-shadow: palette.$baseBoxShadow;
@@ -86,7 +86,7 @@ ol.step-list {
 
         &.active {
             &:before {
-                background: palette.$crimson linear-gradient(33deg, color.adjust(palette.$crimson, $lightness: +10%), palette.$crimson);
+                background: palette.$crimsonGradient;
 
             }
         }

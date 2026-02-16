@@ -5,21 +5,27 @@ namespace App\Form\Type;
 use App\Dto\Visitor\User\PostalAddressDto;
 use App\Dto\Visitor\User\PostalAddressFieldDto;
 use App\Services\PostalAddress\Domain\ValueObjects\IsoCountry;
-use App\Services\PostalAddress\Service\PostalAddressEntityServiceInterface;
+use App\Services\PostalAddress\Service\PostalAddressServiceInterface;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\DataMapperInterface;
+use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 
 class PostalAddressType extends AbstractType implements DataMapperInterface
 {
     public function __construct(
-        private readonly PostalAddressEntityServiceInterface $postalAddressService
+        private readonly PostalAddressServiceInterface $postalAddressService
     ) {}
 
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
+        $builder->add(
+            'id',
+            HiddenType::class,
+        );
         $builder->add(
             'label',
             TextType::class,
@@ -72,6 +78,22 @@ class PostalAddressType extends AbstractType implements DataMapperInterface
                 'label' => 'Postal/Zip Code',
             ]
         );
+        $builder->add(
+            'isDefaultBillingAddress',
+            CheckboxType::class,
+            [
+                'label' => 'Make default billing address',
+                'required' => false,
+            ]
+        );
+        $builder->add(
+            'isDefaultShippingAddress',
+            CheckboxType::class,
+            [
+                'label' => 'Make default shipping address',
+                'required' => false,
+            ]
+        );
         $builder->setDataMapper($this);
     }
 
@@ -89,6 +111,9 @@ class PostalAddressType extends AbstractType implements DataMapperInterface
 
         foreach ($forms as $key => $form) {
             switch ($key) {
+                case 'id':
+                    $form->setData($viewData->id);
+                    break;
                 case 'label':
                     $form->setData($viewData->label);
                     break;
@@ -110,6 +135,13 @@ class PostalAddressType extends AbstractType implements DataMapperInterface
                 case 'postalZip':
                     $form->setData($viewData->postalZip);
                     break;
+                case 'isDefaultBillingAddress':
+                    $form->setData($viewData->isDefaultBillingAddress);
+                    break;
+
+                case 'isDefaultShippingAddress':
+                    $form->setData($viewData->isDefaultShippingAddress);
+                    break;
             }
         }
     }
@@ -130,7 +162,11 @@ class PostalAddressType extends AbstractType implements DataMapperInterface
             countyProvince: $forms['countyProvince']->getData(),
             countryCode: $forms['countryCode']->getData(),
             postalZip: $forms['postalZip']->getData(),
-            addressLineTwo: $forms['addressLineTwo']->getData()
+            isDefaultShippingAddress: $forms['isDefaultShippingAddress']->getData(),
+            isDefaultBillingAddress: $forms['isDefaultBillingAddress']->getData(),
+            addressLineTwo: $forms['addressLineTwo']->getData(),
+            id: $forms['id']->getData()
+
         );
 
     }

@@ -6,6 +6,7 @@ namespace App\Controller\Visitor\Events;
 
 use App\Controller\AbstractBaseController;
 use App\Dto\Visitor\Events\TicketPurchaseDto;
+use App\Dto\Visitor\Events\TicketTypePurchaseTypeDto;
 use App\Form\Visitor\Events\TicketPurchaseType;
 use App\Services\Events\Domain\Event;
 use App\Services\Events\Domain\Organisation;
@@ -25,9 +26,9 @@ class EventsController extends AbstractBaseController
     private const string PERSONAL_DATA_KEY = 'personalData';
 
     public function __construct(
-        private readonly EventServiceInterface   $eventService,
+        private readonly EventServiceInterface $eventService,
         private readonly ProductServiceInterface $productService,
-        private readonly UserServiceInterface    $userService,
+        private readonly UserServiceInterface $userService,
 
     ) {}
 
@@ -55,6 +56,19 @@ class EventsController extends AbstractBaseController
         }
         $dto = TicketPurchaseDto::makeFromEvent($event);
         $form = $this->createForm(TicketPurchaseType::class, $dto);
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()) {
+
+            /**
+             * @var TicketTypePurchaseTypeDto $ticketTypePurchaseTypeDto
+             */
+            foreach ($dto->ticketTypes as $ticketTypePurchaseTypeDto) {
+                $productVariant = $this->productService->getProductVariantBySku($ticketTypePurchaseTypeDto->selectedFormatSlug);
+                $user->getUserCart()->addProductCartLine($productVariant, $ticketTypePurchaseTypeDto->quantity);
+            }
+            $this->userService->saveUser($user);
+            return $this->redirectToRoute('checkout.delivery');
+        }
         $pageVars = [
             'pageTitle' => sprintf("Get tickets for %s", $event->getTitle()),
             'form' => $form

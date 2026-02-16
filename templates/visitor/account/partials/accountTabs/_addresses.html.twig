@@ -11,6 +11,12 @@
                             <div class="accordion-body">
                                 <div class="accordion-content">
                                     {% embed 'visitor/postalAddress/partials/_postalAddress.view.html.twig' with {'postalAddress': postalAddress} %}{% endembed %}
+                                    {% if postalAddress.isDefaultShippingAddress %}
+                                        <span class="badge">Default Shipping Address</span>
+                                    {% endif %}
+                                    {% if postalAddress.isDefaultBillingAddress %}
+                                        <span class="badge">Default Billing Address</span>
+                                    {% endif %}
                                     <nav class="secondary">
                                         <a href="{{ path('app.user.address.edit', {'postalAddressId': postalAddress.getId}) }}">Edit this address</a>
                                         <a href="{{ path('app.user.address.delete', {'postalAddressId': postalAddress.getId}) }}">Delete this address</a>

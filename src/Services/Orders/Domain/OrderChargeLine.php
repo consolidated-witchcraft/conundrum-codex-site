@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Services\Orders\Domain;
 
 use App\Services\Core\Domain\AbstractDomainEntity;
-use App\Services\Orders\Domain\ValueObjects\OrderChargeType;
+use App\Services\Orders\Domain\ValueObjects\ChargeType;
 use App\Services\Orders\Infrastructure\OrderChargeLineRepository;
 use Doctrine\ORM\Mapping as ORM;
 
@@ -13,14 +13,14 @@ use Doctrine\ORM\Mapping as ORM;
 class OrderChargeLine extends AbstractDomainEntity
 {
     public function __construct(
-        #[ORM\Column(type: 'order_charge_type')]
-        private OrderChargeType $chargeType,
+        #[ORM\Column(type: 'charge_type')]
+        private ChargeType $chargeType,
 
         #[ORM\Column(type: 'string')]
         private string $name,
 
         #[ORM\ManyToOne(targetEntity: Order::class, inversedBy: 'chargeLines')]
-        private readonly Order  $order,
+        private readonly Order $order,
 
         #[ORM\Column(type: 'integer')]
         private int $priceCentessimal,
@@ -29,12 +29,12 @@ class OrderChargeLine extends AbstractDomainEntity
         parent::__construct($id);
     }
 
-    public function getChargeType(): OrderChargeType
+    public function getChargeType(): ChargeType
     {
         return $this->chargeType;
     }
 
-    public function setChargeType(OrderChargeType $chargeType): void
+    public function setChargeType(ChargeType $chargeType): void
     {
         $this->chargeType = $chargeType;
     }

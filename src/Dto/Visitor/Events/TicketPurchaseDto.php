@@ -4,6 +4,7 @@
 declare(strict_types=1);
 namespace App\Dto\Visitor\Events;
 
+use App\Form\Type\TicketTypePurchaseType;
 use App\Services\Events\Domain\Event;
 use App\Services\Ticket\Domain\TicketType;
 use App\Services\Ticket\Domain\TicketTypeProductVariantMap;
@@ -35,7 +36,7 @@ class TicketPurchaseDto
          * @var TicketType $ticketType
          */
         foreach ($ticketTypes as $ticketType) {
-            $mappedTicketTypes[$ticketType->getSlug()] = $ticketType    ;
+            $mappedTicketTypes[$ticketType->getSlug()] = TicketTypePurchaseTypeDto::makeFromTicketType($ticketType);
 
         }
         return $mappedTicketTypes;

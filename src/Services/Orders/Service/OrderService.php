@@ -9,7 +9,7 @@ use App\Services\Orders\Domain\Exceptions\UnknownPaymentStatusException;
 use App\Services\Orders\Domain\Order;
 use App\Services\Orders\Domain\OrderChargeLine;
 use App\Services\Orders\Domain\OrderProductLine;
-use App\Services\Orders\Domain\ValueObjects\OrderChargeType;
+use App\Services\Orders\Domain\ValueObjects\ChargeType;
 use App\Services\Orders\Infrastructure\OrderRepository;
 use App\Services\Orders\Service\Interfaces\OrderServiceInterface;
 use App\Services\Payment\Domain\Payment;
@@ -56,7 +56,7 @@ class OrderService extends AbstractDomainEntityService implements OrderServiceIn
             orderTaxes: $orderTaxes,
         );
 
-        foreach ($userCart->getUserCartLines() as $cartLine) {
+        foreach ($userCart->getUserCartProductLines() as $cartLine) {
             $orderLine = new OrderProductLine(
                 order: $order,
                 productVariant: $cartLine->getProduct(),
@@ -85,7 +85,7 @@ class OrderService extends AbstractDomainEntityService implements OrderServiceIn
     private function generateChargeLinesForOrder(Order $order): ArrayCollection {
         $chargeLines = new ArrayCollection();
         $orderCharge = new OrderChargeLine(
-            chargeType: OrderChargeType::makeFromHandle('service_charge'),
+            chargeType: ChargeType::makeFromHandle('service_charge'),
             name: 'Service charge',
             order: $order,
             priceCentessimal: 100,

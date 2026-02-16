@@ -9,6 +9,7 @@ use App\Services\Core\Domain\Interfaces\DomainEntityInterface;
 use App\Services\Orders\Infrastructure\OrderRepository;
 use App\Services\Payment\Domain\Payment;
 use App\Services\Payment\Domain\ValueObjects\PaymentStatus;
+use App\Services\PostalAddress\Domain\PostalAddress;
 use App\Services\User\Domain\User;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
@@ -46,10 +47,37 @@ class Order extends AbstractDomainEntity implements DomainEntityInterface
         #[ORM\OneToMany(targetEntity: OrderTax::class, mappedBy: 'order', cascade: ['persist', 'refresh','remove'], orphanRemoval: true)]
         private Collection $orderTaxes,
 
+        #[ORM\ManyToOne(targetEntity: PostalAddress::class)]
+        private ? PostalAddress $deliveryAddress = null,
+
+        #[ORM\ManyToOne(targetEntity: PostalAddress::class)]
+        private ? PostalAddress $billingAddress = null,
+
+
         ?int $id = null
 
     ) {
         parent::__construct($id);
+    }
+
+    public function getDeliveryAddress(): ?PostalAddress
+    {
+        return $this->deliveryAddress;
+    }
+
+    public function setDeliveryAddress(PostalAddress $deliveryAddress): void
+    {
+        $this->deliveryAddress = $deliveryAddress;
+    }
+
+    public function getBillingAddress(): ?PostalAddress
+    {
+        return $this->billingAddress;
+    }
+
+    public function setBillingAddress(PostalAddress $billingAddress): void
+    {
+        $this->billingAddress = $billingAddress;
     }
 
     /**

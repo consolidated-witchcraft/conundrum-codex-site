@@ -6,13 +6,13 @@ namespace App\Doctrine\Types;
 
 use App\Doctrine\Types\Exceptions\UnmappableObjectException;
 use App\Services\Orders\Domain\Exceptions\UnknownPaymentStatusException;
-use App\Services\Orders\Domain\ValueObjects\OrderChargeType;
+use App\Services\Orders\Domain\ValueObjects\ChargeType;
 use Doctrine\DBAL\Types\Type;
 use Doctrine\DBAL\Platforms\AbstractPlatform;
 
-class OrderChargeTypeType extends Type
+class ChargeTypeType extends Type
 {
-    public const string NAME = 'order_charge_type';
+    public const string NAME = 'charge_type';
 
     public function getSQLDeclaration(array $column, AbstractPlatform $platform): string
     {
@@ -28,18 +28,22 @@ class OrderChargeTypeType extends Type
     /**
      * @param $value
      * @param AbstractPlatform $platform
-     * @return OrderChargeType|mixed
+     * @return ChargeType
      * @throws UnknownPaymentStatusException
      */
-    public function convertToPHPValue($value, AbstractPlatform $platform) {
-        return OrderChargeType::makeFromHandle($value);
+    public function convertToPHPValue($value, AbstractPlatform $platform): ChargeType
+    {
+        return ChargeType::makeFromHandle($value);
     }
 
-    public function convertToDatabaseValue($value, AbstractPlatform $platform) {
-        if (!$value instanceof OrderChargeType) {
+    /**
+     * @throws UnmappableObjectException
+     */
+    public function convertToDatabaseValue($value, AbstractPlatform $platform): string {
+        if (!$value instanceof ChargeType) {
             throw new UnmappableObjectException(
                 fieldType: $this->getName(),
-                expectedObject: OrderChargeType::class,
+                expectedObject: ChargeType::class,
                 actualValue: $value,
             );
         }

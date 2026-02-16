@@ -7,7 +7,7 @@ namespace App\Controller\EventManager;
 use App\Controller\AbstractBaseController;
 use App\Services\Events\Service\EventServiceInterface;
 use App\Services\Files\Service\Interfaces\FilesEntityServiceInterface;
-use App\Services\PostalAddress\Service\PostalAddressEntityServiceInterface;
+use App\Services\PostalAddress\Service\PostalAddressServiceInterface;
 use App\Services\Product\Service\Interfaces\ProductServiceInterface;
 use App\Services\Ticket\Service\Interfaces\TicketServiceInterface;
 use App\Services\User\Service\Interfaces\UserServiceInterface;
@@ -23,7 +23,7 @@ abstract class AbstractEventManagerController extends AbstractBaseController
         protected readonly UserServiceInterface                                                                 $userService,
         protected readonly FilesEntityServiceInterface                                                          $filesService,
         protected readonly SluggerInterface                                                                     $slugger,
-        protected readonly PostalAddressEntityServiceInterface                                                  $postalAddressService,
+        protected readonly PostalAddressServiceInterface                                                        $postalAddressService,
         protected readonly ProductServiceInterface                                                              $productService,
         protected readonly TicketServiceInterface                                                               $ticketService,
         #[Autowire('%kernel.project_dir%/public/uploads/images/events/hero')] protected readonly string         $eventsHeroImagesDirectory,
