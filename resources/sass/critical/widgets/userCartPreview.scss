@@ -16,7 +16,7 @@ div.cart-summary {
         &:first-child {
             margin-top: 0;
         }
-        background-color: palette.$offWhite;
+        background: palette.$whiteGradient;
         box-shadow: palette.$baseBoxShadow;
         padding: math.div(variables.$base-spacing, 4);
         border: variables.$baseBorderWidth solid palette.$gold;
@@ -50,7 +50,7 @@ div.cart-summary {
                 height: 100%;
                 top: 0;
                 left: 5rem;
-                border-right: variables.$baseBorderWidth dashed palette.$ink;
+                border-right: (variables.$baseBorderWidth * 2) dotted palette.$ink;
             }
 
 

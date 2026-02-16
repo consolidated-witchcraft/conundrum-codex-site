@@ -5,7 +5,10 @@
             {{ form(form) }}
         </div>
         <div class="col">
-            {% embed 'visitor/orders/partials/_orderSummary.html.twig' with {'order': order} %}{% endembed %}
+            <div class="col">
+                <h2>Your Cart</h2>
+                {% embed '/visitor/checkout/partials/_cartSummary.html.twig' with {'cart': cart} %}{% endembed %}
+            </div>
         </div>
     </div>
 {% endblock %}

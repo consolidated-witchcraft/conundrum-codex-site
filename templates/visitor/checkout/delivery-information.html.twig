@@ -1,5 +1,6 @@
 {% extends 'base/base.html.twig' %}
 {% block body %}
+    {{ form_start(form) }}
     <div class="row">
         <div class="col">
             <ol class="step-list">
@@ -10,34 +11,28 @@
                     Delivery Information
                 </li>
                 <li>
-                    Review Order
+                    Review & Pay
                 </li>
-                <li>
-                    Pay
-                </li>
-
             </ol>
 
         </div>
     </div>
 
-    <div class="row three-quarters-one-quarter">
-
+    <div class="row">
         <div class="col">
-            {{ form_start(form) }}
             <h2>Receipt Email</h2>
-            {{ form_row(form.receiptEmail) }}
-            <h2>Your Addresses</h2>
-            {{ form_row(form.deliveryAddress) }}
-            {{ form_row(form.billingAddress) }}
-            {{ form_end(form) }}
-        </div>
-
-        <div class="col">
-            <h2>Your Cart</h2>
-            {% embed '/visitor/checkout/partials/_cartSummary.html.twig' with {'cart': cart} %}{% endembed %}
+            {{ form_widget(form.receiptEmail) }}
+            {{ form_help(form.receiptEmail) }}
         </div>
     </div>
-
+    <div class="row">
+        <div class="col">
+            {{ form_row(form.deliveryAddress) }}
+        </div>
+        <div class="col">
+            {{ form_row(form.billingAddress) }}
+        </div>
+    </div>
+    {{ form_end(form) }}
 {% endblock %}
 

@@ -15,7 +15,10 @@ class DeliveryInformationType extends AbstractType
         $builder
             ->add(
                 'receiptEmail',
-                EmailType::class
+                EmailType::class,
+                [
+                    'help' => 'The e-mail address to which your receipt/e-tickets should be sent.',
+                ]
             )
             ->add(
             'deliveryAddress',
