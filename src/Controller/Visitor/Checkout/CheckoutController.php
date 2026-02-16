@@ -121,6 +121,7 @@ class CheckoutController extends AbstractBaseController
         }
         $pageVars = [
             'pageTitle' => 'Review your Order',
+            'cart' => $cart,
             'form' => $form
         ];
         return $this->render('visitor/checkout/review.html.twig', $this->populatePageVars($pageVars, $request));

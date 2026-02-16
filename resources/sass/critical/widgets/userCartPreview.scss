@@ -7,18 +7,15 @@
 
 
 
-dl.cart-product-line-preview {
+dl.cart-product-line-preview,
+dl.cart-charge-line-preview {
 
-    opacity: 0;
-    pointer-events: none;
+
     transition: opacity variables.$animationSpeedVerySlow;
     flex: 1;
     margin: math.div(variables.$base-spacing, 4) 0;
 
-    &.loaded {
-        opacity: 1;
-        pointer-events: auto;
-    }
+
 
 
 
@@ -85,6 +82,14 @@ dl.cart-product-line-preview {
         &:after {
             background-image: var(--ticketIcon);
         }
+    }
+}
+dl.cart-product-line-preview {
+    opacity: 0;
+    pointer-events: none;
+    &.loaded {
+        opacity: 1;
+        pointer-events: auto;
     }
 
 }
