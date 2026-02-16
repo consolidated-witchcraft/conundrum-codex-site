@@ -131,22 +131,20 @@
 {% endblock %}
 
 {% block user_cart_line_row %}
-    <tr class="user_cart_line_row">
-        <td>
-            {{ form_label(form.quantity) }}
-        </td>
-        <td>
-            {{ form_widget(form.quantity) }}
-        </td>
-        <td>
-            <span class="user_cart_line_total">
+    <dl class="cart-product-line-preview" is="cartline-preview">
+        <dt class="name">Name</dt>
+        <dd class="name">NAME</dd>
 
-            </span>
-        </td>
-        <td>
-            {{ form_widget(form.remove) }}
-        </td>
-    </tr>
+
+        <dt class="quantity">Quantity</dt>
+        <dd class="quantity">{{ form_widget(form.quantity)}}</dd>
+
+        <dt class="pricePerUnit">Price Per Unit (exc. Tax)</dt>
+        <dd class="pricePerUnit">PRICEPERUNIT</dd>
+        <dt class="line-total">Total (exc. Tax)</dt>
+        <dd class="line-total">LINETOTAL</dd>
+    </dl>
+
 {% endblock %}
 {% block ticket_type_purchase_row%}
     <div class="ticket-type-purchase-row">

@@ -91,7 +91,7 @@ class CheckoutController extends AbstractBaseController
                 $this->postalAddressService->save($deliveryAddress, false);
             }
             $this->postalAddressService->flush();
-
+            return $this->redirectToRoute('checkout.review_pay');
 
         }
         $pageVars = [
@@ -102,7 +102,7 @@ class CheckoutController extends AbstractBaseController
         return $this->render('visitor/checkout/delivery-information.html.twig', $this->populatePageVars($pageVars, $request));
     }
 
-    #[Route('checkout/review', name: 'checkout.review')]
+    #[Route('checkout/review-and-pay', name: 'checkout.review_pay')]
     public function checkout(Request $request): Response
     {
         $user = $this->getUser();

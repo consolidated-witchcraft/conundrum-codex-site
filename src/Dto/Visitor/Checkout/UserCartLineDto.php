@@ -13,7 +13,8 @@ class UserCartLineDto
         public string $productName,
         public int $productPricePreTaxCentessimal,
         public float $productPricePreTaxDecimal,
-        public int $quantity
+        public int $quantity,
+        public string $productTypeHandle
     ) {
     }
 
@@ -27,7 +28,9 @@ class UserCartLineDto
             productName: $userCartLine->getProductVariant()->getProductVariantName(),
             productPricePreTaxCentessimal: $userCartLine->getProductVariant()->getPreTaxPriceCentessimal(),
             productPricePreTaxDecimal: $userCartLine->getProductVariant()->getPreTaxPriceDecimal(),
-            quantity: $userCartLine->getQuantity()
+            quantity: $userCartLine->getQuantity(),
+            productTypeHandle: $userCartLine->getProductVariant()->getType()->getHandle()
+
         );
     }
 }
