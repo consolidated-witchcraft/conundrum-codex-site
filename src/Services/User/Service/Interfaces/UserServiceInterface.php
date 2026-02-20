@@ -6,6 +6,7 @@ use App\Services\Game\Domain\GameInvitation;
 use App\Services\User\Domain\Permission;
 use App\Services\User\Domain\Role;
 use App\Services\User\Domain\User;
+use App\Services\User\Domain\UserCart\UserCart;
 use App\Services\User\Domain\UserFeat;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Security\Core\User\UserProviderInterface;
@@ -56,4 +57,7 @@ interface UserServiceInterface extends UserProviderInterface, UserPasswordHasher
      * @return User[]
      */
     public function findAll(): iterable;
+
+    public function findCartById(int $cartId): ? UserCart;
+
 }

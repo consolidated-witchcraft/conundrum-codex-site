@@ -128,10 +128,6 @@ final class AccountController extends AbstractBaseController
     #[IsGranted('ROLE_USER')]
     #[Route('/account/{id}/view', name: 'app.user.account.view')]
     public function viewAccount(User $user, Request $request): Response {
-        $currentUser = $this->getUser();
-        if ($currentUser->getUserIdentifier() === $user->getEmail()) {
-            return $this->redirectToRoute('app.user.account');
-        }
         if (!$user->getIsProfilePublic()) {
             $pageVars = [
                 'pageTitle' => 'Private Profile',

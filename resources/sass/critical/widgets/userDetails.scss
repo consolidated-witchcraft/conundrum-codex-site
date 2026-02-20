@@ -1,0 +1,32 @@
+@use 'sass:math';
+
+@use '../base/variables';
+
+.user-details {
+    address.user-contact-details {
+        display: flex;
+        flex-direction: column;
+
+        label {
+            font-weight: bold;
+            font-style: initial;
+        }
+
+        span {
+
+        }
+    }
+    dl.account-badges {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        grid-row-gap: math.div(variables.$base-spacing, 2);
+        dt {
+            font-weight: bold;
+            font-style: normal;
+        }
+
+        dl {
+            text-indent: unset;
+        }
+    }
+}

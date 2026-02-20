@@ -3,7 +3,7 @@
     <div class="row">
         <div class="col">
             <nav class="secondary">
-                <a class="btn" href="{{ path('app.games.edit', {'gameSlug': game.getSlug}) }}">Edit Basic information</a>
+                <a href="{{ path('app.games.edit', {'gameSlug': game.getSlug}) }}">Edit Basic information</a>
                 <a href="{{ path('app.games.delete', {'gameSlug': game.getSlug}) }}">Delete this Game</a>
                 <a href="{{ path('app.games.play', {'gameSlug': game.getSlug}) }}">View this Game as a Player</a>
             </nav>
@@ -151,7 +151,7 @@
                     </div>
                 {% endif %}
             </article>
-            <a href="{{ path('app.games.invite', {'gameSlug': game.getSlug}) }}" class="btn btn-blue">Invite Players</a>
+            <a href="{{ path('app.games.invite', {'gameSlug': game.getSlug}) }}" class="btn btn-secondary">Invite Players</a>
         </div>
     </div>
 {% endblock %}

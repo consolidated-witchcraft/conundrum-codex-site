@@ -11,6 +11,7 @@ use App\Services\Game\Domain\GameInvitation;
 use App\Services\User\Domain\Permission;
 use App\Services\User\Domain\Role;
 use App\Services\User\Domain\User;
+use App\Services\User\Domain\UserCart\UserCart;
 use App\Services\User\Domain\UserFeat;
 use App\Services\User\Domain\ValueObjects\UserAccountType;
 use App\Services\User\Infrastructure\Repository\PermissionRepository;
@@ -19,6 +20,7 @@ use App\Services\User\Infrastructure\Repository\UserAccessTokenRepository;
 use App\Services\User\Infrastructure\Repository\UserAccountTypeRepository;
 use App\Services\User\Infrastructure\Repository\UserFeatRepository;
 use App\Services\User\Infrastructure\Repository\UserRepository;
+use App\Services\User\Infrastructure\UserCart\UserCartRepository;
 use App\Services\User\Service\Exceptions\MissingDefaultRoleException;
 use App\Services\User\Service\Interfaces\UserServiceInterface;
 use Doctrine\Common\Collections\ArrayCollection;
@@ -49,10 +51,13 @@ class UserService
         private readonly RoleRepository $roleRepository,
         private readonly UserAccessTokenRepository $userAccessTokenRepository,
         private readonly UserFeatRepository $userFeatRepository,
+        private readonly ResetPasswordRequestRepository $resetPasswordRequestRepository,
+        private readonly UserCartRepository $userCartRepository,
+        private readonly UserAccountTypeRepository $accountTypeRepository,
+
         private readonly EntityManagerInterface $entityManager,
         private readonly ValidatorInterface $validator,
-        private readonly ResetPasswordRequestRepository $resetPasswordRequestRepository,
-        private readonly UserAccountTypeRepository $accountTypeRepository,
+
         private readonly SymfonyUserPasswordHasherInterface $passwordHasher,
     ) {
     }
@@ -261,5 +266,10 @@ class UserService
     public function flush(): void
     {
         $this->entityManager->flush();
+    }
+
+    public function findCartById(int $cartId): ?UserCart
+    {
+        return $this->userCartRepository->find($cartId);
     }
 }

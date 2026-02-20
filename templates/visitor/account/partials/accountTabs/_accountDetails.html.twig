@@ -7,15 +7,29 @@
         </div>
 
         <div class="col">
-            <strong>Name</strong>
-            {{ user.userName }}
-            <strong>Email</strong>
-            {{ user.email }}
-            <strong>Account Type</strong>
-            <span class="badge badge-info">{{ user.getUserAccountType.getLabel }}</span>
-            <strong>Profile Visibility</strong>
-            <span class="badge badge-{{ user.isProfilePublic  ? 'info' : 'success' }}">{{ user.isProfilePublic  ? 'Public' : 'Private' }}</span>
+            <div class="user-details">
+                <address class="user-contact-details">
+                    <label id="userNameLabel" for="username">Name</label>
+                    <span id="username" aria-labelledby="userNameLabel">{{ user.userName }}</span>
+                    <label id="emailLabel" for="email">Email</label>
+                    <span id="email" aria-labelledby="emailLabel">{{ user.email }}</span>
+                </address>
+                <dl class="account-badges">
+                    <dt>Account Type</dt>
+                    <dd>
+                        <span class="badge badge-{{ user.isProfilePublic  ? 'info' : 'success' }}">{{ user.isProfilePublic  ? 'Public' : 'Private' }}</span>
+                    </dd>
+                    <dt>Profile Visibility</dt>
+                    <dd>
+                        <span class="badge badge-{{ user.isProfilePublic  ? 'info' : 'success' }}">{{ user.isProfilePublic  ? 'Public' : 'Private' }}</span>
+                    </dd>
+                </dl>
+            </div>
+
             <nav class="secondary">
+                {% if user.isProfilePublic %}
+                    <a href="{{ path('app.user.account.view', {'id': user.getId}) }}">View my Public Profile</a>
+                {% endif %}
                 <a href="{{ path('app.user.account.edit') }}">Change these details</a>
                 <a href="{{ path('app.user.account.change-password') }}">Change Password</a>
                 <a href="{{ path('app.auth.logout') }}">Logout</a>

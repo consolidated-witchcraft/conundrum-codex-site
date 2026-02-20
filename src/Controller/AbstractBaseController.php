@@ -21,7 +21,6 @@ abstract class AbstractBaseController extends AbstractController
         $pageVars['siteName'] = 'The Conundrum Codex';
         $user = $this->getUser();
         $pageVars['mainNav'] = $this->buildMainNav($user);
-
         $pageVars['userNav'] = $this->buildUserNav($user);
         $this->setActiveTrail($pageVars['mainNav'], $route);
 
@@ -30,7 +29,7 @@ abstract class AbstractBaseController extends AbstractController
         }
         $pageVars['pageClass'] = $pageVars['pageClass'] ?? 'page';
         $pageVars['hideBugReportLink'] = $pageVars['hideBugReportLink'] ?? false;
-
+        $pageVars['userCartId'] = $user instanceof User ? $user->getUserCart()->getId() : null;
         $pageVars['showCookiesMessage'] = $this->shouldShowCookieMessage($request, $user);
         return $this->populateMetaTags($pageVars);
     }
@@ -115,6 +114,12 @@ abstract class AbstractBaseController extends AbstractController
     private function buildUserNav(? User $user): array {
         $navItems = [];
         if ($user instanceof User) {
+            $navItems['account'] = new NavItem(
+                handle: 'account',
+                label: 'Account',
+                route: 'app.user.account'
+            );
+
             if ($user->hasPermissionKey('admin_dash')) {
                 $navItems['admin_dash'] =  new NavItem(
                     handle: 'admin_dash',
@@ -131,11 +136,6 @@ abstract class AbstractBaseController extends AbstractController
                 );
             }
 
-            $navItems['account'] = new NavItem(
-                handle: 'account',
-                label: 'Account',
-                route: 'app.user.account'
-            );
             $navItems['games'] = new NavItem(
                 handle: 'games',
                 label: 'My Games',

@@ -5,49 +5,97 @@
 @use '../base/typography';
 @use '../base/variables';
 
-@use '../mixins/buttonise';
+@use '../mixins/buttonMixins';
 
 .btn, button {
+
     &:not(.unstyle, .sf-toolbar-toggle-button) {
+
+        border: none;
+        border-radius: variables.$baseBorderRadius;
+        font-weight: bold;
+        padding: math.div(variables.$base-spacing, 4);
+        margin-bottom: math.div(variables.$base-spacing, 2);
+        color: palette.$ink;
+        transition: all variables.$animationSpeedSnappy ease-in-out;
+        transition-property: box-shadow, transform, background, background-color, color;
+        box-shadow: palette.$baseBoxShadow;
 
         &.btn-success,
         &[type="submit"]{
-            @include buttonise.buttonise(palette.$green, lime);
+            @include buttonMixins.button(palette.$green);
         }
 
         &.btn-primary {
-            @include buttonise.buttonise(palette.$blue, cyan);
+            @include buttonMixins.button(palette.$blue);
         }
 
 
         &.btn-secondary {
-            @include buttonise.buttonise(palette.$blue, cyan);
+            @include buttonMixins.button(palette.$inkBlue);
         }
 
         &.btn-tertiary {
-            @include buttonise.buttonise(palette.$wyrdPurple, magenta);
+            @include buttonMixins.button(palette.$wyrdPurple);
         }
 
         &.btn-danger {
-
-            @include buttonise.buttonise(palette.$crimson, red);
+            @include buttonMixins.button(palette.$crimson);
         }
 
         &.btn-warning {
-            @include buttonise.buttonise(palette.$orange, yellow);
+            @include buttonMixins.button(palette.$orange);
         }
 
         &.btn-info {
-            @include buttonise.buttonise(#01115c, #0080ff);
+            @include buttonMixins.button(palette.$stormBlue);
         }
 
         &:disabled {
-            @include buttonise.buttonise(palette.$grey, palette.$grey);
-            color: color.mix(palette.$grey, palette.$offWhite);
-            &:before {
-                display: none !important;
+            @include buttonMixins.button(palette.$grey);
+        }
+
+        &.cta {
+            &.btn-success,
+            &[type="submit"]{
+                @include buttonMixins.ctaButton(palette.$green, lime);
+            }
+
+            &.btn-primary {
+                @include buttonMixins.ctaButton(palette.$blue, cyan);
+            }
+
+
+            &.btn-secondary {
+                @include buttonMixins.ctaButton(palette.$inkBlue, cyan);
+            }
+
+            &.btn-tertiary {
+                @include buttonMixins.ctaButton(palette.$wyrdPurple, magenta);
+            }
+
+            &.btn-danger {
+
+                @include buttonMixins.ctaButton(palette.$crimson, red);
+            }
+
+            &.btn-warning {
+                @include buttonMixins.ctaButton(palette.$orange, yellow);
+            }
+
+            &.btn-info {
+                @include buttonMixins.ctaButton(palette.$stormBlue, cyan);
+            }
+
+            &:disabled {
+                @include buttonMixins.ctaButton(palette.$grey, palette.$grey);
+                color: color.mix(palette.$grey, palette.$offWhite);
+                &:before {
+                    display: none !important;
+                }
             }
         }
+
     }
 }
 
@@ -85,21 +133,25 @@ table {
 @media only screen and (min-width: variables.$mobileBreakPointUpper) {
     .btn-group {
         flex-direction: row;
-        border: variables.$baseBorderWidth solid transparent;
-        border-image: palette.$goldFX 33%;
-        box-shadow: palette.$baseBoxShadow;
 
-        .btn {
-            border-top: none !important;
-            border-bottom: none !important;
-            flex-grow: 1 !important;
-            border-right: none !important;
-            margin: 0 !important;
-            &:first-child {
-                border-left: none !important;
+        &.cta {
+            border: variables.$baseBorderWidth solid transparent;
+            border-image: palette.$goldFX 33%;
+            box-shadow: palette.$baseBoxShadow;
+            .btn {
+                border-top: none !important;
+                border-bottom: none !important;
+                flex-grow: 1 !important;
+                border-right: none !important;
+                margin: 0 !important;
+                &:first-child {
+                    border-left: none !important;
+                }
+
             }
-
         }
+
+
     }
 
     .btn, button {

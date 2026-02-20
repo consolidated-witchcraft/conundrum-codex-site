@@ -103,22 +103,26 @@ nav.breadcrumbs {
     nav.secondary {
 
         flex-direction: row;
-        margin: math.div(variables.$base-spacing, 4) 0;
+        margin: math.div(variables.$base-spacing, 2) 0;
 
         a, span, em {
             padding: math.div(variables.$base-spacing, 4);
-            //background-color: palette.$teal;
             border-radius: variables.$baseBorderRadius;
             font-weight: bold;
-            margin-right: math.div(variables.$base-spacing, 4);
+            margin-right: math.div(variables.$base-spacing, 2);
             border: variables.$baseBorderWidth solid palette.$crimson;
             transition: all variables.$animationSpeedFast ease-in-out;
             transition-property: background-color, color, border-color;
 
             &.active,
-            &:hover{
+            &:hover,
+            &:focus {
                 background-color: palette.$crimson;
                 color: palette.$offWhite;
+            }
+
+            &:last-child {
+                margin-right: 0;
             }
         }
 

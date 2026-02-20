@@ -138,4 +138,18 @@ class UserCart extends AbstractDomainEntity
             ));
         }
     }
+
+    public function getUserCartProductLineById(int $productLineId): ?UserCartProductLine {
+        foreach ($this->userCartProductLines as $userCartProductLine) {
+
+            if ($userCartProductLine->getId() === $productLineId) {
+                return $userCartProductLine;
+            }
+        }
+        return null;
+    }
+
+    public function removeUserCartProductLine(UserCartProductLine $userCartProductLine): void {
+        $this->userCartProductLines->removeElement($userCartProductLine);
+    }
 }

@@ -13,14 +13,14 @@ class UserCartCharge extends AbstractDomainEntity
 {
     public function __construct(
         #[ORM\ManyToOne(targetEntity: UserCart::class, inversedBy: 'userCartCharges')]
-        private readonly UserCart   $userCart,
+        private readonly UserCart $userCart,
 
         #[ORM\Column(type: 'charge_type')]
         private readonly ChargeType $chargeType,
 
         #[ORM\Column]
-        private readonly int        $preTaxAmountCentessimal,
-        ?int                        $id = null
+        private readonly int $preTaxAmountCentessimal,
+        ?int $id = null
     ) {
         parent::__construct($id);
     }

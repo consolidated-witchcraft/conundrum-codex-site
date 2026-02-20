@@ -16,6 +16,7 @@ import {LazyImage} from "./components/LazyImage";
 import {SubmenuTrigger} from "./components/SubmenuTrigger";
 import {NumberSpinner} from "./components/NumberSpinner";
 import {CartLinePreview} from "./components/CartLinePreview";
+import UserCart from "./components/UserCart/UserCart";
 
 (()=> {
     document.addEventListener('DOMContentLoaded', () => {
@@ -49,6 +50,7 @@ import {CartLinePreview} from "./components/CartLinePreview";
         customElementRegistry.define('submenu-trigger', SubmenuTrigger, {extends: 'a'});
         customElementRegistry.define('number-spinner', NumberSpinner, {extends: 'input'});
         customElementRegistry.define('cartline-preview', CartLinePreview, {extends: 'dl'});
+        customElementRegistry.define('user-cart', UserCart, {extends: 'div'});
 
     }
 })();

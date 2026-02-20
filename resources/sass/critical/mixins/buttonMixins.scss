@@ -5,7 +5,7 @@
 @use '../base/typography';
 @use '../base/variables';
 
-@mixin buttonise($buttonColour, $highlightColour, $textColor: palette.$white) {
+@mixin ctaButton($buttonColour, $highlightColour, $textColor: palette.$white) {
     text-align: center;
     display: inline-block;
     position: relative;
@@ -54,6 +54,7 @@
     }
 
     &:hover {
+        transform: none;
         &:before {
             box-shadow: 0 0 2rem $highlightColour inset, 0 0 1rem $highlightColour inset, 0 0 0.5rem $highlightColour inset;
         }
@@ -67,4 +68,20 @@
         width: 5rem;
         height: 5rem;
     }
+}
+
+@mixin button($buttonColor, $textHoverColor: palette.$white) {
+    background-color: $buttonColor;
+    color: palette.$white;
+    text-align: center;
+    &:not(:disabled) {
+        &:hover, &:active, &:focus {
+            background-color: color.adjust($buttonColor, $lightness: +10%);
+            color: $textHoverColor;
+            transform: translateY(-0.125rem);
+            box-shadow: palette.$baseBoxShadowHover;
+        }
+
+    }
+
 }
