@@ -8,7 +8,7 @@ use ApiPlatform\Metadata\IriConverterInterface;
 use ApiPlatform\Metadata\Operation;
 use ApiPlatform\State\ProviderInterface;
 use App\ApiResource\User\Dto\ApiUserCartDto;
-use App\ApiResource\User\Dto\ApiUserCartProductLineDto;
+use App\ApiResource\User\Dto\ApiUserCartProductLineOutputDto;
 use App\Services\User\Service\Interfaces\UserServiceInterface;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 
@@ -40,7 +40,7 @@ class ApiUserCartProvider implements ProviderInterface
         $cartDto =  ApiUserCartDto::makeFromCart($cart);
         $cartDto->cartProductLines = array_map(
             fn ($line): ?string => $this->iriConverter->getIriFromResource(
-                ApiUserCartProductLineDto::class,
+                ApiUserCartProductLineOutputDto::class,
                 context: [
                     'item_uri_template' => '/cart/{cartId}/productLines/{productLineId}',
                     'uri_variables' => [

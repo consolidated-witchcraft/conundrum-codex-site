@@ -14,7 +14,7 @@ use Symfony\Component\Validator\ConstraintViolationListInterface;
 
 interface UserServiceInterface extends UserProviderInterface, UserPasswordHasherInterface
 {
-    public function saveUser(User $user): User;
+    public function saveUser(User $user, bool $flush = true): User;
 
     public function getRoleByHandle(string $roleHandle): ? Role;
 

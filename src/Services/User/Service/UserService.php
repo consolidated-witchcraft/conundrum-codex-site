@@ -114,15 +114,18 @@ class UserService
         return $user;
     }
 
-    public function saveUser(User $user): User
+    /**
+     * @throws MissingDefaultRoleException
+     */
+    public function saveUser(User $user, bool $flush = true): User
     {
-        return null === $user->getId() ? $this->createUser($user) : $this->updateUser($user);
+        return null === $user->getId() ? $this->createUser($user, $flush) : $this->updateUser($user, $flush);
     }
 
     /**
      * @throws MissingDefaultRoleException
      */
-    private function createUser(User $user): User {
+    private function createUser(User $user, bool $flush = true): User {
         if (count($user->getRoles()) === 0) {
             $role = $this->getRoleByHandle(self::DEFAULT_ROLE);
             if ($role === null) {
@@ -132,13 +135,19 @@ class UserService
 
         }
         $this->entityManager->persist($user);
-        $this->entityManager->flush();
+        if ($flush) {
+            $this->entityManager->flush();
+        }
+
         return $user;
     }
 
-    private function updateUser(User $user): User {
+    private function updateUser(User $user, bool $flush = true): User {
         $this->entityManager->persist($user);
-        $this->entityManager->flush();
+        if ($flush) {
+            $this->entityManager->flush();
+        }
+
         return $user;
     }
 

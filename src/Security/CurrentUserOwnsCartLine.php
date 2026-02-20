@@ -4,7 +4,7 @@ namespace App\Security;
 
 use ApiPlatform\Metadata\ApiResource;
 use App\ApiResource\User\Dto\ApiUserCartDto;
-use App\ApiResource\User\Dto\ApiUserCartProductLineDto;
+use App\ApiResource\User\Dto\ApiUserCartProductLineOutputDto;
 use App\ApiResource\User\Dto\ApiUserDto;
 use App\Services\User\Domain\User;
 use App\Services\User\Service\UserService;
@@ -24,7 +24,7 @@ class CurrentUserOwnsCartLine extends Voter
         if ($attribute != self::REQUESTED_PERMISSION) {
             return false;
         }
-        if (!$subject instanceof ApiUserCartProductLineDto) {
+        if (!$subject instanceof ApiUserCartProductLineOutputDto) {
             return false;
         }
         return true;
