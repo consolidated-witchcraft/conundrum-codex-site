@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\MessageHandler;
 
 use App\Message\OrderStatusUpdateMessage;
+use App\Services\Orders\Domain\ValueObjects\OrderStatus;
 use App\Services\Orders\Service\OrderService;
 use App\Services\Payment\Domain\ValueObjects\PaymentStatus;
 use App\Services\Payment\Service\PaymentService;
@@ -23,6 +24,15 @@ class OrderStatusUpdateMessageHandler
        $order = $this->orderService->getOrderByReference($content['orderReference']);
        if ($order !== null) {
 
+           $oldStatusHandle = $content['oldStatus'];
+           $newStatusHandle = $content['newStatus'];
+           if ($oldStatusHandle === $newStatusHandle) {
+               return;
+           }
+           if ($newStatusHandle === OrderStatus::PAID_STATUS_HANDLE) {
+                //Generate a receipt
+               $this->orderService->generateReceiptForOrder($order);
+           }
        }
            //Here we process reactions to an order status change.
            /*

@@ -7,6 +7,7 @@ namespace App\Services\Orders\Domain;
 use App\Services\Core\Domain\AbstractDomainEntity;
 use App\Services\Core\Domain\Interfaces\DomainEntityInterface;
 use App\Services\Orders\Domain\Exceptions\InvalidOrderStatusChangeRequestedException;
+use App\Services\Orders\Domain\Exceptions\UnknownOrderStatusException;
 use App\Services\Orders\Domain\Exceptions\UnknownPaymentStatusException;
 use App\Services\Orders\Domain\ValueObjects\OrderStatus;
 use App\Services\Orders\Infrastructure\OrderRepository;
@@ -30,6 +31,7 @@ class Order extends AbstractDomainEntity implements DomainEntityInterface
      * @param Collection<int, OrderProductLine> $productOrderLines
      * @param Collection<int, OrderChargeLine> $chargeLines
      * @param Collection<int, Payment> $orderPayments
+     * @param Collection<int, OrderReceipt> $orderReceipts
      * @param User $user
      * @param Collection<int, OrderTax> $orderTaxes
      * @param PostalAddress|null $deliveryAddress
@@ -52,6 +54,9 @@ class Order extends AbstractDomainEntity implements DomainEntityInterface
         #[ORM\OneToMany(targetEntity: Payment::class, mappedBy: 'order', cascade: ['persist', 'refresh', 'remove'], fetch: 'EAGER', orphanRemoval: true)]
         private Collection $orderPayments,
 
+        #[ORM\OneToMany(targetEntity: OrderReceipt::class, mappedBy: 'order', cascade: ['persist', 'refresh', 'remove'], fetch: 'EAGER', orphanRemoval: true)]
+        private Collection $orderReceipts,
+
         #[ORM\ManyToOne(targetEntity: User::class, inversedBy: 'orders')]
         private User $user,
 
@@ -68,6 +73,16 @@ class Order extends AbstractDomainEntity implements DomainEntityInterface
 
     ) {
         parent::__construct($id);
+    }
+
+    public function setOrderReceipts(Collection $orderReceipts): void
+    {
+        $this->orderReceipts = $orderReceipts;
+    }
+
+    public function getOrderReceipts(): Collection
+    {
+        return $this->orderReceipts;
     }
 
     public function getOrderStatus(): OrderStatus
@@ -177,6 +192,10 @@ class Order extends AbstractDomainEntity implements DomainEntityInterface
         return $productsPreTaxCentessimal;
     }
 
+    public function getProductLineTotalPreTaxDecimal(): float {
+        return $this->getProductLineTotalPreTaxCentessimal()/100;
+    }
+
     public function getChargeLineTotalPreTaxCentessimal(): int {
         $totalPostTaxCentessimal = 0;
         foreach ($this->chargeLines as $chargeLine) {
@@ -185,12 +204,20 @@ class Order extends AbstractDomainEntity implements DomainEntityInterface
         return $totalPostTaxCentessimal;
     }
 
+    public function getChargeLineTotalPreTaxDecimal(): float {
+        return $this->getChargeLineTotalPreTaxCentessimal()/100;
+    }
+
     public function getTotalTaxCentessimal(): int {
         $totalTaxCentessimal = 0;
         foreach ($this->orderTaxes as $orderTax) {
             $totalTaxCentessimal+= $orderTax->getAmountCentessimal();
         }
         return $totalTaxCentessimal;
+    }
+
+    public function getTotalTaxDecimal(): float {
+        return $this->getTotalTaxCentessimal()/100;
     }
 
     public function getTotalPostTaxDecimal(): float {
@@ -224,6 +251,11 @@ class Order extends AbstractDomainEntity implements DomainEntityInterface
         return $this->orderReference;
     }
 
+    /**
+     * @throws UnknownPaymentStatusException
+     * @throws UnknownOrderStatusException
+     * @throws InvalidOrderStatusChangeRequestedException
+     */
     public function markOrderPaid(): void {
         if ($this->getOrderPaymentStatus()->getHandle() === PaymentStatus::PAID_STATUS_HANDLE) {
             if ($this->getOrderStatus()->getHandle() !== OrderStatus::INVOICED_STATUS_HANDLE) {

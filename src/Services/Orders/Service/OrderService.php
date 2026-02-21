@@ -10,8 +10,10 @@ use App\Services\Orders\Domain\Exceptions\UnknownPaymentStatusException;
 use App\Services\Orders\Domain\Order;
 use App\Services\Orders\Domain\OrderChargeLine;
 use App\Services\Orders\Domain\OrderProductLine;
+use App\Services\Orders\Domain\OrderReceipt;
 use App\Services\Orders\Domain\ValueObjects\ChargeType;
 use App\Services\Orders\Domain\ValueObjects\OrderStatus;
+use App\Services\Orders\Infrastructure\OrderReceiptRepository;
 use App\Services\Orders\Infrastructure\OrderRepository;
 use App\Services\Orders\Service\Interfaces\OrderServiceInterface;
 use App\Services\Payment\Domain\Payment;
@@ -27,8 +29,10 @@ class OrderService extends AbstractDomainEntityService implements OrderServiceIn
     //Pattern  #ORDER_{userId}_{date}_{number}
     private const string ORDER_REFERENCE_PATTERN = 'ORDER_%d_%s_%d';
 
+    private const string URL_SAFE_DATE_FORMAT  = 'Y-m-d_H-i';
     public function __construct(
         private readonly OrderRepository $orderRepository,
+        private readonly OrderReceiptRepository $orderReceiptRepository,
         private readonly TaxServiceInterface $taxService,
         private readonly PaymentServiceInterface $paymentService,
         EntityManagerInterface $entityManager
@@ -53,13 +57,14 @@ class OrderService extends AbstractDomainEntityService implements OrderServiceIn
         $chargeLines = new ArrayCollection();
         $payments = new ArrayCollection();
         $orderTaxes = new ArrayCollection();
-
+        $orderReceipts = new ArrayCollection();
         $order = new Order(
             orderReference: $this->generateNewOrderReferenceForUser($userCart->getUser()),
             orderStatus: OrderStatus::makeFromHandle(OrderStatus::INVOICED_STATUS_HANDLE),
             productOrderLines: $productOrderLines,
             chargeLines: $chargeLines,
             orderPayments: $payments,
+            orderReceipts: $orderReceipts,
             user: $userCart->getUser(),
             orderTaxes: $orderTaxes,
         );
@@ -114,12 +119,39 @@ class OrderService extends AbstractDomainEntityService implements OrderServiceIn
         $candidateReference = sprintf(
             self::ORDER_REFERENCE_PATTERN,
             $user->getId(),
-            $date->format('Y-m-d_H-i'),
+            $date->format(self::URL_SAFE_DATE_FORMAT),
             $attempts,
         );
         $existingOrder = $this->orderRepository->findByOrderReference($candidateReference);
         if ($existingOrder !== null) {
             return $this->generateNewOrderReferenceForUser($user, $attempts + 1);
+        }
+        return $candidateReference;
+    }
+
+    public function generateReceiptForOrder(Order $order): OrderReceipt
+    {
+        $date = new \DateTimeImmutable();
+        $receipt = new OrderReceipt(
+            receiptReference: $this->generateNewReceiptReferenceForOrder($order, $date),
+            order: $order,
+            amountCentessimal: $order->getTotalPostTaxCentessimal(),
+            receiptDate: $date
+        );
+        $this->entityManager->persist($receipt);
+        $this->entityManager->flush();
+        return $receipt;
+    }
+
+    private function generateNewReceiptReferenceForOrder(Order $order, \DateTimeImmutable $date, int $attempts = 1): string {
+        $candidateReference = sprintf(
+            '%s_RECEIPT_%s_%d',
+            $order->getOrderReference(),
+            $date->format(self::URL_SAFE_DATE_FORMAT),
+            $attempts
+        );
+        if ($this->orderReceiptRepository->findOneBy(['receiptReference' => $candidateReference]) !== null) {
+            return $this->generateNewReceiptReferenceForOrder($order, $date, $attempts + 1);
         }
         return $candidateReference;
     }

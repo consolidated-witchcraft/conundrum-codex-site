@@ -1,0 +1,154 @@
+{% extends 'base/base.html.twig' %}
+{% block body %}
+    <div class="row">
+        <div class="col">
+            <h2>Products</h2>
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Product</th>
+                        <th>SKU</th>
+                        <th>Quantity</th>
+                        <th>Unit Price Pre-Tax</th>
+                        <th>Total Pre-Tax</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for productLine in order.getProductOrderLines %}
+                        <tr>
+                            <td>
+                                {{ productLine.getProductVariant.getProductVariantName }}
+                            </td>
+                            <td>
+                                {{ productLine.getProductVariant.getSku }}
+                            </td>
+                            <td>
+                                {{ productLine.getQuantity }}
+                            </td>
+                            <td>
+                                {{ productLine.getProductVariant.getPreTaxPriceDecimal|format_currency('GBP') }}
+                            </td>
+                            <td>
+                                {{ productLine.getTotalDecimal|format_currency('GBP') }}
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+                <tfoot>
+                    <tr>
+
+                        <td colspan="3"></td>
+                        <th>Total</th>
+                        <td>
+                            <strong>{{ order.getProductLineTotalPreTaxDecimal|format_currency('GBP') }}</strong>
+                        </td>
+                    </tr>
+                </tfoot>
+            </table>
+
+        </div>
+    </div>
+    <div class="row">
+        <div class="col">
+            <h2>Charges</h2>
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Charge Name</th>
+                        <th>Price Pre-Tax</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for chargeLine in order.getChargeLines %}
+                        <tr>
+                            <td>
+                                {{ chargeLine.getName }}
+                            </td>
+                            <td>
+                                {{ chargeLine.getPriceDecimal|format_currency('GBP') }}
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+                <tfoot>
+                    <tr>
+                        <th>Total</th>
+                        <td>
+                            <strong>{{ order.getChargeLineTotalPreTaxDecimal|format_currency('GBP') }}</strong>
+                        </td>
+                    </tr>
+                </tfoot>
+            </table>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col">
+            <h2>Tax</h2>
+            <table class="table">
+                <thead>
+                <tr>
+                    <th>Tax Name</th>
+                    <th>Amount</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for taxLine in order.getOrderTaxes %}
+                    <tr>
+                        <td>
+                            {{ taxLine.getTaxRatePublicReference }}
+                        </td>
+                        <td>
+                            {{ taxLine.getAmountDecimal|format_currency('GBP') }}
+                        </td>
+
+                    </tr>
+                {% endfor %}
+                </tbody>
+                <tfoot>
+                <tr>
+                    <th>Total</th>
+                    <td>
+                        <strong>{{ order.getTotalTaxDecimal|format_currency('GBP') }}</strong>
+                    </td>
+                </tr>
+                </tfoot>
+            </table>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col">
+            <h2>Payments</h2>
+            <table class="table">
+                <thead>
+                <tr>
+                    <th>Payment Name</th>
+                    <th>Reference</th>
+                    <th>Amount</th>
+                    <th>Status</th>
+                </tr>
+                </thead>
+                    <tbody>
+                    {% for payment in order.getOrderPayments %}
+                        <tr>
+                            <td>
+                                {{ payment.getName }}
+                            </td>
+                            <td>
+                                {{ payment.getPaymentReference }}
+                            </td>
+                            <td>
+                                {{ payment.getPaymentAmountDecimal|format_currency('GBP') }}
+                            </td>
+                            <td>
+                                {{ payment.getPaymentStatus.getName }}
+                            </td>
+
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                <tfoot>
+            </table>
+        </div>
+    </div>
+{% endblock %}

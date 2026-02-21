@@ -15,6 +15,7 @@
                                         {% if order.getOrderPaymentStatus.getHandle !== 'paid' %}
                                             <a href="{{ path('payments.pay', {'orderReference': order.getOrderReference, 'paymentReference': order.getOrderPayments.getPaymentReference}) }}">Pay Now</a>
                                         {% endif %}
+                                        <a href="{{ path('orders.view', {'orderReference': order.getOrderReference}) }}">View this order</a>
                                     </nav>
                                 </div>
                             </div>
