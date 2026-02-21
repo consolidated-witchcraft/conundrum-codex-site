@@ -6,13 +6,26 @@ use App\Services\Orders\Domain\Exceptions\UnknownPaymentStatusException;
 
 readonly class PaymentStatus implements \Stringable
 {
+    public const string UNPAID_STATUS_HANDLE = 'unpaid';
+
+    public const string PARTIALLY_PAID_STATUS_HANDLE = 'partially_paid';
+
+    public const string PROCESSING_STATUS_HANDLE = 'processing';
+
+    public const string DECLINED_STATUS_HANDLE = 'declined';
+
+    public const string PAID_STATUS_HANDLE = 'paid';
+
     public const array KNOWN_PAYMENT_STATUSES = [
-        'unpaid' => 'Unpaid',
-        'partially_paid' => 'Partially Paid',
-        'processing' => 'Processing',
-        'declined' => 'Declined',
-        'paid' => 'Paid',
+        self::UNPAID_STATUS_HANDLE => 'Unpaid',
+        self::PARTIALLY_PAID_STATUS_HANDLE => 'Partially Paid',
+        self::PROCESSING_STATUS_HANDLE => 'Processing',
+        self::DECLINED_STATUS_HANDLE => 'Declined',
+        self::PAID_STATUS_HANDLE => 'Paid',
     ];
+
+
+
 
     private function __construct(
         private string $handle,

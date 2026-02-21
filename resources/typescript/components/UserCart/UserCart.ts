@@ -1,7 +1,8 @@
 import createClient, {Client} from "openapi-fetch";
 import type { paths } from "../../schema/schema";
+import {UserCartProductLine} from "./UserCartProductLine";
 
-export default class UserCart extends HTMLDivElement {
+export class UserCart extends HTMLDivElement {
 
     private client: Client<paths>;
 
@@ -19,7 +20,9 @@ export default class UserCart extends HTMLDivElement {
         this.cartId = cartId;
     }
     connectedCallback() {
-        this.fetchCart();
+        if (this.cartId !== undefined) {
+            this.fetchCart();
+        }
     }
 
     async fetchCart()
@@ -38,15 +41,26 @@ export default class UserCart extends HTMLDivElement {
             if (error !== undefined) {
                 throw error;
             }
-            if (data !== undefined && data.cartChargeLines !== undefined) {
-                data.cartChargeLines.forEach((cartChargeLine: {
-                    readonly chargeTypeHandle?: string | null,
-                    readonly chargeTypeName?: string | null,
-                    readonly preTaxAmountCentessimal?: number | null,
-                }) => {
-                    console.log(cartChargeLine);
-                })
+            if (data !== undefined) {
+                if (data.cartProductLines !== undefined) {
+                    data.cartProductLines.forEach((iri: string) => {
+                        let lineElement: UserCartProductLine = new UserCartProductLine();
+                        lineElement.dataset.iri = iri;
+                        this.appendChild(lineElement);
+
+                    })
+                }
+                if (data.cartChargeLines !== undefined) {
+                    data.cartChargeLines.forEach((cartChargeLine: {
+                        readonly chargeTypeHandle?: string | null,
+                        readonly chargeTypeName?: string | null,
+                        readonly preTaxAmountCentessimal?: number | null,
+                    }) => {
+                        console.log(cartChargeLine);
+                    })
+                }
             }
+
         }
     }
 }

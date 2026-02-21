@@ -4,12 +4,6 @@
         <div class="col">
             {{ form(form) }}
         </div>
-        <div class="col">
-            <div class="col">
-                <h2>Your Cart</h2>
-                {% embed '/visitor/checkout/partials/_cartSummary.html.twig' with {'cart': cart} %}{% endembed %}
-            </div>
-        </div>
     </div>
 {% endblock %}
 

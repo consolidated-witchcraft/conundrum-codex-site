@@ -5,11 +5,13 @@ declare(strict_types=1);
 namespace App\Services\Orders\Service;
 
 use App\Services\Core\Service\AbstractDomainEntityService;
+use App\Services\Orders\Domain\Exceptions\UnknownOrderStatusException;
 use App\Services\Orders\Domain\Exceptions\UnknownPaymentStatusException;
 use App\Services\Orders\Domain\Order;
 use App\Services\Orders\Domain\OrderChargeLine;
 use App\Services\Orders\Domain\OrderProductLine;
 use App\Services\Orders\Domain\ValueObjects\ChargeType;
+use App\Services\Orders\Domain\ValueObjects\OrderStatus;
 use App\Services\Orders\Infrastructure\OrderRepository;
 use App\Services\Orders\Service\Interfaces\OrderServiceInterface;
 use App\Services\Payment\Domain\Payment;
@@ -22,11 +24,14 @@ use Doctrine\ORM\EntityManagerInterface;
 
 class OrderService extends AbstractDomainEntityService implements OrderServiceInterface
 {
+    //Pattern  #ORDER_{userId}_{date}_{number}
+    private const string ORDER_REFERENCE_PATTERN = 'ORDER_%d_%s_%d';
+
     public function __construct(
-        private readonly OrderRepository         $orderRepository,
-        private readonly TaxServiceInterface     $taxService,
+        private readonly OrderRepository $orderRepository,
+        private readonly TaxServiceInterface $taxService,
         private readonly PaymentServiceInterface $paymentService,
-        EntityManagerInterface                   $entityManager
+        EntityManagerInterface $entityManager
     ) {
         parent::__construct($entityManager);
     }
@@ -40,6 +45,7 @@ class OrderService extends AbstractDomainEntityService implements OrderServiceIn
 
     /**
      * @throws UnknownPaymentStatusException
+     * @throws UnknownOrderStatusException
      */
     public function convertCartToOrder(UserCart $userCart, bool $flush = true): Order
     {
@@ -49,6 +55,8 @@ class OrderService extends AbstractDomainEntityService implements OrderServiceIn
         $orderTaxes = new ArrayCollection();
 
         $order = new Order(
+            orderReference: $this->generateNewOrderReferenceForUser($userCart->getUser()),
+            orderStatus: OrderStatus::makeFromHandle(OrderStatus::INVOICED_STATUS_HANDLE),
             productOrderLines: $productOrderLines,
             chargeLines: $chargeLines,
             orderPayments: $payments,
@@ -59,7 +67,7 @@ class OrderService extends AbstractDomainEntityService implements OrderServiceIn
         foreach ($userCart->getUserCartProductLines() as $cartLine) {
             $orderLine = new OrderProductLine(
                 order: $order,
-                productVariant: $cartLine->getProduct(),
+                productVariant: $cartLine->getProductVariant(),
                 quantity: $cartLine->getQuantity()
             );
             $productOrderLines->add($orderLine);
@@ -97,5 +105,22 @@ class OrderService extends AbstractDomainEntityService implements OrderServiceIn
     public function getOrderByReference(string $orderReference): ?Order
     {
         return $this->orderRepository->findByOrderReference($orderReference);
+    }
+
+    public function generateNewOrderReferenceForUser(User $user, int $attempts = 1): string
+    {
+        $date = new \DateTime();
+
+        $candidateReference = sprintf(
+            self::ORDER_REFERENCE_PATTERN,
+            $user->getId(),
+            $date->format('Y-m-d_H-i'),
+            $attempts,
+        );
+        $existingOrder = $this->orderRepository->findByOrderReference($candidateReference);
+        if ($existingOrder !== null) {
+            return $this->generateNewOrderReferenceForUser($user, $attempts + 1);
+        }
+        return $candidateReference;
     }
 }

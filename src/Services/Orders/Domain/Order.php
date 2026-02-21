@@ -6,6 +6,9 @@ namespace App\Services\Orders\Domain;
 
 use App\Services\Core\Domain\AbstractDomainEntity;
 use App\Services\Core\Domain\Interfaces\DomainEntityInterface;
+use App\Services\Orders\Domain\Exceptions\InvalidOrderStatusChangeRequestedException;
+use App\Services\Orders\Domain\Exceptions\UnknownPaymentStatusException;
+use App\Services\Orders\Domain\ValueObjects\OrderStatus;
 use App\Services\Orders\Infrastructure\OrderRepository;
 use App\Services\Payment\Domain\Payment;
 use App\Services\Payment\Domain\ValueObjects\PaymentStatus;
@@ -21,17 +24,25 @@ use Symfony\Component\Uid\Uuid;
 #[ORM\Table(name: 'orders')]
 class Order extends AbstractDomainEntity implements DomainEntityInterface
 {
-    private const string ORDER_REFERENCE_PATTERN = "ORD-%d_%s";
-
     /**
+     * @param string $orderReference
+     * @param OrderStatus $orderStatus
      * @param Collection<int, OrderProductLine> $productOrderLines
      * @param Collection<int, OrderChargeLine> $chargeLines
      * @param Collection<int, Payment> $orderPayments
      * @param User $user
      * @param Collection<int, OrderTax> $orderTaxes
+     * @param PostalAddress|null $deliveryAddress
+     * @param PostalAddress|null $billingAddress
      * @param int|null $id
      */
     public function __construct(
+        #[ORM\Column(type: 'string', length: 255, unique: true, nullable: false)]
+        private readonly string $orderReference,
+
+        #[ORM\Column(type: 'order_status', nullable: false)]
+        private OrderStatus $orderStatus,
+
         #[ORM\OneToMany(targetEntity: OrderProductLine::class, mappedBy: 'order', cascade: ['persist', 'refresh', 'remove'], fetch: 'EAGER', orphanRemoval: true)]
         private Collection $productOrderLines,
 
@@ -53,11 +64,15 @@ class Order extends AbstractDomainEntity implements DomainEntityInterface
         #[ORM\ManyToOne(targetEntity: PostalAddress::class)]
         private ? PostalAddress $billingAddress = null,
 
-
         ?int $id = null
 
     ) {
         parent::__construct($id);
+    }
+
+    public function getOrderStatus(): OrderStatus
+    {
+        return $this->orderStatus;
     }
 
     public function getDeliveryAddress(): ?PostalAddress
@@ -182,6 +197,9 @@ class Order extends AbstractDomainEntity implements DomainEntityInterface
         return $this->getTotalPostTaxCentessimal()/100;
     }
 
+    /**
+     * @throws UnknownPaymentStatusException
+     */
     public function getOrderPaymentStatus(): PaymentStatus {
         $totalPaymentsCount = $this->orderPayments->count();
 
@@ -200,5 +218,22 @@ class Order extends AbstractDomainEntity implements DomainEntityInterface
             return PaymentStatus::makeFromHandle('partially_paid');
         }
         return PaymentStatus::makeFromHandle('unpaid');
+    }
+
+    public function getOrderReference(): string {
+        return $this->orderReference;
+    }
+
+    public function markOrderPaid(): void {
+        if ($this->getOrderPaymentStatus()->getHandle() === PaymentStatus::PAID_STATUS_HANDLE) {
+            if ($this->getOrderStatus()->getHandle() !== OrderStatus::INVOICED_STATUS_HANDLE) {
+                throw new InvalidOrderStatusChangeRequestedException(
+                    orderReference: $this->getOrderReference(),
+                    currentStatus: $this->getOrderStatus()->getHandle(),
+                    requestedStatus: PaymentStatus::PAID_STATUS_HANDLE,
+                );
+            }
+        }
+        $this->orderStatus = OrderStatus::makeFromHandle(OrderStatus::PAID_STATUS_HANDLE);
     }
 }

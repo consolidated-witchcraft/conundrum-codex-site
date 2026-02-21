@@ -1,3 +1,5 @@
+import {centessimalToCurrency} from "../helpers/CentessimalToCurrency";
+
 export class CartLinePreview extends HTMLDListElement {
 
     private inputElement: HTMLInputElement;
@@ -45,7 +47,7 @@ export class CartLinePreview extends HTMLDListElement {
         nameDd.innerText = this.inputElement.dataset.name;
         let pricePreTax:number = parseInt(this.inputElement.dataset.pricepretax);
 
-        pricePerUnitDd.innerText = this.centessimalToDecimal(pricePreTax);
+        pricePerUnitDd.innerText = centessimalToCurrency(pricePreTax);
         let quantity: number = parseInt(this.inputElement.value);
         this.lineTotalDd.innerText = this.calculateLineTotal(pricePreTax, quantity);
 
@@ -62,14 +64,6 @@ export class CartLinePreview extends HTMLDListElement {
 
         let lineTotalDecimal: number = (pricePreTax * quantity);
 
-        return this.centessimalToDecimal(lineTotalDecimal);
-    }
-
-    private centessimalToDecimal(centessimal: number): string {
-        let decimal: number = centessimal/100;
-        return decimal.toLocaleString('en-GB', {
-            style: 'currency',
-            currency: 'GBP',
-        });
+        return centessimalToCurrency(lineTotalDecimal);
     }
 }

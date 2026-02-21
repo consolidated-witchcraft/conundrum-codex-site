@@ -34,8 +34,8 @@ class TaxService extends AbstractDomainEntityService implements TaxServiceInterf
         foreach ($this->taxRateProviders as $taxRateProvider) {
             $totalTax = 0;
             foreach ($order->getProductOrderLines() as $productOrderLine) {
-                if (!$productOrderLine->getProduct()->isTaxExempt()) {
-                    $totalTax += $taxRateProvider->getTaxCentessimal($productOrderLine->getProduct()->getPreTaxPriceCentessimal(), $productOrderLine->getQuantity());
+                if (!$productOrderLine->getProductVariant()->isTaxExempt()) {
+                    $totalTax += $taxRateProvider->getTaxCentessimal($productOrderLine->getProductVariant()->getPreTaxPriceCentessimal(), $productOrderLine->getQuantity());
                 }
             }
             foreach ($order->getChargeLines() as $chargeLine) {

@@ -117,7 +117,7 @@ class CheckoutController extends AbstractBaseController
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
             $order = $this->orderService->convertCartToOrder($cart);
-            return $this->redirectToRoute('payments.pay', ['orderReference' => $order->getId(), 'paymentReference' => $order->getOrderPayments()->first()->getPaymentReference()]);
+            return $this->redirectToRoute('payments.pay', ['orderReference' => $order->getOrderReference(), 'paymentReference' => $order->getOrderPayments()->first()->getPaymentReference()]);
         }
         $pageVars = [
             'pageTitle' => 'Review your Order',

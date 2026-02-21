@@ -4,18 +4,18 @@ declare(strict_types=1);
 
 namespace App\Services\Payment\Domain;
 
+use App\Services\Core\Domain\AbstractDomainEntity;
 use App\Services\Orders\Domain\Exceptions\OrderPaymentInvalidStatusChangeException;
 use App\Services\Orders\Domain\Exceptions\UnknownPaymentStatusException;
 use App\Services\Orders\Domain\Order;
 use App\Services\Payment\Domain\ValueObjects\PaymentStatus;
 use App\Services\Payment\Infrastructure\PaymentRepository;
 use Doctrine\ORM\Mapping as ORM;
-use Symfony\Bridge\Doctrine\IdGenerator\UuidGenerator;
-use Symfony\Bridge\Doctrine\Types\UuidType;
-use Symfony\Component\Uid\Uuid;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 #[ORM\Entity(repositoryClass: PaymentRepository::class)]
-class Payment
+#[UniqueEntity(fields: ['paymentReference'])]
+class Payment extends AbstractDomainEntity
 {
     /**
      * @throws UnknownPaymentStatusException
@@ -27,8 +27,8 @@ class Payment
         #[ORM\Column(type: 'integer')]
         private readonly int $paymentAmountCentessimal,
 
-        #[ORM\Column(type: 'string', length: 255)]
-        private readonly string $humanReadablePaymentReference,
+        #[ORM\Column(type: 'string', length: 255, unique: true)]
+        private readonly string $paymentReference,
 
         #[ORM\ManyToOne(targetEntity: Order::class, inversedBy: 'orderPayments')]
         private readonly Order  $order,
@@ -36,23 +36,16 @@ class Payment
         #[ORM\Column(type: 'payment_status')]
         private ? PaymentStatus $paymentStatus = null,
 
-        #[ORM\Id]
-        #[ORM\Column(type: UuidType::NAME, unique: true)]
-        #[ORM\GeneratedValue(strategy: 'CUSTOM')]
-        #[ORM\CustomIdGenerator(class: UuidGenerator::class)]
-        private ? Uuid $paymentReference = null
-    ) {
+        public ? int $id = null
+    ){
+        parent::__construct($id);
+
         if ($this->paymentStatus === null) {
             $this->paymentStatus = PaymentStatus::makeFromHandle('unpaid');
         }
     }
 
-    public function getHumanReadablePaymentReference(): string
-    {
-        return $this->humanReadablePaymentReference;
-    }
-
-    public function getPaymentReference(): Uuid
+    public function getPaymentReference(): string
     {
         return $this->paymentReference;
     }
@@ -82,7 +75,7 @@ class Payment
         if ($this->paymentStatus->getHandle() !== 'unpaid') {
             throw new OrderPaymentInvalidStatusChangeException(
                 orderId: $this->order->getId(),
-                paymentReference: $this->getPaymentReference()->toString(),
+                paymentReference: $this->getPaymentReference(),
                 currentStatusHandle: $this->paymentStatus->getHandle(),
                 attemptedStatusHandle: 'processing'
             );
@@ -94,7 +87,7 @@ class Payment
         if ($this->paymentStatus->getHandle() !== 'processing') {
             throw new OrderPaymentInvalidStatusChangeException(
                 orderId: $this->order->getId(),
-                paymentReference: $this->getPaymentReference()->toString(),
+                paymentReference: $this->getPaymentReference(),
                 currentStatusHandle: $this->paymentStatus->getHandle(),
                 attemptedStatusHandle: 'declined'
             );
@@ -106,7 +99,7 @@ class Payment
         if ($this->paymentStatus->getHandle() !== 'processing') {
             throw new OrderPaymentInvalidStatusChangeException(
                 orderId: $this->order->getId(),
-                paymentReference: $this->getPaymentReference()->toString(),
+                paymentReference: $this->getPaymentReference(),
                 currentStatusHandle: $this->paymentStatus->getHandle(),
                 attemptedStatusHandle: 'paid'
             );

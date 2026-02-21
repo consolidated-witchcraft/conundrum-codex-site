@@ -78,7 +78,7 @@ class ApiUserCartProductLineOutputDto
         public readonly string $productVariantName,
         public readonly int $productVariantPriceCentessimal,
         public int $quantity,
-        public readonly int $lineTotalCentessimal,
+        public int $lineTotalCentessimal,
         public ? int $id = null,
     ) {}
 

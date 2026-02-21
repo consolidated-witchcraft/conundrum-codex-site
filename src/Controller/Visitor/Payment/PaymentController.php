@@ -34,7 +34,6 @@ class PaymentController extends AbstractBaseController
             $payment->markProcessing();
             $payment->markPaid();
             $this->paymentService->savePayment($payment);
-            die("PAYING NOW");
         }
         $pageVars = [
             'pageTitle' => 'Pay',

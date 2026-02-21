@@ -22,8 +22,11 @@ class PaymentService extends AbstractDomainEntityService implements PaymentServi
     }
     public function getPaymentByReference(string $paymentReference): ?Payment
     {
-        return $this->paymentRepository->findOneBy(['uuid' => $paymentReference]);
+        return $this->paymentRepository->findOneBy(['paymentReference' => $paymentReference]);
     }
+
+
+
 
     public function savePayment(Payment $orderPayment, bool $flush = true): Payment
     {
@@ -38,7 +41,7 @@ class PaymentService extends AbstractDomainEntityService implements PaymentServi
     {
         $payments = new ArrayCollection();
         $payment = new Payment(
-            humanReadablePaymentReference: $this->generateNewHumanReadablePaymentReferenceForOrder($order),
+            paymentReference: $this->generateNewHumanReadablePaymentReferenceForOrder($order),
             name: "Total",
             paymentAmountCentessimal: $order->getTotalPostTaxCentessimal(),
             order: $order,
@@ -49,7 +52,10 @@ class PaymentService extends AbstractDomainEntityService implements PaymentServi
     }
 
     private function generateNewHumanReadablePaymentReferenceForOrder(Order $order, int $attempts = 1): string {
-        $orderReference = $order->getOrderReference();
-        dd($orderReference);
+        $paymentReference = sprintf("%s_PAYMENT_%d", $order->getOrderReference(), $attempts);
+        if ($this->getPaymentByReference($paymentReference) !== null) {
+            return $this->generateNewHumanReadablePaymentReferenceForOrder($order, $attempts +1);
+        }
+        return $paymentReference;
     }
 }

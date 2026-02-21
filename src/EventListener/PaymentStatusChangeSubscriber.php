@@ -40,7 +40,7 @@ class PaymentStatusChangeSubscriber
         if ($initialStatus->getHandle() !== $lastStatus->getHandle()) {
             $this->messageBus->dispatch(
                 new PaymentStatusUpdateMessage(
-                    paymentReference: $payment->getReference(),
+                    paymentReference: $payment->getPaymentReference(),
                     orderReference: $payment->getOrder()->getOrderReference(),
                     amountCentessimal: $payment->getPaymentAmountCentessimal(),
                     paymentName: $payment->getName(),

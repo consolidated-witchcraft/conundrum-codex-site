@@ -70,7 +70,7 @@ class ApiUserCartProductLineStateProcessor implements ProcessorInterface
                 $isDeletingLine = true;
                 $cart->removeUserCartProductLine($productLine);
             }
-
+            $data->lineTotalCentessimal = $productLine->getPretaxTotalCentessimal();
             $this->userService->saveUser($user);
         }
         if ($operation instanceof Post) {
