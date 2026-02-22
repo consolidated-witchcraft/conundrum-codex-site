@@ -600,6 +600,47 @@ main {
                     }
                 }
             }
+
+            nav.mobile-nav#cart-nav {
+                right: 0;
+
+                .cart-empty-message {
+                    &.hide {
+                        display: none;
+                    }
+                }
+
+                dl.cart-product-line-item {
+                    display: flex;
+                    flex-direction: row;
+                    background-color: palette.$offWhite;
+                    border: variables.$baseBorderWidth solid transparent;
+                    border-radius: variables.$baseBorderRadius;
+                    border-image: palette.$goldFX 33%;
+                    box-shadow: palette.$baseBoxShadow;
+                    margin-bottom: math.div(variables.$base-spacing, 4);
+
+
+                    dt.product-name,
+                    dt.product-sku,
+                    dt.product-qty,
+                    dt.product-ppu {
+                        display: none;
+                    }
+                    dt.product-remove {
+                        display: none;
+                    }
+
+                    dt, dd {
+                        flex: 1;
+                        padding: math.div(variables.$base-spacing, 4);
+
+                    }
+                }
+            }
+        }
+        .cart-wrapper {
+            position: relative;
         }
 
         &.scrolled {

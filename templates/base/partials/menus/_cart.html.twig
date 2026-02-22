@@ -1,8 +1,14 @@
-<button id="cart-nav-toggle" is="nav-toggle" class="nav-toggle cart-nav-toggle unstyle" data-target="cart-nav" data-open="false">Show User Nav</button>
-<nav class="mobile-nav" id="cart-nav">
+<div class="cart-wrapper">
+    <button id="cart-nav-toggle" is="nav-toggle" class="nav-toggle cart-nav-toggle unstyle" data-target="cart-nav" data-open="false">Show User Nav</button>
+    <nav class="mobile-nav" id="cart-nav">
 
-    <div class="user-cart-preview" is="user-cart" data-cartid="{{ userCartId }}">
+        <div class="user-cart-preview" is="user-cart" data-cartid="{{ userCartId }}">
+            <em class="cart-empty-message">
+                Your cart is empty.
+            </em>
+        </div>
+        <a class="btn cta btn-success" href="{{ path('checkout.delivery') }}">Checkout</a>
 
-    </div>
+    </nav>
+</div>
 
-</nav>
