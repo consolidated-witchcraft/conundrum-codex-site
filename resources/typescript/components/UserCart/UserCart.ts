@@ -1,7 +1,8 @@
-import createClient, {Client} from "openapi-fetch";
+import {Client} from "openapi-fetch";
 import type { paths } from "../../schema/schema";
 import {UserCartProductLine} from "./UserCartProductLine";
 import {UserCartProductLineRemovedDetail} from "./types/UserCartProductLineRemovedDetail";
+import {createApiClient} from "../../helpers/CreateApiClient";
 
 export class UserCart extends HTMLDivElement {
 
@@ -13,9 +14,8 @@ export class UserCart extends HTMLDivElement {
 
     constructor() {
         super();
-        let env: string  = 'process.env.APP_ENV';
-        let apiBaseUrl = (env == '"dev"') ? 'http://localhost:8089' : 'https://conundrumcodex.com';
-        this.client = createClient<paths>({ baseUrl: apiBaseUrl });
+
+        this.client = createApiClient();
 
         let cartEmptyElement: HTMLElement|null = this.querySelector('em.cart-empty-message');
 

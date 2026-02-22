@@ -1,5 +1,6 @@
-import createClient, {Client} from "openapi-fetch";
+import {Client} from "openapi-fetch";
 import type { paths } from "../schema/schema";
+import {createApiClient} from "../helpers/CreateApiClient";
 
 export default class RandomQuotation extends HTMLQuoteElement {
 
@@ -9,12 +10,10 @@ export default class RandomQuotation extends HTMLQuoteElement {
 
     constructor() {
         super();
-        let env: string  = 'process.env.APP_ENV';
-        let apiBaseUrl = (env == '"dev"') ? 'http://localhost:8089' : 'https://conundrumcodex.com';
         let quotationElement: HTMLParagraphElement = document.createElement('p');
         let citationElement: HTMLSpanElement = document.createElement('span');
 
-        this.client = createClient<paths>({ baseUrl: apiBaseUrl });
+        this.client = createApiClient();
         this.classList.add('random-quotation');
         quotationElement.classList.add('quotation');
         citationElement.classList.add('cite');
@@ -26,11 +25,11 @@ export default class RandomQuotation extends HTMLQuoteElement {
     }
 
     connectedCallback(): void {
-        this.getQuote();
+        void this.getQuote();
 
         this.addEventListener('click', (e: MouseEvent) => {
             e.preventDefault();
-            this.getQuote();
+            void this.getQuote();
         })
     }
 

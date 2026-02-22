@@ -1,7 +1,8 @@
-import createClient, {Client} from "openapi-fetch";
+import {Client} from "openapi-fetch";
 import type { paths } from "../../schema/schema";
 import {CasebookSubjectClue} from "./CasebookSubjectClue";
 import {Clue} from "./clue";
+import {createApiClient} from "../../helpers/CreateApiClient";
 
 export class CasebookSubject extends HTMLElement {
 
@@ -39,11 +40,8 @@ export class CasebookSubject extends HTMLElement {
 
         this.subjectId = subjectId;
         this.instanceCode = instanceCode;
-        let env: string  = 'process.env.APP_ENV';
 
-        let apiBaseUrl = (env == '"dev"') ? 'http://localhost:8089' : 'https://conundrumcodex.com';
-
-        this.client = createClient<paths>({ baseUrl: apiBaseUrl });
+        this.client = createApiClient();
 
         // @ts-ignore
         let templateContent = template.content;

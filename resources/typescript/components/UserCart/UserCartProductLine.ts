@@ -1,6 +1,7 @@
-import createClient, {Client} from "openapi-fetch";
 import type { paths } from "../../schema/schema";
+import {Client} from "openapi-fetch";
 import {centessimalToCurrency} from "../../helpers/CentessimalToCurrency";
+import {createApiClient} from "../../helpers/CreateApiClient";
 export class UserCartProductLine extends HTMLDivElement {
 
     private client: Client<paths>;
@@ -13,9 +14,7 @@ export class UserCartProductLine extends HTMLDivElement {
 
     constructor() {
         super();
-        const env: string  = 'process.env.APP_ENV';
-        const apiBaseUrl = (env == '"dev"') ? 'http://localhost:8089' : 'https://conundrumcodex.com';
-        this.client = createClient<paths>({ baseUrl: apiBaseUrl });
+        this.client = createApiClient();
     }
 
     private requireIds(): { cartId: string; productLineId: string } {
