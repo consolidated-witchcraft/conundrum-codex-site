@@ -1,0 +1,54 @@
+{
+    "title": "Logic Grid",
+    "slug": "logic_grid",
+    "description": "In a Logic Grid type puzzle, players must utilise clues to move elements into an appropriate place on a grid",
+    "categories": [
+        "logic",
+        "deduction"
+    ],
+    "type": "misc",
+    "created": "2025-09-17",
+    "static": false,
+    "creator": "sam.baynham@gmail.com",
+    "elementName": "logic-grid-element",
+    "credits": [
+        {
+            "name": "Sam Baynham",
+            "email": "sam.baynham@gmail.com",
+            "created": "Code, Styling"
+        }
+    ],
+
+    "configOptions": [
+        {
+            "configName": "columns",
+            "label": "Columns",
+            "type": "integer",
+            "helpText": "The number of columns each row of the grid has."
+        },
+        {
+            "configName": "rows",
+            "label": "Rows",
+            "type": "integer",
+            "helpText": "The number of columns each row of the grid has."
+        },
+        {
+            "configName": "grid_elements",
+            "label": "Elements",
+            "type": "keyValueList",
+            "helpText": "The elements on your logic grid that must be placed. Give each a unique key (machineName) and value (Human-Readable Label)."
+        },
+        {
+            "configName": "solution",
+            "label": "Solution",
+            "type": "stringArray",
+            "helpText": "The correct solution. These will be laid out right to left along your rows and columns."
+        },
+        {
+            "configName": "clues",
+            "label": "Clues",
+            "type": "clueArray",
+            "helpText": "An array of clues you can reveal to the players as they go."
+        }
+    ]
+}

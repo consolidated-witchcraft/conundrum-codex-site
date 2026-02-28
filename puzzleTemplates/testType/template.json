@@ -3,13 +3,14 @@
     "slug": "test_type",
     "description": "This is a test type puzzle",
     "categories": [
-        "test"
+        "logic",
+        "deduction"
     ],
-    "type": "test",
-    "created": "2025-09-17",
+    "type": "misc",
+    "created": "2026-02-28",
     "static": false,
     "creator": "sam.baynham@gmail.com",
-    "elementName": "test-element",
+    "elementName": "logic-grid-element",
     "credits": [
         {
             "name": "Sam Baynham",

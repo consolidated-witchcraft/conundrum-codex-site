@@ -11,6 +11,7 @@ use App\Services\PuzzleInstance\Domain\Dynamic\Fields\DieRollField;
 use App\Services\PuzzleInstance\Domain\Dynamic\Fields\DynamicPuzzleFieldInterface;
 use App\Services\PuzzleInstance\Domain\Dynamic\Fields\IntegerArrayField;
 use App\Services\PuzzleInstance\Domain\Dynamic\Fields\IntegerField;
+use App\Services\PuzzleInstance\Domain\Dynamic\Fields\KeyValueListField;
 use App\Services\PuzzleInstance\Domain\Dynamic\Fields\StringArrayField;
 use App\Services\PuzzleInstance\Domain\Dynamic\Fields\StringField;
 use App\Services\PuzzleTemplate\Service\ValidPuzzleConfigOptionTypes;
@@ -86,6 +87,11 @@ class PuzzleConfigFieldType extends Type
                     $configValue['value'],
                 ),
                 ValidPuzzleConfigOptionTypes::BOOLEAN_ARRAY_TYPE_KEY => new BooleanArrayField(
+                    $configValue['name'],
+                    $configValue['label'],
+                    $configValue['value'],
+                ),
+                ValidPuzzleConfigOptionTypes::KEY_VALUE_LIST_TYPE_KEY => new KeyValueListField(
                     $configValue['name'],
                     $configValue['label'],
                     $configValue['value'],

@@ -20,6 +20,10 @@ class ValidPuzzleConfigOptionTypes
     public const string BOOLEAN_TYPE_KEY = 'boolean';
 
     public const string BOOLEAN_ARRAY_TYPE_KEY = 'booleanArray';
+
+    public const string KEY_VALUE_LIST_TYPE_KEY = 'keyValueList';
+
+    public const string CLUE_ARRAY_KEY = 'clueArray';
     /**
      * These are the valid value for the 'type' field in the above config option field.
      */
@@ -32,5 +36,7 @@ class ValidPuzzleConfigOptionTypes
         self::ROUTE_TYPE_KEY,
         self::BOOLEAN_TYPE_KEY,
         self::BOOLEAN_ARRAY_TYPE_KEY,
+        self::KEY_VALUE_LIST_TYPE_KEY,
+        self::CLUE_ARRAY_KEY,
     ];
 }

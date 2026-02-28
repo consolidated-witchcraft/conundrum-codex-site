@@ -11,10 +11,12 @@ use App\ApiResource\PuzzleTemplate\Dto\PuzzleTemplateDto;
 use App\Services\Game\Domain\Game;
 use App\Services\PuzzleInstance\Domain\Dynamic\Fields\BooleanArrayField;
 use App\Services\PuzzleInstance\Domain\Dynamic\Fields\BooleanField;
+use App\Services\PuzzleInstance\Domain\Dynamic\Fields\ClueArrayField;
 use App\Services\PuzzleInstance\Domain\Dynamic\Fields\DieRollField;
 use App\Services\PuzzleInstance\Domain\Dynamic\Fields\Exceptions\UnmappableDynamicFieldTypeException;
 use App\Services\PuzzleInstance\Domain\Dynamic\Fields\IntegerArrayField;
 use App\Services\PuzzleInstance\Domain\Dynamic\Fields\IntegerField;
+use App\Services\PuzzleInstance\Domain\Dynamic\Fields\KeyValueListField;
 use App\Services\PuzzleInstance\Domain\Dynamic\Fields\StringArrayField;
 use App\Services\PuzzleInstance\Domain\Dynamic\Fields\StringField;
 use App\Services\PuzzleInstance\Domain\Dynamic\Providers\DynamicPuzzleInstanceProvider;
@@ -23,6 +25,7 @@ use App\Services\PuzzleInstance\Service\Exceptions\AttemptingToGenerateDtoForSta
 use App\Services\PuzzleTemplate\Domain\ConfigOptionDefinitions\PuzzleTemplateConfigOptionDefinitionInterface;
 use App\Services\PuzzleTemplate\Domain\Exceptions\PuzzleTemplateNotMappedException;
 use App\Services\PuzzleTemplate\Domain\PuzzleTemplate;
+use App\Services\PuzzleTemplate\Service\ValidPuzzleConfigOptionTypes;
 
 
 class DynamicPuzzleInstanceDto
@@ -76,6 +79,8 @@ class DynamicPuzzleInstanceDto
             puzzleName: $puzzleInstance->getName(),
             puzzleDescription: $puzzleInstance->getDescription(),
             config: self::mapConfig($puzzleInstance->getTemplate(), $puzzleInstance),
+            instanceCode: $puzzleInstance->getInstanceCode(),
+            publicationDate: $puzzleInstance->getPublicationDate(),
         );
     }
 
@@ -90,6 +95,7 @@ class DynamicPuzzleInstanceDto
         if (!array_key_exists($configFieldName, $this->config)) {
             throw new UnmappableDynamicFieldTypeException($configFieldName);
         }
+
         $this->config[$configFieldName]->setValue($value);
     }
 
@@ -102,6 +108,7 @@ class DynamicPuzzleInstanceDto
 
     /**
      * @param PuzzleTemplate $template
+     * @param PuzzleInstance|null $instance
      * @return array
      * @throws UnmappableDynamicFieldTypeException
      */
@@ -110,13 +117,15 @@ class DynamicPuzzleInstanceDto
         $mappedConfig = [];
         foreach ($template->getConfiguration() as $templateConfigurationOption) {
             $mappedConfig[$templateConfigurationOption->getConfigName()] = match ($templateConfigurationOption->getType()) {
-                'string' => self::mapFromStringConfig($templateConfigurationOption, $instance ? $instance->getConfigValue($templateConfigurationOption->getConfigName()) : null),
-                'dieRoll' => self::mapFromDieRollConfig($templateConfigurationOption, $instance ? $instance->getConfigValue($templateConfigurationOption->getConfigName()) : null),
-                'stringArray' => self::mapFromStringArrayConfig($templateConfigurationOption, $instance ? $instance->getConfigValue($templateConfigurationOption->getConfigName()) : null),
-                'integer' => self::mapFromIntegerConfig($templateConfigurationOption, $instance ? $instance->getConfigValue($templateConfigurationOption->getConfigName()) : null),
-                'integerArray' => self::mapFromIntegerArrayConfig($templateConfigurationOption, $instance ? $instance->getConfigValue($templateConfigurationOption->getConfigName()) : null),
-                'boolean' => self::mapFromBooleanConfig($templateConfigurationOption, $instance ? $instance->getConfigValue($templateConfigurationOption->getConfigName()) : null),
-                'booleanArray' => self::mapFromBooleanArrayConfig($templateConfigurationOption, $instance ? $instance->getConfigValue($templateConfigurationOption->getConfigName()) : null),
+                ValidPuzzleConfigOptionTypes::STRING_TYPE_KEY => self::mapFromStringConfig($templateConfigurationOption, $instance?->getConfigValue($templateConfigurationOption->getConfigName())),
+                ValidPuzzleConfigOptionTypes::DIE_ROLL_TYPE_KEY => self::mapFromDieRollConfig($templateConfigurationOption, $instance?->getConfigValue($templateConfigurationOption->getConfigName())),
+                ValidPuzzleConfigOptionTypes::STRING_ARRAY_TYPE_KEY => self::mapFromStringArrayConfig($templateConfigurationOption, $instance?->getConfigValue($templateConfigurationOption->getConfigName())),
+                ValidPuzzleConfigOptionTypes::INTEGER_TYPE_KEY => self::mapFromIntegerConfig($templateConfigurationOption, $instance?->getConfigValue($templateConfigurationOption->getConfigName())),
+                ValidPuzzleConfigOptionTypes::INTEGER_ARRAY_TYPE_KEY => self::mapFromIntegerArrayConfig($templateConfigurationOption, $instance?->getConfigValue($templateConfigurationOption->getConfigName())),
+                ValidPuzzleConfigOptionTypes::BOOLEAN_TYPE_KEY => self::mapFromBooleanConfig($templateConfigurationOption, $instance?->getConfigValue($templateConfigurationOption->getConfigName())),
+                ValidPuzzleConfigOptionTypes::BOOLEAN_ARRAY_TYPE_KEY => self::mapFromBooleanArrayConfig($templateConfigurationOption, $instance?->getConfigValue($templateConfigurationOption->getConfigName())),
+                ValidPuzzleConfigOptionTypes::KEY_VALUE_LIST_TYPE_KEY => self::mapFromKeyValueListConfig($templateConfigurationOption, $instance?->getConfigValue($templateConfigurationOption->getConfigName())),
+                ValidPuzzleConfigOptionTypes::CLUE_ARRAY_KEY => self::mapFromClueArrayConfig($templateConfigurationOption, $instance?->getConfigValue($templateConfigurationOption->getConfigName())),
                 default => throw new UnmappableDynamicFieldTypeException($templateConfigurationOption->getType())
             };
 
@@ -195,6 +204,28 @@ class DynamicPuzzleInstanceDto
         mixed $value = null
     ): BooleanArrayField {
         return new BooleanArrayField(
+            name: $booleanArrayConfigurationOption->getConfigName(),
+            label: $booleanArrayConfigurationOption->getLabel(),
+            value: $value
+        );
+    }
+
+    public static function mapFromKeyValueListConfig(
+        PuzzleTemplateConfigOptionDefinitionInterface $booleanArrayConfigurationOption,
+        mixed $value = null
+    ): KeyValueListField {
+        return new KeyValueListField(
+            name: $booleanArrayConfigurationOption->getConfigName(),
+            label: $booleanArrayConfigurationOption->getLabel(),
+            value: $value
+        );
+    }
+
+    public static function mapFromClueArrayConfig(
+        PuzzleTemplateConfigOptionDefinitionInterface $booleanArrayConfigurationOption,
+        mixed $value = null
+    ): ClueArrayField {
+        return new ClueArrayField(
             name: $booleanArrayConfigurationOption->getConfigName(),
             label: $booleanArrayConfigurationOption->getLabel(),
             value: $value

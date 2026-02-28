@@ -10,35 +10,19 @@ use App\Controller\Visitor\Puzzles\PuzzleTemplateController;
 use App\Dto\Visitor\Game\AddPuzzle\AddPuzzleStepOneDto;
 use App\Dto\Visitor\Game\AddPuzzle\ChooseGameDto;
 use App\Dto\Visitor\Game\AddPuzzle\ChoosePuzzleDto;
-use App\Form\Mapper\DynamicInstanceDataMapper;
-use App\Form\Type\DieRollType;
 use App\Form\Visitor\Puzzle\AddPuzzle\ChooseGameType;
 use App\Form\Visitor\Puzzle\AddPuzzle\ChoosePuzzleType;
 use App\Security\GameManagerVoter;
-use App\Services\Files\Service\Interfaces\FilesEntityServiceInterface;
 use App\Services\Game\Domain\Game;
 use App\Services\PuzzleInstance\Domain\Dynamic\Dto\DynamicPuzzleInstanceDto;
 use App\Services\PuzzleInstance\Domain\Dynamic\PuzzleInstance;
-use App\Services\PuzzleInstance\Service\Interfaces\PuzzleInstanceEntityServiceInterface;
 use App\Services\PuzzleTemplate\Domain\PuzzleTemplate;
-use App\Services\PuzzleTemplate\Service\Interfaces\PuzzleTemplateServiceInterface;
-use App\Services\PuzzleTemplate\Service\ValidPuzzleConfigOptionTypes;
 use App\Services\User\Domain\User;
-use Doctrine\ORM\EntityManagerInterface;
-use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
-use Symfony\Component\Form\Extension\Core\Type\CollectionType;
-use Symfony\Component\Form\Extension\Core\Type\NumberType;
-use Symfony\Component\Form\Extension\Core\Type\SubmitType;
-use Symfony\Component\Form\Extension\Core\Type\TextType;
-use Symfony\Component\Form\FormInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
 use Symfony\Component\Serializer\Exception\ExceptionInterface;
-use Symfony\Component\Serializer\SerializerInterface;
-use Symfony\Component\String\Slugger\SluggerInterface;
-use Symfony\Component\Validator\Validator\ValidatorInterface;
 
 class AddPuzzleController extends AbstractPuzzleController
 {

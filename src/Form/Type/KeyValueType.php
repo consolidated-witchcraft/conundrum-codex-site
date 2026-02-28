@@ -6,7 +6,7 @@ namespace App\Form\Type;
 
 use App\Dto\Visitor\Puzzles\Static\Casebook\CasebookSubjectClueDto;
 use App\Services\PuzzleInstance\Domain\Casebook\CasebookSubjectClue;
-use App\Services\PuzzleInstance\Domain\Casebook\CasebookSubjectClueType;
+use App\Services\PuzzleInstance\Domain\Casebook\CasebookSubjectClueTypeValueObject;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
@@ -14,44 +14,29 @@ use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-class ClueType extends AbstractType
+class KeyValueType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void {
 
         $builder->add(
-            'title',
+            'key',
             TextType::class,
             [
-                'help' => 'Enter a short name for your clue.'
+                'help' => 'The key of your entry (Machine Name).'
             ]
         )
         ->add(
-            'body',
-            TextareaType::class,
+            'value',
+            TextType::class,
             [
-                'help' => 'Enter the detailed content of the clue',
-                'attr' => [
-                    'rows' => 10,
-                ]
-            ]
-        )
-        ->add(
-            'type',
-            EntityType::class,
-            [
-                'class' => CasebookSubjectClueType::class,
-                'choice_label' => 'label',
-                'help' => 'Select a type for your clue.'
+                'help' => 'The value of your entry (Human-readable Label).'
             ]
         );
+
 
     }
 
     public function configureOptions(OptionsResolver $resolver): void
     {
-
-        $resolver->setDefaults([
-            'data_class' => CasebookSubjectClueDto::class
-        ]);
     }
 }

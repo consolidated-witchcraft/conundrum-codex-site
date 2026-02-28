@@ -4,6 +4,8 @@ namespace App\Controller\Visitor\Puzzles\PuzzleInstance\Traits;
 
 use App\Form\Mapper\DynamicInstanceDataMapper;
 use App\Form\Type\DieRollType;
+use App\Form\Type\KeyValueType;
+use App\Form\Type\RevealableClueFormType;
 use App\Services\PuzzleInstance\Domain\Dynamic\Dto\DynamicPuzzleInstanceDto;
 use App\Services\PuzzleTemplate\Domain\PuzzleTemplate;
 use App\Services\PuzzleTemplate\Service\ValidPuzzleConfigOptionTypes;
@@ -29,21 +31,32 @@ trait GeneratesDynamicPuzzleInstanceFormTrait
                 case ValidPuzzleConfigOptionTypes::STRING_TYPE_KEY:
                     $builder->add(
                         $configurationOption->getConfigName(),
-                        TextType::class
+                        TextType::class,
+                        [
+                            'help' => $configurationOption->getHelpText()
+                        ]
                     );
                     break;
 
                 case ValidPuzzleConfigOptionTypes::DIE_ROLL_TYPE_KEY:
                     $builder->add(
                         $configurationOption->getConfigName(),
-                        DieRollType::class
+                        DieRollType::class,
+                        [
+                            'help' => $configurationOption->getHelpText()
+                        ]
                     );
                     break;
 
                 case ValidPuzzleConfigOptionTypes::INTEGER_TYPE_KEY:
                     $builder->add(
                         $configurationOption->getConfigName(),
-                        NumberType::class
+                        NumberType::class,
+                        [
+                            'help' => $configurationOption->getHelpText(),
+                            'html5' => true,
+                            'scale' => 0,
+                        ]
                     );
                     break;
 
@@ -56,7 +69,8 @@ trait GeneratesDynamicPuzzleInstanceFormTrait
                                 'True' => true,
                                 'False' => false,
                             ],
-                            'expanded' => true
+                            'expanded' => true,
+                            'help' => $configurationOption->getHelpText()
                         ]
                     );
                     break;
@@ -85,7 +99,8 @@ trait GeneratesDynamicPuzzleInstanceFormTrait
                             'entry_options' => [
                                 'attr' => [
                                     'class' => 'multiadd-row'
-                                ]
+                                ],
+                                'help' => $configurationOption->getHelpText()
                             ]
                         ]
                     );
@@ -113,7 +128,8 @@ trait GeneratesDynamicPuzzleInstanceFormTrait
                             'entry_options' => [
                                 'attr' => [
                                     'class' => 'multiadd-row'
-                                ]
+                                ],
+                                'help' => $configurationOption->getHelpText()
                             ]
                         ]
                     );
@@ -146,11 +162,66 @@ trait GeneratesDynamicPuzzleInstanceFormTrait
                                 'expanded' => true,
                                 'attr' => [
                                     'class' => 'multiadd-row'
-                                ]
+                                ],
+                                'help' => $configurationOption->getHelpText()
                             ]
                         ]
                     );
                     break;
+                case ValidPuzzleConfigOptionTypes::KEY_VALUE_LIST_TYPE_KEY:
+                    $builder->add(
+                        $configurationOption->getConfigName(),
+                        CollectionType::class,
+                        [
+                            'entry_type' => KeyValueType::class,
+                            'allow_add' => true,
+                            'allow_delete' => true,
+                            'delete_empty' => true,
+                            'prototype' => true,
+                            'required' => false,
+                            'prototype_options' => [
+                                'required' => false,
+                                'label' => 'Add a Key/Value Pair',
+
+
+                            ],
+                            'entry_options' => [
+                                'attr' => [
+                                    'class' => 'multiadd-row'
+                                ],
+                                'help' => $configurationOption->getHelpText()
+                            ]
+                        ]
+                    );
+                    break;
+                case ValidPuzzleConfigOptionTypes::CLUE_ARRAY_KEY:
+                    $builder->add(
+                        $configurationOption->getConfigName(),
+                        CollectionType::class,
+                        [
+                            'entry_type' => RevealableClueFormType::class,
+                            'allow_add' => true,
+                            'allow_delete' => true,
+                            'delete_empty' => true,
+                            'prototype' => true,
+                            'required' => false,
+                            'prototype_options' => [
+                                'required' => false,
+                                'label' => 'Add a Revealable Clue',
+
+
+                            ],
+                            'entry_options' => [
+                                'attr' => [
+                                    'class' => 'multiadd-row'
+                                ],
+                                'help' => $configurationOption->getHelpText()
+                            ]
+                        ]
+                    );
+                    break;
+                default:
+                    dd($configurationOption->getConfigName());
 
             }
         }

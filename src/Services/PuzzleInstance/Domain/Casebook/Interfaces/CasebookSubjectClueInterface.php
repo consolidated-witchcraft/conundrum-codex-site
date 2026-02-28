@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Services\PuzzleInstance\Domain\Casebook\Interfaces;
 
 use App\Services\PuzzleInstance\Domain\Casebook\CasebookSubject;
-use App\Services\PuzzleInstance\Domain\Casebook\CasebookSubjectClueType;
+use App\Services\PuzzleInstance\Domain\Casebook\CasebookSubjectClueTypeValueObject;
 
 interface CasebookSubjectClueInterface
 {
@@ -13,23 +13,23 @@ interface CasebookSubjectClueInterface
     /**
      * @param non-empty-string $title
      * @param non-empty-string $body
-     * @param CasebookSubjectClueType $type
+     * @param CasebookSubjectClueTypeValueObject $type
      * @param CasebookSubject $casebookSubject
      * @param \DateTimeImmutable|null $revealedDate
      * @param int|null $id
      */
     public function __construct(
-        string $title,
-        string $body,
-        CasebookSubjectClueType $type,
-        CasebookSubject $casebookSubject,
-        ? \DateTimeImmutable $revealedDate = null,
-        ?int $id = null
+        string                             $title,
+        string                             $body,
+        CasebookSubjectClueTypeValueObject $type,
+        CasebookSubject                    $casebookSubject,
+        ? \DateTimeImmutable               $revealedDate = null,
+        ?int                               $id = null
     );
 
-    public function setType(CasebookSubjectClueType $type): void;
+    public function setType(CasebookSubjectClueTypeValueObject $type): void;
 
-    public function getType(): CasebookSubjectClueType;
+    public function getType(): CasebookSubjectClueTypeValueObject;
 
     /**
      * @return non-empty-string
