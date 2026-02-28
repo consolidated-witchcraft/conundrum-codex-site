@@ -13,6 +13,8 @@
     font-weight: bold;
     box-shadow: palette.$baseBoxShadow;
     border-radius: 0.125rem;
+    display: inline-block;
+    margin: math.div(variables.$base-spacing, 4) 0;
 
     &:not(:last-child) {
         margin-right: math.div(variables.$base-spacing, 16);

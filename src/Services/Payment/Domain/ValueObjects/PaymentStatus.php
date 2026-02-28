@@ -24,9 +24,6 @@ readonly class PaymentStatus implements \Stringable
         self::PAID_STATUS_HANDLE => 'Paid',
     ];
 
-
-
-
     private function __construct(
         private string $handle,
         private string $name
@@ -50,5 +47,25 @@ readonly class PaymentStatus implements \Stringable
     public function __toString(): string
     {
         return $this->name;
+    }
+
+    public function isUnpaid(): bool {
+        return self::UNPAID_STATUS_HANDLE === $this->handle;
+    }
+
+    public function isPartiallyPaid(): bool {
+        return self::PARTIALLY_PAID_STATUS_HANDLE === $this->handle;
+    }
+
+    public function isProcessing(): bool {
+        return self::PROCESSING_STATUS_HANDLE === $this->handle;
+    }
+
+    public function isDeclined(): bool {
+        return self::DECLINED_STATUS_HANDLE === $this->handle;
+    }
+
+    public function isPaid(): bool {
+        return self::PAID_STATUS_HANDLE === $this->handle;
     }
 }

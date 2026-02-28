@@ -53,17 +53,22 @@ ul.tabular-list {
 
 ol.step-list {
     display: flex;
-    flex-direction: row;
-
+    flex-direction: column;
     counter-reset: steplist-counter;
-    li {
 
+    li {
         flex: 1;
         counter-increment: steplist-counter;
         text-align: center;
         padding-top: ($stepIconHeight + 1vh);
         position: relative;
-        text-indent: 0;
+        text-indent: initial;
+        width: 100%;
+        font-family: typography.$displayStack;
+        display: none;
+        &:not(:last-child) {
+            margin-bottom: math.div(variables.$base-spacing, 2);
+        }
 
         &:before {
             font-family: typography.$displayStack;
@@ -85,6 +90,7 @@ ol.step-list {
         }
 
         &.active {
+            display: block;
             &:before {
                 background: palette.$crimsonGradient;
 
@@ -100,6 +106,13 @@ ol.step-list {
             > * {
                 flex-basis: 33%;
             }
+        }
+    }
+
+    ol.step-list {
+        flex-direction: row;
+        li {
+            display: block;
         }
     }
 }

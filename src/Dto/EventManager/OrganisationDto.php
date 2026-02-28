@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Dto\EventManager;
 
+use App\Dto\Visitor\User\PostalAddressFieldDto;
 use App\Services\Events\Domain\Organisation;
 use App\Services\Files\Domain\ManagedFile;
 use App\Services\User\Domain\User;
@@ -18,6 +19,10 @@ class OrganisationDto
         public ? string $name = null,
         #[Assert\NotBlank]
         public ? string $handle = null,
+
+        public ? PostalAddressFieldDto $postalAddress = null,
+
+        public ? PostalAddressFieldDto $invoiceAddress = null,
         #[Assert\NotBlank]
         public iterable $managers = [],
     ) {}
@@ -27,6 +32,8 @@ class OrganisationDto
             owner: $organisation->getOwner(),
             name: $organisation->getName(),
             handle: $organisation->getHandle(),
+            postalAddress: PostalAddressFieldDto::makeFromAddress($organisation->getPostalAddress()),
+            invoiceAddress: PostalAddressFieldDto::makeFromAddress($organisation->getInvoiceAddress()),
             managers: $organisation->getManagers()
         );
     }

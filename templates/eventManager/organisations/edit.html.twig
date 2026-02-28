@@ -1,8 +1,21 @@
 {% extends '/eventManager/base/event-manager-base.html.twig' %}
 {% block body %}
+    {{ form_start(form) }}
     <div class="row">
         <div class="col panel">
-           {{ form(form) }}
+            {{ form_row(form.name) }}
+            {{ form_row(form.handle) }}
+            {{ form_row(form.organisationLogo) }}
+            {{ form_row(form.managers) }}
         </div>
     </div>
+    <div class="row">
+        <div class="col panel">
+            {{ form_row(form.postalAddress) }}
+        </div>
+        <div class="col panel">
+            {{ form_row(form.invoiceAddress) }}
+        </div>
+    </div>
+    {{ form_end(form) }}
 {% endblock %}

@@ -1,5 +1,23 @@
 {% extends 'base/base.html.twig' %}
 {% block body %}
+    <div class="row">
+        <div class="col">
+            <ol class="step-list">
+                <li>
+                    Choose Tickets
+                </li>
+                <li>
+                    Delivery Information
+                </li>
+                <li>
+                    Review your Order
+                </li>
+                <li class="active">
+                    Pay
+                </li>
+            </ol>
+        </div>
+    </div>
     <div class="row three-quarters-one-quarter">
         <div class="col">
             {{ form(form) }}

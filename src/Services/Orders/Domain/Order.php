@@ -17,9 +17,6 @@ use App\Services\PostalAddress\Domain\PostalAddress;
 use App\Services\User\Domain\User;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
-use Symfony\Bridge\Doctrine\IdGenerator\UuidGenerator;
-use Symfony\Bridge\Doctrine\Types\UuidType;
-use Symfony\Component\Uid\Uuid;
 
 #[ORM\Entity(repositoryClass: OrderRepository::class)]
 #[ORM\Table(name: 'orders')]
@@ -31,7 +28,6 @@ class Order extends AbstractDomainEntity implements DomainEntityInterface
      * @param Collection<int, OrderProductLine> $productOrderLines
      * @param Collection<int, OrderChargeLine> $chargeLines
      * @param Collection<int, Payment> $orderPayments
-     * @param Collection<int, OrderReceipt> $orderReceipts
      * @param User $user
      * @param Collection<int, OrderTax> $orderTaxes
      * @param PostalAddress|null $deliveryAddress
@@ -54,9 +50,6 @@ class Order extends AbstractDomainEntity implements DomainEntityInterface
         #[ORM\OneToMany(targetEntity: Payment::class, mappedBy: 'order', cascade: ['persist', 'refresh', 'remove'], fetch: 'EAGER', orphanRemoval: true)]
         private Collection $orderPayments,
 
-        #[ORM\OneToMany(targetEntity: OrderReceipt::class, mappedBy: 'order', cascade: ['persist', 'refresh', 'remove'], fetch: 'EAGER', orphanRemoval: true)]
-        private Collection $orderReceipts,
-
         #[ORM\ManyToOne(targetEntity: User::class, inversedBy: 'orders')]
         private User $user,
 
@@ -75,15 +68,6 @@ class Order extends AbstractDomainEntity implements DomainEntityInterface
         parent::__construct($id);
     }
 
-    public function setOrderReceipts(Collection $orderReceipts): void
-    {
-        $this->orderReceipts = $orderReceipts;
-    }
-
-    public function getOrderReceipts(): Collection
-    {
-        return $this->orderReceipts;
-    }
 
     public function getOrderStatus(): OrderStatus
     {
@@ -183,6 +167,8 @@ class Order extends AbstractDomainEntity implements DomainEntityInterface
     public function getTotalPostTaxCentessimal(): int {
         return $this->getProductLineTotalPreTaxCentessimal() + $this->getChargeLineTotalPreTaxCentessimal() + $this->getTotalTaxCentessimal();
     }
+
+
 
     public function getProductLineTotalPreTaxCentessimal(): int {
         $productsPreTaxCentessimal = 0;

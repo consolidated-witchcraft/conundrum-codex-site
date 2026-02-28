@@ -2,6 +2,24 @@
 {% block body %}
     <div class="row">
         <div class="col">
+            <ol class="step-list">
+                <li>
+                    Choose Tickets
+                </li>
+                <li>
+                    Delivery Information
+                </li>
+                <li class="active">
+                    Review your Order
+                </li>
+                <li>
+                    Pay
+                </li>
+            </ol>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col">
             {% for chargeLine in cart.getUserCartChargeLines %}
                 {% embed '/visitor/checkout/partials/_cartChargeLinePreview.html.twig' with {'chargeLine': chargeLine} %}{% endembed %}
             {% endfor %}

@@ -27,4 +27,12 @@ class OrderRepository extends ServiceEntityRepository
             ->getOneOrNullResult();
 
     }
+
+    public function getCurrentOrderCount(): int {
+        $qb = $this->createQueryBuilder('o');
+        $qb->select('count(o.id)');
+
+        $count = $qb->getQuery()->getSingleScalarResult();
+        return (int) $count;
+    }
 }

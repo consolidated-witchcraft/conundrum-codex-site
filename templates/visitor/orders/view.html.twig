@@ -2,14 +2,55 @@
 {% block body %}
     <div class="row">
         <div class="col">
+            <nav class="secondary">
+                <a href="{{ path('orders.invoice', {'orderReference': order.getOrderReference}) }}">Get Printable Invoice</a>
+            </nav>
+
+        </div>
+    </div>
+    <div class="row">
+        <div class="col">
+            <h2>Totals</h2>
+            <table class="table shadowed">
+
+                <tbody>
+                <tr>
+                    <th>Products</th>
+                    <td>{{ order.getProductLineTotalPreTaxDecimal|format_currency('GBP') }}</td>
+                </tr>
+                <tr>
+                    <th>Charges</th>
+                    <td>{{ order.getChargeLineTotalPreTaxDecimal|format_currency('GBP') }}</td>
+                </tr>
+                <tr>
+                    <th>Taxes</th>
+                    <td>{{ order.getTotalTaxDecimal|format_currency('GBP') }}</td>
+                </tr>
+                </tbody>
+                <tfoot>
+                <tr>
+                    <th>Total</th>
+                    <td>
+                        <strong>
+                            {{ order.getTotalPostTaxDecimal|format_currency('GBP') }}
+                        </strong>
+                    </td>
+                </tr>
+                </tfoot>
+            </table>
+        </div>
+    </div>
+
+    <div class="row bordered">
+        <div class="col">
             <h2>Products</h2>
-            <table class="table">
+            <table class="table shadowed">
                 <thead>
                     <tr>
                         <th>Product</th>
-                        <th>SKU</th>
+                        <th class="hide-sm">SKU</th>
                         <th>Quantity</th>
-                        <th>Unit Price Pre-Tax</th>
+                        <th class="hide-sm">Unit Price Pre-Tax</th>
                         <th>Total Pre-Tax</th>
                     </tr>
                 </thead>
@@ -19,13 +60,13 @@
                             <td>
                                 {{ productLine.getProductVariant.getProductVariantName }}
                             </td>
-                            <td>
+                            <td class="hide-sm">
                                 {{ productLine.getProductVariant.getSku }}
                             </td>
                             <td>
                                 {{ productLine.getQuantity }}
                             </td>
-                            <td>
+                            <td class="hide-sm">
                                 {{ productLine.getProductVariant.getPreTaxPriceDecimal|format_currency('GBP') }}
                             </td>
                             <td>
@@ -37,7 +78,9 @@
                 <tfoot>
                     <tr>
 
-                        <td colspan="3"></td>
+                        <td></td>
+                        <td class="hide-sm"></td>
+                        <td class="hide-sm"></td>
                         <th>Total</th>
                         <td>
                             <strong>{{ order.getProductLineTotalPreTaxDecimal|format_currency('GBP') }}</strong>
@@ -45,13 +88,10 @@
                     </tr>
                 </tfoot>
             </table>
-
         </div>
-    </div>
-    <div class="row">
         <div class="col">
             <h2>Charges</h2>
-            <table class="table">
+            <table class="table shadowed">
                 <thead>
                     <tr>
                         <th>Charge Name</th>
@@ -80,11 +120,9 @@
                 </tfoot>
             </table>
         </div>
-    </div>
-    <div class="row">
         <div class="col">
             <h2>Tax</h2>
-            <table class="table">
+            <table class="table shadowed">
                 <thead>
                 <tr>
                     <th>Tax Name</th>
@@ -115,37 +153,54 @@
             </table>
         </div>
     </div>
-
     <div class="row">
         <div class="col">
             <h2>Payments</h2>
-            <table class="table">
+            <table class="table shadowed">
                 <thead>
                 <tr>
                     <th>Payment Name</th>
-                    <th>Reference</th>
+                    <th class="hide-sm">Reference</th>
                     <th>Amount</th>
-                    <th>Status</th>
+                    <th>Receipt(s)</th>
                 </tr>
                 </thead>
                     <tbody>
-                    {% for payment in order.getOrderPayments %}
-                        <tr>
-                            <td>
-                                {{ payment.getName }}
-                            </td>
-                            <td>
-                                {{ payment.getPaymentReference }}
-                            </td>
-                            <td>
-                                {{ payment.getPaymentAmountDecimal|format_currency('GBP') }}
-                            </td>
-                            <td>
-                                {{ payment.getPaymentStatus.getName }}
-                            </td>
+                        {% for payment in order.getOrderPayments %}
+                            <tr>
+                                <td>
+                                    {{ payment.getName }}
+                                    <span class="badge {% if payment.getPaymentStatus.isPaid %} badge-success{% endif %}">{{ payment.getPaymentStatus.getName }}</span>
 
-                        </tr>
-                    {% endfor %}
+                                </td>
+                                <td class="hide-sm">
+                                    {{ payment.getPaymentReference }}
+                                </td>
+                                <td>
+                                    {{ payment.getPaymentAmountDecimal|format_currency('GBP') }}
+                                </td>
+
+                                <td>
+                                    {% if payment.getPaymentReceipts is not empty %}
+                                        <ul>
+                                            {% for receipt in payment.getPaymentReceipts %}
+                                                <li><a href="{{ path(
+                                                        'payments.receipt.view',
+                                                        {
+                                                            'orderReference': order.getOrderReference,
+                                                            'paymentReference': payment.getPaymentReference,
+                                                            'receiptReference': receipt.getReceiptReference
+                                                        }
+                                                    ) }}">Get Printable Receipt</a></li>
+                                            {% endfor %}
+                                        </ul>
+                                    {% else %}
+                                        <em>No Receipts are available.</em>
+                                    {% endif %}
+                                </td>
+
+                            </tr>
+                        {% endfor %}
                     </tbody>
                 <tfoot>
             </table>

@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Form\EventManager;
 
 use App\Dto\EventManager\OrganisationDto;
+use App\Form\Type\PostalAddressType;
 use App\Services\User\Domain\User;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
@@ -27,6 +28,8 @@ class OrganisationType extends AbstractType
                 'label' => 'Logo',
                 'mapped' => false,
             ])
+            ->add('invoiceAddress', PostalAddressType::class, [])
+            ->add('postalAddress', PostalAddressType::class, [])
             ->add('managers', EntityType::class, [
                 'class' => User::class,
                 'label' => 'Managers',

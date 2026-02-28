@@ -1,0 +1,19 @@
+{% extends 'printable/printable-base.html.twig' %}
+{% block body %}
+    <h1>{{ receipt.getReceiptReference }}</h1>
+    <table class="table lined">
+        <thead>
+            <tr>
+                <th>Amount</th>
+                <th>Date</th>
+            </tr>
+
+        </thead>
+        <tbody>
+            <tr>
+                <td>{{ receipt.getAmountDecimal|format_currency('GBP') }}</td>
+                <td>{{ receipt.getReceiptDate.format('Y-m-d H:i:s') }}</td>
+            </tr>
+        </tbody>
+    </table>
+{% endblock %}

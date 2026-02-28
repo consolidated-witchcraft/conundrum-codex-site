@@ -1,0 +1,11 @@
+<address id="postal_address_{{ postalAddress.getId }}" class="postal-address {% if singleLine is defined %}single-line{% endif %}">
+    <span class="address-line" id="postal_address_{{ postalAddress.getId }}_address_line_one">{{ postalAddress.getAddressLineOne }}</span><br/>
+    {% if postalAddress.getAddressLineTwo %}
+        <span id="postal_address_{{ postalAddress.getId }}_address_line_two">{{ postalAddress.getAddressLineTwo }}</span><br/>
+    {% endif %}
+
+    <span class="address-line" id="postal_address_{{ postalAddress.getId }}_town_city">{{ postalAddress.getTownCity }}</span><br/>
+    <span  class="address-line" id="postal_address_{{ postalAddress.getId }}_county_province">{{ postalAddress.getCountyProvince }}</span><br/>
+    <span  class="address-line" id="postal_address_{{ postalAddress.getId }}_country_code">{{ postalAddress.getCountryCode }}</span><br/>
+    <span  class="address-line" id="postal_address_{{ postalAddress.getId }}_postal_zip">{{ postalAddress.getPostalZip }}</span><br/>
+</address>

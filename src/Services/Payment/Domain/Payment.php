@@ -10,6 +10,8 @@ use App\Services\Orders\Domain\Exceptions\UnknownPaymentStatusException;
 use App\Services\Orders\Domain\Order;
 use App\Services\Payment\Domain\ValueObjects\PaymentStatus;
 use App\Services\Payment\Infrastructure\PaymentRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
@@ -17,7 +19,15 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 #[UniqueEntity(fields: ['paymentReference'])]
 class Payment extends AbstractDomainEntity
 {
+
     /**
+     * @param string $name
+     * @param int $paymentAmountCentessimal
+     * @param string $paymentReference
+     * @param Order $order
+     * @param Collection<int, PaymentReceipt> $paymentReceipts
+     * @param PaymentStatus|null $paymentStatus
+     * @param int|null $id
      * @throws UnknownPaymentStatusException
      */
     public function __construct(
@@ -31,18 +41,31 @@ class Payment extends AbstractDomainEntity
         private readonly string $paymentReference,
 
         #[ORM\ManyToOne(targetEntity: Order::class, inversedBy: 'orderPayments')]
-        private readonly Order  $order,
+        private readonly Order $order,
+
+        #[ORM\OneToMany(targetEntity: PaymentReceipt::class, mappedBy: 'payment', fetch: 'EAGER')]
+        private Collection $paymentReceipts = new ArrayCollection(),
 
         #[ORM\Column(type: 'payment_status')]
         private ? PaymentStatus $paymentStatus = null,
 
-        public ? int $id = null
+        ? int $id = null
     ){
         parent::__construct($id);
 
         if ($this->paymentStatus === null) {
             $this->paymentStatus = PaymentStatus::makeFromHandle('unpaid');
         }
+    }
+
+    public function getPaymentReceipts(): Collection
+    {
+        return $this->paymentReceipts;
+    }
+
+    public function addReceipt(PaymentReceipt $receipt): void {
+        $receipt->setPayment($this);
+        $this->paymentReceipts->add($receipt);
     }
 
     public function getPaymentReference(): string
@@ -67,6 +90,12 @@ class Payment extends AbstractDomainEntity
         return $this->paymentStatus;
     }
 
+    /**
+     * @throws UnknownPaymentStatusException
+     */
+    public function markUnpaid(): void {
+        $this->paymentStatus = PaymentStatus::makeFromHandle('unpaid');
+    }
     /**
      * @throws UnknownPaymentStatusException
      * @throws OrderPaymentInvalidStatusChangeException

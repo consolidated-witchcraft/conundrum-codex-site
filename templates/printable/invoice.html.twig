@@ -1,0 +1,155 @@
+{% extends 'printable/printable-base.html.twig' %}
+{% block body %}
+    <div class="right">
+        <h2>Invoice Address(es)</h2>
+        {% for invoiceAddress in invoiceAddresses %}
+            <h3>{{ invoiceAddress.organisationName }}</h3>
+            {% embed '/visitor/postalAddress/partials/_postalAddress.print.html.twig' with {'postalAddress': invoiceAddress.address} %}{% endembed %}
+        {% endfor %}
+    </div>
+
+    <h2>Invoice/Order Reference</h2>
+    <span>{{ order.getOrderReference }}</span>
+    <h2>Invoice Date</h2>
+    <span>{{ order.getCreatedAt.format('Y-m-d H:i:s') }}</span>
+    <h2>Products</h2>
+    <table class="table lined">
+        <thead>
+            <tr>
+                <th>Product</th>
+                <th>Organisation</th>
+                <th>SKU</th>
+                <th>Quantity</th>
+                <th>Unit Price Pre-Tax</th>
+                <th>Total Pre-Tax</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for productLine in order.getProductOrderLines %}
+                <tr>
+                    <td>
+                        {{ productLine.getProductVariant.getProductVariantName }}
+                    </td>
+                    <td>
+                        {{ productLine.getProductVariant.getProduct.getOrganisation.getName }}
+                    </td>
+                    <td>
+                        {{ productLine.getProductVariant.getSku }}
+                    </td>
+                    <td>
+                        {{ productLine.getQuantity }}
+                    </td>
+                    <td>
+                        {{ productLine.getProductVariant.getPreTaxPriceDecimal|format_currency('GBP') }}
+                    </td>
+                    <td>
+                        {{ productLine.getTotalDecimal|format_currency('GBP') }}
+                    </td>
+                </tr>
+            {% endfor %}
+        </tbody>
+        <tfoot>
+            <tr>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <th>Total</th>
+                <td>
+                    <strong>{{ order.getProductLineTotalPreTaxDecimal|format_currency('GBP') }}</strong>
+                </td>
+            </tr>
+        </tfoot>
+    </table>
+    <hr/>
+    <h2>Charges</h2>
+    <table class="table lined">
+        <thead>
+            <tr>
+                <th>Charge Name</th>
+                <th>Organisation</th>
+                <th>Price Pre-Tax</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for chargeLine in order.getChargeLines %}
+                <tr>
+                    <td>
+                        {{ chargeLine.getName }}
+                    </td>
+                    <td>Conundrum Codex</td>
+                    <td>
+                        {{ chargeLine.getPriceDecimal|format_currency('GBP') }}
+                    </td>
+                </tr>
+            {% endfor %}
+        </tbody>
+        <tfoot>
+            <tr>
+                <th>Total</th>
+                <td>
+                    <strong>{{ order.getChargeLineTotalPreTaxDecimal|format_currency('GBP') }}</strong>
+                </td>
+            </tr>
+        </tfoot>
+    </table>
+    <hr/>
+    <h2>Tax</h2>
+    <table class="table lined">
+        <thead>
+            <tr>
+                <th>Tax Name</th>
+                <th>Amount</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for taxLine in order.getOrderTaxes %}
+                <tr>
+                    <td>
+                        {{ taxLine.getTaxRatePublicReference }}
+                    </td>
+                    <td>
+                        {{ taxLine.getAmountDecimal|format_currency('GBP') }}
+                    </td>
+
+                </tr>
+            {% endfor %}
+        </tbody>
+        <tfoot>
+            <tr>
+                <th>Total</th>
+                <td>
+                    <strong>{{ order.getTotalTaxDecimal|format_currency('GBP') }}</strong>
+                </td>
+            </tr>
+        </tfoot>
+    </table>
+    <hr/>
+    <h2>Totals</h2>
+    <table class="table lined">
+        <tbody>
+            <tr>
+                <th>Products</th>
+                <td>{{ order.getProductLineTotalPreTaxDecimal|format_currency('GBP') }}</td>
+            </tr>
+            <tr>
+                <th>Charges</th>
+                <td>{{ order.getChargeLineTotalPreTaxDecimal|format_currency('GBP') }}</td>
+            </tr>
+            <tr>
+                <th>Taxes</th>
+                <td>{{ order.getTotalTaxDecimal|format_currency('GBP') }}</td>
+            </tr>
+        </tbody>
+        <tfoot>
+            <tr>
+                <th>Total</th>
+                <td>
+                    <strong>
+                        {{ order.getTotalPostTaxDecimal|format_currency('GBP') }}
+                    </strong>
+                </td>
+            </tr>
+        </tfoot>
+    </table>
+{% endblock %}

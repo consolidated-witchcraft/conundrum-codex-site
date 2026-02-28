@@ -29,10 +29,6 @@ class OrderStatusUpdateMessageHandler
            if ($oldStatusHandle === $newStatusHandle) {
                return;
            }
-           if ($newStatusHandle === OrderStatus::PAID_STATUS_HANDLE) {
-                //Generate a receipt
-               $this->orderService->generateReceiptForOrder($order);
-           }
        }
            //Here we process reactions to an order status change.
            /*

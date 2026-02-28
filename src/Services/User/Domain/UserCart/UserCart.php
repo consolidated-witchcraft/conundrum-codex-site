@@ -76,16 +76,20 @@ class UserCart extends AbstractDomainEntity
 
     public function addProductCartLine(ProductVariant $product, int $quantity): void {
         $existingLine = $this->getUserCartLineBySku($product->getSku());
+
         if ($existingLine !== null) {
             $currentQuantity = $existingLine->getQuantity();
             $newQuantity = $currentQuantity + $quantity;
             $existingLine->setQuantity($newQuantity);
         } else {
-            $this->userCartProductLines->add(new UserCartProductLine(
-                userCart: $this,
-                productVariant: $product,
-                quantity: $quantity
-            ));
+            if ($quantity > 0) {
+                $this->userCartProductLines->add(new UserCartProductLine(
+                    userCart: $this,
+                    productVariant: $product,
+                    quantity: $quantity
+                ));
+            }
+
         }
         $this->generateChargeLines();
     }

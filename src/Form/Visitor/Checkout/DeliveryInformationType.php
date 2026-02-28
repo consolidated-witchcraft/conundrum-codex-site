@@ -30,7 +30,7 @@ class DeliveryInformationType extends AbstractType
             'submit',
             SubmitType::class,
             [
-                'label' => 'Proceed to Payment',
+                'label' => 'Review your Order',
                 'attr' => [
                     'class' => 'btn btn-success cta',
                 ]

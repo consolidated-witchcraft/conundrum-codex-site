@@ -175,7 +175,7 @@ class ProductVariant extends AbstractDomainEntity
         $this->product = $product;
     }
 
-    public function getProduct(): ?Product {
+    public function getProduct(): Product {
         return $this->product;
     }
 

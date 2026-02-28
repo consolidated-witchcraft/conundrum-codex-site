@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\ValueResolver;
 
 use App\Services\Payment\Domain\Payment;
-use App\Services\Payment\Service\PaymentServiceInterface;
+use App\Services\Payment\Service\Interfaces\PaymentServiceInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Controller\ValueResolverInterface;
 use Symfony\Component\HttpKernel\ControllerMetadata\ArgumentMetadata;

@@ -1,0 +1,51 @@
+<!DOCTYPE HTML>
+<html lang="en-GB">
+    <head>
+        <title>{{ documentTitle }}</title>
+        <style>
+            div.container {
+                width: 1004px;
+                margin: 0 auto;
+                padding: 10px;
+            }
+            table {
+                border-collapse: collapse;
+            }
+            table.lined {
+                border: 1px solid #3e3e3e;
+
+            }
+
+            table td,
+            table th {
+                padding: 10px;
+                text-align: left;
+            }
+
+            table.lined td,
+            table.lined th
+            {
+                border: 1px solid #3e3e3e;
+            }
+
+            table.lined th.shaded {
+                background-color: #c1c1c1;
+            }
+
+            div.right {
+                float: right;
+            }
+
+            hr {
+                margin: 40px 0;
+            }
+        </style>
+    </head>
+    <body>
+    <div class="container">
+        {% block body %}
+        {% endblock %}
+    </div>
+
+    </body>
+</html>

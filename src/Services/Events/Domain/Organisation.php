@@ -5,6 +5,7 @@ namespace App\Services\Events\Domain;
 use App\Services\Core\Domain\AbstractDomainEntity;
 use App\Services\Events\Infrastructure\OrganisationRepository;
 use App\Services\Files\Domain\ManagedFile;
+use App\Services\PostalAddress\Domain\PostalAddress;
 use App\Services\User\Domain\User;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\Criteria;
@@ -16,7 +17,6 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 #[UniqueEntity('handle')]
 class Organisation extends AbstractDomainEntity
 {
-
     /**
      * @param string $name
      * @param string $handle
@@ -24,6 +24,8 @@ class Organisation extends AbstractDomainEntity
      * @param User $owner
      * @param Collection<int, Event> $events
      * @param Collection<int, User> $managers
+     * @param PostalAddress $postalAddress
+     * @param PostalAddress $invoiceAddress
      * @param \DateTimeInterface|null $deactivationDate
      * @param int|null $id
      */
@@ -41,11 +43,17 @@ class Organisation extends AbstractDomainEntity
         #[ORM\ManyToOne(targetEntity: User::class)]
         private User $owner,
 
-        #[ORM\OneToMany(mappedBy: 'organisation', targetEntity: Event::class)]
+        #[ORM\OneToMany(targetEntity: Event::class, mappedBy: 'organisation', cascade: ['persist'], orphanRemoval: true)]
         private Collection $events,
 
-        #[ORM\OneToMany(mappedBy: 'organisation', targetEntity: User::class)]
+        #[ORM\OneToMany(targetEntity: User::class, mappedBy: 'organisation')]
         private Collection $managers,
+
+        #[ORM\OneToOne(targetEntity: PostalAddress::class, cascade: ['persist', 'refresh', 'remove'], orphanRemoval: true)]
+        private PostalAddress $postalAddress,
+
+        #[ORM\OneToOne(targetEntity: PostalAddress::class, cascade: ['persist', 'refresh', 'remove'], orphanRemoval: true)]
+        private PostalAddress $invoiceAddress,
 
         #[ORM\Column(type: 'datetime', nullable: true)]
         private ? \DateTimeInterface $deactivationDate = null,
@@ -53,6 +61,26 @@ class Organisation extends AbstractDomainEntity
         ? int $id = null
     ) {
         parent::__construct($id);
+    }
+
+    public function getInvoiceAddress(): PostalAddress
+    {
+        return $this->invoiceAddress;
+    }
+
+    public function setInvoiceAddress(PostalAddress $invoiceAddress): void
+    {
+        $this->invoiceAddress = $invoiceAddress;
+    }
+
+    public function getPostalAddress(): PostalAddress
+    {
+        return $this->postalAddress;
+    }
+
+    public function setPostalAddress(PostalAddress $postalAddress): void
+    {
+        $this->postalAddress = $postalAddress;
     }
 
     public function getOrganisationLogo(): ManagedFile

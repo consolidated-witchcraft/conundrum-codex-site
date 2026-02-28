@@ -14,13 +14,19 @@ table.table {
     margin-bottom: math.div(variables.$base-spacing, 2);
     width: 100%;
 
+    &.shadowed {
+        box-shadow: palette.$baseBoxShadow;
+    }
+
     tr, td, th {
         border: math.div(variables.$baseBorderWidth, 2) solid palette.$crimson;
         padding: math.div(variables.$base-spacing, 4);
         vertical-align: top;
         border-radius: 0;
         @include inputs.styleInputs();
-
+        &.hide-sm {
+            display: none;
+        }
     }
 
     tr {
@@ -70,6 +76,16 @@ table.price-table {
             td, th {
                 border-top: variables.$baseBorderWidth solid palette.$ink;
                 padding: math.div(variables.$base-spacing, 2);
+            }
+        }
+    }
+}
+
+@media only screen and (min-width: variables.$mobileBreakPointUpper) {
+    table.table {
+        tr, td, th {
+            &.hide-sm {
+                display: table-cell;
             }
         }
     }

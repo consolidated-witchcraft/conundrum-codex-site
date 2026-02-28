@@ -48,7 +48,10 @@ class TicketPurchaseType extends AbstractType implements DataMapperInterface
             'submit',
             SubmitType::class,
             [
-                'label' => 'Proceed to Delivery Information'
+                'label' => 'Proceed to Delivery Information',
+                'attr' => [
+                    'class' => 'btn btn-success cta',
+                ]
             ]
         );
         $builder->setDataMapper($this);

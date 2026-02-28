@@ -44,7 +44,10 @@ class UserCartType extends AbstractType
             'submit',
             SubmitType::class,
             [
-                'label' => 'Proceed',
+                'label' => 'Pay',
+                'attr' => [
+                    'class' => 'btn btn-success cta',
+                ]
             ]
         );
     }

@@ -9,6 +9,7 @@ use App\Dto\EventManager\OrganisationDto;
 use App\Form\EventManager\OrganisationDeactivationConfirmationType;
 use App\Form\EventManager\OrganisationType;
 use App\Services\Events\Domain\Organisation;
+use App\Services\PostalAddress\Domain\PostalAddress;
 use App\Services\User\Domain\User;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
@@ -45,6 +46,8 @@ class OrganisationsController extends AbstractEventManagerController
                 owner: $user,
                 events: new ArrayCollection(),
                 managers: new ArrayCollection($dto->managers),
+                postalAddress: PostalAddress::makeFromPostalAddressFieldDto($user, $dto->postalAddress),
+                invoiceAddress: PostalAddress::makeFromPostalAddressFieldDto($user, $dto->invoiceAddress),
             );
             $success = true;
             $violations = $this->validator->validate($organisation);

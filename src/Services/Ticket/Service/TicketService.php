@@ -78,6 +78,7 @@ class TicketService extends AbstractDomainEntityService implements TicketService
                 ticketFormatSlug: 'BASE'
             ),
             name: $ticketTypeDto->name,
+            organisation: $event->getOrganisation(),
             description: $ticketTypeDto->description,
         );
 

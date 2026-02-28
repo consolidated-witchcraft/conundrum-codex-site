@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Services\Product\Domain;
 
 use App\Services\Core\Domain\AbstractDomainEntity;
+use App\Services\Events\Domain\Organisation;
 use App\Services\Product\Infrastructure\ProductRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
@@ -18,6 +19,7 @@ class Product extends AbstractDomainEntity
     /**
      * @param string $baseSku
      * @param string $name
+     * @param Organisation $organisation
      * @param string $description
      * @param Collection<int, ProductVariant> $productVariants
      * @param int|null $id
@@ -29,6 +31,9 @@ class Product extends AbstractDomainEntity
         #[ORM\Column(type: 'string', length: 255)]
         private string $name,
 
+        #[ORM\ManyToOne(targetEntity: Organisation::class)]
+        private readonly Organisation $organisation,
+
         #[ORM\Column(type: 'string', length: 2198)]
         private string $description,
 
@@ -38,6 +43,11 @@ class Product extends AbstractDomainEntity
         ? int $id = null
     ) {
         parent::__construct($id);
+    }
+
+    public function getOrganisation(): Organisation
+    {
+        return $this->organisation;
     }
 
     public function getBaseSku(): string {
