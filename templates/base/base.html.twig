@@ -3,9 +3,9 @@
     {% embed 'base/partials/_head.html.twig' %}{% endembed %}
     <body>
         <a href="#main-content" class="skip-link">Skip to main content</a>
+        {% embed 'base/partials/_logo.html.twig' %}{% endembed %}
         {% embed 'base/partials/_header.html.twig' %}{% endembed %}
         {% embed 'base/partials/_alerts.html.twig' %}{% endembed %}
-
 
         <main id="main-content" tabindex="-1">
             {% if breadcrumbs is not empty %}

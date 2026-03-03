@@ -1,27 +1,6 @@
 <button id="main-nav-toggle" is="nav-toggle" class="nav-toggle main-nav-toggle unstyle" data-target="main-nav" data-open="false">Show Main Nav</button>
 <nav class="mobile-nav" id="main-nav">
-    <form class="search-form unstyle">
-        <input name="search" title="Search Field" placeholder="Search" id="search">
-        <button class="unstyle" type="submit">Search</button>
-    </form>
-    <ul class="main-menu" aria-label="Main navigation">
-        {% for navItem in mainNav %}
-            {% if navItem.getChildren is empty %}
-                <li>
-                    {% embed 'base/partials/menus/_navLink.html.twig' with {'navItem': navItem}%}{% endembed %}
-                </li>
-            {% else %}
-                <li class="has-submenu">
-                    <a is="submenu-trigger" data-targetsubmenu="{{ navItem.handle }}-submenu" class="nav-item submenu-trigger{% if navItem.isActiveTrail %} active-trail{% endif %}">{{ navItem.label }}</a>
-                    <ul class="submenu" id="{{ navItem.handle }}-submenu">
-                        {% for child in navItem.children %}
-                            <li>
-                                {% embed 'base/partials/menus/_navLink.html.twig' with {'navItem': child}%}{% endembed %}
-                            </li>
-                        {% endfor %}
-                    </ul>
-                </li>
-            {% endif %}
-        {% endfor %}
-    </ul>
+    {% for navItem in mainNav %}
+        {% embed 'base/partials/menus/_navLink.html.twig' with {'navItem': navItem}%}{% endembed %}
+    {% endfor %}
 </nav>

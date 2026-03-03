@@ -1,0 +1,54 @@
+@use "contrib/RpgAwesome/rpg-awesome";
+
+@use "criticalOld/base/inlinedFiles";
+@use "criticalOld/base/reset";
+@use "criticalOld/base/typography";
+@use "criticalOld/base/palette";
+@use "criticalOld/base/colors";
+@use "criticalOld/base/variables";
+
+@use "criticalOld/layout/flex";
+@use "criticalOld/layout/grid";
+@use "criticalOld/layout/logo";
+@use "criticalOld/layout/header";
+@use "criticalOld/layout/footer";
+
+@use "criticalOld/elements/links.scss";
+@use "criticalOld/elements/rules";
+@use "criticalOld/elements/buttons";
+@use "criticalOld/elements/tables";
+@use "criticalOld/elements/forms.scss";
+@use "criticalOld/elements/navs.scss";
+@use "criticalOld/elements/images.scss";
+@use "criticalOld/elements/lists.scss";
+@use "criticalOld/elements/headings.scss";
+
+@use "criticalOld/widgets/dropCaps";
+@use "criticalOld/widgets/puzzles";
+@use "criticalOld/widgets/switches";
+@use "criticalOld/widgets/tooltips";
+@use "criticalOld/widgets/alerts";
+@use "criticalOld/widgets/slideshow";
+@use "criticalOld/widgets/cards";
+@use "criticalOld/widgets/accordion";
+@use "criticalOld/widgets/multiaddRow";
+@use "criticalOld/widgets/tabs";
+@use "criticalOld/widgets/badges";
+@use "criticalOld/widgets/cookieNotice";
+@use "criticalOld/widgets/avatars";
+@use "criticalOld/widgets/cards/userCard";
+@use "criticalOld/widgets/cards/gameCard";
+@use "criticalOld/widgets/cards/eventCard";
+@use "criticalOld/widgets/orderSummary";
+@use "criticalOld/widgets/postalAddress";
+@use "criticalOld/widgets/ticketTypePurchase";
+@use "criticalOld/widgets/userCartPreview";
+@use "criticalOld/widgets/userDetails";
+
+@use "critical/widgets/feats";
+@use "critical/widgets/overlay";
+@use "critical/widgets/randomQuotation";
+@use "critical/widgets/organisation";
+
+
+

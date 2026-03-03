@@ -1,38 +1,23 @@
-@use 'sass:math';
 @use 'sass:color';
+@use 'sass:math';
 
-@use '../base/typography';
-@use '../base/variables';
-@use '../base/palette';
+@use '../base/sassVariables/spacing';
+@use '../base/cssVariables/animation';
 
-$logoHeight: 8vh;
+$logoHeight: 6vh;
 
 .logo-wrapper {
     display: none;
 }
 
 
-@media only screen and (min-width: variables.$mobileBreakPointUpper) {
+@media only screen and (min-width: spacing.$mobileBreakPointUpper) {
 
     .logo-wrapper {
         display: block;
         position: relative;
-        transition: opacity variables.$animationSpeedNormal ease-in-out;
+        transition: opacity var(--animationSpeedNormal) ease-in-out;
         padding: 2rem;
-
-        .hero-image-wrapper {
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            overflow: hidden;
-
-            img.header-backer {
-                object-fit: cover;
-            }
-        }
-
 
         a.header-logo {
             display: block;
@@ -50,9 +35,9 @@ $logoHeight: 8vh;
                 display: block;
                 width: 100%;
                 position: relative;
-                color: palette.$ink;
+                color: var(--colorInk);
+                font-family: var(--displayStack);
                 font-size: math.div($logoHeight, 2.5);
-                font-family: typography.$displayStack;
                 text-align: center;
             }
 
@@ -81,44 +66,6 @@ $logoHeight: 8vh;
                 background-image: var(--penroseOverlay);
                 background-size: contain;
                 background-repeat: no-repeat;
-            }
-        }
-
-        &.has-hero {
-            border-bottom: variables.$baseBorderWidth solid cyan;
-            border-image: palette.$goldFX 33%;
-            margin-bottom: variables.$base-spacing;
-            &:before {
-                content: " ";
-                display: block;
-                background: linear-gradient(to top, palette.$charcoal, transparent 25%);
-                position: absolute;
-                bottom: 0;
-                left: 0;
-                width: 100%;
-                height: 100%;
-                z-index: 1;
-            }
-
-            a.header-logo {
-                z-index: 2;
-                span.logo-text {
-                    color: transparent;
-                    background: palette.$goldFX;
-                    background-clip: text;
-                    background-size: 50%;
-
-                    &:before {
-                        content: attr(content);
-                        width: 100%;
-                        display: block;
-                        position: absolute;
-                        color: palette.$ink;
-                        top: -0.15rem;
-                        left: -0.15rem;
-                        z-index: -1;
-                    }
-                }
             }
         }
     }

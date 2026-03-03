@@ -1,35 +1,9 @@
 @use 'sass:math';
 @use 'sass:color';
+@use 'sassVariables/spacing';
 
-@use 'variables';
-@use 'fontfaces';
-@use 'palette';
 
-@keyframes spin {
-    100% {
-        -webkit-transform: rotate(360deg);
-        transform:rotate(360deg);
-    }
-}
-
-@keyframes throb {
-    0% {
-        transform: scale(1.5);
-        opacity: 1;
-    }
-
-    0% {
-        transform: scale(1);
-        opacity: 0;
-    }
-
-    100% {
-        transform: scale(1.5);
-        opacity: 1;
-    }
-}
 :root {
-
 
     /*=====
         #LineHeight #Variables
@@ -120,19 +94,12 @@
     --idleTextDecoration: var(--idleTextLineStyle) underline 2px;
 }
 
-$textStack: Charter, 'Bitstream Charter', 'Sitka Text', Cambria, serif;
-
-$displayStack: "Pirata", $textStack;
-
-$sansSerifStack: "Helvetica", "Arial", sans-serif;
-
-$dyslexicStack: "OpenDyslexic", sans-serif;
 
 html {
-    font-family: $textStack;
+    font-family: var(--textStack);
     font-size: calc(.5vw + 1rem); /* the font-size can scale up as the browser window gets larger, but doesn't get hard to read when the browser window shrinks*/
     line-height: var(--baseLineHeight);
-    color: palette.$ink;
+    //color: palette.$ink;
 }
 
 
@@ -168,7 +135,7 @@ h3,
 h4,
 h5,
 h6 {
-    font-family: $displayStack;
+    font-family: var(--displayStack);
     font-weight: var(--heaviestFontWeight);
     line-height: var(--smallLineHeight);
     margin-bottom: calc(1.618vmin - 1vmax + .35em); /* increases margin as screen width gets smaller */
@@ -283,7 +250,6 @@ blockquote {
         &:before {
             display: block;
             content: " ";
-            background-color: palette.$ink;
             border-radius: 50%;
             height: $loader-size;
             width: $loader-size;
@@ -481,9 +447,6 @@ ruby {
     position: relative;
     display: ruby;
     margin:0 .5ex;
-    -webkit-ruby-position: before;
-    ruby-position: over;
-    ruby-position: before;
 }
 
 rtc, rbc {
@@ -502,42 +465,10 @@ rt + rt {
 }
 
 rtc > bdo {
-    display: -webkit-ruby-text-container;
+
     display: ruby-base-container;
 }
 
-/*complex ruby for chrome and Edge*/
-
-/*only FF has "complete" ruby support*/
-@supports (ruby-align: left) or ( not (display:ruby-base-container))  {
-    ruby {
-        display:inline-flex;
-        flex-direction: column;
-        vertical-align: 1em;
-        line-height: 1;
-    }
-
-    rtc, rt {
-        order: -1;
-        flex-grow: 1;
-        flex-shrink: 0;
-    }
-
-    rtc {
-        display: inline-flex;
-    }
-}
-
-/*Edge fixes*/
-@supports  ((ruby-align: left)) {
-    rtc {
-        justify-content: space-between;
-    }
-
-    rt {
-        display: inline-flex;
-    }
-}
 
 
 
@@ -563,7 +494,7 @@ th, td {
 }
 
 th {
-    font-family: $displayStack;
+    font-family: var(--displayStack);
     font-weight: var(--heaviestFontWeight);
     font-size: var(--smallTitleSize); /*treat th in a body as h4*/
 }
@@ -573,23 +504,23 @@ tfoot th {
     font-size: var(--baseTitleSize); /*treat th in header/footer as h3*/
 }
 
-@media only screen and (min-width: variables.$mobileBreakPointUpper) {
+@media only screen and (min-width: spacing.$mobileBreakPointUpper) {
     html {
         font-size: calc(.5vw + 0.75rem); /* the font-size can scale up as the browser window gets larger, but doesn't get hard to read when the browser window shrinks*/
     }
 }
 
 
-@media only screen and (min-width: variables.$desktopBreakPointUpper) {
+@media only screen and (min-width: spacing.$desktopBreakPointUpper) {
     html {
         font-size: calc(.5vw + 0.4rem); /* the font-size can scale up as the browser window gets larger, but doesn't get hard to read when the browser window shrinks*/
     }
 }
 
 html.dyslexic {
-    font-family: $dyslexicStack;
+    font-family: var(--dyslexicStack);
     h1, h2, h3, h4, h5, h6, a.btn, button, button.cta, a.btn.cta {
-        font-family: $dyslexicStack !important;
+        font-family: var(--dyslexicStack) !important;
     }
 
     body {
@@ -598,7 +529,7 @@ html.dyslexic {
                 ul {
                     li {
                         a {
-                            font-family: $dyslexicStack !important;
+                            font-family: var(--dyslexicStack) !important;
                         }
                     }
                 }
@@ -608,9 +539,9 @@ html.dyslexic {
 }
 
 html.sans-serif {
-    font-family: $sansSerifStack;
+    font-family: var(--sansSerifStack);
     h1, h2, h3, h4, h5, h6, a.btn, button, button.cta, a.btn.cta {
-        font-family: $sansSerifStack !important;
+        font-family: var(--sansSerifStack) !important;
     }
 
     body {
@@ -619,7 +550,7 @@ html.sans-serif {
                 ul {
                     li {
                         a {
-                            font-family: $sansSerifStack !important;
+                            font-family: var(--sansSerifStack) !important;
                         }
                     }
                 }

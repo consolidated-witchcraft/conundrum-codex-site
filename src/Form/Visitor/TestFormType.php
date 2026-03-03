@@ -2,6 +2,7 @@
 
 namespace App\Form\Visitor;
 
+use App\Form\Type\PostalAddressType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
@@ -89,6 +90,7 @@ class TestFormType extends AbstractType
                     ]
                 ]
             )
+            ->add('postalAddress', PostalAddressType::class)
             ->add(
                 'submit',
                 SubmitType::class,

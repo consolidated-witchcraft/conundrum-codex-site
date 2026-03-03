@@ -1,18 +1,6 @@
-<div id="logo-wrapper" class="logo-wrapper {% if heroImageUrl is defined and heroImageUrl is not null %}has-hero{% endif %}">
-    {% if heroImageUrl is defined and heroImageUrl is not null %}
-        <div class="hero-image-wrapper">
-            <img data-src="{{ heroImageUrl }}" alt="{{ pageTitle }}" class="header-backer" is="lazy-image">
-        </div>
-    {% endif %}
-    <a class="header-logo" href="/">
-        <span class="logo-text" content="{{ siteName }}">{{ siteName }}</span>
-    </a>
-</div>
-
 <header is="header-element">
-    <a href="/" class="brand" content="{{ siteName }}">{{ siteName }}</a>
     {% embed 'base/partials/menus/_main.html.twig' %}{% endembed %}
-    {% embed 'base/partials/menus/_cart.html.twig' %}{% endembed %}
-    {% embed 'base/partials/menus/_user.html.twig' %}{% endembed %}
+    <a class="top-level-nav-link user" href="{{ app.user ? path('app.user.account') : path('app.auth.login') }}">Account</a>
+    <a class="top-level-nav-link cart" href="{{ app.user ? path('app.user.cart') : path('app.auth.login') }}">Cart</a>
 </header>
 

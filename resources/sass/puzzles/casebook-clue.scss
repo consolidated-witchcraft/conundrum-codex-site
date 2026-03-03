@@ -1,8 +1,8 @@
 @use "sass:color";
 @use "sass:math";
 
-@use "../critical/base/palette";
-@use "../critical/base/variables";
+@use "../criticalOld/base/palette";
+@use "../criticalOld/base/variables";
 
 .clue-wrapper {
     padding: math.div(variables.$base-spacing, 4);

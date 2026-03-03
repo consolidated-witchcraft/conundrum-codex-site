@@ -1,54 +1,19 @@
+@use "critical/base/cssVariables/inlinedFiles";
+@use "critical/base/cssVariables/fontFamilies";
+@use "critical/base/cssVariables/palette";
+@use "critical/base/cssVariables/effects";
+@use "critical/base/cssVariables/animation";
+@use "critical/base/cssVariables/misc";
+
+@use "critical/base/reset";
 @use "contrib/RpgAwesome/rpg-awesome";
 
-@use "critical/base/inlinedFiles";
-@use "critical/base/reset";
 @use "critical/base/typography";
-@use "critical/base/palette";
 @use "critical/base/colors";
-@use "critical/base/variables";
 
 @use "critical/layout/flex";
-@use "critical/layout/grid";
 @use "critical/layout/logo";
 @use "critical/layout/header";
-@use "critical/layout/footer";
 
-@use "critical/elements/links.scss";
-@use "critical/elements/rules";
+@use "critical/elements/forms";
 @use "critical/elements/buttons";
-@use "critical/elements/tables";
-@use "critical/elements/forms.scss";
-@use "critical/elements/navs.scss";
-@use "critical/elements/images.scss";
-@use "critical/elements/lists.scss";
-@use "critical/elements/headings.scss";
-
-@use "critical/widgets/dropCaps";
-@use "critical/widgets/puzzles";
-@use "critical/widgets/switches";
-@use "critical/widgets/tooltips";
-@use "critical/widgets/alerts";
-@use "critical/widgets/slideshow";
-@use "critical/widgets/cards";
-@use "critical/widgets/accordion";
-@use "critical/widgets/multiaddRow";
-@use "critical/widgets/tabs";
-@use "critical/widgets/badges";
-@use "critical/widgets/cookieNotice";
-@use "critical/widgets/avatars";
-@use "critical/widgets/cards/userCard";
-@use "critical/widgets/cards/gameCard";
-@use "critical/widgets/cards/eventCard";
-@use "critical/widgets/orderSummary";
-@use "critical/widgets/postalAddress";
-@use "critical/widgets/ticketTypePurchase";
-@use "critical/widgets/userCartPreview";
-@use "critical/widgets/userDetails";
-
-@use "critical/widgets/feats";
-@use "critical/widgets/overlay";
-@use "critical/widgets/randomQuotation";
-@use "critical/widgets/organisation";
-
-
-

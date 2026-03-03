@@ -1,27 +1,27 @@
-@use "../critical/base/reset";
-@use "../critical/base/typography";
-@use "../critical/base/palette";
-@use "../critical/base/colors";
-@use "../critical/base/variables";
-@use "../critical/base/inlinedFiles";
-@use "../critical/layout/flex";
+@use "../criticalOld/base/reset";
+@use "../criticalOld/base/typography";
+@use "../criticalOld/base/palette";
+@use "../criticalOld/base/colors";
+@use "../criticalOld/base/variables";
+@use "../criticalOld/base/inlinedFiles";
+@use "../criticalOld/layout/flex";
 
-@use "../critical/elements/links.scss";
-@use "../critical/elements/rules";
-@use "../critical/elements/buttons";
+@use "../criticalOld/elements/links.scss";
+@use "../criticalOld/elements/rules";
+@use "../criticalOld/elements/buttons";
 
 
-@use "../critical/elements/tables";
-@use "../critical/elements/forms.scss";
-@use "../critical/elements/navs.scss";
-@use "../critical/elements/images.scss";
+@use "../criticalOld/elements/tables";
+@use "../criticalOld/elements/forms.scss";
+@use "../criticalOld/elements/navs.scss";
+@use "../criticalOld/elements/images.scss";
 
-@use "../critical/widgets/tooltips";
-@use "../critical/widgets/alerts";
-@use "../critical/widgets/avatars";
-@use "../critical/widgets/cards";
-@use "../critical/widgets/multiaddRow";
-@use "../critical/widgets/postalAddress";
+@use "../criticalOld/widgets/tooltips";
+@use "../criticalOld/widgets/alerts";
+@use "../criticalOld/widgets/avatars";
+@use "../criticalOld/widgets/cards";
+@use "../criticalOld/widgets/multiaddRow";
+@use "../criticalOld/widgets/postalAddress";
 
 @use "layout/nav";
 @use "layout/panels";

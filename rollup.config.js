@@ -225,7 +225,7 @@ const config = [
                 watch: [
                     'resources/sass/admin/admin.scss',
                     'resources/sass/admin/',
-                    'resources/sass/critical/'
+                    'resources/sass/criticalOld/'
                 ],
             }),
 

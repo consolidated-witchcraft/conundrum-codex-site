@@ -1,0 +1,60 @@
+@use 'sass:math';
+
+@use '../base/variables';
+@use '../base/palette';
+@use "../mixins/inputs";
+
+form:not(.unstyle) {
+    display: flex;
+    flex-direction: column;
+
+    div.form-group {
+        display: flex;
+        flex-direction: column;
+        flex-wrap: wrap;
+        justify-content: space-between;
+        margin: 0 0  math.div(variables.$base-spacing, 2) 0;
+
+        &.required {
+            > label {
+                &:before {
+                    content: "*";
+                    margin-right: math.div(variables.$base-spacing, 4);
+                    display: inline;
+                    color: palette.$crimson;
+                }
+            }
+
+
+        }
+        span.help-text {
+            flex: 1;
+            display: block;
+            margin-top: math.div(variables.$base-spacing, 2);
+        }
+
+
+    }
+
+    @include inputs.styleInputs();
+}
+
+@media only screen and (min-width: variables.$mobileBreakPointUpper) {
+    form:not(.unstyle) {
+        &.form-inline {
+            flex-direction: row;
+
+            .form-group {
+                flex-direction: row;
+                flex-grow: 2;
+                margin: 0 math.div(variables.$base-spacing, 2) 0 0;
+            }
+        }
+
+        .form-group {
+            &.inline {
+                flex-direction: row;
+            }
+        }
+    }
+}

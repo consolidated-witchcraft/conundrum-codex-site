@@ -1,10 +1,10 @@
 @use "sass:color";
 @use "sass:math";
 
-@use "../critical/base/palette";
-@use "../critical/base/typography";
+@use "../criticalOld/base/palette";
+@use "../criticalOld/base/typography";
+@use "../criticalOld/base/variables";
 
-@use "../critical/base/variables";
 $pulsarHeight: 3rem;
 @keyframes spin {
     0%  {transform: rotate(0deg);}

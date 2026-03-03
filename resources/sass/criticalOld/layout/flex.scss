@@ -1,0 +1,233 @@
+@use 'sass:math';
+
+@use '../base/variables';
+@use '../base/palette';
+
+
+body,html {
+    margin-top: 0;
+}
+
+body {
+    position: relative;
+    min-height: 100vh;
+    width: 100vw;
+    overflow-x: hidden;
+}
+
+main {
+    display: flex;
+    flex-direction: column;
+    margin: 0 auto;
+    width: 100%;
+
+
+    .row.hero {
+        position: relative;
+        overflow: hidden;
+        border-bottom: variables.$baseBorderWidth solid transparent;
+        box-shadow: palette.$baseBoxShadow;
+
+        border-image: palette.$goldFX 10%;
+
+        img.row-hero-backer{
+            position: absolute;
+            top: 0;
+            left: 0;
+            z-index: -1;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            object-position: bottom center;
+        }
+    }
+    .row, .col {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+
+        &.hide-sm {
+            display: none;
+        }
+
+        img {
+            max-height: 100%;
+            max-width: initial;
+        }
+
+        .col {
+            article:not(.accordion-entry) {
+                display: block;
+                padding: math.div(variables.$base-spacing, 2) 0;
+                &:not(:last-child) {
+                    margin-bottom: variables.$base-spacing;
+                }
+
+            }
+        }
+    }
+
+    .row {
+        margin-bottom: variables.$base-spacing;
+
+        &.title-container {
+            .col {
+                padding-bottom: 0;
+            }
+            &.hero {
+                margin-bottom: variables.$base-spacing;
+
+                .col {
+                    text-align: center;
+
+                    .heading-element {
+                        padding-top: 10vh;
+                        padding-bottom: 10vh;
+                        width: 100%;
+                        color: transparent;
+                        background: palette.$goldFX;
+                        background-clip: text;
+                        &:before {
+                            padding-top: 10vh;
+                            width: 100%;
+                            padding-bottom: 10vh;
+                            text-align: center;
+                            margin-left: -0.125rem;
+                            margin-top: -0.125rem;
+                            background: palette.$ink;
+                            background-clip: text;
+                        }
+                    }
+                }
+            }
+
+            margin-bottom: math.div(variables.$base-spacing, 4);
+        }
+        .col {
+            padding: variables.$base-spacing;
+            overflow-x: hidden;
+        }
+
+        &.no-margin {
+            margin-bottom: 0;
+        }
+    }
+
+
+}
+
+@media only screen and (min-width: variables.$mobileBreakPointUpper) {
+    main {
+        padding: 0 variables.$baseContainerMargin;
+        .row, .col {
+            &.hide-sm {
+                display: flex;
+            }
+        }
+
+        .row {
+            margin-bottom: variables.$base-spacing;
+            flex-direction: row;
+
+            &.hero {
+                border: variables.$baseBorderWidth solid transparent;
+                border-image: palette.$goldFX 33%;
+                border-radius: variables.$baseBorderRadius;
+            }
+            &.bordered {
+                > .col {
+                    position: relative;
+
+                    &:not(:last-child) {
+                        &:after {
+                            content: " ";
+                            display: block;
+                            width: variables.$baseBorderWidth;
+                            height: 100%;
+                            background: radial-gradient(circle at 50% 50%, palette.$ink 90%, transparent);
+                            top: 0;
+                            right: 0 - variables.$base-spacing;
+                            position: absolute;
+                        }
+                    }
+
+                }
+            }
+
+            &:last-child {
+                margin-bottom: 0;
+            }
+
+            > .col {
+                padding: 0;
+                margin: 0 variables.$base-spacing;
+                overflow: visible;
+
+                &:first-of-type {
+                    margin-left: 0;
+                }
+
+                &:last-of-type {
+                    margin-right: 0;
+                }
+            }
+
+            &.two-thirds-one-third {
+                > .col {
+                    &:first-child {
+                        flex-basis: (math.div(100%, 3) * 2);
+                    }
+                    &:last-child {
+                        flex-basis: math.div(100%, 3);
+                    }
+                }
+            }
+
+            &.one-third-two-thirds {
+                > .col {
+                    &:first-child {
+                        flex-basis: math.div(100%, 3);
+                    }
+                    &:last-child {
+                        flex-basis: (math.div(100%, 3) * 2);
+                    }
+                }
+            }
+
+            &.three-quarters-one-quarter {
+                > .col {
+                    &:first-child {
+                        flex-basis: 75%;
+                    }
+                    &:last-child {
+                        flex-basis: 25%;
+                    }
+                }
+            }
+            &.one-quarter-three-quarters {
+                > .col {
+                    &:first-child {
+                        flex-basis: 25%;
+                    }
+
+                    &:last-child {
+                        flex-basis: 75%;
+                    }
+                }
+            }
+
+            &.equal-thirds {
+                > .col {
+                    flex-basis: 33.333%;
+                }
+            }
+
+            .col {
+                .row {
+                    margin-bottom: variables.$base-spacing;
+                }
+            }
+        }
+    }
+}
+

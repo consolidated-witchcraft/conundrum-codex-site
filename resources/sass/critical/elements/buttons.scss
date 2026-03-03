@@ -1,168 +1,106 @@
-@use 'sass:color';
 @use 'sass:math';
 
-@use '../base/palette';
-@use '../base/typography';
-@use '../base/variables';
-
-@use '../mixins/buttonMixins';
+@use '../base/sassVariables/dimension';
+@use '../base/sassVariables/spacing';
 
 .btn, button {
 
     &:not(.unstyle, .sf-toolbar-toggle-button) {
-
-        border: none;
-        border-radius: variables.$baseBorderRadius;
+        border: dimension.$baseBorderWidth solid var(--colorInk);
+        border-radius: var(--baseBorderRadius);
         font-weight: bold;
-        padding: math.div(variables.$base-spacing, 2);
-        margin-bottom: variables.$base-spacing;
-        color: palette.$ink;
-        transition: all variables.$animationSpeedSnappy ease-in-out;
-        transition-property: box-shadow, transform, background, background-color, color;
-        box-shadow: palette.$baseBoxShadow;
+        padding: math.div(spacing.$baseSpacing, 2);
+        margin-right: spacing.$baseSpacing;
+        margin-bottom: spacing.$baseSpacing;
+        color: var(--colorInk);
+        transition: all var(--animationSpeedSnappy) ease-in-out;
+        transition-property: background-color, color;
+        background-color: transparent;
+        text-decoration: none;
+
+        &:hover {
+            background-color: var(--colorInk);
+            color: var(--colorWhite);
+        }
 
         &.btn-success,
         &[type="submit"]{
-            @include buttonMixins.button(palette.$green);
+            border-color: var(--colorGreen);
+            color: var(--colorGreen);
+
+            &:hover {
+                background-color: var(--colorGreen);
+                color: var(--colorWhite);
+            }
         }
 
         &.btn-primary {
-            @include buttonMixins.button(palette.$blue);
+            border-color: var(--colorBlue);
+            color: var(--colorBlue);
+
+            &:hover {
+                background-color: var(--colorBlue);
+                color: var(--colorWhite);
+            }
         }
 
 
         &.btn-secondary {
-            @include buttonMixins.button(palette.$inkBlue);
+            border-color: var(--colorInkBlue);
+            color: var(--colorInkBlue);
+
+            &:hover {
+                background-color: var(--colorInkBlue);
+                color: var(--colorWhite);
+            }
         }
 
         &.btn-tertiary {
-            @include buttonMixins.button(palette.$wyrdPurple);
+            border-color: var(--colorWyrdPurple);
+            color: var(--colorWyrdPurple);
+
+            &:hover {
+                background-color: var(--colorWyrdPurple);
+                color: var(--colorWhite);
+            }
         }
 
         &.btn-danger {
-            @include buttonMixins.button(palette.$crimson);
+            border-color: var(--colorCrimson);
+            color: var(--colorCrimson);
+
+            &:hover {
+                background-color: var(--colorCrimson);
+                color: var(--colorWhite);
+            }
         }
 
         &.btn-warning {
-            @include buttonMixins.button(palette.$orange);
+            border-color: var(--colorOrange);
+            color: var(--colorOrange);
+
+            &:hover {
+                background-color: var(--colorOrange);
+                color: var(--colorWhite);
+            }
         }
 
         &.btn-info {
-            @include buttonMixins.button(palette.$stormBlue);
+            border-color: var(--colorTeal);
+            color: var(--colorTeal);
+
+            &:hover {
+                background-color: var(--colorTeal);
+                color: var(--colorWhite);
+            }
         }
 
         &:disabled {
-            @include buttonMixins.button(palette.$grey);
-        }
-
-        &.cta {
-            &.btn-success,
-            &[type="submit"]{
-                @include buttonMixins.ctaButton(palette.$green, lime);
-            }
-
-            &.btn-primary {
-                @include buttonMixins.ctaButton(palette.$blue, cyan);
-            }
-
-
-            &.btn-secondary {
-                @include buttonMixins.ctaButton(palette.$inkBlue, cyan);
-            }
-
-            &.btn-tertiary {
-                @include buttonMixins.ctaButton(palette.$wyrdPurple, magenta);
-            }
-
-            &.btn-danger {
-
-                @include buttonMixins.ctaButton(palette.$crimson, red);
-            }
-
-            &.btn-warning {
-                @include buttonMixins.ctaButton(palette.$orange, yellow);
-            }
-
-            &.btn-info {
-                @include buttonMixins.ctaButton(palette.$stormBlue, cyan);
-            }
-
-            &:disabled {
-                @include buttonMixins.ctaButton(palette.$grey, palette.$grey);
-                color: color.mix(palette.$grey, palette.$offWhite);
-                &:before {
-                    display: none !important;
-                }
+            opacity: 0.5;
+            &:hover {
+                color: var(--colorInk);
+                background-color: transparent;
             }
         }
-
     }
-}
-
-table {
-    .btn, button {
-        &:not(.unstyle) {
-            margin: 0;
-            width: 100%;
-            &:before {
-                box-shadow: none;
-            }
-
-        }
-    }
-
-    .btn-group {
-        &:before {
-            box-shadow: none;
-        }
-    }
-}
-
-.btn-group {
-    display: flex;
-    position: relative;
-    flex-direction: column;
-    width: 100%;
-
-    .btn, button {
-        margin-bottom: math.div(variables.$base-spacing, 2);
-
-        flex: 1;
-    }
-}
-
-@media only screen and (min-width: variables.$mobileBreakPointUpper) {
-    .btn-group {
-        flex-direction: row;
-
-        &.cta {
-            border: variables.$baseBorderWidth solid transparent;
-            border-image: palette.$goldFX 33%;
-            box-shadow: palette.$baseBoxShadow;
-            .btn {
-                border-top: none !important;
-                border-bottom: none !important;
-                flex-grow: 1 !important;
-                border-right: none !important;
-                margin: 0;
-                &:not(:last-child) {
-                    margin-right: variables.$base-spacing;
-                }
-                &:first-child {
-                    border-left: none !important;
-                }
-
-            }
-        }
-
-
-    }
-
-    .btn, button {
-        &:not(:last-child) {
-            margin-right: math.div(variables.$base-spacing, 2);
-        }
-    }
-
-
 }

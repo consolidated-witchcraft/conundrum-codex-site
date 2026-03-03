@@ -1,0 +1,32 @@
+$vellum: #f3e0bb;
+$charcoal: #080808;
+$ink: #2e251a;
+$offWhite: #f4f0e1;
+$crimson: #790000;
+$white: #f8f6f6;
+$green: #008714;
+$orange: #ff8000;
+$teal: #216a88;
+$blue: #2853ff;
+$inkBlue: #001957;
+$wyrdPurple: #831e57;
+
+:root {
+    /**
+    * Base Colors
+     */
+    --colorVellum: #{$vellum};
+    --colorCharcoal: #{$charcoal};
+    --colorInk: #{$ink};
+    --colorOffWhite: #{$offWhite};
+    --colorCrimson: #{$crimson};
+    --colorWhite: #{$white};
+    --colorGreen: #{$green};
+    --colorOrange: #{$orange};
+    --colorTeal: #{$teal};
+    --colorBlue: #{$blue};
+    --colorInkBlue: #{$inkBlue};
+    --colorWyrdPurple: #{$wyrdPurple};
+
+}
+
