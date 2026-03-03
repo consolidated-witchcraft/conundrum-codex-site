@@ -7,7 +7,7 @@
     grid-template-columns: repeat(1, 1fr);
     row-gap: variables.$base-spacing;
     column-gap: variables.$base-spacing;
-    margin: 0 math.div(variables.$base-spacing, 2);
+    margin: 0 variables.$base-spacing;
 }
 
 @media only screen and (min-width: variables.$mobileBreakPointUpper) {

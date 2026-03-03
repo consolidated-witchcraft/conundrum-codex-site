@@ -74,7 +74,11 @@ final class AccountController extends AbstractBaseController
             }
             $user->setEmail($dto->emailAddress);
             $user->setUsername($dto->userName);
-            $user->setIsProfilePublic($dto->profilePublic);
+
+            $user->getUserPreferences()->setPreferredFontStack($dto->userPreferences->preferredFontStack);
+            $user->getUserPreferences()->setHasAcceptedCookies($dto->userPreferences->hasAcceptedCookies);
+            $user->getUserPreferences()->setProfilePublic($dto->userPreferences->profilePublic);
+
 
             $success = true;
             $violations = $this->validator->validate($dto);
@@ -128,7 +132,7 @@ final class AccountController extends AbstractBaseController
     #[IsGranted('ROLE_USER')]
     #[Route('/account/{id}/view', name: 'app.user.account.view')]
     public function viewAccount(User $user, Request $request): Response {
-        if (!$user->getIsProfilePublic()) {
+        if (!$user->isProfilePublic()) {
             $pageVars = [
                 'pageTitle' => 'Private Profile',
             ];

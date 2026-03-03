@@ -8,7 +8,7 @@
     box-shadow: palette.$baseBoxShadow;
     border: variables.$baseBorderWidth solid transparent;
     border-image: palette.$goldFX 25%;
-    margin-bottom: math.div(variables.$base-spacing, 4);
+    margin-bottom: math.div(variables.$base-spacing, 2);
     article {
         padding: 0;
         margin: 0;
@@ -16,7 +16,7 @@
         .accordion-heading,
         .accordion-content {
             display: block;
-            padding: math.div(variables.$base-spacing, 4);
+            padding: math.div(variables.$base-spacing, 2);
         }
         .accordion-heading {
             background: palette.$brownGradient;
@@ -73,7 +73,7 @@
                 }
             }
             .accordion-footer {
-                padding: math.div(variables.$base-spacing, 4);
+                padding: math.div(variables.$base-spacing, 2);
             }
         }
 
@@ -105,7 +105,7 @@
 
                         .accordion-column {
 
-                            padding: 0 math.div(variables.$base-spacing, 4);
+                            padding: 0 math.div(variables.$base-spacing, 2);
                         }
                     }
                 }

@@ -18,8 +18,8 @@
     font-family: typography.$displayStack;
     font-size: 110%;
     text-shadow: -1px -1px 0 color.adjust($buttonColour, $lightness: -12.5%), 1px 1px 0 color.adjust($buttonColour, $lightness: +12.5%);
-    padding: math.div(variables.$base-spacing, 4);
-    margin-bottom: math.div(variables.$base-spacing, 4);
+    padding: math.div(variables.$base-spacing, 2);
+    margin-bottom: math.div(variables.$base-spacing, 2);
     transition: box-shadow 250ms ease-in-out;
     box-shadow: 0 0 0.5rem inset rgba(0, 0, 0, 0.125), 0 0 0.375rem inset rgba(0, 0, 0, 0.25), 0 0 0.25rem inset rgba(0, 0, 0, 0.75);
     white-space: nowrap;
@@ -74,6 +74,7 @@
     background-color: $buttonColor;
     color: palette.$white;
     text-align: center;
+
     &:not(:disabled) {
         &:hover, &:active, &:focus {
             background-color: color.adjust($buttonColor, $lightness: +10%);

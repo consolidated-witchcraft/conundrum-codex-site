@@ -53,12 +53,12 @@ footer {
         position: absolute;
         bottom: 0;
         flex-direction: row;
-        padding: math.div(variables.$base-spacing, 4) math.div((100vw - variables.$desktopMedViewportWidth), 2);
-        width: 100%;
+        padding: variables.$base-spacing variables.$baseContainerMargin;
 
         &:before {
-            width: variables.$desktopMedViewportWidth;
-            left: math.div(100vw - variables.$desktopMedViewportWidth, 2);
+            width: auto;
+            left: variables.$baseContainerMargin;
+            right: variables.$baseContainerMargin;
         }
 
         aside {
@@ -72,11 +72,11 @@ footer {
 
 @media only screen and (min-width: variables.$desktopBreakPointUpper) {
     footer {
-        padding: math.div(variables.$base-spacing, 4) math.div((100vw - variables.$desktopMaxViewportWidth), 2);
+        padding: math.div(variables.$base-spacing, 2) variables.$baseContainerMargin;
 
         &:before {
-            width: variables.$desktopMaxViewportWidth;
-            left: math.div(100vw - variables.$desktopMaxViewportWidth, 2);
+            width: 100%;
+            left: variables.$baseContainerMargin;
         }
     }
 }

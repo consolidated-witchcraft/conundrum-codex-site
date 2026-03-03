@@ -64,16 +64,16 @@ class User extends AbstractDomainEntity implements UserInterface, PasswordAuthen
     private Collection $orders;
 
 
-
     /**
      * @param non-empty-string $email
      * @param non-empty-string $username
      * @param UserAccountType $userAccountType
      * @param non-empty-string $password
-     * @param bool $hasAcceptedCookies
-     * @param bool $profilePublic
+     * @param Collection|null $userBlocks
+     * @param UserCart|null $userCart
      * @param Organisation|null $organisation
      * @param ManagedFile|null $avatar
+     * @param UserPreferences|null $userPreferences
      * @param int|null $id
      */
     public function __construct(
@@ -91,13 +91,7 @@ class User extends AbstractDomainEntity implements UserInterface, PasswordAuthen
         #[ORM\Column(type: 'non_empty_string', length: 255)]
         private string $password = 'REPLACEME',
 
-        #[ORM\Column(type: 'boolean', nullable: false)]
-        private bool $hasAcceptedCookies = false,
-
-        #[ORM\Column(type: 'boolean', nullable: false)]
-        private bool $profilePublic = false,
-
-        #[ORM\OneToMany(targetEntity: UserBlock::class, cascade: ['persist'], mappedBy: 'user')]
+        #[ORM\OneToMany(targetEntity: UserBlock::class, mappedBy: 'user', cascade: ['persist'])]
         private ? Collection $userBlocks = null,
 
         #[ORM\OneToOne(targetEntity: UserCart::class, mappedBy: 'user', cascade: ['persist', 'refresh'], orphanRemoval: true)]
@@ -110,6 +104,9 @@ class User extends AbstractDomainEntity implements UserInterface, PasswordAuthen
         #[ORM\OneToOne(targetEntity: ManagedFile::class, fetch: 'EAGER')]
         #[ORM\JoinColumn(nullable: true, onDelete: 'SET NULL')]
         private ?ManagedFile $avatar = null,
+
+        #[ORM\Embedded(class: UserPreferences::class, columnPrefix: 'preferences_')]
+        private ? UserPreferences $userPreferences = null,
 
         ? int $id = null
     ) {
@@ -124,6 +121,9 @@ class User extends AbstractDomainEntity implements UserInterface, PasswordAuthen
         }
         if ($this->userCart === null) {
             $this->userCart = new UserCart($this);
+        }
+        if ($this->userPreferences === null) {
+            $this->userPreferences = new UserPreferences();
         }
     }
 
@@ -152,14 +152,9 @@ class User extends AbstractDomainEntity implements UserInterface, PasswordAuthen
         $this->avatar = $avatar;
     }
 
-    public function isProfilePublic(): bool
-    {
-        return $this->profilePublic;
-    }
-
     public function setProfilePublic(bool $profilePublic): void
     {
-        $this->profilePublic = $profilePublic;
+        $this->userPreferences->setProfilePublic($profilePublic);
     }
 
 
@@ -228,22 +223,22 @@ class User extends AbstractDomainEntity implements UserInterface, PasswordAuthen
 
     public function getHasAcceptedCookies(): bool
     {
-        return $this->hasAcceptedCookies;
+        return $this->userPreferences->getHasAcceptedCookies();
     }
 
     public function setHasAcceptedCookies(bool $hasAcceptedCookies): void
     {
-        $this->hasAcceptedCookies = $hasAcceptedCookies;
+        $this->userPreferences->setHasAcceptedCookies($hasAcceptedCookies);
     }
 
-    public function getIsProfilePublic(): bool
+    public function isProfilePublic(): bool
     {
-        return $this->profilePublic;
+        return $this->userPreferences->isProfilePublic();
     }
 
     public function setIsProfilePublic(bool $isProfilePublic): void
     {
-        $this->profilePublic = $isProfilePublic;
+        $this->userPreferences->setProfilePublic($isProfilePublic);
     }
 
 
@@ -387,5 +382,12 @@ class User extends AbstractDomainEntity implements UserInterface, PasswordAuthen
             $this->userCart = new UserCart($this);
         }
         return $this->userCart;
+    }
+
+    public function getUserPreferences(): UserPreferences {
+        if (null === $this->userPreferences) {
+            $this->userPreferences = new UserPreferences();
+        }
+        return $this->userPreferences;
     }
 }

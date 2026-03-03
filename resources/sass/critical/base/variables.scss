@@ -5,7 +5,9 @@
 $gemBorderWidth: 0.25rem;
 $desktopMedViewportWidth: 90vw;
 $desktopMaxViewportWidth: 80vw;
-$base-spacing: 3rem;
+$base-spacing: 1.5rem;
+$baseContainerMargin: $base-spacing * 4;
+
 $mobileBreakPointUpper: 768px;
 $desktopBreakPointUpper: 1920px;
 $baseBorderRadius: 0.25rem;

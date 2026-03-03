@@ -26,8 +26,6 @@ class UserTest extends TestCase
             userAccountType: $overrides['userAccountType'] ?? $this->createStub(UserAccountType::class),
             userBlocks: $overrides['userBlocks'] ?? new ArrayCollection(),
             password: $overrides['password'] ?? 'Test Pass',
-            hasAcceptedCookies: $overrides['hasAcceptedCookies'] ?? false,
-            profilePublic: $overrides['profilePublic'] ?? false,
             avatar: $overrides['avatar'] ?? null,
             id: $overrides['id'] ?? null
         );
@@ -42,8 +40,8 @@ class UserTest extends TestCase
             email: $testEmail,
             username: $userName,
             userAccountType: $userAccountType,
-            userBlocks: new ArrayCollection(),
             password: $password,
+            userBlocks: new ArrayCollection(),
             id: $id
         );
         self::assertEquals($testEmail, $user->getEmail());
@@ -53,7 +51,7 @@ class UserTest extends TestCase
         self::assertEquals($id, $user->getId());
         self::assertEquals($userAccountType, $user->getUserAccountType());
         self::assertFalse($user->getHasAcceptedCookies());
-        self::assertFalse($user->getIsProfilePublic());
+        self::assertFalse($user->isProfilePublic());
         self::assertEmpty($user->getRoles());
         self::assertEmpty($user->getGames());
         self::assertEmpty($user->getGamesMastered());
@@ -107,9 +105,9 @@ class UserTest extends TestCase
 
     public function testSetProfilePublic(): void {
         $user = $this->generateTestUser();
-        self::assertFalse($user->getIsProfilePublic());
+        self::assertFalse($user->isProfilePublic());
         $user->setIsProfilePublic(true);
-        self::assertTrue($user->getIsProfilePublic());
+        self::assertTrue($user->isProfilePublic());
     }
 
     public function testSetId(): void {

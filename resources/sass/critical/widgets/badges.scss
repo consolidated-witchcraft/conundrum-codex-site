@@ -5,16 +5,16 @@
 @use '../base/palette';
 
 .badge {
-    padding: math.div(variables.$base-spacing, 16) math.div(variables.$base-spacing, 8);
+    padding: math.div(variables.$base-spacing, 16) math.div(variables.$base-spacing, 4);
     background-color: palette.$stormBlue;
     color: palette.$offWhite;
-    font-family: 'Helvetica', 'Arial', sans-serif;
+    font-family: 'sans-serif';
     font-size: 0.75rem;
     font-weight: bold;
     box-shadow: palette.$baseBoxShadow;
     border-radius: 0.125rem;
     display: inline-block;
-    margin: math.div(variables.$base-spacing, 4) 0;
+    margin: math.div(variables.$base-spacing, 2) 0;
 
     &:not(:last-child) {
         margin-right: math.div(variables.$base-spacing, 16);

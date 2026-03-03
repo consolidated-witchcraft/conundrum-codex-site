@@ -20,7 +20,7 @@ $pulsarHeight: 3rem;
     position: relative;
     z-index: 9999;
     .basic-info, .description, .clues {
-        padding: math.div(variables.$base-spacing, 4);
+        padding: math.div(variables.$base-spacing, 2);
     }
 
     .basic-info {
@@ -32,7 +32,7 @@ $pulsarHeight: 3rem;
             position: relative;
             border: 1rem solid transparent;
             border-image: url('/dist/images/eroded-frame.svg') 33%;
-            margin-bottom: math.div(variables.$base-spacing, 4);
+            margin-bottom: math.div(variables.$base-spacing, 2);
 
             img {
                 transition: opacity variables.$animationSpeedNormal ease-in-out;

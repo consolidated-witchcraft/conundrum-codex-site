@@ -6,7 +6,7 @@ namespace App\Form\Type;
 
 use App\Dto\Visitor\Puzzles\Static\Casebook\CasebookSubjectClueDto;
 use App\Services\PuzzleInstance\Domain\Casebook\CasebookSubjectClue;
-use App\Services\PuzzleInstance\Domain\Casebook\CasebookSubjectClueTypeValueObject;
+use App\Services\PuzzleInstance\Domain\Casebook\CasebookSubjectClueType;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;

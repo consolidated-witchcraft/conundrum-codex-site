@@ -8,7 +8,9 @@
 $mobileHeaderHeight: 10vh;
 $mobileNavButtonHeight: 8vh;
 
-
+a.skip-link {
+    display: none;
+}
 @keyframes gradient {
     0% {
         background-position: 0% 50%;
@@ -51,7 +53,7 @@ body {
         left: 0;
         right: 0;
         z-index: 999999;
-
+        font-size: 1.125rem;
 
         a.brand {
             display: block;
@@ -188,20 +190,20 @@ body {
 
             span.user-greeting {
                 flex-basis: 10vh;
-                margin: math.div(variables.$base-spacing, 4);
+                margin: math.div(variables.$base-spacing, 2);
                 line-height: 10vh;
             }
 
             form {
                 flex-basis: 10vh;
-                margin: math.div(variables.$base-spacing, 4);
+                margin: math.div(variables.$base-spacing, 2);
                 background-color: palette.$white;
                 box-shadow: palette.$baseBoxShadow;
                 border-radius: 0.125rem;
                 display: flex;
 
                 input {
-                    padding: math.div(variables.$base-spacing, 4);
+                    padding: math.div(variables.$base-spacing, 2);
                     border: none;
                     background-color: transparent;
                     flex: 1;
@@ -312,8 +314,8 @@ main {
             }
             top: 0;
             position: sticky;
-            margin: 0 0 math.div(variables.$base-spacing, 2);
-            padding: 0 math.div((100vw - variables.$desktopMedViewportWidth), 2);
+            margin: 0 0 variables.$base-spacing;
+            padding: 0 variables.$baseContainerMargin;
             background: linear-gradient(to bottom, transparent, transparent);
             transition: background 200ms ease-in-out;
             display: flex;
@@ -343,10 +345,11 @@ main {
                 right: initial;
                 display: block;
                 width: auto;
-                height: 3rem;
+                height: initial;
                 flex-basis: 5%;
-                font-size: 0.95rem;
+
                 overflow: hidden;
+
                 &:before {
                     display: none;
                 }
@@ -420,7 +423,7 @@ main {
                     justify-content: left;
                     li {
                         background-color: transparent !important;
-                        margin: 0 math.div(variables.$base-spacing, 2);
+                        margin: 0 variables.$base-spacing;
                         position: relative;
                         flex: 1;
                         flex-grow: 0;
@@ -485,8 +488,9 @@ main {
                                 border: variables.$baseBorderWidth solid transparent;
                                 border-image: palette.$goldFX 33%;
                                 border-radius: variables.$baseBorderRadius;
-                                padding: math.div(variables.$base-spacing, 4);
+                                padding: math.div(variables.$base-spacing, 2);
                                 box-shadow: palette.$baseBoxShadow;
+
                                 &:before {
                                     content: " ";
                                     display: block;
@@ -592,6 +596,7 @@ main {
                         background-color: transparent !important;
 
                         a {
+                            padding: variables.$base-spacing;
                             &:hover {
                                 color: palette.$crimson;
                                 text-decoration: underline;
@@ -697,10 +702,10 @@ main {
 @media only screen and (min-width: variables.$desktopBreakPointUpper) {
     body {
         header {
-            padding: 0 math.div((100vw - variables.$desktopMaxViewportWidth), 2);
+            padding: 0 variables.$baseContainerMargin;
 
             nav.mobile-nav#user-nav {
-                right: math.div((100vw - variables.$desktopMaxViewportWidth), 2);
+                right: variables.$baseContainerMargin;
             }
         }
     }

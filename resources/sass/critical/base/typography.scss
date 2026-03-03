@@ -124,12 +124,18 @@ $textStack: Charter, 'Bitstream Charter', 'Sitka Text', Cambria, serif;
 
 $displayStack: "Pirata", $textStack;
 
+$sansSerifStack: "Helvetica", "Arial", sans-serif;
+
+$dyslexicStack: "OpenDyslexic", sans-serif;
+
 html {
     font-family: $textStack;
     font-size: calc(.5vw + 1rem); /* the font-size can scale up as the browser window gets larger, but doesn't get hard to read when the browser window shrinks*/
     line-height: var(--baseLineHeight);
     color: palette.$ink;
 }
+
+
 
 
 /*=====
@@ -162,12 +168,10 @@ h3,
 h4,
 h5,
 h6 {
-    font-family: "Pirata", georgia, "Times New Roman", serif;;
+    font-family: $displayStack;
     font-weight: var(--heaviestFontWeight);
     line-height: var(--smallLineHeight);
     margin-bottom: calc(1.618vmin - 1vmax + .35em); /* increases margin as screen width gets smaller */
-
-
 }
 
 h1 {
@@ -579,5 +583,47 @@ tfoot th {
 @media only screen and (min-width: variables.$desktopBreakPointUpper) {
     html {
         font-size: calc(.5vw + 0.4rem); /* the font-size can scale up as the browser window gets larger, but doesn't get hard to read when the browser window shrinks*/
+    }
+}
+
+html.dyslexic {
+    font-family: $dyslexicStack;
+    h1, h2, h3, h4, h5, h6, a.btn, button, button.cta, a.btn.cta {
+        font-family: $dyslexicStack !important;
+    }
+
+    body {
+        header {
+            nav#main-nav {
+                ul {
+                    li {
+                        a {
+                            font-family: $dyslexicStack !important;
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+
+html.sans-serif {
+    font-family: $sansSerifStack;
+    h1, h2, h3, h4, h5, h6, a.btn, button, button.cta, a.btn.cta {
+        font-family: $sansSerifStack !important;
+    }
+
+    body {
+        header {
+            nav#main-nav {
+                ul {
+                    li {
+                        a {
+                            font-family: $sansSerifStack !important;
+                        }
+                    }
+                }
+            }
+        }
     }
 }

@@ -18,8 +18,15 @@ abstract class AbstractBaseController extends AbstractController
 
     final public function populatePageVars(array $pageVars, Request $request): array {
         $route = $request->get('_route');
+
         $pageVars['siteName'] = 'The Conundrum Codex';
         $user = $this->getUser();
+        if ($user instanceof User) {
+            $pageVars['preferredFontStack'] = $user->getUserPreferences()->getPreferredFontStack()->getKey();
+        } else {
+            $pageVars['preferredFontStack'] = 'regular';
+        }
+
         $pageVars['mainNav'] = $this->buildMainNav($user);
         $pageVars['userNav'] = $this->buildUserNav($user);
         $this->setActiveTrail($pageVars['mainNav'], $route);

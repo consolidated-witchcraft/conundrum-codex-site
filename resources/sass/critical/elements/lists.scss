@@ -21,7 +21,7 @@ ul.tabular-list {
     width: 100%;
     border: variables.$baseBorderWidth solid transparent;
     border-image: palette.$goldFX 33%;
-    margin-bottom: math.div(variables.$base-spacing, 2);
+    margin-bottom: variables.$base-spacing;
     box-shadow: palette.$baseBoxShadow;
 
     li {
@@ -41,7 +41,7 @@ ul.tabular-list {
         }
 
         > * {
-            padding: math.div(variables.$base-spacing, 8);
+            padding: math.div(variables.$base-spacing, 4);
             &:first-child {
                 background: palette.$crimsonGradient;
                 color: palette.$offWhite
@@ -67,7 +67,7 @@ ol.step-list {
         font-family: typography.$displayStack;
         display: none;
         &:not(:last-child) {
-            margin-bottom: math.div(variables.$base-spacing, 2);
+            margin-bottom: variables.$base-spacing;
         }
 
         &:before {

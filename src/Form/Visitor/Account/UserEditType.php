@@ -3,8 +3,12 @@
 namespace App\Form\Visitor\Account;
 
 use App\Dto\Visitor\User\UserEditDto;
+use App\Dto\Visitor\User\UserPreferencesEditDto;
+use App\Form\Type\UserPreferencesEditType;
+use App\Services\User\Domain\ValueObjects\PreferredFontStack;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
@@ -39,11 +43,19 @@ class UserEditType extends AbstractType
                 'label' => 'Public Profile?',
                 'help' => 'If you make your profile public, other users can view your name, avatar and Feats. Other users can never view your e-mail address.'
             ])
-            ->add('acceptedCookies', checkboxType::class, [
+            ->add('userPreferences', UserPreferencesEditType::class, [
+            ])
+            /*->add('acceptedCookies', checkboxType::class, [
                 'required' => false,
                 'label' => 'Accept Cookies?',
                 'help' => 'If you mark Cookies as accepted, you won\'t see the cookie warning message again (provided you\'re logged in)'
             ])
+            ->add('preferredFontStack', ChoiceType::class, [
+                'required' => true,
+                'label' => 'Preferred Font',
+                'help' => 'Set a more comfortable font for the user interface.',
+                'choices' => array_flip(PreferredFontStack::getAvailableFontStacks())
+            ])*/
             ->add('userName', TextType::class)
             ->add('emailAddress', EmailType::class, [])
             ->add('submit', SubmitType::class, ['label' => 'Save Changes'])

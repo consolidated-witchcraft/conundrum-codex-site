@@ -64,7 +64,7 @@ class AdminUserDto
             roles: $user->getHydratedRoles(),
             userAccountType: $user->getUserAccountType(),
             acceptedCookies: $user->getHasAcceptedCookies(),
-            profilePublic: $user->getIsProfilePublic()
+            profilePublic: $user->isProfilePublic()
         );
     }
 }

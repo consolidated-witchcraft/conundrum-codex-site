@@ -60,9 +60,7 @@ class AuthController extends AbstractBaseController
                 email: $userDto->emailAddress,
                 username: $userDto->userName,
                 userAccountType: $accountType,
-                password: '',
-                hasAcceptedCookies: $userDto->acceptCookies,
-                profilePublic: $userDto->profilePublic,
+                password: ''
 
             );
 

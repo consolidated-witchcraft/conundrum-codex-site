@@ -17,31 +17,31 @@ class CasebookSubjectClue
 {
     public function __construct(
         #[ORM\Column(type: 'non_empty_string', length: 255)]
-        private string                             $title,
+        private string                  $title,
 
         #[ORM\Column(type: 'non_empty_string', length: 1024)]
-        private string                             $body,
+        private string                  $body,
 
-        #[ORM\ManyToOne(targetEntity: CasebookSubjectClueTypeValueObject::class)]
+        #[ORM\ManyToOne(targetEntity: CasebookSubjectClueType::class)]
         #[ORM\JoinColumn(nullable: false)]
-        private CasebookSubjectClueTypeValueObject $type,
+        private CasebookSubjectClueType $type,
 
         #[ORM\ManyToOne(inversedBy: 'casebookSubjectClues')]
         #[ORM\JoinColumn(nullable: false)]
-        private CasebookSubject                    $casebookSubject,
+        private CasebookSubject         $casebookSubject,
 
         #[ORM\Column(type: 'datetime_immutable', nullable: true)]
-        private ? \DateTimeImmutable               $revealedDate = null,
-        ?int                                       $id = null
+        private ? \DateTimeImmutable    $revealedDate = null,
+        ?int                            $id = null
     ) {
         parent::__construct($id);
     }
 
-    public function setType(CasebookSubjectClueTypeValueObject $type): void {
+    public function setType(CasebookSubjectClueType $type): void {
         $this->type = $type;
     }
 
-    public function getType(): CasebookSubjectClueTypeValueObject
+    public function getType(): CasebookSubjectClueType
     {
         return $this->type;
     }

@@ -13,13 +13,13 @@ form:not(.unstyle) {
         flex-direction: column;
         flex-wrap: wrap;
         justify-content: space-between;
-        margin: 0 0  math.div(variables.$base-spacing, 4) 0;
+        margin: 0 0  math.div(variables.$base-spacing, 2) 0;
 
         &.required {
             > label {
                 &:before {
                     content: "*";
-                    margin-right: math.div(variables.$base-spacing, 8);
+                    margin-right: math.div(variables.$base-spacing, 4);
                     display: inline;
                     color: palette.$crimson;
                 }
@@ -30,7 +30,7 @@ form:not(.unstyle) {
         span.help-text {
             flex: 1;
             display: block;
-            margin-top: math.div(variables.$base-spacing, 4);
+            margin-top: math.div(variables.$base-spacing, 2);
         }
 
 
@@ -47,7 +47,7 @@ form:not(.unstyle) {
             .form-group {
                 flex-direction: row;
                 flex-grow: 2;
-                margin: 0 math.div(variables.$base-spacing, 4) 0 0;
+                margin: 0 math.div(variables.$base-spacing, 2) 0 0;
             }
         }
 

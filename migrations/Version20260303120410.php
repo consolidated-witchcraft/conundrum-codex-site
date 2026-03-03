@@ -10,7 +10,7 @@ use Doctrine\Migrations\AbstractMigration;
 /**
  * Auto-generated Migration: Please modify to your needs!
  */
-final class Version20260222183023 extends AbstractMigration
+final class Version20260303120410 extends AbstractMigration
 {
     public function getDescription(): string
     {
@@ -21,11 +21,13 @@ final class Version20260222183023 extends AbstractMigration
     {
         // this up() migration is auto-generated, please modify it to your needs
         $this->addSql('ALTER TABLE puzzle_instance CHANGE config config JSON NOT NULL');
+        $this->addSql('ALTER TABLE user ADD preferences_preferred_font_stack VARCHAR(255) NOT NULL, DROP preferences_use_dyslexic_font');
     }
 
     public function down(Schema $schema): void
     {
         // this down() migration is auto-generated, please modify it to your needs
         $this->addSql('ALTER TABLE puzzle_instance CHANGE config config JSON NOT NULL COMMENT \'(DC2Type:json)\'');
+        $this->addSql('ALTER TABLE user ADD preferences_use_dyslexic_font TINYINT(1) NOT NULL, DROP preferences_preferred_font_stack');
     }
 }

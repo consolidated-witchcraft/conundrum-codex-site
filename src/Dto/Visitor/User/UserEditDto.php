@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Dto\Visitor\User;
 
 use App\Services\User\Domain\User;
+use App\Services\User\Domain\ValueObjects\PreferredFontStack;
 use App\Validator as CustomAssert;
 use Symfony\Component\Validator\Constraints as Assert;
 
@@ -24,6 +25,8 @@ class UserEditDto
 
         public bool $profilePublic = false,
 
+        public ?UserPreferencesEditDto $userPreferences = null,
+
         public ? string $avatar = null
     ) {}
 
@@ -33,7 +36,8 @@ class UserEditDto
             emailAddress: $user->getEmail(),
             userName: $user->getUsername(),
             acceptedCookies: $user->getHasAcceptedCookies(),
-            profilePublic: $user->getIsProfilePublic()
+            profilePublic: $user->isProfilePublic(),
+            userPreferences: UserPreferencesEditDto::makeFromUserPreferences($user->getUserPreferences()),
         );
     }
 }

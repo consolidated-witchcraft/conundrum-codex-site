@@ -18,7 +18,7 @@
         border: (variables.$baseBorderWidth * 2) solid transparent;
         border-image: var(--erodedFrameWhiteInner) 33%;
         background-color: palette.$white;
-        padding: math.div(variables.$base-spacing, 4);
+        padding: math.div(variables.$base-spacing, 2);
         flex: 1;
         width: 100%;
         font-family: typography.$textStack;

@@ -18,6 +18,7 @@ doctrine:
             charge_type: App\Doctrine\Types\ChargeTypeType
             product_type: App\Doctrine\Types\ProductTypeType
             ticket_format: App\Doctrine\Types\TicketFormatType
+            preferred_font_stack: App\Doctrine\Types\PreferredFontStackType
     orm:
         auto_generate_proxy_classes: false
         enable_lazy_ghost_objects: true

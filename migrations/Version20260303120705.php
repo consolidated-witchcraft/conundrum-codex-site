@@ -10,7 +10,7 @@ use Doctrine\Migrations\AbstractMigration;
 /**
  * Auto-generated Migration: Please modify to your needs!
  */
-final class Version20260221142941 extends AbstractMigration
+final class Version20260303120705 extends AbstractMigration
 {
     public function getDescription(): string
     {
@@ -20,16 +20,14 @@ final class Version20260221142941 extends AbstractMigration
     public function up(Schema $schema): void
     {
         // this up() migration is auto-generated, please modify it to your needs
-        $this->addSql('ALTER TABLE orders ADD order_reference VARCHAR(255) NOT NULL');
-        $this->addSql('CREATE UNIQUE INDEX UNIQ_E52FFDEE122432EB ON orders (order_reference)');
         $this->addSql('ALTER TABLE puzzle_instance CHANGE config config JSON NOT NULL');
+        $this->addSql('ALTER TABLE user CHANGE preferences_preferred_font_stack preferences_preferred_font_stack VARCHAR(255) DEFAULT \'regular\' NOT NULL');
     }
 
     public function down(Schema $schema): void
     {
         // this down() migration is auto-generated, please modify it to your needs
         $this->addSql('ALTER TABLE puzzle_instance CHANGE config config JSON NOT NULL COMMENT \'(DC2Type:json)\'');
-        $this->addSql('DROP INDEX UNIQ_E52FFDEE122432EB ON orders');
-        $this->addSql('ALTER TABLE orders DROP order_reference');
+        $this->addSql('ALTER TABLE user CHANGE preferences_preferred_font_stack preferences_preferred_font_stack VARCHAR(255) NOT NULL');
     }
 }

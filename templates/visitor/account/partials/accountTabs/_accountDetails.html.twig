@@ -23,6 +23,14 @@
                     <dd>
                         <span class="badge badge-{{ user.isProfilePublic  ? 'info' : 'success' }}">{{ user.isProfilePublic  ? 'Public' : 'Private' }}</span>
                     </dd>
+                    <dt>Cookies Accepted</dt>
+                    <dd>
+                        <span class="badge badge-info">{{ user.getHasAcceptedCookies  ? 'Yes' : 'No' }}</span>
+                    </dd>
+                    <dt>Preferred Font Stack</dt>
+                    <dd>
+                        <span class="badge badge-info">{{ user.getUserPreferences.getPreferredFontStack.getLabel }}</span>
+                    </dd>
                 </dl>
             </div>
 

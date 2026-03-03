@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Form\Type;
 
 use App\Dto\Visitor\Puzzles\Static\Casebook\CasebookSubjectClueDto;
-use App\Services\PuzzleInstance\Domain\Casebook\CasebookSubjectClueTypeValueObject;
+use App\Services\PuzzleInstance\Domain\Casebook\CasebookSubjectClueType;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
@@ -13,7 +13,7 @@ use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-class CasebookSubjectClueType extends AbstractType
+class CasebookSubjectClueFormType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void {
 
@@ -38,7 +38,7 @@ class CasebookSubjectClueType extends AbstractType
             'type',
             EntityType::class,
             [
-                'class' => CasebookSubjectClueTypeValueObject::class,
+                'class' => CasebookSubjectClueFormType::class,
                 'choice_label' => 'label',
                 'help' => 'Select a type for your clue.'
             ]

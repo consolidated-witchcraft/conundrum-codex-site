@@ -103,7 +103,7 @@ class PageController extends AbstractBaseController
                 ]
             ]
         ];
-        return $this->render('/visitor/pages/admin-base.html.twig', $this->populatePageVars($pageVars, $request));
+        return $this->render('/visitor/pages/layout.html.twig', $this->populatePageVars($pageVars, $request));
     }
 
     #[Route('/forms', name: 'app.pages.forms')]

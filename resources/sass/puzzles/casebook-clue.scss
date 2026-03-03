@@ -25,7 +25,7 @@
         font-size: 0.8rem;
         background-color: palette.$blue;
         color: palette.$offWhite;
-        padding: math.div(variables.$base-spacing, 8);
+        padding: math.div(variables.$base-spacing, 4);
         border-radius: 0.2rem;
         &:before {
             content: " ";
@@ -88,7 +88,7 @@
         position: absolute;
         top: 0;
         right: 0;
-        padding: math.div(variables.$base-spacing, 4);
+        padding: math.div(variables.$base-spacing, 2);
         font-style: italic;
         font-size: 50%;
     }

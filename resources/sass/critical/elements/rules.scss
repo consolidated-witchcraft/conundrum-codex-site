@@ -9,10 +9,10 @@ hr {
     height: variables.$baseBorderWidth;
     display: block;
     background: palette.$dividerGradient;
-    margin: math.div(variables.$base-spacing, 2) 0;
+    margin: variables.$base-spacing 0;
 
     &.subtle {
-        height: math.div(variables.$baseBorderWidth, 2);
+        height: variables.$baseBorderWidth;
     }
 
     &.hidden {

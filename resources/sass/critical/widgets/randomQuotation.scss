@@ -1,6 +1,7 @@
 blockquote.random-quotation {
     cursor: pointer;
-
+    margin: 0;
+    padding: 0;
     &.loading {
         opacity: 0;
     }

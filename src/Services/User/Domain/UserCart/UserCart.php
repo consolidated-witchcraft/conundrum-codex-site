@@ -27,7 +27,7 @@ class UserCart extends AbstractDomainEntity
         private User                $user,
 
         #[ORM\OneToMany(targetEntity: UserCartProductLine::class, mappedBy: 'userCart', cascade: ['persist', 'refresh'], fetch: 'EAGER', orphanRemoval: true)]
-        private readonly Collection $userCartProductLines = new ArrayCollection(),
+        private Collection $userCartProductLines = new ArrayCollection(),
 
         #[ORM\OneToMany(targetEntity: UserCartCharge::class, mappedBy: 'userCart', cascade: ['persist', 'refresh'], fetch: 'EAGER', orphanRemoval: true)]
         private Collection $userCartCharges = new ArrayCollection(),

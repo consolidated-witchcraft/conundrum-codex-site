@@ -5,7 +5,7 @@
 .panel {
     background-color: palette.$offWhite;
     box-shadow: palette.$baseBoxShadow;
-    padding: math.div(variables.$base-spacing, 2) !important;
+    padding: variables.$base-spacing !important;
     border-radius: 0.25rem;
 
     h2.panel-heading {

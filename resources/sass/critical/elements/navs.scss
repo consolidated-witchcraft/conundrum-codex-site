@@ -8,11 +8,11 @@
 nav.lozenges {
     display: flex;
     flex-direction: row;
-    margin: math.div(variables.$base-spacing, 2) 0;
+    margin: variables.$base-spacing 0;
 
     a {
-        padding: math.div(variables.$base-spacing, 4);
-        margin-right: math.div(variables.$base-spacing, 4);
+        padding: math.div(variables.$base-spacing, 2);
+        margin-right: math.div(variables.$base-spacing, 2);
         color: palette.$ink;
         font-weight: 800;
         font-size: 1rem;
@@ -27,7 +27,7 @@ nav.lozenges {
         border: none;
 
         &:hover {
-            background-color: palette.$crimson;
+            background-color: palette.$stormBlue;
             color: palette.$white;
 
         }
@@ -54,8 +54,8 @@ nav.lozenges {
     &.grid {
         display: grid;
         grid-template-columns: repeat(3, 1fr);
-        row-gap: math.div(variables.$base-spacing, 2);
-        column-gap: math.div(variables.$base-spacing, 2);
+        row-gap: variables.$base-spacing;
+        column-gap: variables.$base-spacing;
 
         a {
             margin: 0;
@@ -69,7 +69,7 @@ nav.secondary {
     display: flex;
     flex-direction: column;
     a, span {
-        padding: math.div(variables.$base-spacing, 4);
+        padding: math.div(variables.$base-spacing, 2);
         position: relative;
 
         &:not(:last-child) {
@@ -109,7 +109,7 @@ nav.breadcrumbs {
             padding: math.div(variables.$base-spacing, 4);
             border-radius: variables.$baseBorderRadius;
             font-weight: bold;
-            margin-right: math.div(variables.$base-spacing, 2);
+            margin-right: variables.$base-spacing;
             border: variables.$baseBorderWidth solid palette.$crimson;
             transition: all variables.$animationSpeedFast ease-in-out;
             transition-property: background-color, color, border-color;
@@ -147,12 +147,12 @@ nav.breadcrumbs {
         border: variables.$baseBorderWidth solid transparent;
         border-image: palette.$goldFX 25%;
         border-radius: variables.$baseBorderRadius;
-        margin: 0 0 math.div(variables.$base-spacing, 2) 0;
-        padding: 0 math.div(variables.$base-spacing, 4);
+        margin: 0 0 variables.$base-spacing 0;
+        padding: 0 math.div(variables.$base-spacing, 2);
 
         a, > span {
             flex: 1;
-            padding: math.div(variables.$base-spacing, 8);
+            padding: math.div(variables.$base-spacing, 4);
             flex-grow: 0;
             line-break: strict;
             white-space: nowrap;

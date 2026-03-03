@@ -2,7 +2,7 @@
 
 namespace App\DataFixtures;
 
-use App\Services\PuzzleInstance\Domain\Casebook\CasebookSubjectClueTypeValueObject;
+use App\Services\PuzzleInstance\Domain\Casebook\CasebookSubjectClueType;
 use App\Services\PuzzleTemplate\Infrastructure\PuzzleCategoryRepository;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Persistence\ObjectManager;
@@ -14,7 +14,7 @@ class ClueTypeFixtures extends Fixture
         /**
          * @var PuzzleCategoryRepository $repo
          */
-        $repo = $manager->getRepository(CasebookSubjectClueTypeValueObject::class);
+        $repo = $manager->getRepository(CasebookSubjectClueType::class);
         $types = [
             'motive' => 'Motive',
             'whereabouts' => 'Whereabouts',
@@ -26,7 +26,7 @@ class ClueTypeFixtures extends Fixture
         ];
         foreach ($types as $handle => $label) {
             if (!$repo->findByHandle($handle)) {
-                $manager->persist(new CasebookSubjectClueTypeValueObject(label: $label, handle: $handle));
+                $manager->persist(new CasebookSubjectClueType(label: $label, handle: $handle));
             }
 
         }

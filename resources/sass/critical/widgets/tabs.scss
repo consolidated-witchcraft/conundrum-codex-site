@@ -11,13 +11,18 @@
         display: flex;
         flex-direction: column;
         background: palette.$charcoal;
+
         a {
-            padding: math.div(variables.$base-spacing, 4);
+            padding: math.div(variables.$base-spacing, 2);
             color: palette.$offWhite;
 
             &.active {
                 color: palette.$offWhite;
                 background-color: palette.$crimson;
+            }
+
+            &:not(:last-child) {
+                margin-right: variables.$base-spacing;
             }
         }
     }

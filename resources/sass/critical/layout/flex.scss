@@ -58,9 +58,9 @@ main {
         .col {
             article:not(.accordion-entry) {
                 display: block;
-                padding: math.div(variables.$base-spacing, 4) 0;
+                padding: math.div(variables.$base-spacing, 2) 0;
                 &:not(:last-child) {
-                    margin-bottom: math.div(variables.$base-spacing, 2);
+                    margin-bottom: variables.$base-spacing;
                 }
 
             }
@@ -68,7 +68,7 @@ main {
     }
 
     .row {
-        margin-bottom: math.div(variables.$base-spacing, 2);
+        margin-bottom: variables.$base-spacing;
 
         &.title-container {
             .col {
@@ -101,10 +101,10 @@ main {
                 }
             }
 
-            margin-bottom: math.div(variables.$base-spacing, 8);
+            margin-bottom: math.div(variables.$base-spacing, 4);
         }
         .col {
-            padding: math.div(variables.$base-spacing, 2);
+            padding: variables.$base-spacing;
             overflow-x: hidden;
         }
 
@@ -118,7 +118,7 @@ main {
 
 @media only screen and (min-width: variables.$mobileBreakPointUpper) {
     main {
-        width: variables.$desktopMedViewportWidth;
+        padding: 0 variables.$baseContainerMargin;
         .row, .col {
             &.hide-sm {
                 display: flex;
@@ -146,7 +146,7 @@ main {
                             height: 100%;
                             background: radial-gradient(circle at 50% 50%, palette.$ink 90%, transparent);
                             top: 0;
-                            right: 0 - math.div(variables.$base-spacing, 2);
+                            right: 0 - variables.$base-spacing;
                             position: absolute;
                         }
                     }
@@ -159,8 +159,8 @@ main {
             }
 
             > .col {
-                margin: 0 math.div(variables.$base-spacing, 2);
                 padding: 0;
+                margin: 0 variables.$base-spacing;
                 overflow: visible;
 
                 &:first-of-type {
@@ -224,15 +224,10 @@ main {
 
             .col {
                 .row {
-                    margin-bottom: math.div(variables.$base-spacing, 2);
+                    margin-bottom: variables.$base-spacing;
                 }
             }
         }
     }
 }
 
-@media only screen and (min-width: variables.$desktopBreakPointUpper) {
-    main {
-        width: variables.$desktopMaxViewportWidth;
-    }
-}

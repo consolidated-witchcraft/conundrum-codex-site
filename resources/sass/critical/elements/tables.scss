@@ -11,7 +11,7 @@ table.table {
     border: math.div(variables.$baseBorderWidth, 2) solid palette.$crimson;
     text-align: left;
     transform: rotate(-0.125deg);
-    margin-bottom: math.div(variables.$base-spacing, 2);
+    margin-bottom: variables.$base-spacing;
     width: 100%;
 
     &.shadowed {
@@ -20,7 +20,7 @@ table.table {
 
     tr, td, th {
         border: math.div(variables.$baseBorderWidth, 2) solid palette.$crimson;
-        padding: math.div(variables.$base-spacing, 4);
+        padding: math.div(variables.$base-spacing, 2);
         vertical-align: top;
         border-radius: 0;
         @include inputs.styleInputs();
@@ -60,14 +60,14 @@ table.price-table {
         tr {
             th {
                 border-bottom: variables.$baseBorderWidth solid palette.$ink;
-                padding: math.div(variables.$base-spacing, 2);
+                padding: variables.$base-spacing;
             }
         }
     }
     tbody {
         tr {
             td {
-                padding: math.div(variables.$base-spacing, 2);
+                padding: variables.$base-spacing;
             }
         }
     }
@@ -75,7 +75,7 @@ table.price-table {
         tr {
             td, th {
                 border-top: variables.$baseBorderWidth solid palette.$ink;
-                padding: math.div(variables.$base-spacing, 2);
+                padding: variables.$base-spacing;
             }
         }
     }
