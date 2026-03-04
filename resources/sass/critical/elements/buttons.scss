@@ -6,7 +6,7 @@
 .btn, button {
 
     &:not(.unstyle, .sf-toolbar-toggle-button) {
-        display: inline-block;
+        display: block;
         position: relative;
         padding: spacing.$gutter;
         margin-bottom: spacing.$gutter;
@@ -48,7 +48,9 @@
             opacity: 0.25;
         }
 
-        &:hover {
+        &:hover,
+        &:focus,
+        &:active {
             &:after {
                 mix-blend-mode: hard-light;
             }
@@ -60,7 +62,9 @@
         &.btn-success,
         &[type="submit"]{
             background: var(--greenGradient);
-            &:hover {
+            &:hover,
+            &:focus,
+            &:active  {
                 &:after {
                     box-shadow: inset 0 0 1rem lime, inset 0 0 0.5rem lime, inset 0 0 0.25rem lime;
                     opacity: 0.5;
@@ -70,7 +74,9 @@
 
         &.btn-primary {
             background: var(--tealGradientLighter);
-            &:hover {
+            &:hover,
+            &:focus,
+            &:active  {
                 &:after {
                     box-shadow: inset 0 0 1rem cyan, inset 0 0 0.5rem cyan, inset 0 0 0.25rem cyan;
                     opacity: 0.5;
@@ -82,7 +88,9 @@
         &.btn-secondary {
             background: var(--inkBlueGradient);
 
-            &:hover {
+            &:hover,
+            &:focus,
+            &:active  {
                 &:after {
                     box-shadow: inset 0 0 1rem cyan, inset 0 0 0.5rem cyan, inset 0 0 0.25rem cyan;
                     opacity: 0.5;
@@ -93,7 +101,9 @@
         &.btn-tertiary {
             background: var(--wyrdPurpleGradient);
 
-            &:hover {
+            &:hover,
+            &:focus,
+            &:active  {
                 &:after {
                     box-shadow: inset 0 0 1rem magenta, inset 0 0 0.5rem magenta, inset 0 0 0.25rem magenta;
                     opacity: 0.5;
@@ -104,7 +114,9 @@
         &.btn-danger {
             background: var(--crimsonGradient);
 
-            &:hover {
+            &:hover,
+            &:focus,
+            &:active  {
                 &:after {
                     box-shadow: inset 0 0 1rem red, inset 0 0 0.5rem red, inset 0 0 0.25rem red;
                     opacity: 0.5;
@@ -115,7 +127,9 @@
         &.btn-warning {
             background: var(--orangeGradient);
 
-            &:hover {
+            &:hover,
+            &:focus,
+            &:active  {
                 &:after {
                     box-shadow: inset 0 0 1rem yellow, inset 0 0 0.5rem yellow, inset 0 0 0.25rem yellow;
                     opacity: 0.5;
@@ -125,7 +139,9 @@
 
         &.btn-info {
             background: var(--blueGradient);
-            &:hover {
+            &:hover,
+            &:focus,
+            &:active  {
                 &:after {
                     box-shadow: inset 0 0 1rem cyan, inset 0 0 0.5rem cyan, inset 0 0 0.25rem cyan;
 
@@ -144,6 +160,15 @@
         &.cta {
 
             font-size: 110%;
+        }
+    }
+}
+
+@media only screen and (min-width: spacing.$mobileBreakPointUpper) {
+    .btn, button {
+
+        &:not(.unstyle, .sf-toolbar-toggle-button) {
+            display: inline-block;
         }
     }
 }

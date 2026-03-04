@@ -1,6 +1,7 @@
 @use 'sass:color';
 
 @use '../base/cssVariables/palette';
+@use '../base/sassVariables/spacing';
 
 @keyframes gradient {
     0% {
@@ -26,8 +27,7 @@ html {
             display: block;
             top: 0;
             left: 0;
-            width: 50vw;
-            height: 50vw;
+
             position: absolute;
         }
 
@@ -41,8 +41,8 @@ html {
         }
 
         &:after {
-            width: 33vw;
-            height: 33vw;
+            width: 100vw;
+            height: 100vw;
             background: var(--colorInk);
             mask-image: url("/dist/images/sigils_faded.webp");
             animation: gradient 5s ease infinite;
@@ -62,5 +62,14 @@ html {
             }
         }
     }
-
+}
+@media only screen and (min-width: spacing.$mobileBreakPointUpper) {
+    html {
+        body {
+            &:after {
+                height: 33vw;
+                width: 33vw;
+            }
+        }
+    }
 }

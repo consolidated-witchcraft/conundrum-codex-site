@@ -12,6 +12,7 @@ body {
 
     .shade {
         background-color: rgba(0, 0, 0, 0.5);
+        backdrop-filter: blur(10px);
         position: absolute;
         top: dimension.$mobileHeaderHeight;
         bottom: 0;
@@ -29,7 +30,7 @@ body {
             pointer-events: all;
         }
     }
-    margin-top: dimension.$mobileHeaderHeight + 2vh;
+    padding-top: dimension.$mobileHeaderHeight + 2vh;
 }
 
 header {
@@ -120,7 +121,8 @@ header {
         transition: all var(--animationSpeedSnappy) ease-in-out;
         transition-property: opacity, transform;
         opacity: 0;
-        background-color: var(--colorOffWhite);
+        background: var(--whiteGradient);
+        border-right: dimension.$mediumBorderWidth solid var(--colorInk);
 
         &.open {
             opacity: 1;
@@ -154,7 +156,7 @@ header {
 
 @media only screen and (min-width: spacing.$mobileBreakPointUpper) {
     body {
-        margin-top: 0;
+        padding-top: 0;
         position: relative;
         header {
             position: sticky;
@@ -172,7 +174,7 @@ header {
                 opacity: 1;
                 height: initial;
                 justify-content: center;
-                background-color: transparent;
+                background: transparent;
                 a {
                     border: none;
                     font-family: var(--displayStack);

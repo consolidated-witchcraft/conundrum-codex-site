@@ -515,19 +515,20 @@ tfoot th {
 
 html.dyslexic {
     font-family: var(--dyslexicStack);
-    h1, h2, h3, h4, h5, h6, a.btn, button, button.cta, a.btn.cta {
+    h1, h2, h3, h4, h5, h6, a.btn, button, button.cta, a.btn.cta, input, select, textarea {
         font-family: var(--dyslexicStack) !important;
     }
 
     body {
+        .logo-wrapper {
+            .logo-text {
+                font-family: var(--dyslexicStack) !important;
+            }
+        }
         header {
             nav#main-nav {
-                ul {
-                    li {
-                        a {
-                            font-family: var(--dyslexicStack) !important;
-                        }
-                    }
+                a {
+                    font-family: var(--dyslexicStack) !important;
                 }
             }
         }
