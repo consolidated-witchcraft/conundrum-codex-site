@@ -20,6 +20,9 @@
         transition: all variables.$animationSpeedSnappy ease-in-out;
         transition-property: box-shadow, transform, background, background-color, color;
         box-shadow: palette.$baseBoxShadow;
+        position: relative;
+
+
 
         &.btn-success,
         &[type="submit"]{

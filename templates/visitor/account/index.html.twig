@@ -16,8 +16,9 @@
             {% embed 'visitor/account/partials/accountTabs/_invitations.html.twig' with {'user': user} %}{% endembed %}
             {% embed 'visitor/account/partials/accountTabs/_addresses.html.twig' with {'user': user} %}{% endembed %}
             {% embed 'visitor/account/partials/accountTabs/_orders.html.twig' with {'orders': user.getOrders} %}{% endembed %}
-
-
         </div>
     </div>
+{% endblock %}
+{% block footerStyles %}
+    <link rel="stylesheet" href="/dist/css/widgets/tabs.css" />
 {% endblock %}

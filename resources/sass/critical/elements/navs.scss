@@ -1,0 +1,172 @@
+@use 'sass:color';
+@use 'sass:math';
+
+@use '../base/sassVariables/spacing';
+@use '../base/sassVariables/dimension';
+
+
+
+nav.lozenges {
+    display: flex;
+    flex-direction: row;
+    margin: spacing.$baseSpacing 0;
+
+    a {
+        padding: math.div(spacing.$baseSpacing, 2);
+        margin-right: math.div(spacing.$baseSpacing, 2);
+        color: var(--colorInk);
+        font-weight: 800;
+        font-size: 1rem;
+        flex: 1;
+        border: dimension.$thickBorderWidth solid transparent;
+        border-image: var(--erodedFrame) 33%;
+        text-align: center;
+        position: relative;
+        z-index: 0;
+        transition: all var(--animationSpeedNormal) ease-in-out;
+        transition-property: background-color, color;
+
+        &:hover {
+            background-color: var(--colorTeal);
+            color: var(--colorWhite);
+
+        }
+        &:before {
+            content: " ";
+            display: block;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            position: absolute;
+            top: 0;
+            left: 0;
+            z-index: -2;
+            border: var(--baseBorderWidth) solid transparent;
+            border-image: url('/dist/images/eroded-frame.svg') 33%;
+        }
+
+
+        &:last-child {
+            margin-right: 0;
+        }
+    }
+
+    &.grid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        row-gap: spacing.$baseSpacing;
+        column-gap: spacing.$baseSpacing;
+
+        a {
+            margin: 0;
+
+        }
+
+    }
+}
+
+nav.secondary {
+    display: flex;
+    flex-direction: column;
+    a, span {
+        padding: spacing.$baseSpacing;
+        position: relative;
+
+        &:not(:last-child) {
+
+        }
+    }
+}
+
+nav.pagination {
+    display: flex;
+    flex-direction: row;
+    a {
+        display: inline;
+
+        &:not(:last-child) {
+            &:after {
+                content: "|";
+                display: inline;
+                margin: 0 1rem;
+                color: var(--colorInk);
+            }
+        }
+    }
+}
+
+nav.breadcrumbs {
+    display: none;
+}
+
+@media only screen and (min-width: spacing.$mobileBreakPointUpper) {
+    nav.secondary {
+
+        flex-direction: row;
+        margin: math.div(spacing.$baseSpacing, 2) 0;
+
+        a, span, em {
+            padding: math.div(spacing.$baseSpacing, 4);
+            border-radius: var(--baseBorderRadius);
+            font-weight: bold;
+            margin-right: spacing.$baseSpacing;
+            border: dimension.$baseBorderWidth solid var(--colorCrimson);
+            transition: all var(--animationSpeedFast) ease-in-out;
+            transition-property: background-color, color, border-color;
+
+            &.active,
+            &:hover,
+            &:focus {
+                background-color: var(--colorCrimson);
+                color: var(--colorOffWhite);
+            }
+
+            &:last-child {
+                margin-right: 0;
+            }
+        }
+
+        &.no-outline {
+            a, span, em {
+                border: none;
+            }
+        }
+    }
+
+    td {
+        nav.secondary {
+            margin-bottom: 0;
+        }
+    }
+
+    nav.breadcrumbs {
+        display: flex;
+        flex-direction: row;
+
+        border: dimension.$baseBorderWidth solid transparent;
+
+        border-radius: var(--baseBorderRadius);
+        margin: 0 0 spacing.$baseSpacing 0;
+        padding: 0 math.div(spacing.$baseSpacing, 2);
+
+        a, > span {
+            flex: 1;
+            padding: math.div(spacing.$baseSpacing, 4);
+            flex-grow: 0;
+            line-break: strict;
+            white-space: nowrap;
+            position: relative;
+
+            &:not(:last-child) {
+                &:after {
+                    content: "/";
+                    display: inline;
+                    margin: 0 1rem;
+                    pointer-events: none;
+                    color: var(--colorInk);
+                    opacity: 0.5;
+                }
+            }
+        }
+    }
+}

@@ -1,11 +1,13 @@
+@use 'sass:color';
+
 $vellum: #f3e0bb;
-$charcoal: #080808;
+$charcoal: #040404;
 $ink: #2e251a;
-$offWhite: #f4f0e1;
+$offWhite: #efede7;
 $crimson: #790000;
 $white: #f8f6f6;
 $green: #008714;
-$orange: #ff8000;
+$orange: #ff9900;
 $teal: #216a88;
 $blue: #2853ff;
 $inkBlue: #001957;
@@ -28,5 +30,55 @@ $wyrdPurple: #831e57;
     --colorInkBlue: #{$inkBlue};
     --colorWyrdPurple: #{$wyrdPurple};
 
+    /**
+    * Variants
+     */
+    --colorCrimsonHighlight: #{color.adjust($crimson, $saturation: +10%, $lightness: +10%)};
+    --colorCrimsonDarker: #{color.adjust($crimson, $saturation: +10%, $lightness: -10%)};
+
+    --colorBlueHighlight: #{color.adjust($blue, $saturation: +5%, $lightness: +10%)};
+    --colorBlueDarker: #{color.adjust($blue, $saturation: +10%, $lightness: -10%)};
+
+    --colorInkBlueHighlight: #{color.adjust($inkBlue, $saturation: +10%, $lightness: +10%)};
+    --colorInkBlueDarker: #{color.adjust($inkBlue, $saturation: +10%, $lightness: -10%)};
+
+    --colorWyrdPurpleHighlight: #{color.adjust($wyrdPurple, $saturation: +10%, $lightness: +10%)};
+    --colorWyrdPurpleDarker: #{color.adjust($wyrdPurple, $saturation: +10%, $lightness: -10%)};
+
+    --colorGreenHighlight: #{color.adjust($green, $saturation: +10%, $lightness: +10%)};
+    --colorGreenDarker: #{color.adjust($green, $saturation: +10%, $lightness: -10%)};
+
+    --colorOrangeHighlight: #{color.adjust($orange, $saturation: +15%, $lightness: +10%)};
+    --colorOrangeDarker: #{color.adjust($orange, $saturation: +25%, $lightness: -10%)};
+
+    --colorTealHighlight: #{color.adjust($teal, $saturation: +10%, $lightness: +10%)};
+    --colorTealDarker: #{color.adjust($teal, $saturation: +10%, $lightness: -10%)};
+
+    /**
+    * Gradients
+     */
+    --offWhiteGradient: linear-gradient(to top, #{color.adjust($offWhite, $lightness: -5%)}, #{$offWhite});
+    --whiteGradient: linear-gradient(to top, #{color.adjust($white, $lightness: -5%)}, #{$white});
+
+    --crimsonGradient: linear-gradient(to top, var(--colorCrimsonDarker), var(--colorCrimson));
+    --crimsonGradientLighter: linear-gradient(to top,var(--colorCrimson), var(--colorCrimsonHighlight));
+
+    --blueGradient: linear-gradient(to top, var(--colorBlueDarker), var(--colorBlue));
+    --blueGradientLighter: linear-gradient(to top,var(--colorBlue), var(--colorBlueHighlight));
+
+    --inkBlueGradient: linear-gradient(to top, var(--colorInkBlueDarker), var(--colorInkBlue));
+    --inkBlueGradientLighter: linear-gradient(to top,var(--colorInkBlue), var(--colorInkBlueHighlight));
+
+    --wyrdPurpleGradient: linear-gradient(to top, var(--colorWyrdPurpleDarker), var(--colorWyrdPurple));
+    --wyrdPurpleGradientLighter: linear-gradient(to top,var(--colorWyrdPurple), var(--colorWyrdPurpleHighlight));
+
+    --greenGradient: linear-gradient(to top, var(--colorGreenDarker), var(--colorGreen));
+    --greenGradientLighter: linear-gradient(to top,var(--colorGreen), var(--colorGreenHighlight));
+
+    --orangeGradient: linear-gradient(to top, var(--colorOrangeDarker), var(--colorOrange));
+    --orangeGradientLighter: linear-gradient(to top,var(--colorOrange), var(--colorOrangeHighlight));
+
+    --tealGradient: linear-gradient(to top, var(--colorTealDarker), var(--colorTeal));
+    --tealGradientLighter: linear-gradient(to top,var(--colorTeal), var(--colorTealHighlight));
 }
 

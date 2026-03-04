@@ -230,6 +230,7 @@ select {
     background-color: var(--colorWhite);
     padding: math.div(spacing.$baseSpacing, 4);
     font-family: var(--textStack);
+    width: 100%;
 
     &:open,
     &:hover {
@@ -241,7 +242,7 @@ select {
     box-shadow: var(--baseBoxShadow);
     border: dimension.$baseBorderWidth solid transparent;
     border-radius: var(--baseBorderRadius);
-    background-color: var(--colorOffWhite);
+    background: var(--whiteGradient);
 
     padding: math.div(spacing.$baseSpacing, 2);
     margin: math.div(spacing.$baseSpacing, 2) 0;
@@ -261,4 +262,8 @@ select {
             }
         }
     }
+}
+
+.form-group {
+    margin-bottom: spacing.$gutter;
 }

@@ -1,0 +1,118 @@
+@use 'sass:color';
+@use 'sass:math';
+
+@use '../critical/base/sassVariables/spacing';
+@use '../critical/base/sassVariables/dimension';
+
+.accordion-list {
+    box-shadow: var(--baseBoxShadow);
+    border: dimension.$baseBorderWidth solid transparent;
+    margin-bottom: math.div(spacing.$baseSpacing, 2);
+    article {
+        padding: 0;
+        margin: 0;
+
+        .accordion-heading,
+        .accordion-content {
+            display: block;
+            padding: math.div(spacing.$baseSpacing, 2);
+        }
+        .accordion-heading {
+            background: var(--colorCrimson);
+            font-size: 1rem;
+            font-weight: bold;
+            font-family: var(--textStack);
+            color: var(--colorWhite);
+            position: relative;
+            margin-bottom: 0;
+            cursor: pointer;
+            border-bottom: dimension.$mediumBorderWidth solid var(--colorWhite);
+
+
+            &:after {
+                content: "^";
+                display: block;
+                position: absolute;
+
+                top: 0;
+                right: 0;
+
+                text-align: right;
+                padding: 0 0.25em;
+                transform: rotate(180deg);
+                transition: transform var(--animationSpeedNormal) ease-in-out;
+
+            }
+        }
+
+        .accordion-body {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height var(--animationSpeedNormal) ease-in-out;
+            background: var(--whiteGradient);
+
+
+            .accordion-content {
+                &.accordion-columns {
+                    display: flex;
+                    flex-direction: column;
+
+                    .accordion-column {
+                        flex: 1;
+
+                        .btn {
+                            margin-bottom: 0;
+                        }
+
+                        &.secondary {
+                            margin-bottom: 0;
+                            justify-content: end;
+                        }
+
+
+                    }
+                }
+            }
+            .accordion-footer {
+                padding: math.div(spacing.$baseSpacing, 2);
+            }
+        }
+
+        &.open {
+            .accordion-body {
+                max-height: 100vh;
+            }
+            .accordion-heading {
+                &:after {
+                    transform: rotate(0deg);
+                }
+            }
+        }
+        &:last-child {
+            .accordion-heading {
+                border-bottom: none;
+            }
+        }
+    }
+}
+
+@media only screen and (min-width: spacing.$mobileBreakPointUpper) {
+    .accordion-list {
+        article {
+            .accordion-body {
+                .accordion-content {
+                    &.accordion-columns {
+                        flex-direction: row;
+
+                        .accordion-column {
+
+                            padding: 0 math.div(spacing.$baseSpacing, 2);
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+
+

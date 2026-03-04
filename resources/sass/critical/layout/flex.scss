@@ -1,31 +1,31 @@
 @use '../base/sassVariables/spacing';
+@use '../base/sassVariables/dimension';
 
 main {
     margin: 0;
-    padding: 0 spacing.$baseSpacing;
-    //background-color: magenta;
+    padding: 0 spacing.$mobileContainerPadding;
+    min-height: 100vh - (dimension.$mobileHeaderHeight * 2);
 
     .row {
         display: flex;
         flex-direction: column;
-        //background-color: aliceblue;
-        margin: spacing.$baseSpacing 0;
+        margin: 0 0 spacing.$baseSpacing 0;
 
         &.title-container {
             margin-bottom: 0;
-
-            + .row {
-                margin-top: 0;
-            }
         }
 
         .col {
             flex: 1;
-            //background-color: yellow;
-            padding: spacing.$baseSpacing;
+            padding: 0 spacing.$gutter;
+            &:first-child {
+                padding-left: 0;
+            }
+            &:last-child {
+                padding-right: 0;
+            }
 
             &:not(:last-child) {
-                margin-right: 0;
                 margin-bottom: spacing.$baseSpacing;
             }
         }
@@ -34,14 +34,74 @@ main {
 
 @media only screen and (min-width: spacing.$mobileBreakPointUpper) {
     main {
-        padding: 0 spacing.$containerMargin;
+        padding: 0 spacing.$desktopContainerPadding;
 
         .row {
             flex-direction: row;
-            .col {
-                &:not(:last-child) {
-                    margin-bottom: 0;
-                    margin-right: spacing.$baseSpacing;
+
+
+            &.two-thirds-one-third {
+                .col {
+                    &:nth-child(1) {
+                        flex-basis: 66.5%;
+                    }
+                    &:nth-child(2) {
+                        flex-basis: 33.5%;
+                    }
+                }
+            }
+
+            &.three-quarters-one-quarter {
+                .col {
+                    &:nth-child(1) {
+                        flex-basis: 75%;
+                    }
+                    &:nth-child(2) {
+                        flex-basis: 25%;
+                    }
+                }
+            }
+
+            &.one-quarter-three-quarters {
+                .col {
+                    &:nth-child(1) {
+                        flex-basis: 25%;
+                    }
+                    &:nth-child(2) {
+                        flex-basis: 75%;
+                    }
+                }
+            }
+
+            &.one-third-two-thirds {
+                .col {
+                    &:nth-child(1) {
+                        flex-basis: 33.5%;
+                    }
+                    &:nth-child(2) {
+                        flex-basis: 66.5%;
+                    }
+                }
+            }
+
+            &.bordered {
+                > .col {
+                    position: relative;
+
+                    &:not(:last-child) {
+                        &:after {
+                            content: " ";
+                            display: block;
+                            width: dimension.$baseBorderWidth;
+                            height: 100%;
+                            background: radial-gradient(circle at 50% 50%, var(--colorInk) 75%, transparent);
+                            top: 0;
+                            right: 0;
+                            position: absolute;
+                            opacity: 0.25;
+                        }
+                    }
+
                 }
             }
         }

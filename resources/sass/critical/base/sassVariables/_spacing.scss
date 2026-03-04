@@ -1,4 +1,9 @@
-$baseSpacing: 1.5rem;
+@use 'sass:math';
+
+$baseSpacing: 2rem;
+$gutter: math.div($baseSpacing, 2);
+
 $mobileBreakPointUpper: 768px;
 $desktopBreakPointUpper: 1920px;
-$containerMargin: $baseSpacing * 4;
+$desktopContainerPadding: $baseSpacing * 4;
+$mobileContainerPadding: $baseSpacing;

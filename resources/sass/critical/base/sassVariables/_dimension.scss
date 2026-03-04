@@ -1,1 +1,12 @@
+/**
+* Nav Dimensions
+ */
+$mobileHeaderHeight: 8vh;
+$mobileNavWidth: 90vw;
+
+/**
+* Borders
+ */
 $baseBorderWidth: 0.075rem;
+$mediumBorderWidth: $baseBorderWidth * 2;
+$thickBorderWidth: $baseBorderWidth * 4;

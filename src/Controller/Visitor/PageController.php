@@ -106,11 +106,27 @@ class PageController extends AbstractBaseController
         return $this->render('/visitor/pages/layout.html.twig', $this->populatePageVars($pageVars, $request));
     }
 
+
+    #[Route('/widgets', name: 'app.pages.widgets')]
+    public function widgets(Request $request): Response {
+        $pageVars =[
+            'pageTitle' => 'Widgets',
+            'breadcrumbs' => [
+                [
+                    'route' => 'app.pages.widgets',
+                    'label' => 'Widgets',
+                    'active' => true
+                ]
+            ]
+        ];
+        return $this->render('/visitor/pages/widgets.html.twig', $this->populatePageVars($pageVars, $request));
+    }
+
     #[Route('/forms', name: 'app.pages.forms')]
     public function form(Request $request): Response {
         $form = $this->createForm(TestFormType::class);
         $pageVars =[
-            'pageTitle' => 'Layout',
+            'pageTitle' => 'Forms',
             'form' => $form,
             'breadcrumbs' => [
                 [

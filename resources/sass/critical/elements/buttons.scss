@@ -6,101 +6,144 @@
 .btn, button {
 
     &:not(.unstyle, .sf-toolbar-toggle-button) {
-        border: dimension.$baseBorderWidth solid var(--colorInk);
-        border-radius: var(--baseBorderRadius);
-        font-weight: bold;
-        padding: math.div(spacing.$baseSpacing, 2);
-        margin-right: spacing.$baseSpacing;
-        margin-bottom: spacing.$baseSpacing;
-        color: var(--colorInk);
-        transition: all var(--animationSpeedSnappy) ease-in-out;
-        transition-property: background-color, color;
-        background-color: transparent;
-        text-decoration: none;
+        display: inline-block;
+        position: relative;
+        padding: spacing.$gutter;
+        margin-bottom: spacing.$gutter;
+        box-shadow: var(--baseBoxShadow);
+        color: var(--colorOffWhite);
+        border: dimension.$mediumBorderWidth solid transparent;
+        border-image: url("/dist/images/gold-frame.svg") 33%;
+        overflow: hidden;
+        text-shadow: -1px -1px 0 rgba(0, 0, 0, 0.25), 1px 1px 0 rgba(255, 255, 255, 0.25);
+        text-align: center;
+
+        &:before,
+        &:after {
+            content: " ";
+            display: block;
+            position: absolute;
+            top: 0;
+            left: 0;
+            bottom: 0;
+            right: 0;
+        }
+
+        &:before {
+
+            background: transparent;
+            border: 0.5rem outset white;
+
+            border-left-color: #dfdfdf;
+            border-right-color: #cccccc;
+            border-bottom-color: #8f8f8f;
+            mix-blend-mode: hard-light;
+            opacity: 0.333;
+        }
+
+        &:after {
+            transition: all var(--animationSpeedNormal) ease-in-out;
+            box-shadow: inset 0 0 1rem black;
+            mix-blend-mode: color-burn;
+            opacity: 0.25;
+        }
 
         &:hover {
-            background-color: var(--colorInk);
-            color: var(--colorWhite);
+            &:after {
+                mix-blend-mode: hard-light;
+            }
+        }
+        &:not(:last-child) {
+            margin-right: spacing.$gutter;
         }
 
         &.btn-success,
         &[type="submit"]{
-            border-color: var(--colorGreen);
-            color: var(--colorGreen);
-
+            background: var(--greenGradient);
             &:hover {
-                background-color: var(--colorGreen);
-                color: var(--colorWhite);
+                &:after {
+                    box-shadow: inset 0 0 1rem lime, inset 0 0 0.5rem lime, inset 0 0 0.25rem lime;
+                    opacity: 0.5;
+                }
             }
         }
 
         &.btn-primary {
-            border-color: var(--colorBlue);
-            color: var(--colorBlue);
-
+            background: var(--tealGradientLighter);
             &:hover {
-                background-color: var(--colorBlue);
-                color: var(--colorWhite);
+                &:after {
+                    box-shadow: inset 0 0 1rem cyan, inset 0 0 0.5rem cyan, inset 0 0 0.25rem cyan;
+                    opacity: 0.5;
+                }
             }
         }
 
 
         &.btn-secondary {
-            border-color: var(--colorInkBlue);
-            color: var(--colorInkBlue);
+            background: var(--inkBlueGradient);
 
             &:hover {
-                background-color: var(--colorInkBlue);
-                color: var(--colorWhite);
+                &:after {
+                    box-shadow: inset 0 0 1rem cyan, inset 0 0 0.5rem cyan, inset 0 0 0.25rem cyan;
+                    opacity: 0.5;
+                }
             }
         }
 
         &.btn-tertiary {
-            border-color: var(--colorWyrdPurple);
-            color: var(--colorWyrdPurple);
+            background: var(--wyrdPurpleGradient);
 
             &:hover {
-                background-color: var(--colorWyrdPurple);
-                color: var(--colorWhite);
+                &:after {
+                    box-shadow: inset 0 0 1rem magenta, inset 0 0 0.5rem magenta, inset 0 0 0.25rem magenta;
+                    opacity: 0.5;
+                }
             }
         }
 
         &.btn-danger {
-            border-color: var(--colorCrimson);
-            color: var(--colorCrimson);
+            background: var(--crimsonGradient);
 
             &:hover {
-                background-color: var(--colorCrimson);
-                color: var(--colorWhite);
+                &:after {
+                    box-shadow: inset 0 0 1rem red, inset 0 0 0.5rem red, inset 0 0 0.25rem red;
+                    opacity: 0.5;
+                }
             }
         }
 
         &.btn-warning {
-            border-color: var(--colorOrange);
-            color: var(--colorOrange);
+            background: var(--orangeGradient);
 
             &:hover {
-                background-color: var(--colorOrange);
-                color: var(--colorWhite);
+                &:after {
+                    box-shadow: inset 0 0 1rem yellow, inset 0 0 0.5rem yellow, inset 0 0 0.25rem yellow;
+                    opacity: 0.5;
+                }
             }
         }
 
         &.btn-info {
-            border-color: var(--colorTeal);
-            color: var(--colorTeal);
-
+            background: var(--blueGradient);
             &:hover {
-                background-color: var(--colorTeal);
-                color: var(--colorWhite);
+                &:after {
+                    box-shadow: inset 0 0 1rem cyan, inset 0 0 0.5rem cyan, inset 0 0 0.25rem cyan;
+
+                    opacity: 0.5;
+                }
             }
+
         }
 
         &:disabled {
-            opacity: 0.5;
-            &:hover {
-                color: var(--colorInk);
-                background-color: transparent;
-            }
+            background: gray;
+
+            opacity: 0.6;
+        }
+
+        &.cta {
+
+            font-size: 110%;
         }
     }
 }

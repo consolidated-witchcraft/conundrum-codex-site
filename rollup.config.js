@@ -78,6 +78,79 @@ const config = [
         preserveEntrySignatures: false,
     },
     {
+        input: 'resources/sass/critical.scss',
+        output: {
+            dir: './public/dist/css/'
+        },
+        plugins: [
+            myExample(),
+            scss({
+                processor: (css) => {
+                    return css;
+                },
+                fileName: 'critical.css',
+                outputStyle: 'compressed',
+                watch: [
+                    'resources/sass/critical.scss',
+                    'resources/sass/critical/'
+                ],
+            }),
+
+            summary()
+        ]
+    },
+    /**
+     * Widgets
+     */
+    {
+        input: 'resources/sass/widgets/tables.scss',
+        output: {
+            dir: './public/dist/css/widgets'
+        },
+        plugins: [
+            scss({
+                fileName: 'tables.css',
+                outputStyle: 'compressed',
+                watch: ['resources/sass/widgets/tables.scss']
+
+            }),
+            summary()
+        ]
+    },
+    {
+        input: 'resources/sass/widgets/tabs.scss',
+        output: {
+            dir: './public/dist/css/widgets'
+        },
+        plugins: [
+            scss({
+                fileName: 'tabs.css',
+                outputStyle: 'compressed',
+                watch: ['resources/sass/widgets/tabs.scss']
+
+            }),
+            summary()
+        ]
+    },
+    {
+        input: 'resources/sass/widgets/accordions.scss',
+        output: {
+            dir: './public/dist/css/widgets'
+        },
+        plugins: [
+            scss({
+                fileName: 'accordions.css',
+                outputStyle: 'compressed',
+                watch: ['resources/sass/widgets/accordions.scss']
+
+            }),
+            summary()
+        ]
+    },
+    /**
+     * Puzzles
+     */
+    {
         input: 'resources/typescript/puzzles/hammer/hammerBoot.ts',
         output: {
             dir: './public/dist/js/',
@@ -133,28 +206,6 @@ const config = [
             resolve()
         ],
         preserveEntrySignatures: false,
-    },
-    {
-        input: 'resources/sass/critical.scss',
-        output: {
-            dir: './public/dist/css/'
-        },
-        plugins: [
-            myExample(),
-            scss({
-                processor: (css) => {
-                    return css;
-                },
-                fileName: 'critical.css',
-                outputStyle: 'compressed',
-                watch: [
-                    'resources/sass/critical.scss',
-                    'resources/sass/critical/'
-                ],
-            }),
-
-            summary()
-        ]
     },
     {
         input: 'resources/sass/puzzles/lightforge.scss',

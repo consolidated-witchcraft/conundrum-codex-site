@@ -1,9 +1,57 @@
+@use 'sass:color';
 
+@use '../base/cssVariables/palette';
+
+@keyframes gradient {
+    0% {
+        background-position: 0% 50%;
+    }
+    50% {
+        background-position: 100% 50%;
+    }
+    100% {
+        background-position: 0% 50%;
+    }
+}
 
 html {
-    background-color: var(--colorVellum);
-
     body {
+        background: palette.$vellum radial-gradient(circle at 50% 50%, palette.$vellum 66%, color.adjust(palette.$vellum, $saturation: +10%, $lightness: -5%) 100%);
+        position: relative;
+
+        &:after,
+        &:before {
+            content: " ";
+            z-index: -999;
+            display: block;
+            top: 0;
+            left: 0;
+            width: 50vw;
+            height: 50vw;
+            position: absolute;
+        }
+
+        &:before {
+            width: 100%;
+            height: 100%;
+            position: absolute;
+            background-image: url('/dist/images/papertex.webp');
+            background-size: 128px 128px;
+            mix-blend-mode: soft-light;
+        }
+
+        &:after {
+            width: 33vw;
+            height: 33vw;
+            background: var(--colorInk);
+            mask-image: url("/dist/images/sigils_faded.webp");
+            animation: gradient 5s ease infinite;
+            mask-size: cover;
+            mask-repeat: no-repeat;
+
+            opacity: 0.3333;
+        }
+
         color: var(--colorInk);
 
         .logo-wrapper {

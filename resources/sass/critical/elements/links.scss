@@ -1,0 +1,14 @@
+@use '../base/sassVariables/dimension';
+
+a {
+    color: var(--colorCrimson);
+    text-decoration: none;
+    border-bottom: dimension.$baseBorderWidth solid transparent;
+    transition: all var(--animationSpeedSnappy) ease-in-out;
+    transition-property: color, border-color;
+
+    &:hover, &:focus, &:active {
+        color: var(--colorCrimsonHighlight);
+        border-bottom-color: var(--colorCrimsonHighlight);
+    }
+}

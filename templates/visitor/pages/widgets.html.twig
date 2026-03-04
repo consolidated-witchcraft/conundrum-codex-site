@@ -1,0 +1,123 @@
+{% extends 'base/base.html.twig' %}
+{% block body %}
+    <div class="row">
+        <div class="col">
+            <h2>Table</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Heading 1</th>
+                        <th>Heading 2</th>
+                        <th>Heading 3</th>
+                        <th>Heading 4</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Cell 1</td>
+                        <td>Cell 2</td>
+                        <td>Cell 3</td>
+                        <td>Cell 4</td>
+                    </tr>
+                    <tr>
+                        <td>Cell 5</td>
+                        <td>Cell 6</td>
+                        <td>Cell 7</td>
+                        <td>Cell 8</td>
+                    </tr>
+                <tr>
+                    <td>Cell 9</td>
+                    <td>Cell 10</td>
+                    <td>Cell 11</td>
+                    <td>Cell 12</td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="col">
+            <h2>Tabs</h2>
+            <div class="tabs-element" is="tabs-element">
+                <nav class="tab-headings">
+                    <a href="#person" class="active">People</a>
+                    <a href="#object">Objects</a>
+                    <a href="#location">Locations</a>
+                    <a href="#misc">Misc</a>
+                </nav>
+                <div class="tab-content-container">
+                    <div id="person" class="active tab-content">
+                        People
+                    </div>
+                    <div id="object" class="tab-content">
+                        Objects
+                    </div>
+                    <div id="location" class="tab-content">
+                        Locations
+                    </div>
+
+                    <div id="misc" class="tab-content">
+                        Misc
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col">
+            <h2>Accordion</h2>
+            <div class="accordion-list" is="accordion-list">
+
+                <article class="accordion-entry" id="item-1" is="accordion-entry">
+                    <h3 class="accordion-heading">Item One</h3>
+                    <div class="accordion-body">
+                        <div class="accordion-content">
+                            Content One
+                        </div>
+
+                        <div class="accordion-footer">
+                            <nav class="secondary">
+                                <a href="">Accept</a>
+                                <a href="">Decline</a>
+                            </nav>
+                        </div>
+                    </div>
+                </article>
+                <article class="accordion-entry" id="item-2" is="accordion-entry">
+                    <h3 class="accordion-heading">Item Two</h3>
+                    <div class="accordion-body">
+                        <div class="accordion-content">
+                            Content Two
+                        </div>
+
+                        <div class="accordion-footer">
+                            <nav class="secondary">
+                                <a href="">Accept</a>
+                                <a href="">Decline</a>
+                            </nav>
+                        </div>
+                    </div>
+                </article>
+                <article class="accordion-entry" id="item-3" is="accordion-entry">
+                    <h3 class="accordion-heading">Item Three</h3>
+                    <div class="accordion-body">
+                        <div class="accordion-content">
+                            Content Three
+                        </div>
+
+                        <div class="accordion-footer">
+                            <nav class="secondary">
+                                <a href="">Accept</a>
+                                <a href="">Decline</a>
+                            </nav>
+                        </div>
+                    </div>
+                </article>
+
+            </div>
+        </div>
+    </div>
+{% endblock %}
+{% block footerStyles %}
+    <link rel="stylesheet" href="/dist/css/widgets/tables.css" />
+    <link rel="stylesheet" href="/dist/css/widgets/tabs.css" />
+    <link rel="stylesheet" href="/dist/css/widgets/accordions.css" />
+{% endblock %}

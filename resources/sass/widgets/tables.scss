@@ -1,0 +1,43 @@
+@use 'sass:math';
+
+@use '../critical/base/sassVariables/spacing';
+@use '../critical/base/sassVariables/dimension';
+
+table {
+
+    border-collapse: collapse;
+
+    tbody,
+    thead,
+    tfoot {
+        tr,
+        th,
+        td {
+            padding: spacing.$gutter;
+            border: dimension.$baseBorderWidth solid var(--colorBlue);
+            text-align: left;
+            font-size: 1rem;
+        }
+    }
+    thead {
+        tr {
+            th, td {
+                background-color: var(--colorBlue);
+                color: var(--colorWhite);
+            }
+            th {
+                font-weight: bold;
+            }
+        }
+    }
+
+    tbody {
+        tr {
+            background-color: var(--colorWhite);
+
+            &:nth-child(even) {
+                background-color: var(--colorOffWhite);
+            }
+        }
+    }
+}

@@ -1,0 +1,47 @@
+@use 'sass:math';
+
+@use '../base/sassVariables/spacing';
+@use '../base/sassVariables/dimension';
+
+
+footer {
+    display: flex;
+    flex-direction: column;
+    background-color: var(--colorCharcoal);
+    color: var(--colorOffWhite);
+    padding: spacing.$mobileContainerPadding;
+    min-height: dimension.$mobileHeaderHeight;
+
+    aside {
+        flex: 1;
+        padding: spacing.$gutter;
+
+
+
+        a {
+            color: var(--colorOffWhite);
+            border-bottom-color: var(--colorOffWhite);
+        }
+    }
+}
+
+@media only screen and (min-width: spacing.$mobileBreakPointUpper) {
+    footer {
+        padding: 0 spacing.$desktopContainerPadding;
+        flex-direction: row;
+
+        aside {
+            &.copy {
+                flex-basis: 50%;
+            }
+
+            &:first-child {
+                padding-left: 0;
+            }
+
+            &:last-child {
+                padding-right: 0;
+            }
+        }
+    }
+}

@@ -4,7 +4,19 @@
 @use '../base/sassVariables/spacing';
 @use '../base/cssVariables/animation';
 
-$logoHeight: 6vh;
+$logoHeight: 8vh;
+
+@keyframes gradient {
+    0% {
+        background-position: 0% 50%;
+    }
+    50% {
+        background-position: 100% 50%;
+    }
+    100% {
+        background-position: 0% 50%;
+    }
+}
 
 .logo-wrapper {
     display: none;
@@ -17,7 +29,7 @@ $logoHeight: 6vh;
         display: block;
         position: relative;
         transition: opacity var(--animationSpeedNormal) ease-in-out;
-        padding: 2rem;
+        padding: spacing.$baseSpacing;
 
         a.header-logo {
             display: block;
@@ -26,6 +38,7 @@ $logoHeight: 6vh;
             padding-top: $logoHeight + 2vh;
             position: relative;
             margin: 0 auto;
+            border: none;
 
             &:hover, &:focus, &:active {
                 color: transparent;
@@ -37,7 +50,7 @@ $logoHeight: 6vh;
                 position: relative;
                 color: var(--colorInk);
                 font-family: var(--displayStack);
-                font-size: math.div($logoHeight, 2.5);
+                font-size: 200%;
                 text-align: center;
             }
 
