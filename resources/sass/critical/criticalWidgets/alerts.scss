@@ -1,0 +1,56 @@
+@use 'sass:color';
+@use 'sass:math';
+
+@use '../base/sassVariables/spacing';
+@use '../base/sassVariables/dimension';
+
+.flash-container {
+    position: absolute;
+    z-index: 998;
+    display: block;
+    padding: 0 spacing.$desktopContainerPadding;
+    width: 100%;
+}
+
+span.flash {
+    display: block;
+    background-color: var(--colorGreenHighlight);
+    box-shadow: var(--baseBoxShadow);
+    color: var(--colorWhite);
+    padding: spacing.$gutter;
+    margin-bottom: spacing.$baseSpacing;
+    border-radius: 0.25rem;
+    position: relative;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity var(--animationSpeedNormal) ease-in-out;
+    width: 100%;
+
+    &.show {
+        opacity: 1;
+        pointer-events: all;
+    }
+    button {
+        position: absolute;
+        top:  0;
+        right: 0;
+        border: none;
+        box-shadow: none;
+        background-color: transparent;
+        height: 100%;
+        width: 1.5em;
+        line-height: 1.5em;
+        text-align:center;
+        font-size: 1.5em;
+        color: var(--colorWhite);
+    }
+
+    &.flash-error {
+        background-color: var(--colorCrimson);
+
+    }
+
+    &.flash-warning {
+        background-color: var(--colorOrange);
+    }
+}

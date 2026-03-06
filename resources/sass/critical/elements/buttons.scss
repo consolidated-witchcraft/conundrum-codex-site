@@ -6,6 +6,7 @@
 .btn, button {
 
     &:not(.unstyle, .sf-toolbar-toggle-button) {
+        font-size: 105%;
         display: block;
         position: relative;
         padding: spacing.$gutter;
@@ -17,6 +18,7 @@
         overflow: hidden;
         text-shadow: -1px -1px 0 rgba(0, 0, 0, 0.25), 1px 1px 0 rgba(255, 255, 255, 0.25);
         text-align: center;
+        letter-spacing: 0.04em;
 
         &:before,
         &:after {
@@ -30,38 +32,28 @@
         }
 
         &:before {
-
             background: transparent;
             border: 0.5rem outset white;
-
             border-left-color: #dfdfdf;
             border-right-color: #cccccc;
             border-bottom-color: #8f8f8f;
             mix-blend-mode: hard-light;
-            opacity: 0.333;
+            opacity: 0.4;
         }
 
         &:after {
             transition: all var(--animationSpeedNormal) ease-in-out;
-            box-shadow: inset 0 0 1rem black;
-            mix-blend-mode: color-burn;
+            box-shadow: inset 0 0 2rem black;
             opacity: 0.25;
         }
 
-        &:hover,
-        &:focus,
-        &:active {
-            &:after {
-                mix-blend-mode: hard-light;
-            }
-        }
         &:not(:last-child) {
             margin-right: spacing.$gutter;
         }
 
         &.btn-success,
         &[type="submit"]{
-            background: var(--greenGradient);
+            background: var(--greenGradientRadial);
             &:hover,
             &:focus,
             &:active  {
@@ -73,7 +65,7 @@
         }
 
         &.btn-primary {
-            background: var(--tealGradientLighter);
+            background: var(--tealGradientRadial);
             &:hover,
             &:focus,
             &:active  {
@@ -86,7 +78,7 @@
 
 
         &.btn-secondary {
-            background: var(--inkBlueGradient);
+            background: var(--inkBlueGradientRadial);
 
             &:hover,
             &:focus,
@@ -99,7 +91,7 @@
         }
 
         &.btn-tertiary {
-            background: var(--wyrdPurpleGradient);
+            background: var(--wyrdPurpleGradientRadial);
 
             &:hover,
             &:focus,
@@ -112,7 +104,7 @@
         }
 
         &.btn-danger {
-            background: var(--crimsonGradient);
+            background: var(--crimsonGradientRadial);
 
             &:hover,
             &:focus,
@@ -125,7 +117,7 @@
         }
 
         &.btn-warning {
-            background: var(--orangeGradient);
+            background: var(--orangeGradientRadial);
 
             &:hover,
             &:focus,
@@ -138,7 +130,8 @@
         }
 
         &.btn-info {
-            background: var(--blueGradient);
+            background: var(--blueGradientRadial);
+
             &:hover,
             &:focus,
             &:active  {
@@ -159,7 +152,7 @@
 
         &.cta {
 
-            font-size: 110%;
+            font-size: 125%;
         }
     }
 }
@@ -169,6 +162,14 @@
 
         &:not(.unstyle, .sf-toolbar-toggle-button) {
             display: inline-block;
+        }
+    }
+
+    .btn-group {
+        display: flex;
+        flex-direction: row;
+        .btn {
+            margin-right: spacing.$gutter;
         }
     }
 }

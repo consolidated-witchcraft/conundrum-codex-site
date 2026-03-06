@@ -1,12 +1,11 @@
-<article class="game-card {% if game.isArchived %}archived{% endif %}">
-    <div class="game-hero">
-        {% if game.getHeroImageFile %}
-            <img class="game-hero" src="{{ game.getHeroImageFile.getPath }}" alt="{{ game.getName }}">
-        {% endif %}
-        <h3 class="game-title" is="heading-element">{{ game.getName }} {% if game.isArchived %} - Archived{% endif %}</h3>
-    </div>
+<article class="card {% if game.isArchived %}archived{% endif %} {% if game.getHeroImageFile %} has-hero{% endif %}">
+    <h3 class="card-title">{{ game.getName }}</h3>
+    {% if game.getHeroImageFile %}
+        <img class="card-hero" src="{{ game.getHeroImageFile.getPath }}" alt="{{ game.getName }}">
+    {% endif %}
 
-    <div class="game-detail">
+
+    <div class="card-body">
         <span class="game-master"><strong>Games Master</strong> {{ game.getGamesMaster.getUsername }}</span>
 
 
@@ -16,6 +15,8 @@
                 You've reached the limit of concurrent games you can run. To unarchive this game, archive another one.
             </div>
         {% endif %}
+    </div>
+    <div class="card-footer">
         <div class="btn-group">
             {% if mode == 'gamesmaster' %}
                 <a href="{{ path('app.games.manage', {'gameSlug': game.getSlug}) }}" class="btn btn-info">Manage</a>

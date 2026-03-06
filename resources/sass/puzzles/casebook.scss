@@ -18,7 +18,7 @@ $pulsarHeight: 3rem;
     margin: 0 0 variables.$base-spacing 0;
     border-bottom: 0.125rem dashed color.adjust(palette.$ink, $alpha: -0.5);
     position: relative;
-    z-index: 9999;
+    z-index: 998;
     .basic-info, .description, .clues {
         padding: math.div(variables.$base-spacing, 2);
     }

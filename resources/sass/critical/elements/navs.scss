@@ -4,8 +4,6 @@
 @use '../base/sassVariables/spacing';
 @use '../base/sassVariables/dimension';
 
-
-
 nav.lozenges {
     display: flex;
     flex-direction: row;
@@ -53,7 +51,7 @@ nav.lozenges {
 
     &.grid {
         display: grid;
-        grid-template-columns: repeat(3, 1fr);
+        grid-template-columns: 1fr 1fr;
         row-gap: spacing.$baseSpacing;
         column-gap: spacing.$baseSpacing;
 
@@ -68,6 +66,7 @@ nav.lozenges {
 nav.secondary {
     display: flex;
     flex-direction: column;
+
     a, span {
         padding: spacing.$baseSpacing;
         position: relative;
@@ -95,18 +94,21 @@ nav.pagination {
     }
 }
 
-nav.breadcrumbs {
-    display: none;
-}
 
 @media only screen and (min-width: spacing.$mobileBreakPointUpper) {
+
+    nav.lozenges.grid {
+        grid-template-columns: repeat(3, 1fr);
+    }
+
     nav.secondary {
 
         flex-direction: row;
-        margin: math.div(spacing.$baseSpacing, 2) 0;
+        margin: spacing.$gutter 0;
 
         a, span, em {
-            padding: math.div(spacing.$baseSpacing, 4);
+            padding: spacing.$gutter;
+
             border-radius: var(--baseBorderRadius);
             font-weight: bold;
             margin-right: spacing.$baseSpacing;
@@ -114,15 +116,18 @@ nav.breadcrumbs {
             transition: all var(--animationSpeedFast) ease-in-out;
             transition-property: background-color, color, border-color;
 
+            &:last-child {
+                margin-right: 0;
+            }
+        }
+
+        a {
+
             &.active,
             &:hover,
             &:focus {
                 background-color: var(--colorCrimson);
-                color: var(--colorOffWhite);
-            }
-
-            &:last-child {
-                margin-right: 0;
+                color: var(--colorWhite);
             }
         }
 
@@ -138,35 +143,5 @@ nav.breadcrumbs {
             margin-bottom: 0;
         }
     }
-
-    nav.breadcrumbs {
-        display: flex;
-        flex-direction: row;
-
-        border: dimension.$baseBorderWidth solid transparent;
-
-        border-radius: var(--baseBorderRadius);
-        margin: 0 0 spacing.$baseSpacing 0;
-        padding: 0 math.div(spacing.$baseSpacing, 2);
-
-        a, > span {
-            flex: 1;
-            padding: math.div(spacing.$baseSpacing, 4);
-            flex-grow: 0;
-            line-break: strict;
-            white-space: nowrap;
-            position: relative;
-
-            &:not(:last-child) {
-                &:after {
-                    content: "/";
-                    display: inline;
-                    margin: 0 1rem;
-                    pointer-events: none;
-                    color: var(--colorInk);
-                    opacity: 0.5;
-                }
-            }
-        }
-    }
 }
+

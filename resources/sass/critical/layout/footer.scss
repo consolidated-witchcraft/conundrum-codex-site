@@ -10,7 +10,6 @@ footer {
     background-color: var(--colorCharcoal);
     color: var(--colorOffWhite);
     padding: spacing.$mobileContainerPadding;
-    min-height: dimension.$mobileHeaderHeight;
 
     aside {
         flex: 1;
@@ -20,7 +19,12 @@ footer {
 
         a {
             color: var(--colorOffWhite);
-            border-bottom-color: var(--colorOffWhite);
+            border-bottom: dimension.$baseBorderWidth dotted rgba(255, 255, 255, 0.25);
+
+            &:hover, &:focus, &:active {
+                color: var(--colorCrimsonHighlight);
+                border-bottom-color: var(--colorCrimsonHighlight);
+            }
         }
     }
 }

@@ -147,6 +147,66 @@ const config = [
             summary()
         ]
     },
+    {
+        input: 'resources/sass/widgets/badges.scss',
+        output: {
+            dir: './public/dist/css/widgets'
+        },
+        plugins: [
+            scss({
+                fileName: 'badges.css',
+                outputStyle: 'compressed',
+                watch: ['resources/sass/widgets/badges.scss']
+
+            }),
+            summary()
+        ]
+    },
+    {
+        input: 'resources/sass/widgets/feats.scss',
+        output: {
+            dir: './public/dist/css/widgets'
+        },
+        plugins: [
+            scss({
+                fileName: 'feats.css',
+                outputStyle: 'compressed',
+                watch: ['resources/sass/widgets/feats.scss']
+
+            }),
+            summary()
+        ]
+    },
+    {
+        input: 'resources/sass/widgets/slideshow.scss',
+        output: {
+            dir: './public/dist/css/widgets'
+        },
+        plugins: [
+            scss({
+                fileName: 'slideshow.css',
+                outputStyle: 'compressed',
+                watch: ['resources/sass/widgets/slideshow.scss']
+
+            }),
+            summary()
+        ]
+    },
+    {
+        input: 'resources/sass/widgets/cards.scss',
+        output: {
+            dir: './public/dist/css/widgets'
+        },
+        plugins: [
+            scss({
+                fileName: 'cards.css',
+                outputStyle: 'compressed',
+                watch: ['resources/sass/widgets/cards.scss']
+
+            }),
+            summary()
+        ]
+    },
     /**
      * Puzzles
      */

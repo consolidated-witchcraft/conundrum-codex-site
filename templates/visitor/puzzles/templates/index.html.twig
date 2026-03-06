@@ -4,25 +4,21 @@
         <div class="grid">
             {% for template in templates %}
                 <article class="card">
-
                     <a href="{{ path('app.puzzles.template.show', {'templateSlug': template.getSlug }) }}"><h2 class="card-title">{{ template.getTitle }}</h2></a>
-                    <div class="card-metadata">
-                        <nav class="tag-list">
-                            {% for category in template.categories %}
-                                <a href="{{ path('app.puzzles.categorySlug.show', {'categorySlug' : category.getHandle }) }}">{{ category.getLabel }}</a>
-                            {% endfor %}
-                        </nav>
 
-                    </div>
                     <div class="card-body">
                         {{ template.getDescription }}
+
                     </div>
-                    <span class="card-spacer"></span>
+
                     <div class="card-footer">
-                        <a href="{{ path('app.puzzles.instance.add', {'templateSlug': template.getSlug}) }}" class="btn cta btn-success">Add to Game</a>
+                        <a href="{{ path('app.puzzles.instance.add', {'templateSlug': template.getSlug}) }}" class="btn btn-primary">Add to Game</a>
                     </div>
                 </article>
             {% endfor %}
         </div>
     </div>
+{% endblock %}
+{% block footerStyles %}
+    <link rel="stylesheet" href="/dist/css/widgets/cards.css" />
 {% endblock %}

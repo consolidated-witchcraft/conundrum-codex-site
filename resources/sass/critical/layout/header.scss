@@ -3,8 +3,6 @@
 @use '../base/sassVariables/spacing';
 @use '../base/sassVariables/dimension';
 
-
-
 body {
     a.skip-link {
         display: none;
@@ -210,9 +208,16 @@ header {
                 width: 2em;
                 right: spacing.$desktopContainerPadding;
                 z-index: 9999;
+                border: none;
+
                 &.user {
                     &:before {
                         background-image: var(--userIcon);
+                    }
+                    &:hover, &:active, &:focus {
+                        &:before {
+                            background-image: var(--userIconActive);
+                        }
                     }
 
                 }
@@ -220,6 +225,11 @@ header {
                 &.cart {
                     &:before {
                         background-image: var(--cartIcon);
+                    }
+                    &:hover, &:active, &:focus {
+                        &:before {
+                            background-image: var(--cartIconActive);
+                        }
                     }
 
                 }

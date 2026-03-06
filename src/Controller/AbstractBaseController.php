@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace App\Controller;
 
+use App\Services\FeatureSwitcher\Service\FeatureSwitcherService;
+use App\Services\FeatureSwitcher\Service\Interfaces\FeatureSwitcherServiceInterface;
 use App\Services\Page\Domain\MetaTag;
 use App\Services\Page\Domain\NavItem;
 use App\Services\Quotation\Service\QuotationService;
@@ -13,9 +15,7 @@ use Symfony\Component\HttpFoundation\Request;
 
 abstract class AbstractBaseController extends AbstractController
 {
-
     protected const string ACCEPT_COOKIES_SESSION_KEY = 'userHasAcceptedCookies';
-
     final public function populatePageVars(array $pageVars, Request $request): array {
         $route = $request->get('_route');
 
@@ -186,13 +186,9 @@ abstract class AbstractBaseController extends AbstractController
                 label: 'About',
                 route: 'app.pages.about'
             ),
-
-            new NavItem(
-                handle: 'events',
-                label: 'Events',
-                route: 'app.events.index'
-            )
         ];
+
+        dd($this->featureSwitcherService->getByHandle('EVENTS_SYSTEM'));
 
         if ($user instanceof User) {
             $mainNav['games'] = $this->buildGamesItem($user);

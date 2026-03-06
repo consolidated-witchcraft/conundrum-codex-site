@@ -1,0 +1,28 @@
+@use '../base/sassVariables/spacing';
+@use '../base/sassVariables/dimension';
+
+main {
+    .grid {
+        display: grid;
+        grid-template-columns: 1fr;
+        grid-column-gap: spacing.$gutter;
+        grid-row-gap: spacing.$gutter;
+        text-align: center;
+    }
+}
+
+@media only screen and (min-width: spacing.$mobileBreakPointUpper) {
+    main {
+        .grid {
+            grid-template-columns: 1fr 1fr 1fr 1fr;
+        }
+    }
+}
+
+@media only screen and (min-width: spacing.$desktopBreakPointUpper) {
+    main {
+        .grid {
+            grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr;
+        }
+    }
+}

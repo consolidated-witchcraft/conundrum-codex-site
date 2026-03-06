@@ -19,6 +19,7 @@ doctrine:
             product_type: App\Doctrine\Types\ProductTypeType
             ticket_format: App\Doctrine\Types\TicketFormatType
             preferred_font_stack: App\Doctrine\Types\PreferredFontStackType
+
     orm:
         auto_generate_proxy_classes: false
         enable_lazy_ghost_objects: true
@@ -148,6 +149,12 @@ doctrine:
                 prefix: 'App\Services\Product\Domain'
                 alias: Ticket
 
+            FeatureSwitcher:
+                type: attribute
+                is_bundle: false
+                dir: '%kernel.project_dir%/src/Services/FeatureSwitcher/Domain'
+                prefix: 'App\Services\FeatureSwitcher\Domain'
+                alias: FeatureSwitcher
 
         controller_resolver:
             auto_mapping: false

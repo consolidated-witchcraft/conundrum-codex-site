@@ -1,0 +1,12 @@
+@use '../base/sassVariables/spacing';
+@use '../base/sassVariables/dimension';
+
+
+hr {
+    border: none;
+    height: dimension.$baseBorderWidth;
+    background: radial-gradient(circle at 50% 50%, var(--colorInk) 75%, transparent 100%);
+    padding: 0;
+
+    margin: spacing.$baseSpacing 0;
+}

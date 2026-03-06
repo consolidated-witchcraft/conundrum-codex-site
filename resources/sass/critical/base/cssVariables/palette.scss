@@ -12,6 +12,9 @@ $teal: #216a88;
 $blue: #2853ff;
 $inkBlue: #001957;
 $wyrdPurple: #831e57;
+$effectsGold: repeating-linear-gradient(33deg, #d4aa00, #ffd42a, #faebc7, #ffd42a, #ffcc00);
+$effectsCopper: repeating-linear-gradient(33deg, #d47800, #ffa32a, #ffe9c9, #ff952a, #ffcc00);
+$effectsSilver: repeating-linear-gradient(33deg, #616161, #C8C8C8FF, #fff, #c8c8c8, #616161);
 
 :root {
     /**
@@ -34,51 +37,69 @@ $wyrdPurple: #831e57;
     * Variants
      */
     --colorCrimsonHighlight: #{color.adjust($crimson, $saturation: +10%, $lightness: +10%)};
-    --colorCrimsonDarker: #{color.adjust($crimson, $saturation: +10%, $lightness: -10%)};
+    --colorCrimsonDarker: #{color.adjust($crimson, $saturation: +10%, $lightness: -12.5%)};
 
     --colorBlueHighlight: #{color.adjust($blue, $saturation: +5%, $lightness: +10%)};
-    --colorBlueDarker: #{color.adjust($blue, $saturation: +10%, $lightness: -10%)};
+    --colorBlueDarker: #{color.adjust($blue, $saturation: +10%, $lightness: -12.5%)};
 
     --colorInkBlueHighlight: #{color.adjust($inkBlue, $saturation: +10%, $lightness: +10%)};
-    --colorInkBlueDarker: #{color.adjust($inkBlue, $saturation: +10%, $lightness: -10%)};
+    --colorInkBlueDarker: #{color.adjust($inkBlue, $saturation: +10%, $lightness: -12.5%)};
 
     --colorWyrdPurpleHighlight: #{color.adjust($wyrdPurple, $saturation: +10%, $lightness: +10%)};
-    --colorWyrdPurpleDarker: #{color.adjust($wyrdPurple, $saturation: +10%, $lightness: -10%)};
+    --colorWyrdPurpleDarker: #{color.adjust($wyrdPurple, $saturation: +10%, $lightness: -12.5%)};
 
     --colorGreenHighlight: #{color.adjust($green, $saturation: +10%, $lightness: +10%)};
-    --colorGreenDarker: #{color.adjust($green, $saturation: +10%, $lightness: -10%)};
+    --colorGreenDarker: #{color.adjust($green, $saturation: +10%, $lightness: -12.5%)};
 
     --colorOrangeHighlight: #{color.adjust($orange, $saturation: +15%, $lightness: +10%)};
-    --colorOrangeDarker: #{color.adjust($orange, $saturation: +25%, $lightness: -10%)};
+    --colorOrangeDarker: #{color.adjust($orange, $saturation: +25%, $lightness: -12.5%)};
 
     --colorTealHighlight: #{color.adjust($teal, $saturation: +10%, $lightness: +10%)};
-    --colorTealDarker: #{color.adjust($teal, $saturation: +10%, $lightness: -10%)};
+    --colorTealDarker: #{color.adjust($teal, $saturation: +10%, $lightness: -12.5%)};
 
     /**
     * Gradients
      */
+
+    --inkGradient: linear-gradient(to top, #{color.adjust($ink, $lightness: -5%)}, #{$ink});
     --offWhiteGradient: linear-gradient(to top, #{color.adjust($offWhite, $lightness: -5%)}, #{$offWhite});
+    --vellumGradient: linear-gradient(to top,  #{$vellum}, #{color.adjust($vellum, $lightness: +5%)});
     --whiteGradient: linear-gradient(to top, #{color.adjust($white, $lightness: -5%)}, #{$white});
+    --charcoalGradient: linear-gradient(to top, #{color.adjust($charcoal, $lightness: -5%)}, #{$charcoal});
 
     --crimsonGradient: linear-gradient(to top, var(--colorCrimsonDarker), var(--colorCrimson));
+    --crimsonGradientRadial: radial-gradient(ellipse at 50% 100%, var(--colorCrimsonDarker) 33%, var(--colorCrimsonHighlight) 100%);
     --crimsonGradientLighter: linear-gradient(to top,var(--colorCrimson), var(--colorCrimsonHighlight));
 
     --blueGradient: linear-gradient(to top, var(--colorBlueDarker), var(--colorBlue));
+    --blueGradientRadial: radial-gradient(ellipse at 50% 100%, var(--colorBlueDarker) 33%, var(--colorBlueHighlight) 100%);
     --blueGradientLighter: linear-gradient(to top,var(--colorBlue), var(--colorBlueHighlight));
 
     --inkBlueGradient: linear-gradient(to top, var(--colorInkBlueDarker), var(--colorInkBlue));
+    --inkBlueGradientRadial: radial-gradient(ellipse at 50% 100%, var(--colorInkBlueDarker) 33%, var(--colorInkBlueHighlight) 100%);
     --inkBlueGradientLighter: linear-gradient(to top,var(--colorInkBlue), var(--colorInkBlueHighlight));
 
     --wyrdPurpleGradient: linear-gradient(to top, var(--colorWyrdPurpleDarker), var(--colorWyrdPurple));
+    --wyrdPurpleGradientRadial: radial-gradient(ellipse at 50% 100%, var(--colorWyrdPurpleDarker) 33%, var(--colorWyrdPurpleHighlight) 100%);
     --wyrdPurpleGradientLighter: linear-gradient(to top,var(--colorWyrdPurple), var(--colorWyrdPurpleHighlight));
 
     --greenGradient: linear-gradient(to top, var(--colorGreenDarker), var(--colorGreen));
+    --greenGradientRadial: radial-gradient(ellipse at 50% 100%, var(--colorGreenDarker) 33%, var(--colorGreenHighlight) 100%);
     --greenGradientLighter: linear-gradient(to top,var(--colorGreen), var(--colorGreenHighlight));
 
     --orangeGradient: linear-gradient(to top, var(--colorOrangeDarker), var(--colorOrange));
+    --orangeGradientRadial: radial-gradient(ellipse at 50% 100%, var(--colorOrangeDarker) 33%, var(--colorOrangeHighlight) 100%);
     --orangeGradientLighter: linear-gradient(to top,var(--colorOrange), var(--colorOrangeHighlight));
 
     --tealGradient: linear-gradient(to top, var(--colorTealDarker), var(--colorTeal));
+    --tealGradientRadial: radial-gradient(ellipse at 50% 100%, var(--colorTealDarker) 33%, var(--colorTealHighlight) 100%);
     --tealGradientLighter: linear-gradient(to top,var(--colorTeal), var(--colorTealHighlight));
+
+    /**
+    * Effects
+     */
+    --effectsGold: #{$effectsGold};
+    --effectsCopper: #{$effectsCopper};
+    --effectsSilver: #{$effectsSilver};
 }
 

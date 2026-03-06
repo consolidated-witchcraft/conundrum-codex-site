@@ -12,7 +12,7 @@ label {
 
 input,textarea {
     display: flex;
-    border: (dimension.$baseBorderWidth * 2) solid transparent;
+    border: dimension.$thickBorderWidth solid transparent;
     border-image: var(--erodedFrameWhiteInner) 33%;
     background-color: var(--colorWhite);
     padding: math.div(spacing.$baseSpacing, 2);
@@ -30,13 +30,17 @@ input,textarea {
 .email-wrapper {
     position: relative;
     background-color: var(--colorWhite);
-    border: (dimension.$baseBorderWidth * 2) solid transparent;
+    border: dimension.$thickBorderWidth solid transparent;
     border-image: var(--erodedFrameWhiteInner) 33%;
     padding-left: 3rem;
+
     &:before {
+        background-color: var(--colorInk);
         content: "@";
         height: 100%;
-        width: 1.5em;
+        line-height: 2em;
+        width: 2em;
+        color: var(--colorWhite);
         font-size: 1.5em;
         display: block;
         position: absolute;
@@ -59,7 +63,7 @@ input,textarea {
 .money-widget {
     position: relative;
     background-color: var(--colorWhite);
-    border: (dimension.$baseBorderWidth * 2) solid transparent;
+    border: dimension.$thickBorderWidth solid transparent;
     border-image: var(--erodedFrameWhiteInner) 33%;
     padding-left: 3rem;
 
@@ -118,7 +122,7 @@ input,textarea {
         }
         &:before {
 
-            border: (dimension.$baseBorderWidth * 2) solid transparent;
+            border: dimension.$thickBorderWidth solid transparent;
             border-image: var(--erodedFrameWhiteInner) 33%;
             background-color: var(--colorWhite);
 
@@ -127,7 +131,7 @@ input,textarea {
         &:after {
             transition: opacity var(--animationSpeedNormal) ease-in-out;
             content: "\2714";
-            border: (dimension.$baseBorderWidth * 2) solid transparent;
+            border: dimension.$thickBorderWidth solid transparent;
             opacity: 0;
         }
 
@@ -225,7 +229,7 @@ input,textarea {
 }
 
 select {
-    border: (dimension.$baseBorderWidth * 2) solid transparent;
+    border: dimension.$thickBorderWidth solid transparent;
     border-image: var(--erodedFrameWhiteInner) 33%;
     background-color: var(--colorWhite);
     padding: math.div(spacing.$baseSpacing, 4);
@@ -240,7 +244,6 @@ select {
 
 .address-form-element {
     box-shadow: var(--baseBoxShadow);
-    border: dimension.$baseBorderWidth solid transparent;
     border-radius: var(--baseBorderRadius);
     background: var(--whiteGradient);
 

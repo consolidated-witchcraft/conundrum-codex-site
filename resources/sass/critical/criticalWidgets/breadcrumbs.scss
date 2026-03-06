@@ -1,0 +1,54 @@
+@use 'sass:math';
+
+@use '../base/sassVariables/spacing';
+@use '../base/sassVariables/dimension';
+
+nav.breadcrumbs {
+    display: none;
+}
+
+@media only screen and (min-width: spacing.$mobileBreakPointUpper) {
+    nav.breadcrumbs {
+        display: flex;
+        flex-direction: row;
+        background: var(--whiteGradient);
+        box-shadow: var(--baseBoxShadow);
+        border: dimension.$baseBorderWidth solid transparent;
+        border-image: var(--effectsGold) 25%;
+        border-radius: var(--baseBorderRadius);
+        margin: 0 0 spacing.$baseSpacing 0;
+        padding: 0 spacing.$gutter;
+        overflow: hidden;
+
+        a, > span {
+            flex: 1;
+            padding: math.div(spacing.$gutter, 2);
+            flex-grow: 0;
+            line-break: strict;
+            white-space: nowrap;
+            position: relative;
+
+            &:not(:last-child) {
+                padding-right: spacing.$gutter;
+                margin-right: spacing.$gutter;
+
+                &:after {
+                    content: " ";
+                    position: absolute;
+                    top: -50%;
+                    right: 0;
+                    display: block;
+                    width: dimension.$baseBorderWidth;
+                    height: 200%;
+                    pointer-events: none;
+                    background: var(--effectsGold);
+                    transform: rotate(33deg);
+                }
+            }
+
+            &:last-of-type {
+                font-weight: bold;
+            }
+        }
+    }
+}

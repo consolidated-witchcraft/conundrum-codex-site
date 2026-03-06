@@ -1,0 +1,19 @@
+@use "sass:color";
+@use "sass:math";
+
+@use '../base/sassVariables/spacing';
+@use '../base/sassVariables/dimension';
+
+.multiadd-wrapper {
+    flex: 1;
+    flex-direction: column;
+
+    .multiadd-row {
+        padding: math.div(spacing.$baseSpacing, 4);
+        background-color: var(--colorOffWhite);
+        margin-bottom: spacing.$gutter;
+        box-shadow: var(--baseShadow);
+        border-radius: 0.25rem;
+        border: dimension.$baseBorderWidth solid var(--colorCrimson);
+    }
+}

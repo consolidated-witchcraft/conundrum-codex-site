@@ -44,12 +44,12 @@
                                 </div>
 
                                 <div class="accordion-footer">
-                                    <nav class="secondary">
+
                                         <a class="btn btn-success" href="{{ path('app.games.puzzles.instance.play', {'gameSlug': game.getSlug, 'templateSlug': puzzleInstance.getTemplate.getSlug, 'instanceCode': puzzleInstance.getInstanceCode }) }}">Play</a>
                                         {% if is_game_manager(app.user, game) %}
                                             <a class="btn btn-secondary" href="{{ path('app.games.puzzles.instance.manage', {'gameSlug': game.getSlug, 'templateSlug': puzzleInstance.getTemplate.getSlug, 'instanceCode': puzzleInstance.getInstanceCode }) }}">Manage</a>
                                         {% endif %}
-                                    </nav>
+
                                 </div>
                             </div>
 
@@ -72,6 +72,7 @@
             {% endfor %}
         </div>
     </div>
-
-
+{% endblock %}
+{% block footerStyles %}
+    <link rel="stylesheet" href="/dist/css/widgets/accordions.css" />
 {% endblock %}

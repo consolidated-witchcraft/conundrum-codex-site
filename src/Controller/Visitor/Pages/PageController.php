@@ -2,11 +2,12 @@
 
 declare(strict_types=1);
 
-namespace App\Controller\Visitor;
+namespace App\Controller\Visitor\Pages;
 
 use App\Controller\AbstractBaseController;
 use App\Form\Visitor\TestFormType;
 use App\Services\PuzzleTemplate\Service\Interfaces\PuzzleTemplateServiceInterface;
+use App\Services\User\Service\Interfaces\UserServiceInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
@@ -14,9 +15,12 @@ use Symfony\Component\Routing\Attribute\Route;
 class PageController extends AbstractBaseController
 {
 
-    public function __construct(private PuzzleTemplateServiceInterface $puzzleService
+    public function __construct(
+        private PuzzleTemplateServiceInterface $puzzleService,
+        private UserServiceInterface $userService,
     ) {
     }
+
     #[Route('/', name: 'app.pages.home')]
     public function index(Request $request): Response {
         $pageVars =[
@@ -117,7 +121,8 @@ class PageController extends AbstractBaseController
                     'label' => 'Widgets',
                     'active' => true
                 ]
-            ]
+            ],
+            'feats' => $this->userService->findAllFeats(),
         ];
         return $this->render('/visitor/pages/widgets.html.twig', $this->populatePageVars($pageVars, $request));
     }

@@ -1,0 +1,74 @@
+@use 'sass:color';
+@use 'sass:math';
+
+@use '../critical/base/sassVariables/spacing';
+@use '../critical/base/sassVariables/dimension';
+
+.card {
+    display: flex;
+    flex-direction: column;
+    box-shadow: var(--baseBoxShadow);
+    background: var(--charcoalGradient);
+    position: relative;
+    overflow: hidden;
+    border-radius: var(--border-radius);
+    border: dimension.$mediumBorderWidth solid transparent;
+    border-image: var(--effectsGold) 33%;
+    margin-bottom: spacing.$baseSpacing;
+    text-align: left;
+
+    img.card-hero {
+        width: 100%;
+        position: absolute;
+        top: 0;
+        left: 0;
+        z-index: 0;
+    }
+
+    .card-title {
+        display: block;
+        position: relative;
+        z-index: 2;
+        padding: spacing.$gutter;
+        margin-bottom: 0;
+        background: rgba(4, 4, 4, 0.75);
+        backdrop-filter: blur(5px);
+        color: var(--colorWhite);
+        font-size: 2rem;
+        font-family: var(--displayStack);
+
+    }
+
+    .card-body {
+        padding: spacing.$gutter;
+        position: relative;
+        z-index: 1;
+        border-top: dimension.$thickBorderWidth solid transparent;
+        border-image: var(--effectsGold) 33%;
+        background: var(--offWhiteGradient);
+        flex-grow: 2;
+
+    }
+
+
+    &.has-hero {
+        .card-body {
+            margin-top: 15vh;
+        }
+    }
+
+    .card-footer {
+        position: relative;
+        z-index: 1;
+        background: var(--inkGradient);
+        padding: spacing.$gutter;
+        border-top: dimension.$thickBorderWidth solid transparent;
+        border-image: var(--effectsGold) 33%;
+
+        .btn {
+            display: block;
+            margin-bottom: 0;
+        }
+    }
+
+}

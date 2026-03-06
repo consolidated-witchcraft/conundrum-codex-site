@@ -111,8 +111,67 @@
                         </div>
                     </div>
                 </article>
-
             </div>
+        </div>
+        <div class="col">
+            <h2>Badges</h2>
+            <ul class="badge-list">
+                <li class="badge badge-primary">Primary Badge</li>
+                <li class="badge badge-secondary">Secondary Badge</li>
+                <li class="badge badge-info">Info Badge</li>
+                <li class="badge badge-success">Success Badge</li>
+                <li class="badge badge-warning">Warning Badge</li>
+                <li class="badge badge-danger">Danger Badge</li>
+            </ul>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col">
+            <h2>Feats</h2>
+            <div class="feats grid">
+                {% for feat in feats %}
+                    <aside class="feat">
+                        {% embed 'visitor/account/partials/_featIcon.html.twig' with {'feat' : feat} %}{% endembed %}
+                        <div class="feat-legend">
+                            <h3 class="feat-title">{{ feat.getLabel }}</h3>
+                            <span class="feat-description">{{ feat.getDescription }}</span>
+                        </div>
+                    </aside>
+                {% endfor %}
+            </div>
+
+        </div>
+    </div>
+    <div class="row">
+        <div class="col">
+            <h2>Cards</h2>
+            <div class="grid">
+                <article class="card has-hero">
+                    <h2 class="card-title">Card with Hero</h2>
+
+                    <img class="card-hero" src="/uploads/arec-6973f41a7e42a.jpg" alt="Dummy Hero Image">
+
+                    <div class="card-body">
+                        <p>Card body goes here</p>
+                    </div>
+                    <span class="card-spacer"></span>
+                    <div class="card-footer">
+                        <a href="" class="btn btn-primary">Footer Button</a>
+                    </div>
+                </article>
+                <article class="card">
+                    <h2 class="card-title">Card without Hero</h2>
+
+                    <div class="card-body">
+                        <p>Card body goes here</p>
+                    </div>
+
+                    <div class="card-footer">
+                        <a href="" class="btn btn-primary">Footer Button</a>
+                    </div>
+                </article>
+            </div>
+
         </div>
     </div>
 {% endblock %}
@@ -120,4 +179,8 @@
     <link rel="stylesheet" href="/dist/css/widgets/tables.css" />
     <link rel="stylesheet" href="/dist/css/widgets/tabs.css" />
     <link rel="stylesheet" href="/dist/css/widgets/accordions.css" />
+    <link rel="stylesheet" href="/dist/css/widgets/badges.css" />
+    <link rel="stylesheet" href="/dist/css/widgets/feats.css" />
+    <link rel="stylesheet" href="/dist/css/widgets/cards.css" />
+
 {% endblock %}

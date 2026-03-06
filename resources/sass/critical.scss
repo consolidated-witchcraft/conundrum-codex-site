@@ -12,6 +12,7 @@
 @use "critical/base/colors";
 
 @use "critical/layout/flex";
+@use "critical/layout/grid";
 @use "critical/layout/logo";
 @use "critical/layout/header";
 @use "critical/layout/footer";
@@ -21,3 +22,9 @@
 @use "critical/elements/buttons";
 @use "critical/elements/navs";
 @use "critical/elements/images";
+@use "critical/elements/rules";
+
+@use "critical/criticalWidgets/alerts";
+@use "critical/criticalWidgets/cookieNotice";
+@use "critical/criticalWidgets/multiaddRow";
+@use "critical/criticalWidgets/breadcrumbs";
