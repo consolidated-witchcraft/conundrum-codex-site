@@ -39,6 +39,7 @@ $effectsSilver: repeating-linear-gradient(33deg, #616161, #C8C8C8FF, #fff, #c8c8
     * Variants
      */
 
+    --colorInkHighlight: #{color.adjust($ink, $saturation: +10%, $lightness: +10%)};
     --colorCharcoalHighlight: #{color.adjust($charcoal, $saturation: +10%, $lightness: +10%)};
     --colorCrimsonHighlight: #{color.adjust($crimson, $saturation: +10%, $lightness: +10%)};
     --colorCrimsonDarker: #{color.adjust($crimson, $saturation: +10%, $lightness: -12.5%)};
@@ -65,7 +66,7 @@ $effectsSilver: repeating-linear-gradient(33deg, #616161, #C8C8C8FF, #fff, #c8c8
     * Gradients
      */
 
-    --inkGradient: linear-gradient(to top, #{color.adjust($ink, $lightness: -5%)}, #{$ink});
+    --inkGradient: linear-gradient(to top, #{$ink}, var(--colorInkHighlight));
     --creamGradient: linear-gradient(to top, #{color.adjust($cream, $lightness: -5%)}, #{$cream});
     --offWhiteGradient: linear-gradient(to top, #{color.adjust($offWhite, $lightness: -5%)}, #{$offWhite});
     --vellumGradient: linear-gradient(to top,  #{$vellum}, #{color.adjust($vellum, $lightness: +5%)});

@@ -29,9 +29,11 @@
         background: var(--inkGradient);
         border-top: dimension.$mediumBorderWidth solid transparent;
         border-image: var(--effectsGold) 33%;
+        box-shadow: var(--subtleBoxShadowUp);
 
         .btn, button {
             margin-bottom: 0;
+            box-shadow: none;
         }
     }
 }

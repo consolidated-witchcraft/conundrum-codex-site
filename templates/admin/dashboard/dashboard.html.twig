@@ -3,11 +3,13 @@
     <div class="row three-quarters-one-quarter">
         <div class="col">
             <div class="panel">
-                <h2>Unactioned Abuse Reports</h2>
-                {% embed '/admin/dashboard/partials/_abuse-reports-table.html.twig' with {'abuseReports': abuseReports} %}{% endembed %}
-                <hr/>
-                <h2>Unactioned Bug Reports</h2>
-                {% embed '/admin/dashboard/partials/_bug-reports-table.html.twig' with {'bugReports': bugReports} %}{% endembed %}
+                <h2 class="panel-title">Unactioned Abuse Reports</h2>
+                <div class="panel-content">
+                    {% embed '/admin/dashboard/partials/_abuse-reports-table.html.twig' with {'abuseReports': abuseReports} %}{% endembed %}
+                    <hr/>
+                    <h2>Unactioned Bug Reports</h2>
+                    {% embed '/admin/dashboard/partials/_bug-reports-table.html.twig' with {'bugReports': bugReports} %}{% endembed %}
+                </div>
             </div>
 
         </div>

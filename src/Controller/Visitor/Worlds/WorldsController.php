@@ -7,6 +7,7 @@ namespace App\Controller\Visitor\Worlds;
 use App\Controller\AbstractBaseController;
 use App\Dto\Visitor\Worlds\UserWorldCreationDto;
 use App\Form\Visitor\Worlds\WorldCreateType;
+use App\Security\FeatureSwitcherEnabledVoter;
 use App\Services\FeatureSwitcher\Service\Interfaces\FeatureSwitcherServiceInterface;
 use App\Services\User\Domain\User;
 use App\Services\World\Domain\World;
@@ -29,6 +30,7 @@ class WorldsController extends AbstractBaseController
 
     #[Route('/worlds', name: 'app.worlds.index')]
     #[IsGranted('ROLE_USER')]
+    #[IsGranted('FS_EVENTS_SYSTEM')]
     public function index(Request $request): Response {
         $user = $this->getUser();
         if (!$user instanceof User) {
