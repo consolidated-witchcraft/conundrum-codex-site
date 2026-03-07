@@ -168,3 +168,18 @@
         </div>
     </div>
 {% endblock %}
+
+{% block sliding_switch_row %}
+    <div class="sliding-switch-wrapper {% if required %} required{% endif %}">
+    {% if required %}<span class="checkbox-required-indicator">*</span>{% endif %}
+        <label>
+            <input type="checkbox" {{ block('widget_attributes') }}{% if value is defined %} value="{{ value }}"{% endif %}/>
+            <span class="label-text">{{- block('form_label_content') -}}</span>
+            <div class="status-switch"
+                 data-unchecked="Disabled"
+                 data-checked="Enabled">
+
+            </div>
+        </label>
+    </div>
+{% endblock %}

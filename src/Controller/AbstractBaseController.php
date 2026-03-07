@@ -4,11 +4,10 @@ declare(strict_types=1);
 
 namespace App\Controller;
 
-use App\Services\FeatureSwitcher\Service\FeatureSwitcherService;
+use App\Services\FeatureSwitcher\Service\Exceptions\UnknownFeatureHandleException;
 use App\Services\FeatureSwitcher\Service\Interfaces\FeatureSwitcherServiceInterface;
 use App\Services\Page\Domain\MetaTag;
 use App\Services\Page\Domain\NavItem;
-use App\Services\Quotation\Service\QuotationService;
 use App\Services\User\Domain\User;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -16,6 +15,13 @@ use Symfony\Component\HttpFoundation\Request;
 abstract class AbstractBaseController extends AbstractController
 {
     protected const string ACCEPT_COOKIES_SESSION_KEY = 'userHasAcceptedCookies';
+
+    public function __construct(
+        protected readonly FeatureSwitcherServiceInterface $featureSwitcherService
+    ) {
+
+    }
+
     final public function populatePageVars(array $pageVars, Request $request): array {
         $route = $request->get('_route');
 
@@ -28,7 +34,6 @@ abstract class AbstractBaseController extends AbstractController
         }
 
         $pageVars['mainNav'] = $this->buildMainNav($user);
-        $pageVars['userNav'] = $this->buildUserNav($user);
         $this->setActiveTrail($pageVars['mainNav'], $route);
 
         if (!isset($pageVars['breadcrumbs'])) {
@@ -118,57 +123,9 @@ abstract class AbstractBaseController extends AbstractController
         return $pageVars;
     }
 
-    private function buildUserNav(? User $user): array {
-        $navItems = [];
-        if ($user instanceof User) {
-            $navItems['account'] = new NavItem(
-                handle: 'account',
-                label: 'Account',
-                route: 'app.user.account'
-            );
-
-            if ($user->hasPermissionKey('admin_dash')) {
-                $navItems['admin_dash'] =  new NavItem(
-                    handle: 'admin_dash',
-                    label: 'Admin Dashboard',
-                    route: 'admin.dashboard'
-                );
-            }
-
-            if ($user->hasPermissionKey('create_events')) {
-                $navItems['manage_events'] =  new NavItem(
-                    handle: 'manage_events',
-                    label: 'Manage Events',
-                    route: 'events.dashboard'
-                );
-            }
-
-            $navItems['games'] = new NavItem(
-                handle: 'games',
-                label: 'My Games',
-                route: 'app.games.index'
-            );
-
-            $navItems['logout'] = new NavItem(
-                handle: 'logout',
-                label: 'Log Out',
-                route: 'app.auth.logout'
-            );
-        } else {
-            $navItems['login'] = new NavItem(
-                handle: 'login',
-                label: 'Login',
-                route: 'app.auth.login'
-            );
-            $navItems['register'] = new NavItem(
-                handle: 'register',
-                label: 'Register',
-                route: 'app.auth.register'
-            );
-        }
-        return $navItems;
-    }
-
+    /**
+     * @throws UnknownFeatureHandleException
+     */
     private function buildMainNav(?User $user): array {
         $mainNav = [
             new NavItem(
@@ -185,13 +142,29 @@ abstract class AbstractBaseController extends AbstractController
                 handle: 'about',
                 label: 'About',
                 route: 'app.pages.about'
-            ),
+            )
         ];
 
-        dd($this->featureSwitcherService->getByHandle('EVENTS_SYSTEM'));
+
 
         if ($user instanceof User) {
             $mainNav['games'] = $this->buildGamesItem($user);
+        }
+
+        if ($this->featureSwitcherService->isFeatureEnabled('EVENTS_SYSTEM')) {
+            $mainNav['events'] = new NavItem(
+                handle: 'events',
+                label: 'Events',
+                route: 'app.events.index'
+            );
+        }
+
+        if ($this->featureSwitcherService->isFeatureEnabled('WORLDS_SYSTEM')) {
+            $mainNav['worlds'] = new NavItem(
+                handle: 'worlds',
+                label: 'My Worlds',
+                route: 'app.worlds.index'
+            );
         }
         return $mainNav;
     }

@@ -9,7 +9,7 @@ use App\Dto\Visitor\Bugs\BugReportDto;
 use App\Form\Visitor\BugReportType;
 use App\Message\EmailMessage;
 use App\Services\BugReport\Domain\BugReport;
-use App\Services\Quotation\Service\QuotationService;
+use App\Services\FeatureSwitcher\Service\Interfaces\FeatureSwitcherServiceInterface;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -19,11 +19,13 @@ use Symfony\Component\Routing\Attribute\Route;
 
 class BugReportController extends AbstractBaseController
 {
-
     public function __construct(
         private readonly EntityManagerInterface $entityManager,
-        private readonly MessageBusInterface $bus
-    ) {}
+        private readonly MessageBusInterface $bus,
+        FeatureSwitcherServiceInterface $featureSwitcherService,
+    ) {
+        parent::__construct($featureSwitcherService);
+    }
 
     /**
      * @throws ExceptionInterface

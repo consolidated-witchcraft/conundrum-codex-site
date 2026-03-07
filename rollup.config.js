@@ -103,6 +103,51 @@ const config = [
      * Widgets
      */
     {
+        input: 'resources/sass/widgets/panels.scss',
+        output: {
+            dir: './public/dist/css/widgets'
+        },
+        plugins: [
+            scss({
+                fileName: 'panels.css',
+                outputStyle: 'compressed',
+                watch: ['resources/sass/widgets/panels.scss']
+
+            }),
+            summary()
+        ]
+    },
+    {
+        input: 'resources/sass/widgets/hero.scss',
+        output: {
+            dir: './public/dist/css/widgets'
+        },
+        plugins: [
+            scss({
+                fileName: 'hero.css',
+                outputStyle: 'compressed',
+                watch: ['resources/sass/widgets/hero.scss']
+
+            }),
+            summary()
+        ]
+    },
+    {
+        input: 'resources/sass/widgets/randomQuotation.scss',
+        output: {
+            dir: './public/dist/css/widgets'
+        },
+        plugins: [
+            scss({
+                fileName: 'randomQuotation.css',
+                outputStyle: 'compressed',
+                watch: ['resources/sass/widgets/randomQuotation.scss']
+
+            }),
+            summary()
+        ]
+    },
+    {
         input: 'resources/sass/widgets/tables.scss',
         output: {
             dir: './public/dist/css/widgets'
@@ -187,6 +232,21 @@ const config = [
                 fileName: 'slideshow.css',
                 outputStyle: 'compressed',
                 watch: ['resources/sass/widgets/slideshow.scss']
+
+            }),
+            summary()
+        ]
+    },
+    {
+        input: 'resources/sass/widgets/wikieditor.scss',
+        output: {
+            dir: './public/dist/css/widgets'
+        },
+        plugins: [
+            scss({
+                fileName: 'wikieditor.css',
+                outputStyle: 'compressed',
+                watch: ['resources/sass/widgets/wikieditor.scss']
 
             }),
             summary()

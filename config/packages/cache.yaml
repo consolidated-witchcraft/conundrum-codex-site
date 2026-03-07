@@ -3,6 +3,7 @@ framework:
         app: cache.adapter.filesystem
         default_redis_provider: 'redis://dnd-puzzles-redis'
         system: cache.adapter.system
+
         # Unique name of your app: used to compute stable namespaces for cache keys.
         #prefix_seed: your_vendor_name/app_name
 

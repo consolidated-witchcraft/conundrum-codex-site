@@ -11,7 +11,7 @@
                     {{ slide.slideBody }}
                     {% if slide.cta is defined %}
                         <div class="slideshow-cta">
-                            <a href="{{ path(slide.cta.route) }}" class="btn cta btn-secondary">{{ slide.cta.label }}</a>
+                            <a href="{{ path(slide.cta.route) }}" class="btn btn-success">{{ slide.cta.label }}</a>
                         </div>
 
                     {% endif %}

@@ -76,6 +76,14 @@ class RoleFixtures extends Fixture
         'create_event_organisations' => [
             'label' => 'Create Event Organisations',
             'description' => 'Create event organisations.'
+        ],
+        'manage_features' => [
+            'label' => 'Manage Features',
+            'description' => 'Enable and disable Site features'
+        ],
+        'manage_cache' => [
+            'label' => 'Manage Cache',
+            'description' => 'Manage and Clear the system cache'
         ]
     ];
 
@@ -100,7 +108,9 @@ class RoleFixtures extends Fixture
                 'manage_bugs',
                 'manage_feats',
                 'manage_user_games',
-                'manage_all_files'
+                'manage_all_files',
+                'manage_features',
+                'manage_cache'
             ]
         ],
         'ROLE_MODERATOR' => [

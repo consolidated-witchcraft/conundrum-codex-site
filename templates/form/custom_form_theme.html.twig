@@ -408,7 +408,7 @@
 {%- block form_row_render -%}
     <div{% with {
         attr: row_attr|merge({
-            class: (row_attr.class|default('') ~ ' form-group' ~ ' ' ~ (required ? 'required'))|trim
+            class: (row_attr.class|default('') ~ ' form-group' ~ ' ' ~ (required ? 'required') ~ ' ' ~(errors|length > 0 ? 'errors'))|trim
         })} %} {{ block('attributes') }}{% endwith %}>
 
         {% if block_prefixes.1 is not defined or (block_prefixes.1 != 'checkbox' )%}
@@ -462,7 +462,7 @@
 
 {%- block form_errors -%}
     {%- if errors|length > 0 -%}
-        <ul>
+        <ul class="form-element-errors">
             {%- for error in errors -%}
                 <li id="{{ id ~ '_error' ~ loop.index }}">{{ error.message }}</li>
             {%- endfor -%}

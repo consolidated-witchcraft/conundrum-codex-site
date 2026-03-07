@@ -9,6 +9,7 @@ use App\Dto\Visitor\User\PostalAddressDto;
 use App\Form\Visitor\Account\Address\DeletePostalAddressForm;
 use App\Form\Visitor\Account\Address\PostalAddressForm;
 use App\Security\PostalAddressVoter;
+use App\Services\FeatureSwitcher\Service\Interfaces\FeatureSwitcherServiceInterface;
 use App\Services\PostalAddress\Domain\PostalAddress;
 use App\Services\PostalAddress\Service\PostalAddressServiceInterface;
 use App\Services\User\Domain\User;
@@ -22,10 +23,12 @@ use Symfony\Component\Validator\Validator\ValidatorInterface;
 class PostalAddressController extends AbstractBaseController
 {
     public function __construct(
-        private ValidatorInterface $validator,
-        private readonly PostalAddressServiceInterface $postalAddressService
-    ) {}
-
+        private readonly ValidatorInterface $validator,
+        private readonly PostalAddressServiceInterface $postalAddressService,
+        FeatureSwitcherServiceInterface $featureSwitcherService
+    ) {
+        parent::__construct($featureSwitcherService);
+    }
     #[IsGranted('ROLE_USER')]
     #[Route('/account/address/add', name: 'app.user.address.add')]
     public function add(Request $request): Response {
@@ -35,28 +38,32 @@ class PostalAddressController extends AbstractBaseController
         }
         $dto = new PostalAddressDto(user: $user);
         $form = $this->createForm(PostalAddressForm::class, $dto);
-
         $form->handleRequest($request);
+
         if ($form->isSubmitted() && $form->isValid()) {
             $postalAddress = PostalAddress::makeFromDto($dto);
             $success = true;
             $violations = $this->validator->validate($postalAddress);
+
             if ($violations->count()) {
                 $success = false;
                 foreach ($violations as $violation) {
                     $this->addFlash('error', $violation->getMessage());
                 }
             }
+
             if ($success) {
                 $this->postalAddressService->save($postalAddress);
                 $this->addFlash('success', 'Address added successfully.');
                 return $this->redirectToRoute('app.user.account');
             }
         }
+
         $pageVars = [
             'pageTitle' => "Create a new address",
             'form' => $form
         ];
+
         return $this->render('/visitor/account/postalAddress/add.html.twig', $this->populatePageVars($pageVars, $request));
     }
 

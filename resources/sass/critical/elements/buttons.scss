@@ -6,7 +6,7 @@
 .btn, button {
 
     &:not(.unstyle, .sf-toolbar-toggle-button) {
-        font-size: 105%;
+        font-size: 100%;
         display: block;
         position: relative;
         padding: spacing.$gutter;
@@ -157,6 +157,20 @@
     }
 }
 
+.btn-group {
+    display: flex;
+    flex-direction: column;
+
+    .btn, button {
+        flex: 1;
+        width: 100%;
+
+        &:not(:first-child) {
+            border-top: none;
+        }
+    }
+}
+
 @media only screen and (min-width: spacing.$mobileBreakPointUpper) {
     .btn, button {
 
@@ -166,10 +180,14 @@
     }
 
     .btn-group {
-        display: flex;
         flex-direction: row;
-        .btn {
-            margin-right: spacing.$gutter;
+
+        .btn, button {
+            &:not(:first-child) {
+                border-top: dimension.$mediumBorderWidth solid transparent;
+            }
+
+
         }
     }
 }

@@ -13,6 +13,7 @@ use App\Services\PostalAddress\Domain\PostalAddress;
 use App\Services\User\Domain\UserCart\UserCart;
 use App\Services\User\Domain\ValueObjects\UserAccountType;
 use App\Services\User\Infrastructure\Repository\UserRepository;
+use App\Services\World\Domain\World;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\Criteria;
@@ -36,6 +37,26 @@ class User extends AbstractDomainEntity implements UserInterface, PasswordAuthen
     #[ORM\OneToMany(targetEntity: Game::class, mappedBy: 'gamesMaster', orphanRemoval: true)]
     #[OrderBy(["createdAt" => "DESC"])]
     private Collection $gamesMastered;
+
+
+    /**
+     * @var Collection<int, World>
+     */
+    #[ORM\OneToMany(targetEntity: World::class, mappedBy: 'creator', orphanRemoval: true)]
+    #[OrderBy(["createdAt" => "DESC"])]
+    private Collection $worldsCreated;
+
+
+    /**
+     * @var Collection<int, World>
+     */
+    #[ORM\ManyToMany(targetEntity: World::class, inversedBy: 'players')]
+    private Collection $worldsPlayed;
+
+    public function getWorldsPlayed(): Collection
+    {
+        return $this->worldsPlayed;
+    }
 
     #[ORM\OneToMany(targetEntity: PostalAddress::class, mappedBy: 'user', orphanRemoval: true, fetch: 'EAGER')]
     private Collection $postalAddresses;
@@ -389,5 +410,17 @@ class User extends AbstractDomainEntity implements UserInterface, PasswordAuthen
             $this->userPreferences = new UserPreferences();
         }
         return $this->userPreferences;
+    }
+
+    public function getWorldsCreated(): Collection
+    {
+        return $this->worldsCreated;
+    }
+
+    public function addWorld(World $world): void {
+        if (!$this->worldsCreated->contains($world)) {
+            $this->worldsCreated->add($world);
+            $world->setCreator($this);
+        }
     }
 }

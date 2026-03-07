@@ -9,6 +9,7 @@ use App\Controller\AbstractBaseController;
 use App\Dto\Admin\Quotation\QuotationDto;
 use App\Form\Admin\AdminEntityDeleteType;
 use App\Form\Admin\QuotationType;
+use App\Services\FeatureSwitcher\Service\Interfaces\FeatureSwitcherServiceInterface;
 use App\Services\Quotation\Domain\Quotation;
 use App\Services\Quotation\Service\QuotationService;
 use Doctrine\ORM\EntityManagerInterface;
@@ -22,8 +23,10 @@ class QuotationController extends AbstractBaseController
 {
     public function __construct(
         private EntityManagerInterface $entityManager,
-        private QuotationService $quotationService
+        private QuotationService $quotationService,
+        FeatureSwitcherServiceInterface $featureSwitcherService,
     ) {
+        parent::__construct($featureSwitcherService);
     }
 
     #[Route('admin/quotations', name: 'admin.quotations.manage')]

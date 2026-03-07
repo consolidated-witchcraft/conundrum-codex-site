@@ -14,6 +14,7 @@ use App\Form\Visitor\Game\UnArchiveGameType;
 use App\Security\GameCreationVoter;
 use App\Security\GameManagerVoter;
 use App\Security\GamePlayerVoter;
+use App\Services\FeatureSwitcher\Service\Interfaces\FeatureSwitcherServiceInterface;
 use App\Services\Files\Service\Interfaces\FilesEntityServiceInterface;
 use App\Services\Game\Domain\Game;
 use App\Services\Game\Service\Interfaces\GameEntityServiceInterface;
@@ -30,12 +31,14 @@ final class GamesController extends AbstractBaseController
 {
     use HandlesFileUploadsTrait;
     public function __construct(
-        private readonly ValidatorInterface                                            $validator,
-        private readonly GameEntityServiceInterface                                    $gameService,
-        protected SluggerInterface                                                     $slugger,
-        protected readonly FilesEntityServiceInterface                                 $filesService,
+        private readonly ValidatorInterface $validator,
+        private readonly GameEntityServiceInterface $gameService,
+        protected SluggerInterface $slugger,
+        protected readonly FilesEntityServiceInterface $filesService,
         #[Autowire('%kernel.project_dir%/public/uploads/images/games')] private string $publicImagesDirectory,
+        FeatureSwitcherServiceInterface $featureSwitcherService,
     ) {
+        parent::__construct($featureSwitcherService);
     }
 
     #[IsGranted('ROLE_USER')]

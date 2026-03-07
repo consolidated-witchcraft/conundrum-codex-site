@@ -7,6 +7,7 @@ namespace App\Controller\Visitor\Payment;
 use App\Controller\AbstractBaseController;
 use App\Form\Visitor\DummyPaymentForm;
 use App\Security\UserOwnsOrderVoter;
+use App\Services\FeatureSwitcher\Service\Interfaces\FeatureSwitcherServiceInterface;
 use App\Services\Orders\Domain\Exceptions\OrderPaymentInvalidStatusChangeException;
 use App\Services\Orders\Domain\Exceptions\UnknownPaymentStatusException;
 use App\Services\Orders\Domain\Order;
@@ -23,8 +24,11 @@ class PaymentController extends AbstractBaseController
 {
 
     public function __construct(
-        private readonly PaymentServiceInterface $paymentService
-    ) {}
+        private readonly PaymentServiceInterface $paymentService,
+        FeatureSwitcherServiceInterface $featureSwitcherService,
+    ) {
+        parent::__construct($featureSwitcherService);
+    }
 
     /**
      * @throws OrderPaymentInvalidStatusChangeException

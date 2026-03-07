@@ -1,0 +1,37 @@
+@use 'sass:math';
+
+@use '../critical/base/sassVariables/spacing';
+@use '../critical/base/sassVariables/dimension';
+
+.panel {
+    background: var(--whiteGradient);
+    box-shadow: var(--baseBoxShadow);
+    border-radius: var(--baseBorderRadius);
+    border: dimension.$mediumBorderWidth solid transparent;
+    border-image: var(--effectsGold) 33%;
+    padding: 0;
+    overflow: hidden;
+
+    .panel-title {
+        background: var(--blueGradient);
+        color: var(--colorWhite);
+        padding: spacing.$gutter;
+        font-size: 1.25rem;
+        border-radius: var(--baseBorderRadius) var(--baseBorderRadius) 0 0;
+    }
+
+    .panel-content {
+        padding: spacing.$gutter;
+    }
+
+    .panel-footer {
+        padding: spacing.$gutter;
+        background: var(--inkGradient);
+        border-top: dimension.$mediumBorderWidth solid transparent;
+        border-image: var(--effectsGold) 33%;
+
+        .btn, button {
+            margin-bottom: 0;
+        }
+    }
+}

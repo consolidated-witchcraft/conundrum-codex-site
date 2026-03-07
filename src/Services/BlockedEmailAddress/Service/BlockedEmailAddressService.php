@@ -22,4 +22,11 @@ class BlockedEmailAddressService extends AbstractDomainEntityService implements 
     public function findByEmail(string $email): ? BlockedEmailAddress {
         return $this->blockedEmailAddressRepository->findByEmail($email);
     }
+
+    public function save(BlockedEmailAddress $blockedEmailAddress, bool $flush = true): BlockedEmailAddress {
+        $this->entityManager->persist($blockedEmailAddress);
+        if ($flush) {
+            $this->flush();
+        }
+    }
 }

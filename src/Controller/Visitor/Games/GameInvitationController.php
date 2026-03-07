@@ -18,6 +18,7 @@ use App\Security\InvitationOwnerVoter;
 use App\Security\UserOwnsInvitationVoter;
 use App\Services\Abuse\Domain\AbuseReport;
 use App\Services\Abuse\Service\AbuseReportService;
+use App\Services\FeatureSwitcher\Service\Interfaces\FeatureSwitcherServiceInterface;
 use App\Services\Game\Domain\Game;
 use App\Services\Game\Domain\GameInvitation;
 use App\Services\Game\Service\Interfaces\GameEntityServiceInterface;
@@ -39,12 +40,14 @@ use Symfony\Component\Security\Http\Attribute\IsGranted;
 class GameInvitationController extends AbstractBaseController
 {
     public function __construct(
-        private MailerInterface            $mailer,
-        private UserRepository             $userRepository,
-        private GameEntityServiceInterface $gameService,
-        private UserService                $userService,
-        private AbuseReportService $abuseReportService
+        private readonly MailerInterface $mailer,
+        private readonly UserRepository $userRepository,
+        private readonly GameEntityServiceInterface $gameService,
+        private readonly UserService $userService,
+        private readonly AbuseReportService $abuseReportService,
+        FeatureSwitcherServiceInterface $featureSwitcherService,
     ) {
+        parent::__construct($featureSwitcherService);
     }
 
     /**

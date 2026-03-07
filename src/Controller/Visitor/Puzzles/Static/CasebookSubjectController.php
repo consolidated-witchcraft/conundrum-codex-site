@@ -11,6 +11,7 @@ use App\Form\Mapper\DynamicInstanceDataMapper;
 use App\Form\Visitor\Puzzle\Static\Casebook\CasebookSubjectType;
 use App\Form\Visitor\Puzzle\Static\Casebook\DeleteCasebookSubjectType;
 use App\Security\GameManagerVoter;
+use App\Services\FeatureSwitcher\Service\Interfaces\FeatureSwitcherServiceInterface;
 use App\Services\Files\Service\Interfaces\FilesEntityServiceInterface;
 use App\Services\Game\Domain\Game;
 use App\Services\PuzzleInstance\Domain\Casebook\Casebook;
@@ -39,14 +40,15 @@ class CasebookSubjectController extends AbstractPuzzleController
     use HandlesFileUploadsTrait;
     public function __construct(
         #[Autowire('%kernel.project_dir%/public/uploads/images/casebook')] private string $publicImagesDirectory,
-        PuzzleTemplateServiceInterface                                                    $puzzleTemplateService,
-        PuzzleInstanceEntityServiceInterface                                              $puzzleInstanceService,
-        SerializerInterface                                                               $serializer,
-        EntityManagerInterface                                                            $entityManager,
-        SluggerInterface                                                                  $slugger,
-        ValidatorInterface                                                                $validator,
-        FilesEntityServiceInterface                                                       $filesService,
-        DynamicInstanceDataMapper                                                         $dynamicInstanceDataMapper,
+        PuzzleTemplateServiceInterface $puzzleTemplateService,
+        PuzzleInstanceEntityServiceInterface $puzzleInstanceService,
+        SerializerInterface $serializer,
+        EntityManagerInterface $entityManager,
+        SluggerInterface $slugger,
+        ValidatorInterface $validator,
+        FilesEntityServiceInterface $filesService,
+        DynamicInstanceDataMapper $dynamicInstanceDataMapper,
+        FeatureSwitcherServiceInterface $featureSwitcherService,
     ) {
         parent::__construct(
             puzzleTemplateService: $puzzleTemplateService,
@@ -57,6 +59,7 @@ class CasebookSubjectController extends AbstractPuzzleController
             validator: $validator,
             filesService: $filesService,
             dynamicInstanceDataMapper: $dynamicInstanceDataMapper,
+            featureSwitcherService: $featureSwitcherService
         );
     }
     #[IsGranted(GameManagerVoter::MANAGE_GAME_ACTION, 'game')]

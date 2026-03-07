@@ -6,6 +6,7 @@ namespace App\Controller\Admin\Users;
 
 use App\Controller\AbstractBaseController;
 use App\Form\Admin\Users\RoleEditType;
+use App\Services\FeatureSwitcher\Service\Interfaces\FeatureSwitcherServiceInterface;
 use App\Services\User\Domain\Role;
 use App\Services\User\Service\UserService;
 use Doctrine\ORM\EntityManagerInterface;
@@ -18,8 +19,10 @@ class AdminRolesController extends AbstractBaseController
 {
     public function __construct(
         private readonly EntityManagerInterface $entityManager,
-        private readonly UserService            $userService,
+        private readonly UserService $userService,
+        FeatureSwitcherServiceInterface $featureSwitcherService
     ) {
+        parent::__construct($featureSwitcherService);
     }
 
     #[Route('admin/users/roles', name: 'admin.users.roles')]

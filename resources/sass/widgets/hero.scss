@@ -1,0 +1,65 @@
+@use '../critical/base/sassVariables/spacing';
+@use '../critical/base/sassVariables/dimension';
+
+.hero {
+    width: 100%;
+    position: relative;
+    overflow: hidden;
+    padding: spacing.$baseSpacing;
+    border: dimension.$thickBorderWidth solid transparent;
+    background: var(--creamGradient);
+    border-image: var(--effectsGold) 33%;
+    border-radius: var(--baseBorderRadius);
+    box-shadow: var(--baseBoxShadow);
+    min-height: 33vh;
+
+    img.hero-backer {
+        width: 100%;
+        position: absolute;
+        top: 0;
+        left: 0;
+        z-index: 0;
+        mask: radial-gradient(circle at 50% 100%, rgba(255, 255, 255, 0) 25%, rgba(255, 255, 255, 1));
+    }
+
+    .hero-heading,
+    .hero-content,
+    .hero-cta {
+        position: relative;
+        z-index: 2;
+        text-align: center;
+        margin: spacing.$baseSpacing 0;
+    }
+
+    .hero-heading {
+        position: relative;
+        color: var(--colorInk);
+        font-size: 3.5rem;
+        top: -0.125rem;
+        left: -0.15rem;
+
+        &:before, &:after {
+            content: attr(content);
+            position: absolute;
+            width: 100%;
+            top: 0.125rem;
+            left: 0.125rem;
+        }
+        &:after {
+            color: transparent;
+            text-shadow: 0 0 0.25rem var(--colorInk);
+        }
+        &:before {
+
+            background: var(--effectsGold);
+            background-clip: text;
+            color: transparent;
+
+
+
+            z-index: 1;
+        }
+    }
+
+
+}

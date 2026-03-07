@@ -8,11 +8,9 @@ use App\Controller\AbstractBaseController;
 use App\Dto\Admin\Abuse\AbuseReportCheckDto;
 use App\Form\Admin\AbuseReportCheckType;
 use App\Services\Abuse\Domain\AbuseReport;
-use App\Services\Abuse\Infrastructure\AbuseReportRepository;
 use App\Services\Abuse\Service\AbuseReportService;
-use App\Services\Quotation\Service\QuotationService;
+use App\Services\FeatureSwitcher\Service\Interfaces\FeatureSwitcherServiceInterface;
 use App\Services\User\Domain\User;
-use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
@@ -21,8 +19,10 @@ use Symfony\Component\Security\Http\Attribute\IsGranted;
 class AdminAbuseReportsController extends AbstractBaseController
 {
     public function __construct(
-        private readonly AbuseReportService $abuseReportService
+        private readonly AbuseReportService $abuseReportService,
+        FeatureSwitcherServiceInterface $featureSwitcherService,
     ){
+        parent::__construct($featureSwitcherService);
     }
 
     #[Route('admin/abusereports/{id}/check', name: 'admin.abuse.check')]

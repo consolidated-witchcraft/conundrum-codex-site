@@ -4,7 +4,7 @@
         <div class="grid">
             {% for template in templates %}
                 <article class="card">
-                    <a href="{{ path('app.puzzles.template.show', {'templateSlug': template.getSlug }) }}"><h2 class="card-title">{{ template.getTitle }}</h2></a>
+                    <a href="{{ path('app.puzzles.template.show', {'templateSlug': template.getSlug }) }}"><h2 class="card-title" content="{{ template.getTitle }}">{{ template.getTitle }}</h2></a>
 
                     <div class="card-body">
                         {{ template.getDescription }}

@@ -1,35 +1,32 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Controller\Visitor;
 
 use App\Controller\AbstractBaseController;
 use App\Dto\Visitor\User\RegisterUserDto;
 use App\Form\Visitor\LoginType;
 use App\Form\Visitor\RegistrationForm;
+use App\Services\FeatureSwitcher\Service\Interfaces\FeatureSwitcherServiceInterface;
 use App\Services\Game\Service\Interfaces\GameEntityServiceInterface;
-use App\Services\Quotation\Service\QuotationService;
 use App\Services\User\Domain\User;
-use App\Services\User\Domain\UserCart\UserCart;
 use App\Services\User\Service\Interfaces\UserServiceInterface;
-use Doctrine\ORM\EntityManagerInterface;
 use Karser\Recaptcha3Bundle\Validator\Constraints\Recaptcha3Validator;
-use Symfony\Bundle\SecurityBundle\Security;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Attribute\MapQueryParameter;
-use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
-use Symfony\Component\Validator\Validator\ValidatorInterface;
-
 class AuthController extends AbstractBaseController
 {
-
     public function __construct(
         private readonly AuthenticationUtils $authenticationUtils,
         private readonly UserServiceInterface $userService,
-        private readonly GameEntityServiceInterface $gameService
+        private readonly GameEntityServiceInterface $gameService,
+        FeatureSwitcherServiceInterface $featureSwitcherService,
     ) {
+        parent::__construct($featureSwitcherService);
     }
 
     #[Route('/register', name: 'app.auth.register')]

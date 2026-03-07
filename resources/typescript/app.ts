@@ -19,6 +19,7 @@ import {CartLinePreview} from "./components/CartLinePreview";
 
 import {UserCartProductLine} from "./components/UserCart/UserCartProductLine";
 import {UserCart} from "./components/UserCart/UserCart";
+import {WikiEditor} from "./components/WikiEditor";
 
 (()=> {
     document.addEventListener('DOMContentLoaded', () => {
@@ -54,9 +55,8 @@ import {UserCart} from "./components/UserCart/UserCart";
         customElementRegistry.define('cartline-preview', CartLinePreview, {extends: 'dl'});
         customElementRegistry.define('user-cart-product-line', UserCartProductLine, {extends: 'div'});
         customElementRegistry.define('user-cart', UserCart, {extends: 'div'});
-
+        customElementRegistry.define('wiki-editor', WikiEditor, {extends: 'div'});
     }
 })();
-
 
 

@@ -8,10 +8,41 @@ nav.lozenges {
     display: flex;
     flex-direction: row;
     margin: spacing.$baseSpacing 0;
+    padding: spacing.$gutter;
+    position: relative;
+    background: var(--creamGradient);
+    box-shadow: var(--baseBoxShadow);
+    &:before, &:after {
+        content: " ";
+        display: block;
+        top: 0;
+        left: 0;
+        bottom: 0;
+        right: 0;
+        position: absolute;
+    }
+
+    &:before {
+        filter: contrast(170%);
+        background-image: var(--fractalNoise);
+        background-size: 128px 128px;
+        mix-blend-mode: multiply;
+        opacity: 0.3;
+        z-index: -1;
+    }
+    &:after {
+        border: 1.5rem solid transparent;
+        border-image: url("/dist/images/decorative_frame.svg") 33%;
+        z-index: 1;
+        opacity: 0.75;
+    }
 
     a {
         padding: math.div(spacing.$baseSpacing, 2);
         margin-right: math.div(spacing.$baseSpacing, 2);
+        display: flex;
+        align-items: center;
+        justify-content: center;
         color: var(--colorInk);
         font-weight: 800;
         font-size: 1rem;
@@ -97,9 +128,6 @@ nav.pagination {
 
 @media only screen and (min-width: spacing.$mobileBreakPointUpper) {
 
-    nav.lozenges.grid {
-        grid-template-columns: repeat(3, 1fr);
-    }
 
     nav.secondary {
 

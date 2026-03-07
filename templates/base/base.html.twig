@@ -11,6 +11,7 @@
             {% if breadcrumbs is not empty %}
                 {% embed 'base/partials/_breadcrumbs.html.twig' with {'breadcrumbs': breadcrumbs}%}{% endembed %}
             {% endif %}
+            {% if noTitle is not defined or not noTitle %}
             <div class="row title-container{% if heroImageUrl is defined and heroImageUrl is not null %} hero{% endif %}">
                 {% if heroImageUrl is defined and heroImageUrl is not null %}
                     <img class="row-hero-backer" src="{{ heroImageUrl }}" alt="{{ game.getName }}">
@@ -23,6 +24,7 @@
                     {% endif %}
                 </div>
             </div>
+            {% endif %}
 
 
             {% block body %}{% endblock %}

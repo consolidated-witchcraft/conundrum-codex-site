@@ -9,6 +9,8 @@ nav.lozenges {
     display: flex;
     flex-direction: row;
     margin: variables.$base-spacing 0;
+    position: relative;
+
 
     a {
         padding: math.div(variables.$base-spacing, 2);

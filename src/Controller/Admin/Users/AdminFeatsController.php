@@ -8,6 +8,7 @@ use App\Controller\AbstractBaseController;
 use App\Dto\Admin\User\AdminFeatDto;
 use App\Form\Admin\Users\FeatType;
 use App\Services\Core\Domain\Exceptions\InvalidHandleException;
+use App\Services\FeatureSwitcher\Service\FeatureSwitcherService;
 use App\Services\User\Domain\UserFeat;
 use App\Services\User\Service\UserService;
 use Doctrine\ORM\EntityManagerInterface;
@@ -20,8 +21,10 @@ class AdminFeatsController extends AbstractBaseController
 {
     public function __construct(
         private readonly EntityManagerInterface $entityManager,
-        private readonly UserService            $userService,
+        private readonly UserService $userService,
+        FeatureSwitcherService $featureSwitcherService,
     ) {
+        parent::__construct($featureSwitcherService);
     }
 
     #[Route('admin/users/feats', name: 'admin.users.feats')]
@@ -43,6 +46,7 @@ class AdminFeatsController extends AbstractBaseController
         $dto = AdminFeatDto::makeFromFeat($feat);
         $form = $this->createForm(FeatType::class, $dto);
         $form->handleRequest($request);
+
         if ($form->isSubmitted() && $form->isValid()) {
             $feat->setDescription($dto->description);
             $feat->setGamesMasterAwardable($dto->gamesMasterAwardable);

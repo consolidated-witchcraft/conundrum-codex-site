@@ -211,6 +211,8 @@ header {
                 border: none;
 
                 &.user {
+                    right: spacing.$desktopContainerPadding;
+                    margin-right: 3em;
                     &:before {
                         background-image: var(--userIcon);
                     }

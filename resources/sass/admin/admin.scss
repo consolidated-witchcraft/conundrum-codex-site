@@ -1,27 +1,35 @@
-@use "../criticalOld/base/reset";
-@use "../criticalOld/base/typography";
-@use "../criticalOld/base/palette";
-@use "../criticalOld/base/colors";
-@use "../criticalOld/base/variables";
-@use "../criticalOld/base/inlinedFiles";
-@use "../criticalOld/layout/flex";
+@use "../critical/base/cssVariables/inlinedFiles";
+@use "../critical/base/cssVariables/fontFamilies";
+@use "../critical/base/cssVariables/palette";
+@use "../critical/base/cssVariables/effects";
+@use "../critical/base/cssVariables/animation";
+@use "../critical/base/cssVariables/misc";
 
-@use "../criticalOld/elements/links.scss";
-@use "../criticalOld/elements/rules";
-@use "../criticalOld/elements/buttons";
+@use "../critical/base/reset";
+@use "../contrib/RpgAwesome/rpg-awesome";
 
+@use "../critical/base/typography";
+@use "../critical/base/colors";
 
-@use "../criticalOld/elements/tables";
-@use "../criticalOld/elements/forms.scss";
-@use "../criticalOld/elements/navs.scss";
-@use "../criticalOld/elements/images.scss";
+@use "../critical/layout/flex";
+@use "../critical/layout/grid";
+@use "../critical/layout/logo";
+@use "../critical/layout/header";
+@use "../critical/layout/footer";
 
-@use "../criticalOld/widgets/tooltips";
-@use "../criticalOld/widgets/alerts";
-@use "../criticalOld/widgets/avatars";
-@use "../criticalOld/widgets/cards";
-@use "../criticalOld/widgets/multiaddRow";
-@use "../criticalOld/widgets/postalAddress";
+@use "../critical/elements/links";
+@use "../critical/elements/forms";
+@use "../critical/elements/buttons";
+@use "../critical/elements/navs";
+@use "../critical/elements/images";
+@use "../critical/elements/rules";
+
+@use "../critical/criticalWidgets/alerts";
+@use "../critical/criticalWidgets/cookieNotice";
+@use "../critical/criticalWidgets/multiaddRow";
+@use "../critical/criticalWidgets/breadcrumbs";
+@use "../widgets/tables";
+@use "../widgets/panels";
 
 @use "layout/nav";
-@use "layout/panels";
+

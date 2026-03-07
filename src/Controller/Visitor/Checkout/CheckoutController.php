@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Controller\Visitor\Checkout;
 
+use App\Services\FeatureSwitcher\Service\Interfaces\FeatureSwitcherServiceInterface;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 use App\Controller\AbstractBaseController;
 use App\Dto\Visitor\Checkout\DeliveryInformationDto;
@@ -24,7 +25,10 @@ class CheckoutController extends AbstractBaseController
         private readonly OrderServiceInterface $orderService,
         private readonly PostalAddressServiceInterface $postalAddressService,
         private readonly ValidatorInterface $validator,
-    ) {}
+        FeatureSwitcherServiceInterface $featureSwitcherService
+    ) {
+        parent::__construct($featureSwitcherService);
+    }
 
     #[Route('checkout/delivery', name: 'checkout.delivery')]
     public function deliveryInformation(Request $request): Response {

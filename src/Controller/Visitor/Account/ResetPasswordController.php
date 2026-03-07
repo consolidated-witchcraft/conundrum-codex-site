@@ -1,10 +1,13 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Controller\Visitor\Account;
 
 use App\Controller\AbstractBaseController;
 use App\Form\Visitor\Account\ChangePasswordFormType;
 use App\Form\Visitor\ResetPasswordRequestFormType;
+use App\Services\FeatureSwitcher\Service\Interfaces\FeatureSwitcherServiceInterface;
 use App\Services\User\Domain\User;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bridge\Twig\Mime\TemplatedEmail;
@@ -25,9 +28,11 @@ class ResetPasswordController extends AbstractBaseController
     use ResetPasswordControllerTrait;
 
     public function __construct(
-        private ResetPasswordHelperInterface $resetPasswordHelper,
-        private EntityManagerInterface $entityManager
+        private readonly ResetPasswordHelperInterface $resetPasswordHelper,
+        private readonly EntityManagerInterface $entityManager,
+        FeatureSwitcherServiceInterface $featureSwitcherService
     ) {
+        parent::__construct($featureSwitcherService);
     }
 
     /**

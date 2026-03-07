@@ -8,6 +8,7 @@ nav.admin-navbar {
     padding: 0 math.div((100vw - variables.$desktopMedViewportWidth), 2);
     background: palette.$charcoal;
     margin-bottom: variables.$base-spacing;
+    width: 100%;
 
     a {
         color: palette.$white;

@@ -7,34 +7,30 @@ namespace App\Controller\Admin;
 use App\Controller\AbstractBaseController;
 use App\Controller\Traits\GeneratesPagerTrait;
 use App\Controller\Traits\HandlesFileUploadsTrait;
-use App\Dto\Admin\Abuse\AbuseReportCheckDto;
 use App\Dto\Admin\File\AdminFileDto;
-use App\Form\Admin\AbuseReportCheckType;
 use App\Form\Admin\Files\FileDeleteType;
 use App\Form\Admin\Files\FileEditType;
-use App\Services\Abuse\Domain\AbuseReport;
-use App\Services\Abuse\Infrastructure\AbuseReportRepository;
+use App\Services\FeatureSwitcher\Service\Interfaces\FeatureSwitcherServiceInterface;
 use App\Services\Files\Domain\ManagedFile;
 use App\Services\Files\Service\Interfaces\FilesEntityServiceInterface;
-use App\Services\Quotation\Service\QuotationService;
 use App\Services\User\Domain\User;
 use Doctrine\ORM\EntityManagerInterface;
-use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Attribute\MapQueryParameter;
 use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
-
 class AdminFilesController extends AbstractBaseController
 {
     use GeneratesPagerTrait;
     use HandlesFileUploadsTrait;
     public function __construct(
-        private EntityManagerInterface $entityManager,
-        private FilesEntityServiceInterface $filesService
+        private readonly EntityManagerInterface $entityManager,
+        private readonly FilesEntityServiceInterface $filesService,
+        FeatureSwitcherServiceInterface $featureSwitcherService,
     ){
+        parent::__construct($featureSwitcherService);
     }
 
     #[Route('admin/files', name: 'admin.files.manage')]

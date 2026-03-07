@@ -19,6 +19,7 @@ doctrine:
             product_type: App\Doctrine\Types\ProductTypeType
             ticket_format: App\Doctrine\Types\TicketFormatType
             preferred_font_stack: App\Doctrine\Types\PreferredFontStackType
+            markdown: App\Doctrine\Types\MarkdownType
 
     orm:
         auto_generate_proxy_classes: false
@@ -155,6 +156,13 @@ doctrine:
                 dir: '%kernel.project_dir%/src/Services/FeatureSwitcher/Domain'
                 prefix: 'App\Services\FeatureSwitcher\Domain'
                 alias: FeatureSwitcher
+
+            World:
+                type: attribute
+                is_bundle: false
+                dir: '%kernel.project_dir%/src/Services/World/Domain'
+                prefix: 'App\Services\World\Domain'
+                alias: World
 
         controller_resolver:
             auto_mapping: false

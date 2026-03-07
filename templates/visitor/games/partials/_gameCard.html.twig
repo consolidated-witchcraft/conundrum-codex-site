@@ -1,5 +1,5 @@
 <article class="card {% if game.isArchived %}archived{% endif %} {% if game.getHeroImageFile %} has-hero{% endif %}">
-    <h3 class="card-title">{{ game.getName }}</h3>
+    <h3 class="card-title lg" content="{{ game.getName }}">{{ game.getName }}</h3>
     {% if game.getHeroImageFile %}
         <img class="card-hero" src="{{ game.getHeroImageFile.getPath }}" alt="{{ game.getName }}">
     {% endif %}
@@ -7,7 +7,6 @@
 
     <div class="card-body">
         <span class="game-master"><strong>Games Master</strong> {{ game.getGamesMaster.getUsername }}</span>
-
 
         <p class="game-description">{{ game.getDescription }}</p>
         {% if mode == 'gamesmaster' and game.isArchived and app.user.canCreateGames() != true %}

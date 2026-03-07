@@ -12,7 +12,8 @@ use Doctrine\Persistence\ObjectManager;
 class FeatureSwitcherFixtures extends Fixture
 {
     private const array FEATURE_SWITCHERS = [
-        'EVENTS_SYSTEM' => "Events System."
+        'EVENTS_SYSTEM' => "Events System.",
+        'WORLDS_SYSTEM' => 'Worlds System.',
     ];
 
     public function load(ObjectManager $manager): void

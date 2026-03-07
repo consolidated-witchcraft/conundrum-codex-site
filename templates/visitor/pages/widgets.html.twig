@@ -146,11 +146,9 @@
         <div class="col">
             <h2>Cards</h2>
             <div class="grid">
-                <article class="card has-hero">
-                    <h2 class="card-title">Card with Hero</h2>
-
+                <article class="card">
+                    <h2 class="card-title" content="Card with Hero">Card with Hero</h2>
                     <img class="card-hero" src="/uploads/arec-6973f41a7e42a.jpg" alt="Dummy Hero Image">
-
                     <div class="card-body">
                         <p>Card body goes here</p>
                     </div>
@@ -160,7 +158,7 @@
                     </div>
                 </article>
                 <article class="card">
-                    <h2 class="card-title">Card without Hero</h2>
+                    <h2 class="card-title" content="Card without Hero">Card without Hero</h2>
 
                     <div class="card-body">
                         <p>Card body goes here</p>
@@ -172,6 +170,40 @@
                 </article>
             </div>
 
+        </div>
+    </div>
+    <div class="row">
+        <div class="col">
+            <h2>Test Wiki Editor</h2>
+            <div is="wiki-editor"></div>
+            <template id="wikieditor-widget-template">
+                <link rel="stylesheet" href="/dist/css/widgets/wikieditor.css" />
+                <div class="wikieditor-widget">
+                    <nav class="wiki-editor-toolbar">
+                        <button class="wikieditor-toolbar-button bold" data-action="bold">
+                            B
+                        </button>
+                        <button class="wikieditor-toolbar-button italic" data-action="italic">
+                            I
+                        </button>
+                        <button class="wikieditor-toolbar-button unordered-list" data-action="unordered-list">
+                            UL
+                        </button>
+                        <button class="wikieditor-toolbar-button ordered-list" data-action="ordered-list">
+                            OL
+                        </button>
+                        <button class="wikieditor-toolbar-button quote" data-action="quote">
+                            Quote
+                        </button>
+                        <button class="wikieditor-toolbar-button wiki-link" data-action="wiki-link">
+                            Link
+                        </button>
+                        <button class="wikieditor-mode">MODE</button>
+                    </nav>
+                    <textarea name="wikieditor-input" class="wikieditor-input"aria-label="Raw Markdown"></textarea>
+                    <div class="wikieditor-gui-surface" data-targetinput="wikieditorinput" contenteditable="true" aria-multiline="true" role="textbox" aria-label="GUI Input"></div>
+                </div>
+            </template>
         </div>
     </div>
 {% endblock %}

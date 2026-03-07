@@ -6,6 +6,7 @@
 table {
 
     border-collapse: collapse;
+    width: 100%;
 
     tbody,
     thead,
@@ -14,16 +15,22 @@ table {
         th,
         td {
             padding: spacing.$gutter;
-            border: dimension.$baseBorderWidth solid var(--colorBlue);
             text-align: left;
             font-size: 1rem;
+            border: dimension.$baseBorderWidth solid var(--colorBlue);
+
+            .btn, button {
+                margin-bottom: 0 !important;
+            }
         }
     }
     thead {
         tr {
             th, td {
-                background-color: var(--colorBlue);
+                background: var(--blueGradient);
                 color: var(--colorWhite);
+
+
             }
             th {
                 font-weight: bold;
@@ -37,6 +44,10 @@ table {
 
             &:nth-child(even) {
                 background-color: var(--colorOffWhite);
+            }
+
+            .btn, button {
+                margin-bottom: 0 !important;
             }
         }
     }

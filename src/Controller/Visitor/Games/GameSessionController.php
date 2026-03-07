@@ -2,20 +2,13 @@
 
 namespace App\Controller\Visitor\Games;
 
-use ApiPlatform\Validator\Exception\ValidationException;
 use ApiPlatform\Validator\ValidatorInterface;
 use App\Controller\AbstractBaseController;
 use App\Controller\Traits\HandlesFileUploadsTrait;
-use App\Dto\Visitor\Game\GameDto;
 use App\Dto\Visitor\Game\Sessions\GameSessionDto;
-use App\Form\Visitor\Game\ArchiveGameType;
-use App\Form\Visitor\Game\GameType;
-use App\Form\Visitor\Game\DeleteGameType;
 use App\Form\Visitor\Game\Sessions\AddSessionType;
-use App\Form\Visitor\Game\UnArchiveGameType;
-use App\Security\GameCreationVoter;
 use App\Security\GameManagerVoter;
-use App\Security\GamePlayerVoter;
+use App\Services\FeatureSwitcher\Service\Interfaces\FeatureSwitcherServiceInterface;
 use App\Services\Files\Service\Interfaces\FilesEntityServiceInterface;
 use App\Services\Game\Domain\Game;
 use App\Services\Game\Domain\GameSession;
@@ -24,7 +17,6 @@ use App\Services\User\Domain\User;
 use Symfony\Component\DependencyInjection\Attribute\Autowire;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\HttpKernel\Exception\UnauthorizedHttpException;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
 use Symfony\Component\String\Slugger\SluggerInterface;
@@ -33,12 +25,14 @@ final class GameSessionController extends AbstractBaseController
 {
     use HandlesFileUploadsTrait;
     public function __construct(
-        private readonly ValidatorInterface                                                      $validator,
-        private readonly GameEntityServiceInterface                                              $gameService,
-        protected SluggerInterface                                                               $slugger,
-        protected readonly FilesEntityServiceInterface                                           $filesService,
+        private readonly ValidatorInterface $validator,
+        private readonly GameEntityServiceInterface $gameService,
+        protected SluggerInterface $slugger,
+        protected readonly FilesEntityServiceInterface $filesService,
         #[Autowire('%kernel.project_dir%/public/uploads/images/games/sessions/')] private string $publicImagesDirectory,
+        FeatureSwitcherServiceInterface $featureSwitcherService
     ) {
+        parent::__construct($featureSwitcherService);
     }
 
     #[IsGranted(GameManagerVoter::MANAGE_GAME_ACTION, 'game')]

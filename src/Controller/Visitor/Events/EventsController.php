@@ -11,6 +11,7 @@ use App\Form\Visitor\Events\TicketPurchaseType;
 use App\Services\Events\Domain\Event;
 use App\Services\Events\Domain\Organisation;
 use App\Services\Events\Service\EventServiceInterface;
+use App\Services\FeatureSwitcher\Service\Interfaces\FeatureSwitcherServiceInterface;
 use App\Services\Product\Service\Interfaces\ProductServiceInterface;
 use App\Services\User\Domain\User;
 use App\Services\User\Service\Interfaces\UserServiceInterface;
@@ -20,17 +21,16 @@ use Symfony\Component\Routing\Attribute\Route;
 
 class EventsController extends AbstractBaseController
 {
-
     private const string TICKET_DATA_KEY = 'ticketData';
-
     private const string PERSONAL_DATA_KEY = 'personalData';
-
     public function __construct(
         private readonly EventServiceInterface $eventService,
         private readonly ProductServiceInterface $productService,
         private readonly UserServiceInterface $userService,
-
-    ) {}
+        FeatureSwitcherServiceInterface $featureSwitcherService
+    ) {
+        parent::__construct($featureSwitcherService);
+    }
 
     #[Route('/events', name: 'app.events.index')]
     public function index(Request $request): Response {

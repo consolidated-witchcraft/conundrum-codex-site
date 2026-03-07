@@ -1,0 +1,58 @@
+{% extends 'base/base.html.twig' %}
+{% block body %}
+    <div class="row bordered">
+        <div class="col">
+            <div class="panel">
+                <h2 class="panel-title">Worlds I created</h2>
+                <div class="panel-content">
+                    {% if user.getWorldsCreated is not empty %}
+                        <div class="accordion-list" is="accordion-list">
+                            {% for world in user.getWorldsCreated %}
+                                <article class="accordion-entry" id="world-{{ world.id }}" is="accordion-entry" data-open="false">
+                                    <h3 class="accordion-heading">{{ world.getName }}</h3>
+                                    <div class="accordion-body">
+                                        <div class="accordion-content">
+                                            {{ world.getDescription }}
+                                            <nav class="secondary">
+                                                {% if not world.isFullyConfigured %}
+                                                    <a class="btn btn-primary">Configure World</a>
+                                                {% endif %}
+                                            </nav>
+                                        </div>
+
+                                    </div>
+                                </article>
+                            {% endfor %}
+                        </div>
+                    {% else %}
+                        <em>It looks like you haven't created any worlds yet. Why not give it a go?</em>
+                    {% endif %}
+                </div>
+
+                <div class="panel-footer">
+                    <a class="btn btn-primary" href="{{ path('app.worlds.create') }}">Create a World</a>
+                </div>
+            </div>
+
+        </div>
+        <div class="col">
+            <div class="panel">
+                <h2 class="panel-title">Worlds I'm playing in</h2>
+                <div class="panel-content">
+                    {% if user.getWorldsPlayed is not empty %}
+                    {% else %}
+                        <em>It looks like you're not playing in any worlds yet.</em>
+                    {% endif %}
+                </div>
+            </div>
+
+        </div>
+    </div>
+{% endblock %}
+
+{% block footerStyles %}
+    <link rel="stylesheet" href="/dist/css/widgets/panels.css" />
+    <link rel="stylesheet" href="/dist/css/widgets/accordions.css" />
+
+{% endblock %}
+

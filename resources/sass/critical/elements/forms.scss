@@ -10,7 +10,8 @@ label {
     font-size: 1.125em;
 }
 
-input,textarea {
+input,
+textarea {
     display: flex;
     border: dimension.$thickBorderWidth solid transparent;
     border-image: var(--erodedFrameWhiteInner) 33%;
@@ -269,4 +270,36 @@ select {
 
 .form-group {
     margin-bottom: spacing.$gutter;
+
+    &.required {
+        > label {
+            &:before {
+                content: "*";
+                color: var(--colorCrimson);
+                margin-right: math.div(spacing.$gutter, 2);
+            }
+        }
+    }
+
+    &.errors {
+        input, select, textarea {
+            border-image: var(--erodedFrameWhiteInnerCrimson) 33%;
+        }
+    }
+}
+
+ul.form-element-errors {
+    display: flex;
+    flex-direction: column;
+    text-indent: 0;
+
+    li {
+        text-indent: 0;
+        background: var(--colorCrimson);
+        color: var(--colorWhite);
+        border-radius: var(--baseBorderRadius);
+        flex: 1;
+        padding: spacing.$gutter;
+        margin: spacing.$gutter 0;
+    }
 }

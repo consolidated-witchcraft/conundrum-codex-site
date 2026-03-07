@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Controller\Visitor;
 
 use App\Controller\AbstractBaseController;
+use App\Services\FeatureSwitcher\Service\Interfaces\FeatureSwitcherServiceInterface;
 use App\Services\User\Domain\User;
 use App\Services\User\Service\Interfaces\UserServiceInterface;
 use Symfony\Component\HttpFoundation\Request;
@@ -13,8 +14,11 @@ use Symfony\Component\Routing\Attribute\Route;
 
 class CookiesController extends AbstractBaseController
 {
-
-    public function __construct(private UserServiceInterface $userService) {
+    public function __construct(
+        private readonly UserServiceInterface $userService,
+        FeatureSwitcherServiceInterface $featureSwitcherService
+    ) {
+        parent::__construct($featureSwitcherService);
     }
 
     #[Route('/cookies/accept', name: 'app.cookies.accept', methods: ['POST'])]

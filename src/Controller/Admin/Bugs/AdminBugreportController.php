@@ -8,8 +8,11 @@ use App\Controller\AbstractBaseController;
 use App\Dto\Admin\ActionBugReportDto;
 use App\Form\Admin\ActionBugReportType;
 use App\Services\BlockedEmailAddress\Domain\BlockedEmailAddress;
+use App\Services\BlockedEmailAddress\Service\BlockedEmailAddressService;
 use App\Services\BugReport\Domain\BugReport;
-use App\Services\Quotation\Service\QuotationService;
+use App\Services\BugReport\Service\BugReportService;
+use App\Services\FeatureSwitcher\Service\FeatureSwitcherService;
+use App\Services\FeatureSwitcher\Service\Interfaces\FeatureSwitcherServiceInterface;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -18,10 +21,12 @@ use Symfony\Component\Security\Http\Attribute\IsGranted;
 
 class AdminBugreportController extends AbstractBaseController
 {
-
     public function __construct(
-        private EntityManagerInterface $entityManager
+        private readonly BugReportService $bugReportService,
+        private readonly BlockedEmailAddressService $blockedEmailAddressService,
+        FeatureSwitcherServiceInterface $featureSwitcherService,
     ) {
+        parent::__construct($featureSwitcherService);
     }
 
     #[Route('/bugs{id}/action', name: 'admin.bugs.action')]
@@ -42,10 +47,11 @@ class AdminBugreportController extends AbstractBaseController
             if ($dto->blockSenderEmail === true) {
                 $senderEmail = $bugReport->getReporterEmail();
                 $blockedEmailAddress =new BlockedEmailAddress(emailAddress: $senderEmail,blockReason: 'False Bug Report');
-                $this->entityManager->persist($blockedEmailAddress);
+                $this->blockedEmailAddressService->save($blockedEmailAddress, false);
             }
-            $this->entityManager->persist($bugReport);
-            $this->entityManager->flush();
+
+            $this->bugReportService->save($bugReport);
+
             $this->addFlash('success', 'Bug report actioned.');
             return $this->redirectToRoute('admin.dashboard');
         }

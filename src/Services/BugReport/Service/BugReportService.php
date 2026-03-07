@@ -25,4 +25,11 @@ class BugReportService extends AbstractDomainEntityService implements DomainEnti
     public function findUnactioned(): array {
         return $this->bugReportRepository->findUnactioned();
     }
+
+    public function save(BugReport $bugReport, bool $flush = true): BugReport {
+        $this->entityManager->persist($bugReport);
+        if ($flush) {
+            $this->flush();
+        }
+    }
 }

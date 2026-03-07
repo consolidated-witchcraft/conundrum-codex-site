@@ -6,6 +6,8 @@ namespace App\Services\FeatureSwitcher\Infrastructure;
 
 use App\Services\FeatureSwitcher\Domain\FeatureSwitcher;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
@@ -28,6 +30,14 @@ class FeatureSwitcherRepository extends ServiceEntityRepository
             ->setParameter('handle', $handle)
             ->getQuery()
             ->getOneOrNullResult();
+    }
+
+    /**
+     * @return Collection<FeatureSwitcher>
+     */
+    public function findAllFeatureSwitchers(): Collection {
+        $results = $this->findAll();
+        return new ArrayCollection($results);
     }
 
 }

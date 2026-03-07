@@ -1,26 +1,18 @@
 {% extends 'base/base.html.twig' %}
+{% set noTitle = true %}
 {% block body %}
     <div class="row flush three-quarters-one-quarter hide-sm">
         <div class="col">
-            <div class="rounded panel">
-                {{ component(
-                    'Slideshow',
-                    {
-                        'name':  'heroslide',
-                        'slides' : [
-                        {
-                            'imgSrc': '/dist/images/hero.webp',
-                            'imgAlt': 'A puzzled party of adventurers poring over a scroll',
-                            'slideHeading': 'Welcome to the Conundrum Codex',
-                            'slideBody': 'The Conundrum Codex is a community-driven site where Online Games-Masters can share interactive puzzles with their players.',
-                            'cta': {
-                                'route': 'app.auth.register',
-                                'label': 'Get Started'
-                            }
-                        }
-                    ]
-                    }
-                ) }}
+            <div class="hero">
+                <img src="/dist/images/hero2.webp" alt="A puzzled party of adventurers poring over a scroll" class="hero-backer">
+                <h1 class="hero-heading" content="Welcome to the Conundrum Codex">Welcome to the Conundrum Codex</h1>
+                <div class="hero-content">
+                    <p>The Conundrum Codex is a community-driven site where Online Games-Masters can share interactive puzzles with their players.</p>
+
+                </div>
+                <div class="hero-cta">
+                    <a href="{{ path('app.auth.register') }}" class="btn btn-danger cta">Get Started</a>
+                </div>
             </div>
         </div>
         <div class="col">
@@ -56,6 +48,7 @@
     </div>
 {% endblock %}
 {% block footerStyles %}
-    <link rel="stylesheet" href="/dist/css/widgets/slideshow.css" />
+    <link rel="stylesheet" href="/dist/css/widgets/hero.css" />
+    <link rel="stylesheet" href="/dist/css/widgets/randomQuotation.css" />
 {% endblock %}
 
