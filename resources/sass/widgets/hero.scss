@@ -1,12 +1,26 @@
+@use 'sass:color';
 @use '../critical/base/sassVariables/spacing';
 @use '../critical/base/sassVariables/dimension';
+
+
+@keyframes magicShadow {
+    0% {
+        box-shadow: 0 0 2rem cyan, 0 0 0.125rem white;
+    }
+    50% {
+        box-shadow: 0 0 4rem magenta, 0 0 2rem white;
+    }
+    100% {
+        box-shadow: 0 0 2rem cyan, 0 0 0.125rem white;
+    }
+}
 
 .hero {
     width: 100%;
     position: relative;
     overflow: hidden;
     padding: spacing.$baseSpacing;
-    border: dimension.$thickBorderWidth solid transparent;
+    border: dimension.$mediumBorderWidth solid transparent;
     background: var(--creamGradient);
     border-image: var(--effectsGold) 33%;
     border-radius: var(--baseBorderRadius);
@@ -19,6 +33,7 @@
         top: 0;
         left: 0;
         z-index: 0;
+        border-radius: var(--baseBorderRadius);
         mask: radial-gradient(circle at 50% 100%, rgba(255, 255, 255, 0) 25%, rgba(255, 255, 255, 1));
     }
 
@@ -54,11 +69,19 @@
             background: var(--effectsGold);
             background-clip: text;
             color: transparent;
-
-
-
             z-index: 1;
         }
+    }
+
+    .hero-cta {
+        margin: 0 spacing.$baseSpacing * 1.5;
+
+        .btn {
+            margin: spacing.$gutter;
+            box-shadow: 0 0 1rem red;
+            animation: magicShadow var(--animationSpeedGlacial) infinite ease-in-out;
+        }
+
     }
 
 

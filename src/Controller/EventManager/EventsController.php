@@ -25,6 +25,7 @@ class EventsController extends AbstractEventManagerController
     use HandlesFileUploadsTrait;
 
     #[IsGranted(EventManagerVoter::MANAGE_EVENTS_ACTION, 'organisation')]
+    #[IsGranted('FS_EVENTS_SYSTEM')]
     #[Route('manage-events/organisations/{organisationHandle}/events', name: 'events.organisations.manage')]
     public function manageEvents(
         Organisation $organisation,
@@ -38,6 +39,7 @@ class EventsController extends AbstractEventManagerController
     }
 
     #[IsGranted(EventManagerVoter::MANAGE_EVENTS_ACTION, 'organisation')]
+    #[IsGranted('FS_EVENTS_SYSTEM')]
     #[Route('manage-events/organisations/{organisationHandle}/events/create', name: 'events.organisations.create')]
     public function createEvent(
         Organisation $organisation,

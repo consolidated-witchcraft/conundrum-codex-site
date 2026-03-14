@@ -37,17 +37,17 @@ class ProductVariant extends AbstractDomainEntity
         #[ORM\ManyToOne(targetEntity: User::class)]
         private readonly User $createdBy,
 
-        #[ORM\Column(type: 'boolean')]
-        private bool $taxExempt = false,
-
-        #[ORM\Column(type: 'boolean')]
-        private bool $requiresPostage = false,
-
         #[ORM\Column(type: 'datetime', nullable: true)]
         private \DateTimeInterface $publicationDate,
 
         #[ORM\ManyToOne(targetEntity: ProductVariantStock::class, cascade: ['persist', 'refresh', 'remove'], inversedBy: 'productVariants')]
         private readonly ProductVariantStock $productVariantStock,
+
+        #[ORM\Column(type: 'boolean')]
+        private bool $taxExempt = false,
+
+        #[ORM\Column(type: 'boolean')]
+        private bool $requiresPostage = false,
 
         #[ORM\ManyToMany(targetEntity: ManagedFile::class)]
         private Collection $productVariantImages = new ArrayCollection(),

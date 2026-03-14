@@ -156,6 +156,7 @@ header {
     body {
         padding-top: 0;
         position: relative;
+
         header {
             position: sticky;
             background-color: transparent;
@@ -273,8 +274,24 @@ header {
                 }
             }
         }
+
+        &.no-title {
+            header {
+                margin-bottom: spacing.$gutter;
+            }
+        }
     }
+}
 
-
-
+@media only screen and (min-width: spacing.$desktopBreakPointUpper) {
+    body {
+        header {
+            a.top-level-nav-link {
+                right: spacing.$wideDesktopContainerPadding;
+                &.user {
+                    right: spacing.$wideDesktopContainerPadding;
+                }
+            }
+        }
+    }
 }

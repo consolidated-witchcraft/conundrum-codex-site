@@ -13,12 +13,6 @@
 node_modules
 .idea
 /public/dist/
-
-###> phpunit/phpunit ###
-/phpunit.xml
-/.phpunit.cache/
-###< phpunit/phpunit ###
-
 .DS_Store
 swagger_docs.*
 resources/typescript/schema/schema.d.ts
@@ -35,3 +29,8 @@ phpstan.neon
 .phpstan.tmp
 ###< phpstan/phpstan ###
 .~lock.*
+
+###> phpunit/phpunit ###
+/phpunit.xml
+/.phpunit.cache/
+###< phpunit/phpunit ###

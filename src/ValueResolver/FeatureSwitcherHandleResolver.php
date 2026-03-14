@@ -31,7 +31,7 @@ readonly class FeatureSwitcherHandleResolver implements ValueResolverInterface
             return [];
         }
 
-        $featureSwitcher = $this->featureSwitcherService->getByHandle($handle);
+        $featureSwitcher = $this->featureSwitcherService->getByHandle($handle, true);
 
         return $featureSwitcher ? [$featureSwitcher] : [];
     }

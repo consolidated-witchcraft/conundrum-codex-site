@@ -1,71 +1,80 @@
 {% extends '/eventManager/base/event-manager-base.html.twig' %}
 {% block body %}
     <div class="row">
-        <div class="col panel">
-            <h2>Your Organisations</h2>
-            {% if organisations is empty %}
-                <em>You are not a member of any organisations at the moment. You will not be able to create or manage events until one is created.</em>
-            {% else %}
-                <table class="table table-bordered table-striped">
-                    <thead>
-                        <tr>
-                            <th>Organisation Logo</th>
-                            <th>Name</th>
-                            <th>Handle</th>
-                            <th>Owner</th>
-                            <th>Event Managers</th>
-                            <th>Events</th>
-                            <th>Operations</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                    {% for organisation in organisations %}
-                        <tr>
-                            <td>
-                                <img class="thumbnail" src="{{ organisation.getOrganisationLogo.getPath }}" alt="{{ organisation.name }}">
-                            </td>
-                            <td>{{ organisation.name }}</td>
-                            <td>{{ organisation.handle }}</td>
-                            <td>{{ organisation.getOwner.getUserName }}</td>
-                            <td>
-                                <ul>
-                                    {% for manager in organisation.getManagers %}
-                                        <li>
-                                            {{ manager.getUserName }}
-                                        </li>
-                                    {% endfor %}
-                                </ul>
-                            </td>
-                            <td>
-                                {% if organisation.getAllEvents is empty %}
-                                    <em>There are no events scheduled by this organisation</em>
-                                {% else %}
-                                    <ul>
-                                    {% for event in organisation.getAllEvents %}
-                                        <li>{{ event.getTitle }}</li>
-                                    {% endfor %}
-                                    </ul>
-                                {% endif %}
-                            </td>
-                            <td>
-                                <nav class="secondary">
-                                    <a href="{{ path('events.organisations.manage', {'organisationHandle': organisation.getHandle}) }}">Manage Events</a>
-                                    <a href="{{ path('events.organisations.edit', {'organisationHandle': organisation.getHandle}) }}">Edit this organisation</a>
-                                    <a href="{{ path('events.organisations.deactivate', {'organisationHandle': organisation.getHandle}) }}">Deactivate this organisation</a>
-                                </nav>
-                            </td>
-                        </tr>
+        <div class="col">
+            <div class="panel">
+                <h2 class="panel-title">Your Organisations</h2>
+                <div class="panel-content">
+                    {% if organisations is empty %}
+                        <em>You are not a member of any organisations at the moment. You will not be able to create or manage events until one is created.</em>
+                    {% else %}
+                        <table class="table table-bordered table-striped">
+                            <thead>
+                            <tr>
+                                <th>Organisation Logo</th>
+                                <th>Name</th>
+                                <th>Handle</th>
+                                <th>Owner</th>
+                                <th>Event Managers</th>
+                                <th>Events</th>
+                                <th>Operations</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            {% for organisation in organisations %}
+                                <tr>
+                                    <td>
+                                        <img class="thumbnail" src="{{ organisation.getOrganisationLogo.getPath }}" alt="{{ organisation.name }}">
+                                    </td>
+                                    <td>{{ organisation.name }}</td>
+                                    <td>{{ organisation.handle }}</td>
+                                    <td>{{ organisation.getOwner.getUserName }}</td>
+                                    <td>
+                                        <ul>
+                                            {% for manager in organisation.getManagers %}
+                                                <li>
+                                                    {{ manager.getUserName }}
+                                                </li>
+                                            {% endfor %}
+                                        </ul>
+                                    </td>
+                                    <td>
+                                        {% if organisation.getAllEvents is empty %}
+                                            <em>There are no events scheduled by this organisation</em>
+                                        {% else %}
+                                            <ul>
+                                                {% for event in organisation.getAllEvents %}
+                                                    <li>{{ event.getTitle }}</li>
+                                                {% endfor %}
+                                            </ul>
+                                        {% endif %}
+                                    </td>
+                                    <td>
+                                        <nav class="secondary">
+                                            <a href="{{ path('events.organisations.manage', {'organisationHandle': organisation.getHandle}) }}">Manage Events</a>
+                                            <a href="{{ path('events.organisations.edit', {'organisationHandle': organisation.getHandle}) }}">Edit this organisation</a>
+                                            <a href="{{ path('events.organisations.deactivate', {'organisationHandle': organisation.getHandle}) }}">Deactivate this organisation</a>
+                                        </nav>
+                                    </td>
+                                </tr>
 
-                    {% endfor %}
-                    </tbody>
-                </table>
+                            {% endfor %}
+                            </tbody>
+                        </table>
 
-            {% endif %}
-            {% if is_granted('create_event_organisations') %}
-                <nav class="secondary">
-                    <a href="{{ path('events.organisations.add') }}">Create a new Organisation</a>
-                </nav>
-            {% endif %}
+                    {% endif %}
+                </div>
+
+                {% if is_granted('create_event_organisations') %}
+                    <div class="panel-footer">
+                        <a href="{{ path('events.organisations.add') }}" class="btn btn-secondary">Create a new Organisation</a>
+                    </div>
+
+
+
+                {% endif %}
+            </div>
+
         </div>
     </div>
 {% endblock %}

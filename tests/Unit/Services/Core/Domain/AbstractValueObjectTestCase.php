@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Tests\Unit\Services\Core\Domain;
+namespace Tests\Unit\Services\Core\Domain;
 
 use App\Services\Core\Domain\AbstractValueObject;
 use App\Services\Core\Domain\Exceptions\InvalidHandleException;

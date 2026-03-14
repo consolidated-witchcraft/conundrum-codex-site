@@ -26,6 +26,7 @@ class OrganisationsController extends AbstractEventManagerController
 
     #[Route('manage-events/organisations/add', name: 'events.organisations.add')]
     #[IsGranted('create_event_organisations')]
+    #[IsGranted('FS_EVENTS_SYSTEM')]
     public function create(Request $request): Response {
         $user = $this->getUser();
         if (!$user instanceof User) {
@@ -75,6 +76,7 @@ class OrganisationsController extends AbstractEventManagerController
 
     #[Route('manage-events/organisations/{organisationHandle}/edit', name: 'events.organisations.edit')]
     #[IsGranted('create_event_organisations')]
+    #[IsGranted('FS_EVENTS_SYSTEM')]
     public function edit(
         Organisation $organisation,
         Request $request
@@ -124,6 +126,7 @@ class OrganisationsController extends AbstractEventManagerController
 
     #[Route('manage-events/organisations/{organisationHandle}/deactivate', name: 'events.organisations.deactivate')]
     #[IsGranted('create_event_organisations')]
+    #[IsGranted('FS_EVENTS_SYSTEM')]
     public function deactivate(
         Organisation $organisation,
         Request $request

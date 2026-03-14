@@ -7,7 +7,7 @@
     background: var(--whiteGradient);
     box-shadow: var(--baseBoxShadow);
     border-radius: var(--baseBorderRadius);
-    border: dimension.$mediumBorderWidth solid transparent;
+    border: dimension.$baseBorderWidth solid transparent;
     border-image: var(--effectsGold) 33%;
     padding: 0;
     overflow: hidden;
@@ -27,7 +27,7 @@
     .panel-footer {
         padding: spacing.$gutter;
         background: var(--inkGradient);
-        border-top: dimension.$mediumBorderWidth solid transparent;
+        border-top: dimension.$baseBorderWidth solid transparent;
         border-image: var(--effectsGold) 33%;
         box-shadow: var(--subtleBoxShadowUp);
 

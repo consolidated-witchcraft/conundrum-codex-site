@@ -54,32 +54,6 @@ $logoHeight: 8vh;
                 font-family: var(--displayStack);
                 font-size: 2rem;
                 text-align: center;
-
-                &:before, &:after {
-                    content: " ";
-                    display: block;
-                    height: 2rem;
-                    width: 8rem;
-                    position: absolute;
-                    top: 50%;
-                    margin-top: -1rem;
-                    background-size: contain;
-                    background-repeat: no-repeat;
-                    opacity: 0.5;
-                    backdrop-filter: blur(1px);
-                }
-
-                &:before {
-                    left: 0;
-                    background-image: url("/dist/images/dagger-left.svg");
-                    background-position: right center;
-                }
-
-                &:after {
-                    right: 0;
-                    background-image: url("/dist/images/dagger-right.svg");
-                    background-position: left center;
-                }
             }
 
             &:before, &:after {

@@ -16,12 +16,15 @@
             </div>
         </div>
         <div class="col">
-            <h2 class="centerline">Puzzle Templates</h2>
-            <nav class="puzzle-categories lozenges grid">
-                {%  for template in templates %}
-                    <a href="{{ path('app.puzzles.template.show', {templateSlug: template.getSlug}) }}">{{ template.getTitle }}</a>
-                {% endfor %}
-            </nav>
+            <div class="decorative-frame">
+                <h2 class="fancy">Puzzle Templates</h2>
+                <nav class="puzzle-categories lozenges grid">
+                    {%  for template in templates %}
+                        <a href="{{ path('app.puzzles.template.show', {templateSlug: template.getSlug}) }}">{{ template.getTitle }}</a>
+                    {% endfor %}
+                </nav>
+            </div>
+
         </div>
     </div>
     <div class="row flush bordered three-quarters-one-quarter">
@@ -50,5 +53,6 @@
 {% block footerStyles %}
     <link rel="stylesheet" href="/dist/css/widgets/hero.css" />
     <link rel="stylesheet" href="/dist/css/widgets/randomQuotation.css" />
+    <link rel="stylesheet" href="/dist/css/widgets/decorativeFrames.css" />
 {% endblock %}
 

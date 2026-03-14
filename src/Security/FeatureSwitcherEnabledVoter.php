@@ -29,12 +29,11 @@ class FeatureSwitcherEnabledVoter extends Voter
     {
         $prefixlessHandle = substr($attribute, 3);
 
-        try {
-            $featureSwitcher = $this->featureSwitcherService->getByHandle($prefixlessHandle);
-        } catch (UnknownFeatureHandleException $e) {
-            return false;
-        }
 
-        return $featureSwitcher->isEnabled();
+            $featureSwitcher = $this->featureSwitcherService->getByHandle($prefixlessHandle);
+
+
+
+        return $featureSwitcher instanceof FeatureSwitcher && $featureSwitcher->isEnabled();
     }
 }

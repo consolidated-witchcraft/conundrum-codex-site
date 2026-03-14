@@ -133,6 +133,21 @@ const config = [
         ]
     },
     {
+        input: 'resources/sass/widgets/decorativeFrames.scss',
+        output: {
+            dir: './public/dist/css/widgets'
+        },
+        plugins: [
+            scss({
+                fileName: 'decorativeFrames.css',
+                outputStyle: 'compressed',
+                watch: ['resources/sass/widgets/decorativeFrames.scss']
+
+            }),
+            summary()
+        ]
+    },
+    {
         input: 'resources/sass/widgets/randomQuotation.scss',
         output: {
             dir: './public/dist/css/widgets'

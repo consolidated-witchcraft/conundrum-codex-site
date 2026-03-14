@@ -9,8 +9,6 @@
          failOnWarning="true"
          bootstrap="tests/bootstrap.php"
          cacheDirectory=".phpunit.cache"
-         displayDetailsOnTestsThatTriggerWarnings="true"
-         displayDetailsOnTestsThatTriggerNotices="true"
 >
     <php>
         <ini name="display_errors" value="1" />
@@ -20,8 +18,8 @@
     </php>
 
     <testsuites>
-        <testsuite name="Unit Tests">
-            <directory>tests/Unit</directory>
+        <testsuite name="Project Test Suite">
+            <directory>tests</directory>
         </testsuite>
     </testsuites>
 

@@ -69,10 +69,11 @@ class FeatureSwitcherService extends AbstractDomainEntityService implements Feat
     public function save(FeatureSwitcher $featureSwitcher, bool $flush = true): FeatureSwitcher
     {
         $this->entityManager->persist($featureSwitcher);
-        $this->cache->delete(self::getCacheKeyForHandle($featureSwitcher->getHandle()));
+
         if ($flush) {
             $this->flush();
         }
+        $this->cache->delete(self::getCacheKeyForHandle($featureSwitcher->getHandle()));
         return $featureSwitcher;
     }
 

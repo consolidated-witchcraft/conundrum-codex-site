@@ -9,8 +9,9 @@ use App\Services\User\Domain\User;
 use App\Services\World\Infrastructure\WorldRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
-use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+
 #[ORM\Entity(
     repositoryClass: WorldRepository::class
 )]
@@ -46,7 +47,11 @@ class World extends AbstractDomainEntity
         ? int $id = null
     ) {
         parent::__construct($id);
+        $this->worldCalendarSettings = new WorldCalendarSettings($this);
     }
+
+    #[ORM\OneToOne(mappedBy: 'world', targetEntity: WorldCalendarSettings::class, cascade: ['persist', 'refresh', 'remove'], orphanRemoval: true)]
+    private ?WorldCalendarSettings $worldCalendarSettings = null;
 
     public function getName(): string
     {
@@ -91,6 +96,21 @@ class World extends AbstractDomainEntity
     public function setPlayers(Collection $players): void
     {
         $this->players = $players;
+    }
+
+    public function getWorldCalendarSettings(): WorldCalendarSettings
+    {
+        if ($this->worldCalendarSettings === null) {
+            $this->worldCalendarSettings = new WorldCalendarSettings($this);
+        }
+
+        return $this->worldCalendarSettings;
+    }
+
+    public function setWorldCalendarSettings(WorldCalendarSettings $worldCalendarSettings): void
+    {
+        $this->worldCalendarSettings = $worldCalendarSettings;
+        $worldCalendarSettings->setWorld($this);
     }
 
     public function isFullyConfigured(): bool {

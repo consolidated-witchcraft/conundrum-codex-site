@@ -30,7 +30,7 @@ class WorldsController extends AbstractBaseController
 
     #[Route('/worlds', name: 'app.worlds.index')]
     #[IsGranted('ROLE_USER')]
-    #[IsGranted('FS_EVENTS_SYSTEM')]
+    #[IsGranted('FS_WORLD_SYSTEM')]
     public function index(Request $request): Response {
         $user = $this->getUser();
         if (!$user instanceof User) {
@@ -44,6 +44,7 @@ class WorldsController extends AbstractBaseController
     }
 
     #[Route('/worlds/new', name: 'app.worlds.create')]
+    #[IsGranted('FS_WORLD_SYSTEM')]
     public function addWorld(Request $request): Response {
         $dto = new UserWorldCreationDto();
         $form = $this->createForm(WorldCreateType::class, $dto);

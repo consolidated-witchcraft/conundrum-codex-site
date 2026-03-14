@@ -15,13 +15,14 @@ class EventManagerDashboardController extends AbstractEventManagerController
 {
     #[Route('manage-events/dashboard', name: 'events.dashboard')]
     #[IsGranted('create_events')]
+    #[IsGranted('FS_EVENTS_SYSTEM')]
     public function dashboard(Request $request): Response {
         $user = $this->getUser();
         if (!$user instanceof User) {
             throw new AccessDeniedHttpException();
         }
         $organisations = $this->eventService->getOrganisationsByManager($user);
-        
+
         $pagerVars = [
             'pageTitle' => 'Event Manager Dashboard',
             'organisations' => $organisations,

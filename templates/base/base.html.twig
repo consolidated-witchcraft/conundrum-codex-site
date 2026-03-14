@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en-GB" class="{{ preferredFontStack }}">
     {% embed 'base/partials/_head.html.twig' %}{% endembed %}
-    <body>
+    <body class="{% if noTitle is defined and noTitle %}no-title{% endif %}">
         <a href="#main-content" class="skip-link">Skip to main content</a>
         {% embed 'base/partials/_logo.html.twig' %}{% endembed %}
         {% embed 'base/partials/_header.html.twig' %}{% endembed %}
@@ -12,18 +12,16 @@
                 {% embed 'base/partials/_breadcrumbs.html.twig' with {'breadcrumbs': breadcrumbs}%}{% endembed %}
             {% endif %}
             {% if noTitle is not defined or not noTitle %}
-            <div class="row title-container{% if heroImageUrl is defined and heroImageUrl is not null %} hero{% endif %}">
-                {% if heroImageUrl is defined and heroImageUrl is not null %}
-                    <img class="row-hero-backer" src="{{ heroImageUrl }}" alt="{{ game.getName }}">
-                {% endif %}
-                <div class="col">
-                    {% if heroImageUrl is defined and heroImageUrl is not null %}
-                        <h1 is="heading-element">{{ pageTitle }}</h1>
-                    {% else %}
-                        <h1>{{ pageTitle }}</h1>
-                    {% endif %}
+                <div class="row title-container">
+
+                    <div class="col">
+                        {% if heroImageUrl is defined and heroImageUrl is not null %}
+                            <h1 is="heading-element">{{ pageTitle }}</h1>
+                        {% else %}
+                            <h1>{{ pageTitle }}</h1>
+                        {% endif %}
+                    </div>
                 </div>
-            </div>
             {% endif %}
 
 

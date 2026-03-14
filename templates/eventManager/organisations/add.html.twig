@@ -2,19 +2,33 @@
 {% block body %}
     {{ form_start(form) }}
     <div class="row">
-        <div class="col panel">
-            {{ form_row(form.name) }}
-            {{ form_row(form.handle) }}
-            {{ form_row(form.organisationLogo) }}
-            {{ form_row(form.managers) }}
+        <div class="col">
+            <div class="panel">
+                <div class="panel-content">
+                    {{ form_row(form.name) }}
+                    {{ form_row(form.handle) }}
+                    {{ form_row(form.organisationLogo) }}
+                    {{ form_row(form.managers) }}
+                </div>
+            </div>
         </div>
     </div>
     <div class="row">
-        <div class="col panel">
-            {{ form_row(form.postalAddress) }}
+        <div class="col">
+            <div class="panel">
+                <div class="panel-content">
+                    {{ form_row(form.postalAddress) }}
+                </div>
+            </div>
+
         </div>
-        <div class="col panel">
-            {{ form_row(form.invoiceAddress) }}
+        <div class="col">
+            <div class="panel">
+                <div class="panel-content">
+                    {{ form_row(form.invoiceAddress) }}
+                </div>
+            </div>
+
         </div>
     </div>
     {{ form_end(form) }}
