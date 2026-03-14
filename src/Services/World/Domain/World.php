@@ -6,6 +6,7 @@ namespace App\Services\World\Domain;
 
 use App\Services\Core\Domain\AbstractDomainEntity;
 use App\Services\User\Domain\User;
+use App\Services\World\Domain\Exceptions\TooManyWorldCalendarMonthsException;
 use App\Services\World\Infrastructure\WorldRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
@@ -27,6 +28,7 @@ class World extends AbstractDomainEntity
      * @param User $creator
      * @param Collection<int, User> $players
      * @param int|null $id
+     * @throws TooManyWorldCalendarMonthsException
      */
     public function __construct(
         #[ORM\Column(type: 'string', length: 255)]
@@ -44,13 +46,16 @@ class World extends AbstractDomainEntity
         #[ORM\ManyToMany(targetEntity: User::class, mappedBy: 'worldsPlayed')]
         private Collection $players = new ArrayCollection(),
 
+        #[ORM\OneToMany(targetEntity: WorldEvent::class, mappedBy: 'world', cascade: ['persist', 'refresh', 'remove'], orphanRemoval: true)]
+        private Collection $worldEvents = new ArrayCollection(),
+
         ? int $id = null
     ) {
         parent::__construct($id);
         $this->worldCalendarSettings = new WorldCalendarSettings($this);
     }
 
-    #[ORM\OneToOne(mappedBy: 'world', targetEntity: WorldCalendarSettings::class, cascade: ['persist', 'refresh', 'remove'], orphanRemoval: true)]
+    #[ORM\OneToOne(targetEntity: WorldCalendarSettings::class, mappedBy: 'world', cascade: ['persist', 'refresh', 'remove'], orphanRemoval: true)]
     private ?WorldCalendarSettings $worldCalendarSettings = null;
 
     public function getName(): string
@@ -98,6 +103,44 @@ class World extends AbstractDomainEntity
         $this->players = $players;
     }
 
+    /**
+     * @return Collection<int, WorldEvent>
+     */
+    public function getWorldEvents(): Collection
+    {
+        return $this->worldEvents;
+    }
+
+    /**
+     * @param Collection<int, WorldEvent> $worldEvents
+     */
+    public function setWorldEvents(Collection $worldEvents): void
+    {
+        $this->worldEvents = new ArrayCollection();
+
+        foreach ($worldEvents as $worldEvent) {
+            $this->addWorldEvent($worldEvent);
+        }
+    }
+
+    public function addWorldEvent(WorldEvent $worldEvent): void
+    {
+        if ($this->worldEvents->contains($worldEvent)) {
+            return;
+        }
+
+        $this->worldEvents->add($worldEvent);
+        $worldEvent->setWorld($this);
+    }
+
+    public function removeWorldEvent(WorldEvent $worldEvent): void
+    {
+        $this->worldEvents->removeElement($worldEvent);
+    }
+
+    /**
+     * @throws TooManyWorldCalendarMonthsException
+     */
     public function getWorldCalendarSettings(): WorldCalendarSettings
     {
         if ($this->worldCalendarSettings === null) {

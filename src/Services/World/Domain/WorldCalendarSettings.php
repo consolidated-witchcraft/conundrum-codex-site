@@ -23,7 +23,6 @@ class WorldCalendarSettings extends AbstractDomainEntity
     public const int MINIMUM_DAYS_PER_WEEK = 3;
     public const int MAXIMUM_MONTHS_PER_YEAR = 50;
 
-
     /**
      * @throws TooManyWorldCalendarMonthsException
      */
@@ -97,11 +96,13 @@ class WorldCalendarSettings extends AbstractDomainEntity
         $this->assertMonthDeltaAvailable($worldCalendarMonth->getDelta(), $worldCalendarMonth);
         $this->worldCalendarMonths->add($worldCalendarMonth);
         $worldCalendarMonth->setWorldCalendarSettings($this);
+        $this->sortWorldCalendarMonths();
     }
 
     public function removeWorldCalendarMonth(WorldCalendarMonth $worldCalendarMonth): void
     {
         $this->worldCalendarMonths->removeElement($worldCalendarMonth);
+        $this->sortWorldCalendarMonths();
     }
 
     /**
@@ -121,9 +122,9 @@ class WorldCalendarSettings extends AbstractDomainEntity
             $seenDeltas[] = $worldCalendarMonth->getDelta();
         }
 
-        $this->worldCalendarMonths = $worldCalendarMonths;
+        $this->worldCalendarMonths = new ArrayCollection(self::sortWorldCalendarMonthArray($worldCalendarMonths->toArray()));
 
-        foreach ($worldCalendarMonths as $worldCalendarMonth) {
+        foreach ($this->worldCalendarMonths as $worldCalendarMonth) {
             $worldCalendarMonth->setWorldCalendarSettings($this);
         }
     }
@@ -209,10 +210,10 @@ class WorldCalendarSettings extends AbstractDomainEntity
             $seenAbbreviations[] = $dayOfWeek->getAbbreviation();
         }
 
-        $this->daysOfWeek = $daysOfWeek;
+        $this->daysOfWeek = new ArrayCollection();
 
         foreach ($daysOfWeek as $dayOfWeek) {
-            $dayOfWeek->setWorldCalendarSettings($this);
+            $this->addDayOfWeek($dayOfWeek);
         }
     }
 
@@ -256,5 +257,26 @@ class WorldCalendarSettings extends AbstractDomainEntity
         if (($this->daysOfWeek->count() + $additionalDays) > self::MAXIMUM_DAYS_PER_WEEK) {
             throw new TooManyWorldCalendarDaysOfWeekException();
         }
+    }
+
+    private function sortWorldCalendarMonths(): void
+    {
+        $this->worldCalendarMonths = new ArrayCollection(
+            self::sortWorldCalendarMonthArray($this->worldCalendarMonths->toArray())
+        );
+    }
+
+    /**
+     * @param array<int, WorldCalendarMonth> $worldCalendarMonths
+     * @return array<int, WorldCalendarMonth>
+     */
+    private static function sortWorldCalendarMonthArray(array $worldCalendarMonths): array
+    {
+        usort(
+            $worldCalendarMonths,
+            static fn (WorldCalendarMonth $leftMonth, WorldCalendarMonth $rightMonth): int => $leftMonth->getDelta() <=> $rightMonth->getDelta()
+        );
+
+        return array_values($worldCalendarMonths);
     }
 }

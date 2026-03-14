@@ -1,6 +1,5 @@
 #! /bin/bash
 
-
 for i in "$@"; do
   case $i in
     -e=*|--mode=*)

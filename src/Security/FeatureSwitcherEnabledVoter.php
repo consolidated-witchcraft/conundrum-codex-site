@@ -29,9 +29,7 @@ class FeatureSwitcherEnabledVoter extends Voter
     {
         $prefixlessHandle = substr($attribute, 3);
 
-
-            $featureSwitcher = $this->featureSwitcherService->getByHandle($prefixlessHandle);
-
+        $featureSwitcher = $this->featureSwitcherService->getByHandle($prefixlessHandle);
 
 
         return $featureSwitcher instanceof FeatureSwitcher && $featureSwitcher->isEnabled();

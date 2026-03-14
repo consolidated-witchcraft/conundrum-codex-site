@@ -4,6 +4,8 @@
 * You SHOULD Prefer composition to inheritance.
 * You MUST Obey the Rule of Demeter.
 * Use MUST use private constants over inline comparisons.
+* Pure functions MUST be static.
+* If a class can be readonly, it MUST be.
 
 __Don't do this:__
 ```php

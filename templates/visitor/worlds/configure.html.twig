@@ -1,0 +1,16 @@
+{% extends 'base/base.html.twig' %}
+{% block body %}
+    <div class="row">
+        <div class="col">
+            <div class="panel">
+                <h2 class="panel-title">Calendar</h2>
+                <div class="panel-content">
+                    {{ form(calendarForm) }}
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+{% block footerStyles %}
+    <link rel="stylesheet" href="/dist/css/widgets/panels.css" />
+{% endblock %}

@@ -21,6 +21,7 @@ class WorldCalendarDayOfWeek extends AbstractDomainEntity
 {
     public const int MINIMUM_ABBREVIATION_LENGTH = 1;
     public const int MAXIMUM_ABBREVIATION_LENGTH = 3;
+    private const int MAXIMUM_NAME_LENGTH = 255;
 
     /**
      * @throws DuplicateWorldCalendarDayOfWeekAbbreviationException
@@ -32,16 +33,16 @@ class WorldCalendarDayOfWeek extends AbstractDomainEntity
         #[ORM\JoinColumn(nullable: false)]
         private WorldCalendarSettings $worldCalendarSettings,
 
-        #[ORM\Column(type: 'string', length: 255)]
+        #[ORM\Column(type: 'string', length: self::MAXIMUM_NAME_LENGTH)]
         private string $name,
 
-        #[ORM\Column(type: 'string', length: 3)]
+        #[ORM\Column(type: 'string', length: self::MAXIMUM_ABBREVIATION_LENGTH)]
         private string $abbreviation,
 
         ?int $id = null,
     ) {
         parent::__construct($id);
-        $this->assertValidAbbreviation($this->abbreviation);
+        self::assertValidAbbreviation($this->abbreviation);
         $this->worldCalendarSettings->assertDayOfWeekNameAvailable($this->name, $this);
         $this->worldCalendarSettings->assertDayOfWeekAbbreviationAvailable($this->abbreviation, $this);
     }
@@ -87,7 +88,7 @@ class WorldCalendarDayOfWeek extends AbstractDomainEntity
      */
     public function setAbbreviation(string $abbreviation): void
     {
-        $this->assertValidAbbreviation($abbreviation);
+        self::assertValidAbbreviation($abbreviation);
         $this->worldCalendarSettings->assertDayOfWeekAbbreviationAvailable($abbreviation, $this);
         $this->abbreviation = $abbreviation;
     }
@@ -95,7 +96,7 @@ class WorldCalendarDayOfWeek extends AbstractDomainEntity
     /**
      * @throws InvalidWorldCalendarDayOfWeekAbbreviationException
      */
-    private function assertValidAbbreviation(string $abbreviation): void
+    private static function assertValidAbbreviation(string $abbreviation): void
     {
         if (
             mb_strlen($abbreviation) < self::MINIMUM_ABBREVIATION_LENGTH

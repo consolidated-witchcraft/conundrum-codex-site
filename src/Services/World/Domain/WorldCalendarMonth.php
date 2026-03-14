@@ -12,14 +12,16 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 #[ORM\Entity]
 #[ORM\Table(name: 'world_calendar_month')]
-#[ORM\UniqueConstraint(name: 'world_calendar_month_slug_unique', columns: ['slug'])]
+#[ORM\UniqueConstraint(name: 'world_calendar_month_abbreviation_unique', columns: ['abbreviation'])]
 #[ORM\UniqueConstraint(name: 'world_calendar_month_settings_delta_unique', columns: ['world_calendar_settings_id', 'delta'])]
-#[UniqueEntity(fields: ['slug'])]
+#[UniqueEntity(fields: ['abbreviation'])]
 #[UniqueEntity(fields: ['worldCalendarSettings', 'delta'])]
 class WorldCalendarMonth extends AbstractDomainEntity
 {
     public const int MINIMUM_NUMBER_OF_DAYS = 1;
     public const int MAXIMUM_NUMBER_OF_DAYS = 50;
+    private const int MAXIMUM_NAME_LENGTH = 255;
+    private const int MAXIMUM_ABBREVIATION_LENGTH = 3;
 
     /**
      * @throws InvalidWorldCalendarMonthNumberOfDaysException
@@ -30,11 +32,11 @@ class WorldCalendarMonth extends AbstractDomainEntity
         #[ORM\JoinColumn(nullable: false)]
         private WorldCalendarSettings $worldCalendarSettings,
 
-        #[ORM\Column(type: 'string', length: 255)]
+        #[ORM\Column(type: 'string', length: self::MAXIMUM_NAME_LENGTH)]
         private string $name,
 
-        #[ORM\Column(type: 'string', length: 255, unique: true)]
-        private string $slug,
+        #[ORM\Column(type: 'string', length: self::MAXIMUM_ABBREVIATION_LENGTH, unique: true)]
+        private string $abbreviation,
 
         #[ORM\Column(type: 'integer')]
         private int $delta,
@@ -46,7 +48,7 @@ class WorldCalendarMonth extends AbstractDomainEntity
     ) {
         parent::__construct($id);
         $this->worldCalendarSettings->assertMonthDeltaAvailable($this->delta, $this);
-        $this->assertValidNumberOfDays($this->numberOfDays);
+        self::assertValidNumberOfDays($this->numberOfDays);
     }
 
     public function getWorldCalendarSettings(): WorldCalendarSettings
@@ -73,14 +75,14 @@ class WorldCalendarMonth extends AbstractDomainEntity
         $this->name = $name;
     }
 
-    public function getSlug(): string
+    public function getAbbreviation(): string
     {
-        return $this->slug;
+        return $this->abbreviation;
     }
 
-    public function setSlug(string $slug): void
+    public function setAbbreviation(string $abbreviation): void
     {
-        $this->slug = $slug;
+        $this->abbreviation = $abbreviation;
     }
 
     public function getDelta(): int
@@ -107,14 +109,14 @@ class WorldCalendarMonth extends AbstractDomainEntity
      */
     public function setNumberOfDays(int $numberOfDays): void
     {
-        $this->assertValidNumberOfDays($numberOfDays);
+        self::assertValidNumberOfDays($numberOfDays);
         $this->numberOfDays = $numberOfDays;
     }
 
     /**
      * @throws InvalidWorldCalendarMonthNumberOfDaysException
      */
-    private function assertValidNumberOfDays(int $numberOfDays): void
+    private static function assertValidNumberOfDays(int $numberOfDays): void
     {
         if (
             $numberOfDays < self::MINIMUM_NUMBER_OF_DAYS

@@ -100,12 +100,9 @@ nav.pagination {
 
 
 @media only screen and (min-width: spacing.$mobileBreakPointUpper) {
-
-
     nav.secondary {
-
         flex-direction: row;
-        margin: spacing.$gutter 0;
+        margin-bottom: spacing.$gutter;
 
         a, span, em {
             padding: spacing.$gutter;

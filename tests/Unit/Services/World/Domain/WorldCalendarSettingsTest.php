@@ -47,7 +47,7 @@ test('add world calendar month', function () {
     $month = new WorldCalendarMonth(
         worldCalendarSettings: $settings,
         name: 'Hammer',
-        slug: 'hammer',
+        abbreviation: 'hammer',
         delta: 1,
         numberOfDays: 30,
     );
@@ -58,12 +58,36 @@ test('add world calendar month', function () {
     self::assertTrue($settings->getWorldCalendarMonths()->contains($month));
 });
 
+test('world calendar months are stored sorted by delta', function () {
+    $settings = ($this->makeSettings)();
+
+    $settings->addWorldCalendarMonth(new WorldCalendarMonth(
+        worldCalendarSettings: $settings,
+        name: 'Hammer',
+        abbreviation: 'hammer',
+        delta: 2,
+        numberOfDays: 30,
+    ));
+    $settings->addWorldCalendarMonth(new WorldCalendarMonth(
+        worldCalendarSettings: $settings,
+        name: 'Anvil',
+        abbreviation: 'anvil',
+        delta: 1,
+        numberOfDays: 31,
+    ));
+
+    $months = $settings->getWorldCalendarMonths()->toArray();
+
+    self::assertSame('Anvil', $months[0]->getName());
+    self::assertSame('Hammer', $months[1]->getName());
+});
+
 test('add world calendar month rejects overlapping delta', function () {
     $settings = ($this->makeSettings)();
     $settings->addWorldCalendarMonth(new WorldCalendarMonth(
         worldCalendarSettings: $settings,
         name: 'Hammer',
-        slug: 'hammer',
+        abbreviation: 'hammer',
         delta: 1,
         numberOfDays: 30,
     ));
@@ -73,7 +97,7 @@ test('add world calendar month rejects overlapping delta', function () {
     $settings->addWorldCalendarMonth(new WorldCalendarMonth(
         worldCalendarSettings: $settings,
         name: 'Anvil',
-        slug: 'anvil',
+        abbreviation: 'anvil',
         delta: 1,
         numberOfDays: 31,
     ));
@@ -86,7 +110,7 @@ test('add world calendar month rejects more than fifty months', function () {
         $settings->addWorldCalendarMonth(new WorldCalendarMonth(
             worldCalendarSettings: $settings,
             name: sprintf('Month %d', $monthNumber),
-            slug: sprintf('month-%d', $monthNumber),
+            abbreviation: sprintf('month-%d', $monthNumber),
             delta: $monthNumber,
             numberOfDays: 30,
         ));
@@ -97,7 +121,7 @@ test('add world calendar month rejects more than fifty months', function () {
     $settings->addWorldCalendarMonth(new WorldCalendarMonth(
         worldCalendarSettings: $settings,
         name: 'Month 51',
-        slug: 'month-51',
+        abbreviation: 'month-51',
         delta: 51,
         numberOfDays: 30,
     ));

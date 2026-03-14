@@ -26,14 +26,14 @@ test('construct', function () {
     $month = new WorldCalendarMonth(
         worldCalendarSettings: $settings,
         name: 'Hammer',
-        slug: 'hammer',
+        abbreviation: 'hammer',
         delta: 1,
         numberOfDays: 30,
     );
 
     self::assertSame($settings, $month->getWorldCalendarSettings());
     self::assertSame('Hammer', $month->getName());
-    self::assertSame('hammer', $month->getSlug());
+    self::assertSame('hammer', $month->getAbbreviation());
     self::assertSame(1, $month->getDelta());
     self::assertSame(30, $month->getNumberOfDays());
 });
@@ -44,18 +44,18 @@ test('setters update state', function () {
     $month = new WorldCalendarMonth(
         worldCalendarSettings: $settings,
         name: 'Hammer',
-        slug: 'hammer',
+        abbreviation: 'hammer',
         delta: 1,
         numberOfDays: 30,
     );
 
     $month->setName('Anvil');
-    $month->setSlug('anvil');
+    $month->setAbbreviation('anvil');
     $month->setDelta(2);
     $month->setNumberOfDays(31);
 
     self::assertSame('Anvil', $month->getName());
-    self::assertSame('anvil', $month->getSlug());
+    self::assertSame('anvil', $month->getAbbreviation());
     self::assertSame(2, $month->getDelta());
     self::assertSame(31, $month->getNumberOfDays());
 });
@@ -66,14 +66,14 @@ test('set delta rejects overlap within settings', function () {
     $firstMonth = new WorldCalendarMonth(
         worldCalendarSettings: $settings,
         name: 'Hammer',
-        slug: 'hammer',
+        abbreviation: 'hammer',
         delta: 1,
         numberOfDays: 30,
     );
     $secondMonth = new WorldCalendarMonth(
         worldCalendarSettings: $settings,
         name: 'Anvil',
-        slug: 'anvil',
+        abbreviation: 'anvil',
         delta: 2,
         numberOfDays: 31,
     );
@@ -94,7 +94,7 @@ test('construct rejects number of days below minimum', function () {
     new WorldCalendarMonth(
         worldCalendarSettings: $settings,
         name: 'Hammer',
-        slug: 'hammer',
+        abbreviation: 'hammer',
         delta: 1,
         numberOfDays: 0,
     );
@@ -109,7 +109,7 @@ test('construct rejects number of days above maximum', function () {
     new WorldCalendarMonth(
         worldCalendarSettings: $settings,
         name: 'Hammer',
-        slug: 'hammer',
+        abbreviation: 'hammer',
         delta: 1,
         numberOfDays: 51,
     );
@@ -121,7 +121,7 @@ test('set number of days rejects values outside allowed range', function () {
     $month = new WorldCalendarMonth(
         worldCalendarSettings: $settings,
         name: 'Hammer',
-        slug: 'hammer',
+        abbreviation: 'hammer',
         delta: 1,
         numberOfDays: 30,
     );

@@ -2,85 +2,89 @@
 {% block body %}
 
     <div class="row">
-        <div class="col panel">
-            {% embed 'admin/users/partials/_userAdminNav.html.twig' %}{% endembed %}
-            <table class="table">
-                <thead>
-                    <tr>
-                        <th></th>
-                        <th>Path</th>
-                        <th>Mimetype</th>
-                        <th>Title</th>
-                        <th>Description</th>
-                        <th>Uploader</th>
-                        <th>Operations</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {% if files is empty %}
-                        <tr>
-                            <td colspan="7">
-                                <em>There are no files currently on the system</em>
-                            </td>
-                        </tr>
-                    {% else %}
-                        {% for file in files %}
+        <div class="col">
+            <div class="panel">
+                <div class="panel-content">
+                    {% embed 'admin/users/partials/_userAdminNav.html.twig' %}{% endembed %}
+                    <table class="table">
+                        <thead>
                             <tr>
-                                <td>
-                                    {% if file.isImage %}
-                                        <img class="preview thumbnail" src="{{ file.getPath() }}" alt="{{ file.getTitle() }}" />
-                                    {% else %}
-                                        <a href="{{ file.path }}">{{ file.path }}</a>
-                                    {% endif %}
-                                </td>
-                                <td>
-                                    <a href="{{ file.path }}">{{ file.path }}</a>
-                                </td>
-                                <td>
-                                    {{ file.mimeType }}
-                                </td>
-                                <td>
-                                    {{ file.title }}
-                                </td>
-                                <td>
-                                    {{ file.description }}
-                                </td>
-                                <td>
-                                    {{ file.uploader.getEmail }}
-                                </td>
-                                <td>
-                                    <nav class="secondary">
-                                        <a href="{{ path('admin.files.edit', {'fileId': file.getId}) }}">Edit</a>
-                                        <a href="{{ path('admin.files.delete', {'fileId': file.getId}) }}">Delete</a>
-                                    </div>
-                                </td>
+                                <th></th>
+                                <th>Path</th>
+                                <th>Mimetype</th>
+                                <th>Title</th>
+                                <th>Description</th>
+                                <th>Uploader</th>
+                                <th>Operations</th>
                             </tr>
+                        </thead>
+                        <tbody>
+                            {% if files is empty %}
+                                <tr>
+                                    <td colspan="7">
+                                        <em>There are no files currently on the system</em>
+                                    </td>
+                                </tr>
+                            {% else %}
+                                {% for file in files %}
+                                    <tr>
+                                        <td>
+                                            {% if file.isImage %}
+                                                <img class="preview thumbnail" src="{{ file.getPath() }}" alt="{{ file.getTitle() }}" />
+                                            {% else %}
+                                                <a href="{{ file.path }}">{{ file.path }}</a>
+                                            {% endif %}
+                                        </td>
+                                        <td>
+                                            <a href="{{ file.path }}">{{ file.path }}</a>
+                                        </td>
+                                        <td>
+                                            {{ file.mimeType }}
+                                        </td>
+                                        <td>
+                                            {{ file.title }}
+                                        </td>
+                                        <td>
+                                            {{ file.description }}
+                                        </td>
+                                        <td>
+                                            {{ file.uploader.getEmail }}
+                                        </td>
+                                        <td>
+                                            <nav class="secondary">
+                                                <a href="{{ path('admin.files.edit', {'fileId': file.getId}) }}">Edit</a>
+                                                <a href="{{ path('admin.files.delete', {'fileId': file.getId}) }}">Delete</a>
+                                            </nav>
+                                        </td>
+                                    </tr>
+                                {% endfor %}
+                            {% endif %}
+                        </tbody>
+                    </table>
+                {% if pager is not empty %}
+                    <nav class="pagination">
+                        {% if pager.back is defined %}
+                            <a href="{{ path('admin.files.manage', {
+                                'page': pager.back,
+                                'resultsPerPage': resultsPerPage
+                            }) }}"><<</a>
+                        {% endif %}
+                        {% for pagerPage in pager.pages %}
+                            <a href="{{ path('admin.files.manage', {
+                                'page': pagerPage,
+                                'resultsPerPage': resultsPerPage
+                            }) }}" {% if currentPage == pagerPage %}class="active"{% endif %} >{{ pagerPage }}</a>
                         {% endfor %}
-                    {% endif %}
-                </tbody>
-            </table>
-            {% if pager is not empty %}
-                <nav class="pagination">
-                    {% if pager.back is defined %}
-                        <a href="{{ path('admin.files.manage', {
-                            'page': pager.back,
-                            'resultsPerPage': resultsPerPage
-                        }) }}"><<</a>
-                    {% endif %}
-                    {% for pagerPage in pager.pages %}
-                        <a href="{{ path('admin.files.manage', {
-                            'page': pagerPage,
-                            'resultsPerPage': resultsPerPage
-                        }) }}" {% if currentPage == pagerPage %}class="active"{% endif %} >{{ pagerPage }}</a>
-                    {% endfor %}
-                    {% if pager.next is defined %}
-                        <a href="{{ path('admin.files.manage', {
-                            'page': pager.next,
-                            'resultsPerPage': resultsPerPage
-                        }) }}">>></a>
-                    {% endif %}
-                </nav>
-            {% endif %}
+                        {% if pager.next is defined %}
+                            <a href="{{ path('admin.files.manage', {
+                                'page': pager.next,
+                                'resultsPerPage': resultsPerPage
+                            }) }}">>></a>
+                        {% endif %}
+                    </nav>
+                {% endif %}
+                </div>
+            </div>
         </div>
     </div>
 

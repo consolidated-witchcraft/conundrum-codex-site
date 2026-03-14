@@ -15,7 +15,7 @@
                                             {{ world.getDescription }}
                                             <nav class="secondary">
                                                 {% if not world.isFullyConfigured %}
-                                                    <a class="btn btn-primary">Configure World</a>
+                                                    <a class="btn btn-primary" href="{{ path('app.worlds.configure', {'worldSlug': world.getSlug}) }}">Configure World</a>
                                                 {% endif %}
                                             </nav>
                                         </div>

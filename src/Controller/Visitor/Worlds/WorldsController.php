@@ -6,8 +6,10 @@ namespace App\Controller\Visitor\Worlds;
 
 use App\Controller\AbstractBaseController;
 use App\Dto\Visitor\Worlds\UserWorldCreationDto;
+use App\Dto\Visitor\Worlds\WorldCalendar\WorldCalendarSettingsDto;
+use App\Form\Visitor\Worlds\WorldCalendarSettingsType;
 use App\Form\Visitor\Worlds\WorldCreateType;
-use App\Security\FeatureSwitcherEnabledVoter;
+use App\Security\UserCanEditWorldVoter;
 use App\Services\FeatureSwitcher\Service\Interfaces\FeatureSwitcherServiceInterface;
 use App\Services\User\Domain\User;
 use App\Services\World\Domain\World;
@@ -30,7 +32,7 @@ class WorldsController extends AbstractBaseController
 
     #[Route('/worlds', name: 'app.worlds.index')]
     #[IsGranted('ROLE_USER')]
-    #[IsGranted('FS_WORLD_SYSTEM')]
+    #[IsGranted('FS_WORLDS_SYSTEM')]
     public function index(Request $request): Response {
         $user = $this->getUser();
         if (!$user instanceof User) {
@@ -44,7 +46,8 @@ class WorldsController extends AbstractBaseController
     }
 
     #[Route('/worlds/new', name: 'app.worlds.create')]
-    #[IsGranted('FS_WORLD_SYSTEM')]
+    #[IsGranted('ROLE_USER')]
+    #[IsGranted('FS_WORLDS_SYSTEM')]
     public function addWorld(Request $request): Response {
         $dto = new UserWorldCreationDto();
         $form = $this->createForm(WorldCreateType::class, $dto);
@@ -79,5 +82,19 @@ class WorldsController extends AbstractBaseController
             'form' => $form
         ];
         return $this->render('visitor/worlds/add.html.twig', $this->populatePageVars($pageVars, $request));
+    }
+
+    #[Route('/worlds/{worldSlug}/configure', name: 'app.worlds.configure')]
+    #[IsGranted('ROLE_USER')]
+    #[IsGranted('FS_WORLDS_SYSTEM')]
+    #[IsGranted(UserCanEditWorldVoter::CONFIGURE_WORLD_ACTION, 'world')]
+    public function configure(World $world, Request $request): Response {
+        $dto = WorldCalendarSettingsDto::makeFromWorldCalendarSettings($world->getWorldCalendarSettings());
+        $form = $this->createForm(WorldCalendarSettingsType::class, $dto);
+        $pageVars = [
+            'pageTitle' => 'Configure World',
+            'calendarForm' => $form
+        ];
+        return $this->render('visitor/worlds/configure.html.twig', $this->populatePageVars($pageVars, $request));
     }
 }

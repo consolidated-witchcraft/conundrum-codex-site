@@ -3,8 +3,8 @@
 ### Code Organisation
 * You MUST follow Domain-Driven Design Principles
 * Keep controllers thin, use service classes.
-* All new services MUST injected.
-* All new services MUST created in 'services' directory
+* All new services MUST be injected.
+* All new services MUST be created in 'services' directory
 
 ### Service Layer
 * Each service SHOULD be responsible for a single domain area.
