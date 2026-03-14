@@ -1,6 +1,6 @@
-# Architectural standards
+## Architectural standards
 
-## Code Organisation
+### Code Organisation
 * You MUST follow Domain-Driven Design Principles
 * Keep controllers thin, use service classes.
 * All new services MUST injected.

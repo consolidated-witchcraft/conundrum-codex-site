@@ -1,3 +1,4 @@
+## Miscellaneous Standards
 * All files must end with a newline.
 * All slugs must be unique, lowercase and contain only numbers, letters, hyphens and underscores
 * All slugs must be 100 characters or less.

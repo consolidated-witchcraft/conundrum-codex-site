@@ -1,0 +1,22 @@
+## Front-End Code
+- This application is primarily server-side rendered using twig, with enhancements provided using Web Components.
+- You MUST use Sass instead of CSS.
+- You MUST NOT require external CSS or JS Libraries without asking.
+- You MUST NOT use React, Vue or other such Front-end Frameworks.
+- You MUST write TypeScript, not JavaScript
+- You MUST write custom elements as Web Components
+  - You do not need to include a shim; one is already present in the root TypeScript build of this application.
+- You MUST ensure all frontend styles are responsive and will work well on:
+    - Mobile Phones in Portrait orientation
+    - Mobile Phones in Landscape orientation
+    - Tablets in Portrait orientation
+    - Tables in Landscape Orientation
+    - Desktop browsers in Landscape orientation
+    - Desktop browsers in Landscape orientation with high DPI (4k+)
+    - Widescreen Desktop browsers in Landscape orientation.
+- Any frontend code generated MUST work in these browsers:
+  - The latest mainline version of Chrome
+  - The latest mainline version of Firefox
+  - The latest mainline version of Edge
+- You MUST NOT use CSS rules, JavaScript APIs or any other browser features that are not supported across all the three target browsers.
+- You SHOULD use async and defer to load scripts when appropriate.
