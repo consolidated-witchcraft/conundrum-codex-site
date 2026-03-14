@@ -18,6 +18,9 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 #[UniqueEntity(fields: ['worldCalendarSettings', 'delta'])]
 class WorldCalendarMonth extends AbstractDomainEntity
 {
+    public const int MINIMUM_NUMBER_OF_DAYS = 1;
+    public const int MAXIMUM_NUMBER_OF_DAYS = 50;
+
     /**
      * @throws InvalidWorldCalendarMonthNumberOfDaysException
      * @throws OverlappingWorldCalendarMonthDeltaException
@@ -113,7 +116,10 @@ class WorldCalendarMonth extends AbstractDomainEntity
      */
     private function assertValidNumberOfDays(int $numberOfDays): void
     {
-        if ($numberOfDays < 1 || $numberOfDays > 50) {
+        if (
+            $numberOfDays < self::MINIMUM_NUMBER_OF_DAYS
+            || $numberOfDays > self::MAXIMUM_NUMBER_OF_DAYS
+        ) {
             throw new InvalidWorldCalendarMonthNumberOfDaysException($numberOfDays);
         }
     }

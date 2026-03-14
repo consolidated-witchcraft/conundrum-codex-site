@@ -19,9 +19,9 @@ use Doctrine\ORM\Mapping as ORM;
 class WorldCalendarSettings extends AbstractDomainEntity
 {
 
-    private const int MAX_DAYS_PER_WEEK = 50;
-    private const int MIN_DAYS_PER_WEEK = 3;
-    private const int MAX_MONTHS_PER_YEAR = 50;
+    public const int MAXIMUM_DAYS_PER_WEEK = 50;
+    public const int MINIMUM_DAYS_PER_WEEK = 3;
+    public const int MAXIMUM_MONTHS_PER_YEAR = 50;
 
 
     /**
@@ -149,7 +149,7 @@ class WorldCalendarSettings extends AbstractDomainEntity
      */
     private function assertMonthLimitNotExceeded(int $additionalMonths = 0): void
     {
-        if (($this->worldCalendarMonths->count() + $additionalMonths) > self::MAX_MONTHS_PER_YEAR) {
+        if (($this->worldCalendarMonths->count() + $additionalMonths) > self::MAXIMUM_MONTHS_PER_YEAR) {
             throw new TooManyWorldCalendarMonthsException();
         }
     }
@@ -187,10 +187,10 @@ class WorldCalendarSettings extends AbstractDomainEntity
     public function setDaysOfWeek(Collection $daysOfWeek): void
     {
         $count = $daysOfWeek->count();
-        if ($count < self::MIN_DAYS_PER_WEEK) {
+        if ($count < self::MINIMUM_DAYS_PER_WEEK) {
             throw new TooFewWorldCalendarDaysOfWeekException();
         }
-        if ($count > self::MAX_DAYS_PER_WEEK) {
+        if ($count > self::MAXIMUM_DAYS_PER_WEEK) {
             throw new TooManyWorldCalendarDaysOfWeekException();
         }
 
@@ -253,7 +253,7 @@ class WorldCalendarSettings extends AbstractDomainEntity
      */
     private function assertDaysOfWeekMaximumNotExceeded(int $additionalDays = 0): void
     {
-        if (($this->daysOfWeek->count() + $additionalDays) > self::MAX_DAYS_PER_WEEK) {
+        if (($this->daysOfWeek->count() + $additionalDays) > self::MAXIMUM_DAYS_PER_WEEK) {
             throw new TooManyWorldCalendarDaysOfWeekException();
         }
     }

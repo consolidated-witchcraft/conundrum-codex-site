@@ -19,6 +19,9 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 #[UniqueEntity(fields: ['worldCalendarSettings', 'abbreviation'])]
 class WorldCalendarDayOfWeek extends AbstractDomainEntity
 {
+    public const int MINIMUM_ABBREVIATION_LENGTH = 1;
+    public const int MAXIMUM_ABBREVIATION_LENGTH = 3;
+
     /**
      * @throws DuplicateWorldCalendarDayOfWeekAbbreviationException
      * @throws DuplicateWorldCalendarDayOfWeekNameException
@@ -94,7 +97,10 @@ class WorldCalendarDayOfWeek extends AbstractDomainEntity
      */
     private function assertValidAbbreviation(string $abbreviation): void
     {
-        if ($abbreviation === '' || mb_strlen($abbreviation) > 3) {
+        if (
+            mb_strlen($abbreviation) < self::MINIMUM_ABBREVIATION_LENGTH
+            || mb_strlen($abbreviation) > self::MAXIMUM_ABBREVIATION_LENGTH
+        ) {
             throw new InvalidWorldCalendarDayOfWeekAbbreviationException($abbreviation);
         }
     }
