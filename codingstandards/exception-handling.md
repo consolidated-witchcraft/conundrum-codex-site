@@ -2,7 +2,8 @@
 * All exceptions SHOULD be caught
 * Exceptions MUST be specific; don't catch or throw generic exceptions
 * Exceptions within a service directory MUST extend a base exception within that service
-* You MUST NOT catch generic exceptions with catch (Exception $e) or similar constructions.
+* You MUST NOT catch generic exceptions or throwables such as \Exception, \RuntimeException, or \Throwable anywhere but at the application layer, where you may convert them into appropriate user feedback.
+    * All such catches MUST be logged.
 * If an exception has a message, that message's text SHOULD be set via a private const string called MESSAGE_PATTERN. The message itself is constructed using this pattern and sprintf for any necessary substitutions. For example:
 ```php
     class FooException extends \AbstractException {
