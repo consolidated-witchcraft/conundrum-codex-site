@@ -19,3 +19,22 @@
 * All scripts and styles MUST be linked, rather than being written in the HTML itself. It is permissible to inline such a file, but the file's content must be separate in the codebase.
 * DOM MUST NOT use elements that are not supported by all modern browsers.
   * Modern browser are defined as Firefox, Chrome, Edge, Safari, and Chromium-based browsers.
+
+## Heading Hierarchy
+* Heading hierarchy must be obeyed: h2s follow h1, h3s follow h2s, etc. You MUST NOT skip levels.
+Valid Example:
+```
+    <h1>Page Title</h1>
+    <h2>Sub-title</h2>
+    <p>This is a a sub-title</p>
+
+    <h2>Another subtitle</h2>
+    <p>This is some more content.</p>
+    <h3>This h3 is beneath an h2, and therefore valid</h3>
+```
+
+Invalid example:
+```
+    <h1>Page Title</h1>
+    <h3>This h3 follows an h1 with no intervening h2, and is therefore invalid</h3>
+```
