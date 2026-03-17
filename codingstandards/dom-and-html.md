@@ -5,7 +5,7 @@
 * You MUST use descriptive and meaningful IDs for DOM elements.
 * You MUST NOT use IDs that are too generic or easily confused with other elements.
 * You MUST use IDs consistently across similar elements to improve maintainability.
-* All <html> tags MUST have a lang attribute.
+* All ```<html>``` tags MUST have a lang attribute.
 * There MUST be a single root element in the DOM.
 * If an H1 element is present, there MUST be only one H1 element in the DOM.
 * All documents MUST have the following metatags:
