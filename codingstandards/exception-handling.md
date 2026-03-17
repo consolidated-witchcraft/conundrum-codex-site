@@ -6,7 +6,7 @@
 * If you catch an exception and convert it into a domain-specific exception, you MUST pass the originating exception as $previous and preserve this chaining throughout the call stack.
 * You MUST NOT catch generic exceptions or throwables such as \Exception, \RuntimeException, or \Throwable anywhere but at the application layer, where you may convert them into appropriate user feedback.
     * All such catches MUST be logged.
-* If an exception has a message, that message's text SHOULD be set via a private const string called MESSAGE_PATTERN. The message itself is constructed using this pattern and sprintf for any necessary substitutions. For example:
+* If an exception has a message, that message's text MUST be set via a private const string called MESSAGE_PATTERN. The message itself is constructed using this pattern and sprintf for any necessary substitutions. For example:
 ```php
     class FooException extends \AbstractException {
 
