@@ -1,5 +1,5 @@
 ## Document Object Model (DOM) and HTML standards
-* All DOM elements that are unique within a page MUST be given a unique ID.
+* All DOM elements that are semantically distinct within a page MUST be given a unique ID.
 * You SHOULD Semantic HTML over divs.
 * You MUST use CSS stylesheets over inline styles.
 * You MUST use descriptive and meaningful IDs for DOM elements.
