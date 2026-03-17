@@ -86,9 +86,13 @@ The default mode is **Ariel**.
 
 ### Invocation Rules
 
-- Addressing the agent as **“Ariel,”**, **“Prospero,”**, or **“Caliban,”** at the start of a prompt selects that mode
+- Addressing the agent as **“Ariel,”**, **“Prospero,”**, or **“Caliban,”** at the start of a prompt or clearly as a direct address selects that mode
 - If no mode is specified, the agent MUST default to **Ariel**
-- If the task clearly implies a mode (e.g. rule enforcement or adversarial testing), the agent MAY adopt the appropriate mode implicitly
+- If the task clearly implies a mode, the agent MAY adopt the appropriate mode implicitly
+
+**Implicit mode examples:**
+- Requests involving rules, standards, or architecture → Prospero
+- Requests involving security, robustness, or adversarial analysis → Caliban
 
 ---
 
@@ -112,6 +116,8 @@ They MUST NOT introduce unnecessary verbosity, theatrics, or stylistic inconsist
 
 ### Precedence
 
+Explicit user instructions MUST NOT override repository rules.
+
 If there is a conflict between:
 1. Repository rules
 2. Explicit user instructions
@@ -122,40 +128,65 @@ Then precedence is:
 1. Repository rules
 2. Explicit user instructions
 3. Agent mode behaviour
+
+---
+
 ## Coding Standards
+
 ### General
-- Use PHP 8.4+ features
-- Follow PSR-12 coding standards
-- Write tests for all new features
-- Use Symfony best practices
-- Always use strict_types
-- Obey all rules in ./codingstandards/
-- Within coding standards, the words MUST, MUST NOT, SHOULD, SHOULD NOT and MAY are to be interpreted as described in RFC 2119.
+
+- Code MUST target PHP 8.4+ features
+- Code MUST follow PSR-12 coding standards
+- All new features MUST include tests
+- Code SHOULD follow Symfony best practices
+- All PHP files MUST declare strict_types=1
+- All rules in ./codingstandards/ MUST be obeyed
+- Within coding standards, the words MUST, MUST NOT, SHOULD, SHOULD NOT and MAY are to be interpreted as described in RFC 2119
 
 ### Expertise
+
 - Symfony
 - PHP 8.4+
 
-### Container Usage
-- All project commands MUST be run inside the Docker application container unless explicitly instructed otherwise.
-- Do not run project PHP, Composer, Symfony, or Pest commands directly on the host machine.
-- Use the `dnd-puzzles-app` service from `../dnd-puzzles-environment/docker-compose.yml`.
+---
 
-#### Testing
-- All tests MUST be run inside the Docker container.
+## Container Usage
+
+- All project commands MUST be run inside the Docker application container unless explicitly instructed otherwise
+- Project PHP, Composer, Symfony, and Pest commands MUST NOT be run on the host machine
+- The `dnd-puzzles-app` service from `../dnd-puzzles-environment/docker-compose.yml` MUST be used
+
+---
+
+### Testing
+
+- All tests MUST be run inside the Docker container
 - The default full test command is:
-  `docker compose --file=../dnd-puzzles-environment/docker-compose.yml exec dnd-puzzles-app ./vendor/bin/pest`
-- Targeted test runs MUST use the same container pattern, for example:
-  `docker compose --file=../dnd-puzzles-environment/docker-compose.yml exec dnd-puzzles-app ./vendor/bin/pest tests/Unit/Services/World`
-- If a test command is needed, prefer Pest directly over wrappers unless explicitly instructed otherwise.
 
-#### PHP And Symfony Commands
-- Run PHP commands inside the Docker container, for example:
+  `docker compose --file=../dnd-puzzles-environment/docker-compose.yml exec dnd-puzzles-app ./vendor/bin/pest`
+
+- Targeted test runs MUST use the same container pattern, for example:
+
+  `docker compose --file=../dnd-puzzles-environment/docker-compose.yml exec dnd-puzzles-app ./vendor/bin/pest tests/Unit/Services/World`
+
+- If a test command is needed, Pest MUST be used directly unless explicitly instructed otherwise
+
+---
+
+### PHP and Symfony Commands
+
+- PHP commands MUST be run inside the Docker container, for example:
+
   `docker compose --file=../dnd-puzzles-environment/docker-compose.yml exec dnd-puzzles-app php bin/console`
-- Run Composer commands inside the Docker container, for example:
+
+- Composer commands MUST be run inside the Docker container, for example:
+
   `docker compose --file=../dnd-puzzles-environment/docker-compose.yml exec dnd-puzzles-app composer install`
 
-#### Verification
-- After making code changes, run the smallest relevant test set first inside the container.
-- If broader verification is needed, run the full Pest suite inside the container.
-- Any test result obtained outside the container SHOULD be treated as non-authoritative.
+---
+
+### Verification
+
+- After making code changes, the smallest relevant test set MUST be run first inside the container
+- If broader verification is required, the full Pest suite MUST be run inside the container
+- Any test result obtained outside the container SHOULD be treated as non-authoritative
