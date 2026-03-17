@@ -14,6 +14,7 @@ use App\Services\World\Domain\Exceptions\TooManyWorldCalendarMonthsException;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\ORM\Mapping\OrderBy;
 
 #[ORM\Entity]
 class WorldCalendarSettings extends AbstractDomainEntity
@@ -38,6 +39,7 @@ class WorldCalendarSettings extends AbstractDomainEntity
         private Collection $worldCalendarMonths = new ArrayCollection(),
 
         #[ORM\OneToMany(targetEntity: WorldCalendarDayOfWeek::class, mappedBy: 'worldCalendarSettings', cascade: ['persist', 'refresh', 'remove'], orphanRemoval: true)]
+        #[OrderBy(['createdAt' => 'ASC', 'id' => 'ASC'])]
         private Collection $daysOfWeek = new ArrayCollection(),
 
         ?int $id = null,

@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Services\World\Domain;
 
+use App\Dto\Visitor\Worlds\WorldCalendar\WorldCalendarMonthDto;
 use App\Services\Core\Domain\AbstractDomainEntity;
 use App\Services\World\Domain\Exceptions\InvalidWorldCalendarMonthNumberOfDaysException;
 use App\Services\World\Domain\Exceptions\OverlappingWorldCalendarMonthDeltaException;
@@ -124,5 +125,20 @@ class WorldCalendarMonth extends AbstractDomainEntity
         ) {
             throw new InvalidWorldCalendarMonthNumberOfDaysException($numberOfDays);
         }
+    }
+
+    /**
+     * @throws OverlappingWorldCalendarMonthDeltaException
+     * @throws InvalidWorldCalendarMonthNumberOfDaysException
+     */
+    public static function makeFromDto(WorldCalendarSettings $worldCalendarSettings, WorldCalendarMonthDto $dto): self {
+        return new static(
+            worldCalendarSettings: $worldCalendarSettings,
+            name: $dto->name,
+            abbreviation: $dto->abbreviation,
+            delta: $dto->delta,
+            numberOfDays: $dto->numberOfDays,
+            id: $dto->id
+        );
     }
 }

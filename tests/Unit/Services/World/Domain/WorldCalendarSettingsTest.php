@@ -141,6 +141,35 @@ test('add day of week', function () {
     self::assertTrue($settings->getDaysOfWeek()->contains($day));
 });
 
+test('days of week retain insertion order', function () {
+    $settings = ($this->makeSettings)();
+    $starday = new WorldCalendarDayOfWeek(
+        worldCalendarSettings: $settings,
+        name: 'Starday',
+        abbreviation: 'Star',
+    );
+    $moonday = new WorldCalendarDayOfWeek(
+        worldCalendarSettings: $settings,
+        name: 'Moonday',
+        abbreviation: 'Moon',
+    );
+    $sunday = new WorldCalendarDayOfWeek(
+        worldCalendarSettings: $settings,
+        name: 'Sunday',
+        abbreviation: 'Sun',
+    );
+
+    $settings->addDayOfWeek($starday);
+    $settings->addDayOfWeek($moonday);
+    $settings->addDayOfWeek($sunday);
+
+    $days = $settings->getDaysOfWeek()->toArray();
+
+    self::assertSame($starday, $days[0]);
+    self::assertSame($moonday, $days[1]);
+    self::assertSame($sunday, $days[2]);
+});
+
 test('add day of week rejects duplicate name', function () {
     $settings = ($this->makeSettings)();
     $settings->addDayOfWeek(new WorldCalendarDayOfWeek(

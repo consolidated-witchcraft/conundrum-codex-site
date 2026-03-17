@@ -5,8 +5,10 @@ declare(strict_types=1);
 namespace App\Form\Type\WorldCalendar;
 
 use App\Dto\Visitor\Worlds\UserWorldCreationDto;
+use App\Dto\Visitor\Worlds\WorldCalendar\WorldCalendarMonthDto;
 use App\Services\World\Domain\WorldCalendarMonth;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use Symfony\Component\Form\Extension\Core\Type\NumberType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -46,13 +48,20 @@ class WorldCalendarMonthType extends AbstractType
                         ]
 
                     ]
+            )
+            ->add(
+                'id',
+                HiddenType::class,
+                [
+                    'required' => false,
+                ]
             );
     }
 
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([
-            'data_class' => UserWorldCreationDto::class,
+            'data_class' => WorldCalendarMonthDto::class,
         ]);
     }
 }

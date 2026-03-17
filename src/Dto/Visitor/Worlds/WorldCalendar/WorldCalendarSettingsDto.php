@@ -21,10 +21,15 @@ class WorldCalendarSettingsDto
             $daysOfWeek->add(WorldCalendarDayOfWeekDto::makeFromWorldCalendarDayOfWeek($day));
         }
 
+        $months = new ArrayCollection();
+        foreach ($worldCalendarSettings->getWorldCalendarMonths() as $month) {
+            $months->add(WorldCalendarMonthDto::makeFromWorldCalendarMonth($month));
+        }
+
         return new static(
             hoursInDay: $worldCalendarSettings->getHoursInDay(),
             daysOfWeek: $daysOfWeek,
-            months: $worldCalendarSettings->getWorldCalendarMonths()
+            months: $months
         );
     }
 

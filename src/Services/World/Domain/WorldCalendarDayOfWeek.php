@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Services\World\Domain;
 
+use App\Dto\Visitor\Worlds\WorldCalendar\WorldCalendarDayOfWeekDto;
 use App\Services\Core\Domain\AbstractDomainEntity;
 use App\Services\World\Domain\Exceptions\DuplicateWorldCalendarDayOfWeekAbbreviationException;
 use App\Services\World\Domain\Exceptions\DuplicateWorldCalendarDayOfWeekNameException;
@@ -20,7 +21,7 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 class WorldCalendarDayOfWeek extends AbstractDomainEntity
 {
     public const int MINIMUM_ABBREVIATION_LENGTH = 1;
-    public const int MAXIMUM_ABBREVIATION_LENGTH = 3;
+    public const int MAXIMUM_ABBREVIATION_LENGTH = 4;
     private const int MAXIMUM_NAME_LENGTH = 255;
 
     /**
@@ -104,5 +105,19 @@ class WorldCalendarDayOfWeek extends AbstractDomainEntity
         ) {
             throw new InvalidWorldCalendarDayOfWeekAbbreviationException($abbreviation);
         }
+    }
+
+    /**
+     * @throws DuplicateWorldCalendarDayOfWeekAbbreviationException
+     * @throws DuplicateWorldCalendarDayOfWeekNameException
+     * @throws InvalidWorldCalendarDayOfWeekAbbreviationException
+     */
+    public static function makeFromDto(WorldCalendarSettings $worldCalendarSettings, WorldCalendarDayOfWeekDto $dto): self {
+        return new static(
+            worldCalendarSettings: $worldCalendarSettings,
+            name: $dto->name,
+            abbreviation: $dto->abbreviation,
+            id: $dto->id
+        );
     }
 }

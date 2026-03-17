@@ -6,6 +6,7 @@ namespace App\Form\Type\WorldCalendar;
 
 use App\Dto\Visitor\Worlds\WorldCalendar\WorldCalendarDayOfWeekDto;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
@@ -18,7 +19,10 @@ class WorldCalendarDayOfWeekType extends AbstractType
         )
         ->add(
             'abbreviation',
-        );
+        )
+        ->add('id', HiddenType::class, [
+            'required' => false,
+        ]);
     }
 
     public function configureOptions(OptionsResolver $resolver): void

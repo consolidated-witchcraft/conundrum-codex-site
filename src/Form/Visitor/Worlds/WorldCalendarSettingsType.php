@@ -7,10 +7,10 @@ namespace App\Form\Visitor\Worlds;
 use App\Dto\Visitor\Worlds\WorldCalendar\WorldCalendarSettingsDto;
 use App\Form\Type\WorldCalendar\WorldCalendarDayOfWeekType;
 use App\Form\Type\WorldCalendar\WorldCalendarMonthType;
-use App\Services\World\Domain\WorldCalendarMonth;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use Symfony\Component\Form\Extension\Core\Type\NumberType;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
@@ -56,34 +56,35 @@ class WorldCalendarSettingsType extends AbstractType
                 ]
             ]
         )
-            ->add(
-                'months',
-                CollectionType::class,
-                [
-                    'entry_type' => WorldCalendarMonthType::class,
-                    'allow_add' => true,
-                    'allow_delete' => true,
-                    'delete_empty' => true,
-                    'prototype' => true,
+        ->add(
+            'months',
+            CollectionType::class,
+            [
+                'entry_type' => WorldCalendarMonthType::class,
+                'allow_add' => true,
+                'allow_delete' => true,
+                'delete_empty' => true,
+                'prototype' => true,
+                'required' => false,
+                'help' => 'Add the months of your world\'s year, in order. You may add up to fifty. Each month must have a name, an abbreviation and a number of days within it, and each must be unique within this world',
+                'prototype_options' => [
                     'required' => false,
-                    'help' => 'Add the months of your world\'s year, in order. You may add up to fifty. Each month must have a name, an abbreviation and a number of days within it, and each must be unique within this world',
-                    'prototype_options' => [
-                        'required' => false,
-                        'label' => 'Add a Month of the Year',
+                    'label' => 'Add a Month of the Year',
 
-                        'attr' => [
+                    'attr' => [
 
-                        ]
+                    ]
 
 
-                    ],
-                    'entry_options' => [
-                        'attr' => [
-                            'class' => 'multiadd-row'
-                        ]
+                ],
+                'entry_options' => [
+                    'attr' => [
+                        'class' => 'multiadd-row'
                     ]
                 ]
-            );
+            ]
+        )
+            ->add('submit', SubmitType::class, []);
     }
 
 

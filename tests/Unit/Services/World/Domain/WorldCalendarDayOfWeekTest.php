@@ -70,7 +70,7 @@ test('set abbreviation rejects duplicates within settings', function () {
     $second->setAbbreviation('Mon');
 });
 
-test('construct rejects abbreviation longer than three characters', function () {
+test('construct rejects abbreviation longer than four characters', function () {
     $settings = ($this->makeWorld)()->getWorldCalendarSettings();
 
     $this->expectException(InvalidWorldCalendarDayOfWeekAbbreviationException::class);
@@ -78,6 +78,31 @@ test('construct rejects abbreviation longer than three characters', function () 
     new WorldCalendarDayOfWeek(
         worldCalendarSettings: $settings,
         name: 'Moonday',
+        abbreviation: 'Moons',
+    );
+});
+
+test('construct accepts abbreviation with four characters', function () {
+    $settings = ($this->makeWorld)()->getWorldCalendarSettings();
+
+    $day = new WorldCalendarDayOfWeek(
+        worldCalendarSettings: $settings,
+        name: 'Moonday',
         abbreviation: 'Moon',
     );
+
+    self::assertSame('Moon', $day->getAbbreviation());
+});
+
+test('set abbreviation accepts four characters', function () {
+    $settings = ($this->makeWorld)()->getWorldCalendarSettings();
+    $day = new WorldCalendarDayOfWeek(
+        worldCalendarSettings: $settings,
+        name: 'Moonday',
+        abbreviation: 'Mon',
+    );
+
+    $day->setAbbreviation('Moon');
+
+    self::assertSame('Moon', $day->getAbbreviation());
 });

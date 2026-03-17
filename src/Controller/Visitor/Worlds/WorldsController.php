@@ -12,7 +12,10 @@ use App\Form\Visitor\Worlds\WorldCreateType;
 use App\Security\UserCanEditWorldVoter;
 use App\Services\FeatureSwitcher\Service\Interfaces\FeatureSwitcherServiceInterface;
 use App\Services\User\Domain\User;
+use App\Services\World\Domain\Exceptions\TooManyWorldCalendarMonthsException;
 use App\Services\World\Domain\World;
+use App\Services\World\Domain\WorldCalendarDayOfWeek;
+use App\Services\World\Domain\WorldCalendarMonth;
 use App\Services\World\Service\Interfaces\WorldServiceInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -84,6 +87,9 @@ class WorldsController extends AbstractBaseController
         return $this->render('visitor/worlds/add.html.twig', $this->populatePageVars($pageVars, $request));
     }
 
+    /**
+     * @throws TooManyWorldCalendarMonthsException
+     */
     #[Route('/worlds/{worldSlug}/configure', name: 'app.worlds.configure')]
     #[IsGranted('ROLE_USER')]
     #[IsGranted('FS_WORLDS_SYSTEM')]
@@ -91,6 +97,34 @@ class WorldsController extends AbstractBaseController
     public function configure(World $world, Request $request): Response {
         $dto = WorldCalendarSettingsDto::makeFromWorldCalendarSettings($world->getWorldCalendarSettings());
         $form = $this->createForm(WorldCalendarSettingsType::class, $dto);
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()) {
+            $calendarSettings = $world->getWorldCalendarSettings();
+            $calendarSettings->setHoursInDay($dto->hoursInDay);
+            foreach ($dto->daysOfWeek as $dayOfWeekDto) {
+                if ($dayOfWeekDto->id === null) {
+                    $mappedDayOfWeek = WorldCalendarDayOfWeek::makeFromDto($calendarSettings, $dayOfWeekDto);
+                    $calendarSettings->addDayOfWeek($mappedDayOfWeek);
+                } else {
+                    $dayOfWeekId = $dayOfWeekDto->id;
+                    $day = $calendarSettings->getDaysOfWeek()->findFirst(
+                        function (int $key, WorldCalendarDayOfWeek $day) use ($dayOfWeekId) {
+                            return $day->getId() === $dayOfWeekId;
+                        }
+                    );
+                    $day->setName($dayOfWeekDto->name);
+                    $day->setAbbreviation($dayOfWeekDto->abbreviation);
+                }
+
+            }
+
+            foreach ($dto->months as $month) {
+                $mappedMonth= WorldCalendarMonth::makeFromDto($calendarSettings, $month);
+                $calendarSettings->addWorldCalendarMonth($mappedMonth);
+            }
+            $this->worldService->saveWorld($world);
+
+        }
         $pageVars = [
             'pageTitle' => 'Configure World',
             'calendarForm' => $form
