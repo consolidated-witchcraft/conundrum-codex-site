@@ -18,7 +18,7 @@ class TicketPurchaseDto
         public array $ticketTypes = [],
     ) {}
 
-    public static function makeFromEvent(Event $event, User $user = null): static {
+    public static function makeFromEvent(Event $event, ?User $user = null): static {
         return new static(
             event: $event,
             ticketTypes: self::mapTicketTypes($event->getTicketTypes()),
