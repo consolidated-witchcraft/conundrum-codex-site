@@ -2,12 +2,14 @@
 {% block body %}
     <div class="row">
         <div class="col">
+
             <p>{{ siteName }} would not be possible without the contributions of:</p>
 
             <table class="table">
                 <thead>
                     <tr>
                         <th>Author</th>
+                        <th>Link</th>
                         <th>Contribution</th>
                         <th>License</th>
                     </tr>
@@ -16,12 +18,19 @@
                     {% for credit in credits %}
                         <tr>
                             <td>{{ credit.author }}</td>
+                            <td>
+                                {% if credit.link is defined %}
+                                    <a href="{{ credit.link }}">{{ credit.link }}</a>
+                                {% endif %}
+                            </td>
                             <td>{{ credit.contribution }}</td>
                             <td>{{ credit.license }}</td>
                         </tr>
                     {% endfor %}
                 </tbody>
             </table>
+            <h2>Many Thanks!</h2>
+            <em>— The Conundrum Codex Team</em>
         </div>
     </div>
 {% endblock %}

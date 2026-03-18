@@ -62,22 +62,32 @@ class PageController extends AbstractBaseController
             'pageTitle' => 'Credits',
             'credits' => [
                 [
-                    'author' => 'Lorc',
-                    'contribution' => 'Icons',
+                    'author' => 'David Revoy',
+                    'contribution' => 'Various Art',
+                    'link' => 'https://www.davidrevoy.com/',
                     'license' => 'https://creativecommons.org/licenses/by/3.0/'
                 ],
                 [
-                    'author' => 'Betsy Ogilvy',
+                    'author' => 'Lorc',
+                    'contribution' => 'Icons',
+                    'link' => 'https://lorcblog.blogspot.com/',
+                    'license' => 'https://creativecommons.org/licenses/by/3.0/'
+                ],
+                [
+                    'author' => 'Betsy Ogilvie',
+                    'link' => 'https://betsyogilvie.com/',
                     'contribution' => 'Various Art',
                     'license' => 'https://creativecommons.org/licenses/by/4.0/deed.en'
                 ],
                 [
                     'author' => 'SVGRepo',
                     'contribution' => 'Icons',
+                    'link' => 'https://www.svgrepo.com/',
                     'license' => 'https://creativecommons.org/licenses/by/4.0/deed.en'
                 ],
                 [
                     'author' => 'Creative Cat and Co',
+                    'link' => 'https://creativecatandco.com/',
                     'contribution' => 'Decorative Elements',
                     'license' => 'Commercial',
                 ]

@@ -2,30 +2,17 @@
 @use '../critical/base/sassVariables/spacing';
 @use '../critical/base/sassVariables/dimension';
 
-
-@keyframes magicShadow {
-    0% {
-        box-shadow: 0 0 2rem cyan, 0 0 0.125rem white;
-    }
-    50% {
-        box-shadow: 0 0 4rem magenta, 0 0 2rem white;
-    }
-    100% {
-        box-shadow: 0 0 2rem cyan, 0 0 0.125rem white;
-    }
-}
-
 .hero {
     width: 100%;
     position: relative;
     overflow: hidden;
-    padding: spacing.$baseSpacing;
+    padding: 0;
     border: dimension.$mediumBorderWidth solid transparent;
     background: var(--creamGradient);
     border-image: var(--effectsGold) 33%;
     border-radius: var(--baseBorderRadius);
     box-shadow: var(--baseBoxShadow);
-    min-height: 33vh;
+    min-height: 50vh;
 
     img.hero-backer {
         width: 100%;
@@ -34,22 +21,42 @@
         left: 0;
         z-index: 0;
         border-radius: var(--baseBorderRadius);
-        mask: radial-gradient(circle at 50% 100%, rgba(255, 255, 255, 0) 25%, rgba(255, 255, 255, 1));
     }
 
-    .hero-heading,
-    .hero-content,
-    .hero-cta {
+    .hero-content {
         position: relative;
         z-index: 2;
+        max-width: 50%;
+        display: flex;
+        flex-direction: column;
+        padding: spacing.$baseSpacing spacing.$baseSpacing * 4;
+        height: 100%;
         text-align: center;
-        margin: spacing.$baseSpacing 0;
+        color: var(--colorOffWhite);
+        &:before {
+            content: " ";
+            display: block;
+            position: absolute;
+            top: 0;
+            left: 0;
+            bottom: 0;
+            right: 0;
+            z-index: -1;
+            background: var(--charcoalGradient);
+            mask-image: url("/dist/images/paint-mask-right.webp");
+            mask-size: contain;
+            mask-position: right;
+            mask-repeat: repeat-y;
+            opacity: 0.9;
+        }
     }
+
 
     .hero-heading {
         position: relative;
+        flex-basis: 25%;
         color: var(--colorInk);
-        font-size: 3.5rem;
+        font-size: 3rem;
         top: -0.125rem;
         left: -0.15rem;
 
@@ -65,7 +72,6 @@
             text-shadow: 0 0 0.25rem var(--colorInk);
         }
         &:before {
-
             background: var(--effectsGold);
             background-clip: text;
             color: transparent;
@@ -73,13 +79,18 @@
         }
     }
 
+    .hero-body {
+        font-size: 125%;
+        font-weight: 800;
+        flex-basis: 50%;
+
+    }
     .hero-cta {
-        margin: 0 spacing.$baseSpacing * 1.5;
+        flex-basis: 25%;
 
         .btn {
-            margin: spacing.$gutter;
-            box-shadow: 0 0 1rem red;
-            animation: magicShadow var(--animationSpeedGlacial) infinite ease-in-out;
+
+            font-size: 150%;
         }
 
     }

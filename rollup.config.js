@@ -44,20 +44,25 @@ const terserOptions = {
         },
     },
 }
-function myExample() {
+
+function removeEmptyCssJs() {
     return {
-        name: 'my-example', // this name will show up in logs and errors
-        resolveId(source) {
-
-            return null; // other ids should be handled as usually
-        },
-        load(id) {
-
-            return null;
+        name: 'remove-empty-css-js',
+        generateBundle(options, bundle) {
+            for (const [fileName, file] of Object.entries(bundle)) {
+                if (
+                    file.type === 'chunk' &&
+                    file.isEntry &&
+                    file.code.trim() === '' &&
+                    Object.keys(file.modules).length === 1 &&
+                    /\.(scss|sass|css)$/.test(Object.keys(file.modules)[0])
+                ) {
+                    delete bundle[fileName];
+                }
+            }
         }
     };
 }
-
 const config = [
     {
 
@@ -83,7 +88,6 @@ const config = [
             dir: './public/dist/css/'
         },
         plugins: [
-            myExample(),
             scss({
                 processor: (css) => {
                     return css;
@@ -95,6 +99,7 @@ const config = [
                     'resources/sass/critical/'
                 ],
             }),
+            removeEmptyCssJs(),
 
             summary()
         ]
@@ -114,6 +119,7 @@ const config = [
                 watch: ['resources/sass/widgets/panels.scss']
 
             }),
+            removeEmptyCssJs(),
             summary()
         ]
     },
@@ -127,8 +133,8 @@ const config = [
                 fileName: 'hero.css',
                 outputStyle: 'compressed',
                 watch: ['resources/sass/widgets/hero.scss']
-
             }),
+            removeEmptyCssJs(),
             summary()
         ]
     },
@@ -142,8 +148,8 @@ const config = [
                 fileName: 'decorativeFrames.css',
                 outputStyle: 'compressed',
                 watch: ['resources/sass/widgets/decorativeFrames.scss']
-
             }),
+            removeEmptyCssJs(),
             summary()
         ]
     },
@@ -157,8 +163,8 @@ const config = [
                 fileName: 'randomQuotation.css',
                 outputStyle: 'compressed',
                 watch: ['resources/sass/widgets/randomQuotation.scss']
-
             }),
+            removeEmptyCssJs(),
             summary()
         ]
     },
@@ -172,8 +178,8 @@ const config = [
                 fileName: 'tables.css',
                 outputStyle: 'compressed',
                 watch: ['resources/sass/widgets/tables.scss']
-
             }),
+            removeEmptyCssJs(),
             summary()
         ]
     },
@@ -187,8 +193,8 @@ const config = [
                 fileName: 'tabs.css',
                 outputStyle: 'compressed',
                 watch: ['resources/sass/widgets/tabs.scss']
-
             }),
+            removeEmptyCssJs(),
             summary()
         ]
     },
@@ -204,6 +210,7 @@ const config = [
                 watch: ['resources/sass/widgets/accordions.scss']
 
             }),
+            removeEmptyCssJs(),
             summary()
         ]
     },
@@ -219,6 +226,7 @@ const config = [
                 watch: ['resources/sass/widgets/badges.scss']
 
             }),
+            removeEmptyCssJs(),
             summary()
         ]
     },
@@ -232,8 +240,8 @@ const config = [
                 fileName: 'feats.css',
                 outputStyle: 'compressed',
                 watch: ['resources/sass/widgets/feats.scss']
-
             }),
+            removeEmptyCssJs(),
             summary()
         ]
     },
@@ -247,8 +255,8 @@ const config = [
                 fileName: 'slideshow.css',
                 outputStyle: 'compressed',
                 watch: ['resources/sass/widgets/slideshow.scss']
-
             }),
+            removeEmptyCssJs(),
             summary()
         ]
     },
@@ -262,8 +270,8 @@ const config = [
                 fileName: 'wikieditor.css',
                 outputStyle: 'compressed',
                 watch: ['resources/sass/widgets/wikieditor.scss']
-
             }),
+            removeEmptyCssJs(),
             summary()
         ]
     },
@@ -277,8 +285,8 @@ const config = [
                 fileName: 'cards.css',
                 outputStyle: 'compressed',
                 watch: ['resources/sass/widgets/cards.scss']
-
             }),
+            removeEmptyCssJs(),
             summary()
         ]
     },
@@ -424,9 +432,11 @@ const config = [
 
 
 if (process.env.NODE_ENV !== 'development') {
-  config[0].plugins.push(terser(terserOptions));
-  config[1].plugins.push(terser(terserOptions));
-  config[2].plugins.push(terser(terserOptions));
+    config[0].plugins.push(terser(terserOptions));
+    config[13].plugins.push(terser(terserOptions)); // hammerBoot
+    config[14].plugins.push(terser(terserOptions)); // lightforgeBoot
+    config[15].plugins.push(terser(terserOptions)); // casebookBoot
+    config[16].plugins.push(terser(terserOptions)); // buttonsBoot
 }
 
 export default config;

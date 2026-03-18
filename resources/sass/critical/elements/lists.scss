@@ -1,0 +1,32 @@
+@use 'sass:math';
+
+@use '../base/sassVariables/dimension';
+@use '../base/sassVariables/spacing';
+
+ul {
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+
+    li {
+        position: relative;
+        flex: 1;
+        padding-left: spacing.$baseSpacing + 1rem;
+        margin: spacing.$gutter 0;
+
+        &:before {
+            content: "*";
+            position: absolute;
+            left: 0;
+            width: spacing.$baseSpacing;
+            text-shadow: none;
+            height: 100%;
+            color: transparent;
+            background-image: var(--erodedStar);
+            background-size: contain;
+            background-repeat: no-repeat;
+            background-position: top left;
+        }
+    }
+}

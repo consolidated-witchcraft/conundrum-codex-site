@@ -57,7 +57,7 @@ abstract class AbstractBaseController extends AbstractController
     private function buildGamesItem(User $user): NavItem {
         $gamesItem = new NavItem(
             handle: 'games',
-            label: 'My Games',
+            label: 'Games',
             route: 'app.games.index'
         );
         foreach ($user->getGames() as $game) {
@@ -162,7 +162,7 @@ abstract class AbstractBaseController extends AbstractController
         if ($this->featureSwitcherService->isFeatureEnabled('WORLDS_SYSTEM')) {
             $mainNav['worlds'] = new NavItem(
                 handle: 'worlds',
-                label: 'My Worlds',
+                label: 'Worldbooks',
                 route: 'app.worlds.index'
             );
         }

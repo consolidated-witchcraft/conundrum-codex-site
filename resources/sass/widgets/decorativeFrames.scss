@@ -1,5 +1,9 @@
+@use 'sass:math';
+
 @use '../critical/base/sassVariables/spacing';
 @use '../critical/base/sassVariables/dimension';
+
+$watermarkHeight: 20vh;
 
 .decorative-frame {
     position: relative;
@@ -10,37 +14,18 @@
     flex: 1;
     flex-grow: 2;
     flex-direction: column;
+    padding-bottom: $watermarkHeight;
 
-    .fancy {
-        text-align: center;
-        position: relative;
-        &:before,
-        &:after {
-            content: " ";
-            display: block;
-            position: absolute;
-            height: 1em;
-            width: 25%;
-            top: 50%;
-            margin-top: -0.5em;
-            pointer-events: none;
-            background-size: contain;
-            background-position: 50% 50%;
-            background-repeat: no-repeat;
-            opacity: 0.5;
-        }
-
-        &:before {
-            background-image: url("/dist/images/dagger-left.svg");
-            left: 0;
-        }
-
-        &:after {
-            background-image: url("/dist/images/dagger-right.svg");
-            right: 0;
-        }
-
+    > p, > ul {
+        text-shadow: 0 0 0.25rem var(--colorOffWhite), 0 0 0.125rem var(--colorOffWhite), 0 0 0.067rem var(--colorOffWhite);
     }
+
+    .frame-title {
+
+        text-align: center;
+        font-size: 200%;
+    }
+
     &:before, &:after {
         content: " ";
         display: block;
@@ -66,5 +51,24 @@
         border-image: url("/dist/images/decorative_frame.svg") 33%;
         z-index: 1;
         opacity: 0.75;
+    }
+
+    > * {
+        position: relative;
+        z-index: 1;
+    }
+
+    img.frame-watermark {
+        position: absolute;
+        bottom: 0;
+        right: 0;
+        z-index: 0;
+        height: $watermarkHeight;
+        width: 100%;
+        mask-image: url("/dist/images/paint-mask-top-2.webp");
+        mask-size: contain;
+        opacity: 0.6;
+
+        object-fit: cover;
     }
 }

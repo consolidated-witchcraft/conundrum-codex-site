@@ -178,7 +178,7 @@ header {
                     border: none;
                     font-family: var(--displayStack);
                     position: relative;
-                    font-size: 110%;
+                    font-size: 133%;
                     &:hover, &:active, &:focus {
                         background-color: transparent;
                         color: var(--colorCrimsonHighlight);
@@ -199,6 +199,7 @@ header {
                             background-repeat: no-repeat;
                             background-size: contain;
                             background-position: center;
+                            transition: opacity var(--animationSpeedSnappy) ease-in-out;
                         }
                     }
                 }
@@ -249,11 +250,12 @@ header {
                 backdrop-filter: blur(10px);
                 nav.mobile-nav {
                     a {
-                        color: var(--colorOffWhite);
+                        color: var(--colorVellum);
 
                         &:not(:last-child) {
                             &:after {
-                                background-image: var(--erodedStarVellum)
+                                background-image: var(--erodedStarVellum);
+                                opacity: 0;
                             }
                         }
                     }
