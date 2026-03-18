@@ -9,7 +9,7 @@
 
 ## Output Encoding & XSS Prevention
 - Output MUST be escaped by default
-- Use framework-native escaping (e.g. Twig autoescape) SHOULD be used where appropriate.
+- Use framework-native escaping (e.g. Twig autoescape) MUST be used where appropriate.
 - Output MUST be encoded based on context (HTML, JS, URL)
 - Unescaped data MUST NOT be injected into scripts or markup.
 
@@ -17,13 +17,15 @@
 - Authentication MUST precede authorization
 - Authorization MUST be enforced server-side
 - The principle of least privilege MUST be enforced
-- Roles MUST NOT be used to establish a user's capabilities, only the permissions beneath that role.
+- Roles MUST be treated as permission groupings only.
+- Authorization decisions MUST be made against permissions, not roles directly.
+- Direct role checks MUST NOT be used for access control.
 
 ## Database Security
 - Queries MUST be parameterized
 - ORM bindings MUST be used.
 - String concatenation MUST NOT be used for SQL Queries.
-- When not working with complete entities, DTOs SHOULD be used to avoid exposing irrelevant information.
+- When not working with complete entities, DTOs MUST be used to avoid exposing irrelevant information.
 
 ## Secrets & Configuration
 - Secrets MUST NOT exist in code
@@ -51,7 +53,7 @@
 ## API & External Communication
 - All External systems MUST be treated as untrusted
 - All external responses MUST be validated
-- Outbound requests SHOULD be validated (where applicable)
+- Outbound requests MUST be validated (where applicable)
 
 
 ## Rate Limiting & Abuse Protection
@@ -61,7 +63,7 @@
 
 - Systems MUST expose minimal information
 - DTOs or transformers MUST be used for output.
-- Internal structure SHOULD NOT be exposed by API structures
+- Internal structure MUST NOT be exposed by API structures
 
 
 ## Enforcement Protocol
