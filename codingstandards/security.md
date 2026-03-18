@@ -19,7 +19,7 @@
 - The principle of least privilege MUST be enforced
 - Roles MUST NOT be used to establish a user's capabilities, only the permissions beneath that role.
 
-## 4. Database Security
+## Database Security
 - Queries MUST be parameterized
 - ORM bindings MUST be used.
 - String concatenation MUST NOT be used for SQL Queries.
