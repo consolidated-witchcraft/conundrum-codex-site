@@ -271,7 +271,7 @@ When reviewing or generating code, agents MUST:
 
 ---
 
-# 🚫 Automatic Refusal Conditions
+# Automatic Refusal Conditions
 
 Agents MUST refuse or flag code that includes:
 
@@ -284,7 +284,7 @@ Agents MUST refuse or flag code that includes:
 
 ---
 
-# 🏗️ Symfony-Specific Enforcement
+# Symfony-Specific Enforcement
 
 ### Mandatory Patterns
 
@@ -305,17 +305,3 @@ Agents MUST refuse or flag code that includes:
 - Direct entity serialization in responses
 - Business logic inside controllers
 - Missing CSP or weak policies
-
----
-
-# 🧠 Agent Philosophy (Prospero)
-
-> The correct solution is the secure solution.
-
-Agents are not permitted to:
-- Trade security for speed or convenience
-- Assume safety where it is not explicitly enforced
-
-When in doubt:
-- Reject the approach
-- Propose a secure alternative
