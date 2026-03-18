@@ -30,7 +30,7 @@ class PreferredFontStackType extends Type
      * @throws UnmappableObjectException
      */
     public function convertToPHPValue($value, AbstractPlatform $platform) {
-        return PreferredFontStack::makeFromKey($value);
+        return $value !== '' ? PreferredFontStack::makeFromKey($value): PreferredFontStack::makeFromKey('regular');
     }
 
     public function convertToDatabaseValue($value, AbstractPlatform $platform) {
