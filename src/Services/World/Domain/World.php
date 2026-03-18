@@ -158,7 +158,17 @@ class World extends AbstractDomainEntity
 
     public function isFullyConfigured(): bool {
 
-        //TODO - Put in a test here to prevent a world from having its basic configuration edited if it's not fully configured.
-        return false;
+
+        if ($this->getWorldCalendarSettings() === null) {
+            return false;
+        }
+        if ($this->getWorldCalendarSettings()->getWorldCalendarMonths()->isEmpty()) {
+            return false;
+        }
+
+        if ($this->getWorldCalendarSettings()->getDaysOfWeek()->isEmpty()) {
+            return false;
+        }
+        return true;
     }
 }

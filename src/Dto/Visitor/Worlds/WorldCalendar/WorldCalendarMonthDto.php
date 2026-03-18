@@ -24,6 +24,7 @@ class WorldCalendarMonthDto
             abbreviation: $month->getAbbreviation(),
             delta: $month->getDelta(),
             numberOfDays: $month->getNumberOfDays(),
+            id: $month->getId()
         );
     }
 }

@@ -118,10 +118,23 @@ class WorldsController extends AbstractBaseController
 
             }
 
-            foreach ($dto->months as $month) {
-                $mappedMonth= WorldCalendarMonth::makeFromDto($calendarSettings, $month);
-                $calendarSettings->addWorldCalendarMonth($mappedMonth);
+            foreach ($dto->months as $monthDto) {
+                if ($monthDto->id === null) {
+                    $mappedMonth = WorldCalendarMonth::makeFromDto($calendarSettings, $monthDto);
+                    $calendarSettings->addWorldCalendarMonth($mappedMonth);
+                } else {
+                    $monthId = $monthDto->id;
+                    $month = $calendarSettings->getWorldCalendarMonths()->findFirst(
+                        function (int $key, WorldCalendarMonth $month) use ($monthId) {
+                            return $month->getId() === $monthId;
+                        }
+                    );
+                    $month->setName($monthDto->name);
+                    $month->setAbbreviation($monthDto->abbreviation);
+                }
+
             }
+            $this->addFlash('success', 'World settings saved.');
             $this->worldService->saveWorld($world);
 
         }
