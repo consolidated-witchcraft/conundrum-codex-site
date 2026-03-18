@@ -6,16 +6,21 @@
             <a href="#feats">Feats</a>
             <a href="#games">Games</a>
             <a href="#invitations">Invitations</a>
-            <a href="#addresses">Addresses</a>
-            <a href="#orders">Orders</a>
+            {% if feature_enabled('EVENTS_SYSTEM') %}
+                <a href="#addresses">Addresses</a>
+                <a href="#orders">Orders</a>
+            {% endif %}
         </nav>
         <div class="tab-content-container">
+
             {% embed 'visitor/account/partials/accountTabs/_accountDetails.html.twig' with {'user': user} %}{% endembed %}
             {% embed 'visitor/account/partials/accountTabs/_feats.html.twig' with {'user': user} %}{% endembed %}
             {% embed 'visitor/account/partials/accountTabs/_games.html.twig' with {'user': user} %}{% endembed %}
             {% embed 'visitor/account/partials/accountTabs/_invitations.html.twig' with {'user': user} %}{% endembed %}
-            {% embed 'visitor/account/partials/accountTabs/_addresses.html.twig' with {'user': user} %}{% endembed %}
-            {% embed 'visitor/account/partials/accountTabs/_orders.html.twig' with {'orders': user.getOrders} %}{% endembed %}
+            {% if feature_enabled('EVENTS_SYSTEM') %}
+                {% embed 'visitor/account/partials/accountTabs/_addresses.html.twig' with {'user': user} %}{% endembed %}
+                {% embed 'visitor/account/partials/accountTabs/_orders.html.twig' with {'orders': user.getOrders} %}{% endembed %}
+            {% endif %}
         </div>
     </div>
 {% endblock %}

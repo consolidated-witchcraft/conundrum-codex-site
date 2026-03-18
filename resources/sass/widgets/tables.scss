@@ -8,6 +8,11 @@ table {
     border-collapse: collapse;
     width: 100%;
     margin-bottom: spacing.$baseSpacing;
+    border: none;
+    border-radius: var(--baseBorderRadius);
+    overflow: hidden;
+    box-shadow: var(--subtleBoxShadow);
+
 
     tbody,
     thead,
@@ -18,8 +23,7 @@ table {
             padding: spacing.$gutter;
             text-align: left;
             font-size: 1rem;
-            border: dimension.$baseBorderWidth solid var(--colorBlue);
-
+            border: dimension.$thinBorderWitch solid var(--colorCrimsonDarker);
             .btn, button {
                 margin-bottom: 0 !important;
             }
@@ -28,8 +32,9 @@ table {
     thead {
         tr {
             th, td {
-                background: var(--blueGradient);
-                color: var(--colorWhite);
+                background: var(--crimsonGradient);
+                color: var(--colorOffWhite);
+                text-shadow: var(-effectsEngravedShadow);
 
 
             }
@@ -41,14 +46,18 @@ table {
 
     tbody {
         tr {
-            background-color: var(--colorWhite);
+            background-color: var(--colorOffWhite);
 
             &:nth-child(even) {
-                background-color: var(--colorOffWhite);
+                background-color: var(--colorOffWhiteDarker);
             }
 
             .btn, button {
                 margin-bottom: 0 !important;
+            }
+
+            td {
+                box-shadow: inset 0 0.125rem 0.15rem rgba(80, 50, 20, 0.3333333);
             }
         }
     }

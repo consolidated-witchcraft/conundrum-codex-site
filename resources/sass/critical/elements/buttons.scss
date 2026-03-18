@@ -16,7 +16,7 @@
         border: dimension.$mediumBorderWidth solid transparent;
         border-image: url("/dist/images/gold-frame.svg") 33%;
         overflow: hidden;
-        text-shadow: -1px -1px 0 rgba(0, 0, 0, 0.25), 1px 1px 0 rgba(255, 255, 255, 0.25);
+        text-shadow: var(--effectsEngravedShadow);
         text-align: center;
         letter-spacing: 0.04em;
 

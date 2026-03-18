@@ -106,26 +106,45 @@ nav.pagination {
 
         a, span, em {
             padding: spacing.$gutter;
-
-            border-radius: var(--baseBorderRadius);
+            position: relative;
             font-weight: bold;
             margin-right: spacing.$baseSpacing;
-            border: dimension.$baseBorderWidth solid var(--colorCrimson);
+            border: dimension.$thickBorderWidth double var(--colorCrimson);
+            border-radius: var(--baseBorderRadius);
             transition: all var(--animationSpeedFast) ease-in-out;
             transition-property: background-color, color, border-color;
-
+            z-index: 2;
             &:last-child {
                 margin-right: 0;
             }
+            &:before {
+                content: " ";
+                display: block;
+                pointer-events: none;
+                position: absolute;
+                top: math.div(dimension.$thickBorderWidth, 2);
+                left: math.div(dimension.$thickBorderWidth, 2);
+                bottom: math.div(dimension.$thickBorderWidth, 2);
+                right: math.div(dimension.$thickBorderWidth, 2);
+                background: var(--crimsonGradient);
+                z-index:-1;
+                transition: opacity var(--animationSpeedFast) ease-in-out;
+                opacity: 0;
+            }
         }
+
+
 
         a {
 
             &.active,
             &:hover,
             &:focus {
-                background-color: var(--colorCrimson);
+
                 color: var(--colorWhite);
+                &:before {
+                    opacity: 1;
+                }
             }
         }
 

@@ -1,3 +1,5 @@
+@use 'sass:math';
+
 /**
 * Nav Dimensions
  */
@@ -11,3 +13,4 @@ $baseBorderWidth: 0.075rem;
 $mediumBorderWidth: $baseBorderWidth * 2;
 $thickBorderWidth: $baseBorderWidth * 3;
 $extraThickBorderWidth: $baseBorderWidth * 4;
+$thinBorderWitch: math.div($baseBorderWidth, 2);

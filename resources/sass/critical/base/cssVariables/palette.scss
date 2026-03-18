@@ -40,6 +40,8 @@ $effectsSilver: repeating-linear-gradient(33deg, #616161, #C8C8C8FF, #fff, #c8c8
     * Variants
      */
 
+    --colorOffWhiteDarker: #{color.adjust($offWhite, $saturation: +10%, $lightness: -6.25%)};
+
     --colorInkHighlight: #{color.adjust($ink, $saturation: +10%, $lightness: +10%)};
     --colorCharcoalHighlight: #{color.adjust($charcoal, $saturation: +10%, $lightness: +10%)};
     --colorCrimsonHighlight: #{color.adjust($crimson, $saturation: +10%, $lightness: +10%)};
