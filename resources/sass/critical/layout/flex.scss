@@ -5,6 +5,8 @@ main {
     margin: 0;
     padding: 0 spacing.$mobileContainerPadding;
     min-height: 100vh - (dimension.$mobileHeaderHeight * 2);
+    width: 100vw;
+    overflow-x: hidden;
 
     .row {
         display: flex;
@@ -18,6 +20,7 @@ main {
         .col {
             flex: 1;
             padding: 0 spacing.$gutter;
+
             &:first-child {
                 padding-left: 0;
             }
@@ -39,6 +42,14 @@ main {
         .row {
             flex-direction: row;
 
+            .col {
+                display: flex;
+                flex-direction: column;
+
+                &:not(:last-child) {
+                    margin-bottom: 0;
+                }
+            }
 
             &.two-thirds-one-third {
                 .col {

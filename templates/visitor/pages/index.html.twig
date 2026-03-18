@@ -1,7 +1,7 @@
 {% extends 'base/base.html.twig' %}
 {% set noTitle = true %}
 {% block body %}
-    <div class="row flush three-quarters-one-quarter hide-sm">
+    <div class="row flush centered hide-sm">
         <div class="col">
             <div class="hero">
                 <img src="/dist/images/hero2.webp" alt="A puzzled party of adventurers poring over a scroll" class="hero-backer">
@@ -15,19 +15,8 @@
                 </div>
             </div>
         </div>
-        <div class="col">
-            <div class="decorative-frame">
-                <h2 class="fancy">Puzzle Templates</h2>
-                <nav class="puzzle-categories lozenges grid">
-                    {%  for template in templates %}
-                        <a href="{{ path('app.puzzles.template.show', {templateSlug: template.getSlug}) }}">{{ template.getTitle }}</a>
-                    {% endfor %}
-                </nav>
-            </div>
-
-        </div>
     </div>
-    <div class="row flush bordered three-quarters-one-quarter">
+    <div class="row three-quarters-one-quarter bordered">
         <div class="col">
             <p class="drop-cap">{{ siteName }} is designed to help online games-masters of tabletop RPGs set give remote players the full RPG experience, regardless of neurodiversity and cognitive differences.</p>
             <p>We're community driven, and offer many different types of tools that can be customised to meet the needs of your game and setting.</p>
@@ -44,10 +33,18 @@
             </p>
         </div>
         <div class="col">
+            <div class="decorative-frame">
+                <h2 class="fancy">Puzzle Templates</h2>
+                <nav class="puzzle-categories lozenges grid">
+                    {%  for template in templates %}
+                        <a href="{{ path('app.puzzles.template.show', {templateSlug: template.getSlug}) }}">{{ template.getTitle }}</a>
+                    {% endfor %}
+                </nav>
+            </div>
+            <hr>
             <blockquote is="random-quotation">
             </blockquote>
         </div>
-
     </div>
 {% endblock %}
 {% block footerStyles %}
