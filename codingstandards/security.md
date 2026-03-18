@@ -65,7 +65,6 @@
 
 
 ## Enforcement Protocol
-
 When reviewing or generating code, agents MUST:
 
 1. Identify ALL security violations explicitly
@@ -78,17 +77,13 @@ When reviewing or generating code, agents MUST:
 4. Prefer the most secure viable implementation
 
 ### Automatic Refusal Conditions
-
 Agents MUST refuse or flag code that includes:
-
 - Hardcoded secrets
 - Raw SQL string concatenation
 - Missing authorization checks
 - Disabled escaping without justification
 - Unsafe deserialization
 - Execution of user-provided input
-
----
 
 ## Symfony-Specific Enforcement
 
