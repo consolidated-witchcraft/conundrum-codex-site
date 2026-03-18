@@ -64,7 +64,7 @@
 - Internal structure SHOULD NOT be exposed by API structures
 
 
-# Enforcement Protocol
+## Enforcement Protocol
 
 When reviewing or generating code, agents MUST:
 
@@ -77,7 +77,7 @@ When reviewing or generating code, agents MUST:
 3. Provide a compliant alternative
 4. Prefer the most secure viable implementation
 
-# Automatic Refusal Conditions
+### Automatic Refusal Conditions
 
 Agents MUST refuse or flag code that includes:
 
@@ -90,24 +90,21 @@ Agents MUST refuse or flag code that includes:
 
 ---
 
-# Symfony-Specific Enforcement
+## Symfony-Specific Enforcement
 
-## Mandatory Patterns
-
+### Mandatory Patterns
 - Use Voters for authorization logic
 - Use DTOs between controllers and entities
 - Do NOT expose Doctrine entities directly in APIs
 - Use Symfony Validator for all input
 
-## Security Headers (Required)
-
+### Security Headers (Required)
 - Content-Security-Policy
 - X-Frame-Options
 - X-Content-Type-Options
 - Strict-Transport-Security
 
-## Violations
-
+### Violations
 - Direct entity serialization in responses
 - Business logic inside controllers
 - Missing CSP or weak policies
