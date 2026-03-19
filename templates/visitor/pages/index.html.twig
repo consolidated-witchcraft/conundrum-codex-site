@@ -4,7 +4,7 @@
     <div class="row flush centered hide-sm">
         <div class="col">
             <div class="hero">
-                <img src="/dist/images/hero2.webp" alt="A puzzled party of adventurers poring over a scroll" class="hero-backer">
+                <img src="/dist/images/hero2.webp" alt="Introduce the Dragon to the World - David Revoy" class="hero-backer" is="lazy-image" loading="lazy">
                 <div class="hero-content">
                     <h1 class="hero-heading" content="Welcome to the Conundrum Codex">Welcome to the Conundrum Codex</h1>
                     <div class="hero-body">
@@ -27,7 +27,7 @@
                 <p>We're community driven, and offer many different types of tools that can be customised to meet the needs of your game and setting.</p>
                 <p>We also offer interactive puzzles that you can set remotely and allow players to respond to, either individually or collaboratively.</p>
                 <p><strong>This site is in early Alpha!</strong> Bugs are to be expected. Please use the <a href="{{ path('app.bugs.report') }}">bugs report</a> system to report them if you find them.</p>
-                <img src="/dist/images/hero.webp" alt="A puzzled party of adventurers poring over a scroll" class="frame-watermark">
+                <img is="lazy-image" loading="lazy" src="/dist/images/illustrations/resized/for_Huion_by-David-Revoy_medium.webp" alt="For Huion - David Revoy" class="frame-watermark">
             </div>
         </div>
         <div class="col">
@@ -40,7 +40,7 @@
                     <li><strong>Events</strong> - Generate digital tickets for your events and sell them online!</li>
                     <li>And many more to come!</li>
                 </ul>
-                <img src="/dist/images/illustrations/blue-crystal.webp" alt="Blue Crystal - David Revoy" class="frame-watermark">
+                <img is="lazy-image" loading="lazy" src="/dist/images/illustrations/resized/blue-crystal_medium.webp" alt="Blue Crystal - David Revoy" class="frame-watermark">
             </div>
         </div>
         <div class="col">
@@ -51,7 +51,7 @@
                         <a href="{{ path('app.puzzles.template.show', {templateSlug: template.getSlug}) }}">{{ template.getTitle }}</a>
                     {% endfor %}
                 </nav>
-                <img src="/dist/images/illustrations/new-skill.webp" alt="Warrior by David Revoy" class="frame-watermark">
+                <img is="lazy-image" loading="lazy" src="/dist/images/illustrations/resized/new-skill_medium.webp" alt="Warrior by David Revoy" class="frame-watermark">
             </div>
         </div>
     </div>
