@@ -1,7 +1,7 @@
 <article class="card {% if game.isArchived %}archived{% endif %} {% if game.getHeroImageFile %} has-hero{% endif %}">
     <h3 class="card-title lg" content="{{ game.getName }}">{{ game.getName }}</h3>
     {% if game.getHeroImageFile %}
-        <img class="card-hero" src="{{ game.getHeroImageFile.getPath }}" alt="{{ game.getName }}">
+        <img class="card-hero" src="{{ game.getHeroImageFile.getPath }}" alt="{{ game.getName }}" loading="lazy" is="lazy-image">
     {% endif %}
 
 
