@@ -18,7 +18,7 @@ $noiseScale: 30rem;
     padding-bottom: $watermarkHeight;
     background:
         var(--parchmentNoise),
-        linear-gradient(to bottom, rgba(255, 228, 164, 1), rgba(255, 243, 201, 1));
+        var(--vellumGradient);
     background-size: $noiseScale $noiseScale, 100% 100%;
     background-blend-mode: overlay;
     box-shadow: var(--decorativeFrameShadow);

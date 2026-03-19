@@ -11,10 +11,10 @@ nav.breadcrumbs {
     nav.breadcrumbs {
         display: flex;
         flex-direction: row;
-        background: var(--whiteGradient);
+        background: var(--vellumGradient);
         box-shadow: var(--baseBoxShadow);
-        border: dimension.$baseBorderWidth solid transparent;
-        border-image: var(--effectsGold) 25%;
+        border: dimension.$mediumBorderWidth solid transparent;
+        border-image: var(--goldFrame) 33%;
         border-radius: var(--baseBorderRadius);
         margin: 0 0 spacing.$baseSpacing 0;
         padding: 0 spacing.$gutter;
@@ -27,6 +27,7 @@ nav.breadcrumbs {
             line-break: strict;
             white-space: nowrap;
             position: relative;
+            border: none;
 
             &:not(:last-child) {
                 padding-right: spacing.$gutter;
@@ -38,10 +39,10 @@ nav.breadcrumbs {
                     top: -50%;
                     right: 0;
                     display: block;
-                    width: dimension.$baseBorderWidth;
+                    border-right: dimension.$mediumBorderWidth solid transparent;
+                    border-image: var(--goldFrame) 33%;
                     height: 200%;
                     pointer-events: none;
-                    background: var(--effectsGold);
                     transform: rotate(33deg);
                 }
             }

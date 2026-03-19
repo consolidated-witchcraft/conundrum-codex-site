@@ -4,6 +4,8 @@
 @use '../critical/base/sassVariables/spacing';
 @use '../critical/base/sassVariables/dimension';
 
+$noiseScale: 50rem;
+
 .tabs-element {
     margin: math.div(spacing.$baseSpacing, 4) 0;
 
@@ -19,7 +21,9 @@
             color: var(--colorInk);
             font-weight: bold;
             font-size: 0.75rem;
-            border: none;
+            border: dimension.$thickBorderWidth solid transparent;
+            border-image: var(--goldFrame) 33%;
+            border-bottom: none;
             text-align: center;
             transition: all var(--animationSpeedNormal) ease-in-out;
             transition-property: color, background-color;
@@ -37,12 +41,14 @@
             display: none;
         }
         .tab-content {
-            border-top: dimension.$mediumBorderWidth solid var(--colorCrimson);
+            border: dimension.$mediumBorderWidth solid transparent;
+            border-image: var(--goldFrame) 33%;
             background-color: var(--colorWhite);
             min-height: 33vh;
             opacity: 0;
             transition: opacity var(--animationSpeedNormal) ease-in-out;
             pointer-events: none;
+
             &.active {
                 opacity: 1;
                 pointer-events: all;
@@ -77,7 +83,7 @@
                 border-radius: var(--baseBorderRadius) var(--baseBorderRadius) 0 0;
                 box-shadow: var(--baseBoxShadow);
                 margin-right: math.div(spacing.$baseSpacing, 4);
-                background-color: var(--colorOffWhite);
+                background: var(--vellumGradient);
                 position: relative;
                 color: var(--colorInk);
 
@@ -89,7 +95,7 @@
                 &.active, &:hover, &:focus, &:active {
 
                     color: var(--colorWhite);
-                    background-color: var(--colorCrimson);
+                    background: var(--crimsonGradient);
 
                 }
             }
@@ -99,12 +105,15 @@
                 display: initial;
             }
             .tab-content {
-                background: var(--whiteGradient);
+                background:
+                    var(--parchmentNoise),
+                    var(--vellumGradient);
+                background-size: $noiseScale $noiseScale, 100% 100%;
+                background-blend-mode: overlay;
+                box-shadow: var(--decorativeFrameShadow);
                 border-top: dimension.$mediumBorderWidth solid var(--colorCrimson);
                 z-index: 998;
-                box-shadow: var(--baseBoxShadow);
                 padding: math.div(spacing.$baseSpacing, 2);
-                box-shadow: var(--baseBoxShadow);
                 border-radius: 0 0 var(--baseBorderRadius) var(--baseBorderRadius);
             }
         }

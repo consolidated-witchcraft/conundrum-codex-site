@@ -4,6 +4,7 @@
 @use '../base/sassVariables/spacing';
 @use '../base/sassVariables/dimension';
 
+
 nav.lozenges {
     display: flex;
     flex-direction: row;
@@ -158,6 +159,19 @@ nav.pagination {
     td {
         nav.secondary {
             margin-bottom: 0;
+        }
+    }
+
+    nav.letter-picker {
+        display: flex;
+        flex-direction: row;
+
+        a, span {
+            display: inline-block;
+            flex: 1;
+            font-weight: bold;
+            font-size: 110%;
+            padding: spacing.$gutter;
         }
     }
 }

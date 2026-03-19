@@ -1,10 +1,11 @@
 @use 'sass:color';
 
 $vellum: #f3e0bb;
+$vellumDarker: color.adjust($vellum, $saturation: -10%, $lightness: -15%);
 $charcoal: #040404;
 $ink: #2e251a;
 $offWhite: #efede7;
-$cream: #f1e5d7;
+$cream: #e4cfb7;
 $crimson: #790000;
 $white: #f8f6f6;
 $green: #008714;
@@ -41,6 +42,7 @@ $effectsSilver: repeating-linear-gradient(33deg, #616161, #C8C8C8FF, #fff, #c8c8
      */
 
     --colorOffWhiteDarker: #{color.adjust($offWhite, $saturation: +10%, $lightness: -6.25%)};
+    --colorVellumDarker: #{color.adjust($vellum, $saturation: +10%, $lightness: -6.25%)};
 
     --colorInkHighlight: #{color.adjust($ink, $saturation: +10%, $lightness: +10%)};
     --colorCharcoalHighlight: #{color.adjust($charcoal, $saturation: +10%, $lightness: +10%)};

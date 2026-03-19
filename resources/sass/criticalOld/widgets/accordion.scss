@@ -7,7 +7,7 @@
 .accordion-list {
     box-shadow: palette.$baseBoxShadow;
     border: variables.$baseBorderWidth solid transparent;
-    border-image: palette.$goldFX 25%;
+    border-image: var(--goldFrame) 33%;
     margin-bottom: math.div(variables.$base-spacing, 2);
     article {
         padding: 0;
@@ -25,7 +25,7 @@
             margin-bottom: 0;
             cursor: pointer;
             border-bottom: variables.$baseBorderWidth solid transparent;
-            border-image: palette.$goldFX 25%;
+            border-image: var(--goldFrame) 33%;
 
             &:after {
                 content: "^";

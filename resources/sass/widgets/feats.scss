@@ -130,7 +130,8 @@ $feat-height-sm: 2rem;
 
 .feat-legend {
     margin: 0 auto;
-    background: var(--whiteGradient);
+    background: var(--inkGradient);
+    color: var(--colorOffWhite);
     margin-top: spacing.$gutter;
     box-shadow: var(--baseBoxShadow);
     border-radius: var(--baseBorderRadius);

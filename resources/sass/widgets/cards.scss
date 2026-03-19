@@ -13,7 +13,7 @@
     overflow: hidden;
     border-radius: var(--border-radius);
     border: dimension.$mediumBorderWidth solid transparent;
-    border-image: var(--effectsGold) 33%;
+    border-image: var(--goldFrame) 33%;
     margin-bottom: spacing.$baseSpacing;
     text-align: left;
 
@@ -70,7 +70,7 @@
         z-index: 1;
         border-top: dimension.$thickBorderWidth solid transparent;
         border-image: var(--effectsGold) 33%;
-        background: var(--offWhiteGradient);
+        background: var(--creamGradient);
         flex-grow: 2;
 
     }
@@ -81,7 +81,7 @@
         background: var(--inkGradient);
         padding: spacing.$gutter;
         border-top: dimension.$thickBorderWidth solid transparent;
-        border-image: var(--effectsGold) 33%;
+        border-image: var(--goldFrame) 33%;
 
         .btn {
             display: block;

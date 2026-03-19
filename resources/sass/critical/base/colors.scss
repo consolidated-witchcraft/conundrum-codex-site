@@ -17,7 +17,11 @@
 
 html {
     body {
-        background: palette.$vellum radial-gradient(circle at 50% 50%, palette.$vellum 66%, color.adjust(palette.$vellum, $saturation: +10%, $lightness: -5%) 100%);
+        background: palette.$vellum
+            radial-gradient(
+                circle at 50% 50%, palette.$cream 66%,
+                color.adjust(palette.$cream, $saturation: +10%, $lightness: -5%) 100%
+            );
         position: relative;
 
         &:after,

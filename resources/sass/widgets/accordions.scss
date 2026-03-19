@@ -3,11 +3,11 @@
 
 @use '../critical/base/sassVariables/spacing';
 @use '../critical/base/sassVariables/dimension';
-
+$noiseScale: 30rem;
 .accordion-list {
     box-shadow: var(--baseBoxShadow);
-    border: dimension.$baseBorderWidth solid transparent;
-    border-image: var(--effectsGold) 33%;
+    border: dimension.$thickBorderWidth solid transparent;
+    border-image: var(--goldFrame) 33%;
     margin-bottom: math.div(spacing.$baseSpacing, 2);
     article {
         padding: 0;
@@ -27,10 +27,17 @@
             position: relative;
             margin-bottom: 0;
             cursor: pointer;
-            border-bottom: dimension.$mediumBorderWidth solid transparent;
-            border-image: var(--effectsGold) 33%;
+            border: dimension.$thickBorderWidth solid transparent;
+            border-image: var(--goldFrame) 33%;
+            border-left: none;
+            border-right: none;
             text-shadow: var(-effectsEngravedShadow);
             box-shadow: inset 0 0 2rem rgba(0, 0, 0, 0.5);
+
+            &:first-child {
+                border-top: none;
+            }
+
 
             &:before, &:after {
                 content: "";
@@ -76,8 +83,12 @@
             max-height: 0;
             overflow: hidden;
             transition: max-height var(--animationSpeedNormal) ease-in-out;
-            background: var(--colorOffWhite);
-            box-shadow: inset 0 0.125rem 0.3rem rgba(80, 50, 20, 0.5);
+            background:
+                var(--parchmentNoise),
+                var(--vellumGradient);
+            background-size: $noiseScale $noiseScale, 100% 100%;
+            background-blend-mode: overlay;
+            box-shadow: var(--decorativeFrameShadow);
 
 
             .accordion-content {
