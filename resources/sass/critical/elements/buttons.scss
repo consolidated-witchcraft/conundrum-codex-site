@@ -13,8 +13,8 @@
         margin-bottom: spacing.$gutter;
         box-shadow: var(--baseBoxShadow);
         color: var(--colorOffWhite);
-        border: dimension.$mediumBorderWidth solid transparent;
-        border-image: url("/dist/images/gold-frame.svg") 33%;
+        border: dimension.$thickBorderWidth solid saddlebrown;
+        border-image: var(--goldFrame) 33%;
         overflow: hidden;
         text-shadow: var(--effectsEngravedShadow);
         text-align: center;

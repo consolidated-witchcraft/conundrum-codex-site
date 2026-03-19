@@ -3,6 +3,7 @@
 @use '../base/sassVariables/dimension';
 @use '../base/sassVariables/spacing';
 
+$noiseScale: 30rem;
 label {
     display: flex;
     flex: 1;
@@ -13,7 +14,7 @@ label {
 input,
 textarea {
     display: flex;
-    border: dimension.$thickBorderWidth solid transparent;
+    border: dimension.$extraThickBorderWidth solid transparent;
     border-image: var(--erodedFrameWhiteInner) 33%;
     background-color: var(--colorWhite);
     padding: math.div(spacing.$baseSpacing, 2);
@@ -31,7 +32,7 @@ textarea {
 .email-wrapper {
     position: relative;
     background-color: var(--colorWhite);
-    border: dimension.$thickBorderWidth solid transparent;
+    border: dimension.$extraThickBorderWidth solid transparent;
     border-image: var(--erodedFrameWhiteInner) 33%;
     padding-left: 3rem;
 
@@ -64,7 +65,7 @@ textarea {
 .money-widget {
     position: relative;
     background-color: var(--colorWhite);
-    border: dimension.$thickBorderWidth solid transparent;
+    border: dimension.$extraThickBorderWidth solid transparent;
     border-image: var(--erodedFrameWhiteInner) 33%;
     padding-left: 3rem;
 
@@ -123,7 +124,7 @@ textarea {
         }
         &:before {
 
-            border: dimension.$thickBorderWidth solid transparent;
+            border: dimension.$extraThickBorderWidth solid transparent;
             border-image: var(--erodedFrameWhiteInner) 33%;
             background-color: var(--colorWhite);
 
@@ -132,7 +133,7 @@ textarea {
         &:after {
             transition: opacity var(--animationSpeedNormal) ease-in-out;
             content: "\2714";
-            border: dimension.$thickBorderWidth solid transparent;
+            border: dimension.$extraThickBorderWidth solid transparent;
             opacity: 0;
         }
 
@@ -230,7 +231,7 @@ textarea {
 }
 
 select {
-    border: dimension.$thickBorderWidth solid transparent;
+    border: dimension.$extraThickBorderWidth solid transparent;
     border-image: var(--erodedFrameWhiteInner) 33%;
     background-color: var(--colorWhite);
     padding: math.div(spacing.$baseSpacing, 4);
@@ -244,9 +245,14 @@ select {
 }
 
 .address-form-element {
-    box-shadow: var(--baseBoxShadow);
+
     border-radius: var(--baseBorderRadius);
-    background: var(--whiteGradient);
+    background: var(--parchmentNoise),
+        var(--vellumGradient);
+    background-size: $noiseScale $noiseScale, 100% 50%;
+    background-repeat: no-repeat;
+    background-blend-mode: overlay;
+    box-shadow: var(--baseBoxShadow);
 
     padding: math.div(spacing.$baseSpacing, 2);
     margin: math.div(spacing.$baseSpacing, 2) 0;

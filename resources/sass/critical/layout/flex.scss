@@ -13,6 +13,10 @@ main {
         flex-direction: column;
         margin: 0 0 spacing.$baseSpacing 0;
 
+        &.hide-sm {
+            display: none;
+        }
+
         &.title-container {
             margin-bottom: 0;
         }
@@ -20,13 +24,6 @@ main {
         .col {
             flex: 1;
             padding: 0 spacing.$gutter;
-
-            &:first-child {
-                padding-left: 0;
-            }
-            &:last-child {
-                padding-right: 0;
-            }
 
             &:not(:last-child) {
                 margin-bottom: spacing.$baseSpacing;
@@ -40,6 +37,9 @@ main {
         padding: 0 spacing.$desktopContainerPadding;
 
         .row {
+            &.hide-sm {
+                display: flex;
+            }
             flex-direction: row;
 
             .col {
@@ -49,6 +49,13 @@ main {
                 &:not(:last-child) {
                     margin-bottom: 0;
                 }
+                &:first-child {
+                    padding-left: 0;
+                }
+                &:last-child {
+                    padding-right: 0;
+                }
+
             }
 
             &.two-thirds-one-third {

@@ -30,6 +30,7 @@ $logoHeight: 8vh;
         position: relative;
         transition: opacity var(--animationSpeedNormal) ease-in-out;
         padding: spacing.$baseSpacing;
+        padding-bottom: 0;
 
         a.header-logo {
             display: block;

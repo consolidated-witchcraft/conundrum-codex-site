@@ -20,7 +20,7 @@ nav.lozenges {
         font-weight: 800;
         font-size: 1rem;
         flex: 1;
-        border: dimension.$thickBorderWidth solid transparent;
+        border: dimension.$extraThickBorderWidth solid transparent;
         border-image: var(--erodedFrameTan) 33%;
         text-align: center;
         position: relative;

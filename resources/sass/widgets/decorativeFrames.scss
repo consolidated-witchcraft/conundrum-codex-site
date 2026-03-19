@@ -3,21 +3,51 @@
 @use '../critical/base/sassVariables/spacing';
 @use '../critical/base/sassVariables/dimension';
 
-$watermarkHeight: 20vh;
+$watermarkHeight: 30vh;
+$frameWidth: 5rem;
+$noiseScale: 30rem;
 
 .decorative-frame {
     position: relative;
-    padding: spacing.$baseSpacing;
+    padding: spacing.$gutter + math.div($frameWidth, 2);
     background: var(--creamGradient);
-    box-shadow: var(--baseBoxShadow);
     display: flex;
     flex: 1;
     flex-grow: 2;
     flex-direction: column;
     padding-bottom: $watermarkHeight;
+    background:
+        var(--parchmentNoise),
+        linear-gradient(to bottom, rgba(255, 228, 164, 1), rgba(255, 243, 201, 1));
+    background-size: $noiseScale $noiseScale, 100% 100%;
+    background-blend-mode: overlay;
+    box-shadow: var(--decorativeFrameShadow);
 
-    > p, > ul {
-        text-shadow: 0 0 0.25rem var(--colorOffWhite), 0 0 0.125rem var(--colorOffWhite), 0 0 0.067rem var(--colorOffWhite);
+    box-sizing: border-box;
+    z-index: 1;
+
+    &:before, &:after {
+        content: " ";
+        display: block;
+        position: absolute;
+        pointer-events: none;
+        box-sizing: border-box;
+        top: 0;
+        left: 0;
+        bottom: 0;
+        right: 0;
+    }
+
+    &:after {
+        background-color: transparent;
+        border: 1.25rem solid transparent;
+        border-image: var(--fancyFrame) 33%;
+        z-index: 2;
+    }
+
+    > * {
+        position: relative;
+        z-index: 1;
     }
 
     .frame-title {
@@ -26,37 +56,6 @@ $watermarkHeight: 20vh;
         font-size: 200%;
     }
 
-    &:before, &:after {
-        content: " ";
-        display: block;
-        top: 0;
-        left: 0;
-        bottom: 0;
-        right: 0;
-        position: absolute;
-        pointer-events: none;
-    }
-
-    &:before {
-        filter: contrast(170%);
-        background-image: var(--fractalNoise);
-        background-size: 128px 128px;
-        mix-blend-mode: multiply;
-        opacity: 0.3;
-        z-index: -1;
-    }
-
-    &:after {
-        border: 1.5rem solid transparent;
-        border-image: url("/dist/images/decorative_frame.svg") 33%;
-        z-index: 1;
-        opacity: 0.75;
-    }
-
-    > * {
-        position: relative;
-        z-index: 1;
-    }
 
     img.frame-watermark {
         position: absolute;
@@ -67,7 +66,7 @@ $watermarkHeight: 20vh;
         width: 100%;
         mask-image: url("/dist/images/paint-mask-top-2.webp");
         mask-size: contain;
-        opacity: 0.6;
+        opacity: 1;
 
         object-fit: cover;
     }
