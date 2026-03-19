@@ -24,6 +24,7 @@
         border: 1.25rem solid transparent;
         border-image: var(--fancyFrame) 33%;
         z-index: 2;
+        pointer-events: none;
     }
 
     img.hero-backer {
@@ -63,7 +64,8 @@
             mask-size: 25vw;
             mask-position: right;
             mask-repeat: repeat-y;
-            background: rgba(0, 0, 0, 0.9)
+            background: rgba(0, 0, 0, 0.9);
+            pointer-events: none;
         }
     }
 
