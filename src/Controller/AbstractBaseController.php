@@ -149,7 +149,17 @@ abstract class AbstractBaseController extends AbstractController
 
         if ($user instanceof User) {
             $mainNav['games'] = $this->buildGamesItem($user);
+
+            if ($user->hasPermissionKey('admin_dash')) {
+                $mainNav['admin'] = new NavItem(
+                    handle: 'admin',
+                    label: 'Admin Dashboard',
+                    route: 'admin.dashboard'
+                );
+            }
         }
+
+
 
         if ($this->featureSwitcherService->isFeatureEnabled('EVENTS_SYSTEM')) {
             $mainNav['events'] = new NavItem(

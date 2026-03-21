@@ -10,23 +10,31 @@ ul.stars {
     flex-direction: column;
 
     li {
-        position: relative;
-        flex: 1;
-        padding-left: spacing.$baseSpacing + 1rem;
-        margin: spacing.$gutter 0;
+        margin-bottom: spacing.$gutter;
+    }
+}
 
-        &:before {
-            content: "*";
-            position: absolute;
-            left: 0;
-            width: spacing.$baseSpacing;
-            text-shadow: none;
-            height: 100%;
-            color: transparent;
-            background-image: var(--erodedStar);
-            background-size: contain;
-            background-repeat: no-repeat;
-            background-position: top left;
+@media only screen and (min-width: spacing.$mobileBreakPointUpper) {
+    ul.stars {
+        li {
+            position: relative;
+            flex: 1;
+            padding-left: spacing.$baseSpacing + 1rem;
+            margin: spacing.$gutter 0;
+
+            &:before {
+                content: "*";
+                position: absolute;
+                left: 0;
+                width: spacing.$baseSpacing;
+                text-shadow: none;
+                height: 100%;
+                color: transparent;
+                background-image: var(--erodedStar);
+                background-size: contain;
+                background-repeat: no-repeat;
+                background-position: top left;
+            }
         }
     }
 }

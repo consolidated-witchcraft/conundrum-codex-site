@@ -43,7 +43,12 @@ $noiseScale: 50rem;
         .tab-content {
             border: dimension.$mediumBorderWidth solid transparent;
             border-image: var(--goldFrame) 33%;
-            background-color: var(--colorWhite);
+            background:
+                var(--parchmentNoise),
+                var(--vellumGradient);
+            background-size: $noiseScale $noiseScale, 100% 100%;
+            background-blend-mode: overlay;
+            box-shadow: var(--decorativeFrameShadow);
             min-height: 33vh;
             opacity: 0;
             transition: opacity var(--animationSpeedNormal) ease-in-out;
@@ -105,12 +110,6 @@ $noiseScale: 50rem;
                 display: initial;
             }
             .tab-content {
-                background:
-                    var(--parchmentNoise),
-                    var(--vellumGradient);
-                background-size: $noiseScale $noiseScale, 100% 100%;
-                background-blend-mode: overlay;
-                box-shadow: var(--decorativeFrameShadow);
                 border-top: dimension.$mediumBorderWidth solid var(--colorCrimson);
                 z-index: 998;
                 padding: math.div(spacing.$baseSpacing, 2);

@@ -30,7 +30,7 @@
                                     <div class="avatar-wrapper">
                                         <img class="avatar thumbnail-xs"
                                              src="{{ user.getAvatar ? user.getAvatar.getPath : '/dist/images/default-avatar.webp' }}"
-                                             alt="{{ user.getUserName }}">
+                                             alt="{{ user.getUserName }}" is="lazy-image" loading="lazy">
                                     </div>
                                 </td>
                                 <td>

@@ -4,12 +4,13 @@
 @use '../critical/base/sassVariables/dimension';
 
 $watermarkHeight: 30vh;
-$frameWidth: 5rem;
+$desktopFrameWidth: 5rem;
+$mobileFrameWidth: 2rem;
 $noiseScale: 30rem;
 
 .decorative-frame {
     position: relative;
-    padding: spacing.$gutter + math.div($frameWidth, 2);
+    padding: spacing.$gutter + math.div($mobileFrameWidth, 4);
     background: var(--creamGradient);
     display: flex;
     flex: 1;
@@ -60,14 +61,22 @@ $noiseScale: 30rem;
     img.frame-watermark {
         position: absolute;
         bottom: 0;
-        right: 0;
+        left: 0;
         z-index: 0;
         height: $watermarkHeight;
         width: 100%;
-        mask-image: url("/dist/images/paint-mask-top-2.webp");
-        mask-size: contain;
+        mask-image: url("/dist/images/watercolor_mask_3.webp");
+
+
         opacity: 1;
 
         object-fit: cover;
+    }
+}
+
+@media only screen and (min-width: spacing.$mobileBreakPointUpper) {
+    .decorative-frame {
+        padding: spacing.$gutter + math.div($desktopFrameWidth, 2);
+        padding-bottom: $watermarkHeight;
     }
 }

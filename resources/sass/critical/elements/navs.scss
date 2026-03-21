@@ -56,7 +56,7 @@ nav.lozenges {
 
     &.grid {
         display: grid;
-        grid-template-columns: 1fr 1fr;
+        grid-template-columns: 1fr;
         row-gap: spacing.$baseSpacing;
         column-gap: spacing.$baseSpacing;
 
@@ -101,6 +101,12 @@ nav.pagination {
 
 
 @media only screen and (min-width: spacing.$mobileBreakPointUpper) {
+
+    nav.lozenges {
+        &.grid {
+            grid-template-columns: 1fr 1fr;
+        }
+    }
     nav.secondary {
         flex-direction: row;
         margin-bottom: spacing.$gutter;

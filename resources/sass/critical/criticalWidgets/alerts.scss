@@ -8,7 +8,7 @@
     position: absolute;
     z-index: 998;
     display: block;
-    padding: 0 spacing.$desktopContainerPadding;
+    padding: 0 spacing.$mobileContainerPadding;
     width: 100%;
 }
 
@@ -52,5 +52,11 @@ span.flash {
 
     &.flash-warning {
         background-color: var(--colorOrange);
+    }
+}
+
+@media only screen and (min-width: spacing.$mobileBreakPointUpper) {
+    .flash-container {
+        padding: 0 spacing.$desktopContainerPadding;
     }
 }

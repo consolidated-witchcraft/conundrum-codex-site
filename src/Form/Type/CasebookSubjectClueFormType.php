@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Form\Type;
 
 use App\Dto\Visitor\Puzzles\Static\Casebook\CasebookSubjectClueDto;
+use App\Form\Visitor\Puzzle\Static\Casebook\CasebookSubjectType;
 use App\Services\PuzzleInstance\Domain\Casebook\CasebookSubjectClueType;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
@@ -38,7 +39,7 @@ class CasebookSubjectClueFormType extends AbstractType
             'type',
             EntityType::class,
             [
-                'class' => CasebookSubjectClueFormType::class,
+                'class' => \App\Services\PuzzleInstance\Domain\Casebook\CasebookSubjectType::class,
                 'choice_label' => 'label',
                 'help' => 'Select a type for your clue.'
             ]

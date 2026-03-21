@@ -19,6 +19,7 @@
         text-shadow: var(--effectsEngravedShadow);
         text-align: center;
         letter-spacing: 0.04em;
+        width: 100%;
 
         &:before,
         &:after {
@@ -175,6 +176,7 @@
     .btn, button {
 
         &:not(.unstyle, .sf-toolbar-toggle-button) {
+            width: initial;
             display: inline-block;
         }
     }
