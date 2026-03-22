@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Services\Product\Domain;
 
 use App\Services\Core\Domain\AbstractDomainEntity;
-use App\Services\Files\Domain\ManagedFile;
+use App\Services\ManagedImages\Domain\ManagedImage;
 use App\Services\Product\Domain\ValueObjects\ProductType;
 use App\Services\Product\Infrastructure\ProductVariantRepository;
 use App\Services\User\Domain\User;
@@ -49,7 +49,7 @@ class ProductVariant extends AbstractDomainEntity
         #[ORM\Column(type: 'boolean')]
         private bool $requiresPostage = false,
 
-        #[ORM\ManyToMany(targetEntity: ManagedFile::class)]
+        #[ORM\ManyToMany(targetEntity: ManagedImage::class)]
         private Collection $productVariantImages = new ArrayCollection(),
 
         #[ORM\Column(type: 'datetime', nullable: true)]
@@ -161,11 +161,11 @@ class ProductVariant extends AbstractDomainEntity
         return $this->productVariantImages;
     }
 
-    public function addProductVariantImage(ManagedFile $productVariantImage): void {
+    public function addProductVariantImage(ManagedImage $productVariantImage): void {
         $this->productVariantImages->add($productVariantImage);
     }
 
-    public function removeProductVariantImage(ManagedFile $productVariantImage): void {
+    public function removeProductVariantImage(ManagedImage $productVariantImage): void {
         if ($this->productVariantImages->contains($productVariantImage)) {
             $this->productVariantImages->removeElement($productVariantImage);
         }

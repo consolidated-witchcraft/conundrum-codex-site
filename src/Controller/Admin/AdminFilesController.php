@@ -11,8 +11,8 @@ use App\Dto\Admin\File\AdminFileDto;
 use App\Form\Admin\Files\FileDeleteType;
 use App\Form\Admin\Files\FileEditType;
 use App\Services\FeatureSwitcher\Service\Interfaces\FeatureSwitcherServiceInterface;
-use App\Services\Files\Domain\ManagedFile;
-use App\Services\Files\Service\Interfaces\FilesEntityServiceInterface;
+use App\Services\ManagedFiles\Domain\ManagedFile;
+use App\Services\ManagedFiles\Service\Interfaces\ManagedFileServiceInterface;
 use App\Services\User\Domain\User;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
@@ -26,9 +26,9 @@ class AdminFilesController extends AbstractBaseController
     use GeneratesPagerTrait;
     use HandlesFileUploadsTrait;
     public function __construct(
-        private readonly EntityManagerInterface $entityManager,
-        private readonly FilesEntityServiceInterface $filesService,
-        FeatureSwitcherServiceInterface $featureSwitcherService,
+        private readonly EntityManagerInterface      $entityManager,
+        private readonly ManagedFileServiceInterface $filesService,
+        FeatureSwitcherServiceInterface              $featureSwitcherService,
     ){
         parent::__construct($featureSwitcherService);
     }
@@ -42,7 +42,7 @@ class AdminFilesController extends AbstractBaseController
     ): Response {
         $files = $this->filesService->findAllPaginated(firstResult: ($resultsPerPage * ($page-1)), maxResults: $resultsPerPage);
         $pageVars = [
-            'pageTitle' => 'Manage Files',
+            'pageTitle' => 'Manage ManagedFiles',
             'resultsPerPage' => $resultsPerPage,
             'pager' => $this->generatePager(
                 page: $page,

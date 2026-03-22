@@ -18,8 +18,9 @@ use App\Form\Admin\Users\AdminUserEditType;
 use App\Form\Admin\Users\AdminUserSearchType;
 use App\Services\Abuse\Service\AbuseReportService;
 use App\Services\FeatureSwitcher\Service\Interfaces\FeatureSwitcherServiceInterface;
-use App\Services\Files\Service\Interfaces\FilesEntityServiceInterface;
+use App\Services\ManagedFiles\Service\Interfaces\ManagedFileServiceInterface;
 use App\Services\Game\Service\Interfaces\GameEntityServiceInterface;
+use App\Services\ManagedImages\Services\Interfaces\ManagedImageServiceInterface;
 use App\Services\PuzzleInstance\Service\Interfaces\PuzzleInstanceEntityServiceInterface;
 use App\Services\User\Domain\User;
 use App\Services\User\Domain\UserBlock;
@@ -42,16 +43,17 @@ class AdminUserController extends AbstractBaseController
     use GeneratesPagerTrait;
 
     public function __construct(
-        private readonly UserServiceInterface $userService,
-        private readonly UserPasswordHasherInterface $userPasswordHasher,
-        private readonly ValidatorInterface $validator,
-        private readonly EntityManagerInterface $entityManager,
-        private readonly PuzzleInstanceEntityServiceInterface $puzzleInstanceService,
-        private readonly AbuseReportService $abuseReportService,
-        protected readonly SluggerInterface $slugger,
-        private readonly GameEntityServiceInterface $gameService,
-        private readonly FilesEntityServiceInterface $filesService,
-        FeatureSwitcherServiceInterface $featureSwitcherService,
+        private readonly UserServiceInterface                                                    $userService,
+        private readonly UserPasswordHasherInterface                                             $userPasswordHasher,
+        private readonly ValidatorInterface                                                      $validator,
+        private readonly EntityManagerInterface                                                  $entityManager,
+        private readonly PuzzleInstanceEntityServiceInterface                                    $puzzleInstanceService,
+        private readonly AbuseReportService                                                      $abuseReportService,
+        protected readonly SluggerInterface                                                      $slugger,
+        private readonly GameEntityServiceInterface                                              $gameService,
+        private readonly ManagedFileServiceInterface                                             $filesService,
+        private readonly ManagedImageServiceInterface                                            $managedImageService,
+        FeatureSwitcherServiceInterface                                                          $featureSwitcherService,
         #[Autowire('%kernel.project_dir%/public/uploads/images/avatar')] private readonly string $publicImagesDirectory
 
     ) {
@@ -103,7 +105,7 @@ class AdminUserController extends AbstractBaseController
         if ($form->isSubmitted() && $form->isValid()) {
             $imageFile = $form->get('avatar')->getData();
             if ($imageFile) {
-                $avatar = $this->handleFileUpload($imageFile, $this->publicImagesDirectory);
+                $avatar = $this->handleImageUpload($imageFile, $this->publicImagesDirectory, $user->getAvatar());
                 $user->setAvatar($avatar);
             }
             if (!$selfEditMode) {

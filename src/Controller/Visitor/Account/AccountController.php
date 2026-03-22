@@ -11,8 +11,9 @@ use App\Dto\Visitor\User\UserEditDto;
 use App\Form\Visitor\Account\ChangePasswordType;
 use App\Form\Visitor\Account\UserEditType;
 use App\Services\FeatureSwitcher\Service\Interfaces\FeatureSwitcherServiceInterface;
-use App\Services\Files\Service\Interfaces\FilesEntityServiceInterface;
+use App\Services\ManagedFiles\Service\Interfaces\ManagedFileServiceInterface;
 use App\Services\Game\Service\Interfaces\GameEntityServiceInterface;
+use App\Services\ManagedImages\Services\Interfaces\ManagedImageServiceInterface;
 use App\Services\User\Domain\User;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\DependencyInjection\Attribute\Autowire;
@@ -29,14 +30,15 @@ final class AccountController extends AbstractBaseController
     use HandlesFileUploadsTrait;
 
     public function __construct(
-        private readonly GameEntityServiceInterface $gameService,
-        private readonly EntityManagerInterface $entityManager,
-        private readonly ValidatorInterface $validator,
-        private readonly UserPasswordHasherInterface $passwordHasher,
-        protected readonly SluggerInterface $slugger,
-        protected readonly FilesEntityServiceInterface $filesService,
+        private readonly GameEntityServiceInterface                                              $gameService,
+        private readonly EntityManagerInterface                                                  $entityManager,
+        private readonly ValidatorInterface                                                      $validator,
+        private readonly UserPasswordHasherInterface                                             $passwordHasher,
+        protected readonly SluggerInterface                                                      $slugger,
+        protected readonly ManagedFileServiceInterface                                           $filesService,
+        protected readonly ManagedImageServiceInterface                                          $managedImageService,
         #[Autowire('%kernel.project_dir%/public/uploads/images/avatar')] private readonly string $publicImagesDirectory,
-        FeatureSwitcherServiceInterface $featureSwitcherService
+        FeatureSwitcherServiceInterface                                                          $featureSwitcherService
     ) {
         parent::__construct($featureSwitcherService);
     }
@@ -72,7 +74,7 @@ final class AccountController extends AbstractBaseController
         if ($form->isSubmitted() && $form->isValid()) {
             $imageFile = $form->get('avatar')->getData();
             if ($imageFile) {
-                $avatar = $this->handleFileUpload($imageFile, $this->publicImagesDirectory);
+                $avatar = $this->handleImageUpload($imageFile, $this->publicImagesDirectory, $user->getAvatar());
                 $user->setAvatar($avatar);
             }
             $user->setEmail($dto->emailAddress);

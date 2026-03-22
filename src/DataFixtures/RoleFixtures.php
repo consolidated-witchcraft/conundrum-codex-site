@@ -66,7 +66,7 @@ class RoleFixtures extends Fixture
             'description' => 'Assign users to any game.'
         ],
         'manage_all_files' => [
-            'label' => 'Manage All Files',
+            'label' => 'Manage All ManagedFiles',
             'description' => 'Manage all files uploaded to the system.'
         ],
         'create_events' => [

@@ -4,13 +4,13 @@ declare(strict_types=1);
 
 use App\Services\Events\Domain\Event;
 use App\Services\Events\Domain\Organisation;
-use App\Services\Files\Domain\ManagedFile;
+use App\Services\ManagedImages\Domain\ManagedImage;
 use App\Services\PostalAddress\Domain\PostalAddress;
 use App\Services\Ticket\Domain\TicketType;
 use Doctrine\Common\Collections\ArrayCollection;
 
 test('construct', function () {
-    $heroImage = $this->createStub(ManagedFile::class);
+    $heroImage = $this->createStub(ManagedImage::class);
     $location = $this->createStub(PostalAddress::class);
     $organisation = $this->createStub(Organisation::class);
     $startDate = new DateTimeImmutable('2026-05-01 10:00:00');
@@ -49,14 +49,14 @@ test('setters update state', function () {
         title: 'Test Event',
         eventSlug: 'test-event',
         description: 'A test event.',
-        heroImage: $this->createStub(ManagedFile::class),
+        heroImage: $this->createStub(ManagedImage::class),
         location: $this->createStub(PostalAddress::class),
         prebookOnly: true,
         organisation: $this->createStub(Organisation::class),
         startDate: new DateTimeImmutable('2026-05-01 10:00:00'),
         endDate: new DateTimeImmutable('2026-05-01 18:00:00'),
     );
-    $heroImage = $this->createStub(ManagedFile::class);
+    $heroImage = $this->createStub(ManagedImage::class);
     $location = $this->createStub(PostalAddress::class);
     $startDate = new DateTimeImmutable('2026-05-02 10:00:00');
     $endDate = new DateTimeImmutable('2026-05-02 18:00:00');

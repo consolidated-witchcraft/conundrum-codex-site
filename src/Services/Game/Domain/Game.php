@@ -3,8 +3,8 @@
 namespace App\Services\Game\Domain;
 
 use App\Services\Core\Domain\AbstractDomainEntity;
-use App\Services\Files\Domain\ManagedFile;
 use App\Services\Game\Infrastructure\GameRepository;
+use App\Services\ManagedImages\Domain\ManagedImage;
 use App\Services\PuzzleInstance\Domain\Dynamic\PuzzleInstance;
 use App\Services\PuzzleInstance\Domain\Interfaces\PuzzleInstanceInterface;
 use App\Services\PuzzleInstance\Domain\Interfaces\StaticPuzzleInstanceInterface;
@@ -58,7 +58,7 @@ class Game extends AbstractDomainEntity
      * @param string $description
      * @param User $gamesMaster
      * @param \DateTimeInterface|null $archivedDate
-     * @param ManagedFile|null $heroImageFile
+     * @param ManagedImage|null $heroImageFile
      * @param Collection|null $staticPuzzleInstances
      * @param int|null $id
      */
@@ -84,8 +84,8 @@ class Game extends AbstractDomainEntity
         private ? \DateTimeInterface $archivedDate = null,
 
         #[Groups(['extended'])]
-        #[ORM\OneToOne(targetEntity: ManagedFile::class)]
-        private ? ManagedFile $heroImageFile = null,
+        #[ORM\OneToOne(targetEntity: ManagedImage::class)]
+        private ?ManagedImage $heroImageFile = null,
 
         /**
          * @var Collection<int, StaticPuzzleInstanceInterface>
@@ -106,12 +106,12 @@ class Game extends AbstractDomainEntity
 
     }
 
-    public function getHeroImageFile(): ?ManagedFile
+    public function getHeroImageFile(): ?ManagedImage
     {
         return $this->heroImageFile;
     }
 
-    public function setHeroImageFile(ManagedFile $heroImageFile): void
+    public function setHeroImageFile(ManagedImage $heroImageFile): void
     {
         $this->heroImageFile = $heroImageFile;
     }

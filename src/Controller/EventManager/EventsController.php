@@ -53,7 +53,7 @@ class EventsController extends AbstractEventManagerController
         }
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
-            $heroImage = $this->handleFileUpload($form->get('heroImage')->getData(), $this->eventsHeroImagesDirectory);
+            $heroImage = $this->handleImageUpload($form->get('heroImage')->getData(), $this->eventsHeroImagesDirectory);
 
             $location = PostalAddress::makeFromPostalAddressFieldDto($user, $dto->location);
             $location = $this->postalAddressService->save($location);
@@ -102,9 +102,10 @@ class EventsController extends AbstractEventManagerController
 
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
-            $heroImage = $this->handleFileUpload($form->get('heroImage')->getData(), $this->eventsHeroImagesDirectory);
-
-            $event->setHeroImage($heroImage);
+            $heroImage = $form->get('heroImage')->getData();
+            if ($heroImage) {
+                $event->setHeroImage($this->handleImageUpload($heroImage, $this->eventsHeroImagesDirectory, $event->getHeroImage()));
+            }
             $event->setTitle($dto->title);
             $event->setDescription($dto->description);
             $event->setStartDate($dto->startDate);

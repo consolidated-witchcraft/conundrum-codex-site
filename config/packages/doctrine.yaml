@@ -104,8 +104,8 @@ doctrine:
             ManagedFile:
                 type: attribute
                 is_bundle: false
-                dir: '%kernel.project_dir%/src/Services/Files/Domain'
-                prefix: 'App\Services\Files\Domain'
+                dir: '%kernel.project_dir%/src/Services/ManagedFiles/Domain'
+                prefix: 'App\Services\ManagedFiles\Domain'
                 alias: Game
 
             PostalAddress:
@@ -156,6 +156,13 @@ doctrine:
                 dir: '%kernel.project_dir%/src/Services/FeatureSwitcher/Domain'
                 prefix: 'App\Services\FeatureSwitcher\Domain'
                 alias: FeatureSwitcher
+
+            ManagedImage:
+                type: attribute
+                is_bundle: false
+                dir: '%kernel.project_dir%/src/Services/ManagedImages/Domain'
+                prefix: 'App\Services\ManagedImages\Domain'
+                alias: ManagedImages
 
             World:
                 type: attribute

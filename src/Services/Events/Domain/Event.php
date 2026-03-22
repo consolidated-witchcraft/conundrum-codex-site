@@ -4,7 +4,7 @@ namespace App\Services\Events\Domain;
 
 use App\Services\Core\Domain\AbstractDomainEntity;
 use App\Services\Events\Infrastructure\EventRepository;
-use App\Services\Files\Domain\ManagedFile;
+use App\Services\ManagedImages\Domain\ManagedImage;
 use App\Services\PostalAddress\Domain\PostalAddress;
 use App\Services\Ticket\Domain\TicketType;
 use Doctrine\Common\Collections\ArrayCollection;
@@ -27,8 +27,8 @@ class Event extends AbstractDomainEntity
         #[ORM\Column(type: 'string', length: 2048)]
         private string $description,
 
-        #[ORM\OneToOne(targetEntity: ManagedFile::class)]
-        private ManagedFile $heroImage,
+        #[ORM\OneToOne(targetEntity: ManagedImage::class)]
+        private ManagedImage $heroImage,
 
         #[ORM\OneToOne(targetEntity: PostalAddress::class)]
         private ? PostalAddress $location,
@@ -88,12 +88,12 @@ class Event extends AbstractDomainEntity
         $this->description = $description;
     }
 
-    public function getHeroImage(): ManagedFile
+    public function getHeroImage(): ManagedImage
     {
         return $this->heroImage;
     }
 
-    public function setHeroImage(ManagedFile $heroImage): void
+    public function setHeroImage(ManagedImage $heroImage): void
     {
         $this->heroImage = $heroImage;
     }

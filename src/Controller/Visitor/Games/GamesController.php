@@ -15,9 +15,10 @@ use App\Security\GameCreationVoter;
 use App\Security\GameManagerVoter;
 use App\Security\GamePlayerVoter;
 use App\Services\FeatureSwitcher\Service\Interfaces\FeatureSwitcherServiceInterface;
-use App\Services\Files\Service\Interfaces\FilesEntityServiceInterface;
+use App\Services\ManagedFiles\Service\Interfaces\ManagedFileServiceInterface;
 use App\Services\Game\Domain\Game;
 use App\Services\Game\Service\Interfaces\GameEntityServiceInterface;
+use App\Services\ManagedImages\Services\Interfaces\ManagedImageServiceInterface;
 use App\Services\User\Domain\User;
 use Symfony\Component\DependencyInjection\Attribute\Autowire;
 use Symfony\Component\HttpFoundation\Request;
@@ -31,12 +32,13 @@ final class GamesController extends AbstractBaseController
 {
     use HandlesFileUploadsTrait;
     public function __construct(
-        private readonly ValidatorInterface $validator,
-        private readonly GameEntityServiceInterface $gameService,
-        protected SluggerInterface $slugger,
-        protected readonly FilesEntityServiceInterface $filesService,
+        private readonly ValidatorInterface                                            $validator,
+        private readonly GameEntityServiceInterface                                    $gameService,
+        protected readonly ManagedImageServiceInterface                                $managedImageService,
+        protected SluggerInterface                                                     $slugger,
+        protected readonly ManagedFileServiceInterface                                 $filesService,
         #[Autowire('%kernel.project_dir%/public/uploads/images/games')] private string $publicImagesDirectory,
-        FeatureSwitcherServiceInterface $featureSwitcherService,
+        FeatureSwitcherServiceInterface                                                $featureSwitcherService,
     ) {
         parent::__construct($featureSwitcherService);
     }
@@ -91,7 +93,7 @@ final class GamesController extends AbstractBaseController
             if ($success) {
                 $imageFile = $form->get('heroImageUrl')->getData();
                 if ($imageFile) {
-                    $heroImage = $this->handleFileUpload($imageFile, $this->publicImagesDirectory);
+                    $heroImage = $this->handleImageUpload($imageFile, $this->publicImagesDirectory);
                     $game->setHeroImageFile($heroImage);
                 }
                 $this->gameService->saveGame($game);
@@ -162,7 +164,7 @@ final class GamesController extends AbstractBaseController
         if ($form->isSubmitted() && $form->isValid()) {
             $imageFile = $form->get('heroImageUrl')->getData();
             if ($imageFile) {
-                $heroImage = $this->handleFileUpload($imageFile, $this->publicImagesDirectory);
+                $heroImage = $this->handleImageUpload($imageFile, $this->publicImagesDirectory, $game->getHeroImageFile());
                 $game->setHeroImageFile($heroImage);
             }
             $game->setName($dto->name);

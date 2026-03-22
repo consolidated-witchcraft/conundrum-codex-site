@@ -6,7 +6,7 @@ namespace App\Dto\EventManager;
 
 use App\Dto\Visitor\User\PostalAddressFieldDto;
 use App\Services\Events\Domain\Organisation;
-use App\Services\Files\Domain\ManagedFile;
+use App\Services\ManagedFiles\Domain\ManagedFile;
 use App\Services\User\Domain\User;
 
 use Symfony\Component\Validator\Constraints as Assert;

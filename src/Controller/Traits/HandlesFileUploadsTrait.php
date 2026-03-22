@@ -3,55 +3,63 @@
 declare(strict_types=1);
 
 namespace App\Controller\Traits;
-use App\Services\Files\Domain\ManagedFile;
-use App\Services\Files\Service\Interfaces\FilesEntityServiceInterface;
+
+use App\Services\ManagedFiles\Domain\ManagedFile;
+use App\Services\ManagedFiles\Service\Interfaces\ManagedFileServiceInterface;
+use App\Services\ManagedImages\Domain\ManagedImage;
+use App\Services\ManagedImages\Services\Interfaces\ManagedImageServiceInterface;
 use App\Services\User\Domain\User;
 use RuntimeException;
-use Symfony\Component\HttpFoundation\File\Exception\FileException;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
-use Symfony\Component\String\Slugger\SluggerInterface;
 
 trait HandlesFileUploadsTrait
 {
-
     protected function handleFileUpload(
         UploadedFile $uploadedFile,
-        string       $destination
+        string $destination,
+        ?ManagedFile $fileToReplace = null,
     ): ManagedFile {
-        $mimeType = ($uploadedFile->getMimeType());
-        if (!isset($this->slugger) || ! $this->slugger instanceof SluggerInterface) {
-            throw new RuntimeException('You must set a valid slugger');
-        }
-
-        if (!isset($this->filesService) || ! $this->filesService instanceof FilesEntityServiceInterface) {
+        if (!isset($this->filesService) || ! $this->filesService instanceof ManagedFileServiceInterface) {
             throw new RuntimeException('You must set a managed file service');
         }
-        $originalFilename = pathinfo($uploadedFile->getClientOriginalName(), PATHINFO_FILENAME);
-        $safeFilename = $this->slugger->slug($originalFilename);
 
-        $imageFileName = strtolower(sprintf("%s-%s.%s", $safeFilename, uniqid(), $uploadedFile->guessExtension()));
-
-
-        try {
-            $uploadedFile->move($destination, $imageFileName);
-        } catch (FileException $e) {
-            // ... handle exception if something happens during file upload
-        }
-
-        $finalPath =  sprintf("%s/%s", $this->stripPublic($destination), $imageFileName);
         $user = $this->getUser();
         if (!$user instanceof User) {
             throw new RuntimeException('Invalid user class');
         }
-        $managedFile = new ManagedFile(
-            path: $finalPath,
-            mimeType: $mimeType,
+
+        return $this->filesService->uploadFile(
+            file: $uploadedFile,
             title: sprintf("%s' upload", $user->getUserName()),
             description: sprintf("%s' avatar", $user->getUserName()),
-            uploader: $user
+            uploader: $user,
+            destination: $destination,
+            fileToReplace: $fileToReplace,
         );
-        $this->filesService->save($managedFile);
-        return $managedFile;
+    }
+
+    protected function handleImageUpload(
+        UploadedFile $uploadedFile,
+        string $destination,
+        ?ManagedImage $imageToReplace = null,
+    ): ManagedImage {
+        if (!isset($this->managedImageService) || !$this->managedImageService instanceof ManagedImageServiceInterface) {
+            throw new RuntimeException('You must set a managed image service');
+        }
+
+        $user = $this->getUser();
+        if (!$user instanceof User) {
+            throw new RuntimeException('Invalid user class');
+        }
+
+        return $this->managedImageService->uploadImage(
+            file: $uploadedFile,
+            title: sprintf("%s' upload", $user->getUserName()),
+            description: sprintf("%s' avatar", $user->getUserName()),
+            uploader: $user,
+            destination: $destination,
+            imageToReplace: $imageToReplace,
+        );
     }
 
     protected function stripPublic(string $path): string {

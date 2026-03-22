@@ -12,8 +12,9 @@ use App\Form\Visitor\Puzzle\Static\Casebook\CasebookSubjectType;
 use App\Form\Visitor\Puzzle\Static\Casebook\DeleteCasebookSubjectType;
 use App\Security\GameManagerVoter;
 use App\Services\FeatureSwitcher\Service\Interfaces\FeatureSwitcherServiceInterface;
-use App\Services\Files\Service\Interfaces\FilesEntityServiceInterface;
+use App\Services\ManagedFiles\Service\Interfaces\ManagedFileServiceInterface;
 use App\Services\Game\Domain\Game;
+use App\Services\ManagedImages\Services\Interfaces\ManagedImageServiceInterface;
 use App\Services\PuzzleInstance\Domain\Casebook\Casebook;
 use App\Services\PuzzleInstance\Domain\Casebook\CasebookSubject;
 use App\Services\PuzzleInstance\Domain\Casebook\CasebookSubjectClue;
@@ -40,15 +41,16 @@ class CasebookSubjectController extends AbstractPuzzleController
     use HandlesFileUploadsTrait;
     public function __construct(
         #[Autowire('%kernel.project_dir%/public/uploads/images/casebook')] private string $publicImagesDirectory,
-        PuzzleTemplateServiceInterface $puzzleTemplateService,
-        PuzzleInstanceEntityServiceInterface $puzzleInstanceService,
-        SerializerInterface $serializer,
-        EntityManagerInterface $entityManager,
-        SluggerInterface $slugger,
-        ValidatorInterface $validator,
-        FilesEntityServiceInterface $filesService,
-        DynamicInstanceDataMapper $dynamicInstanceDataMapper,
-        FeatureSwitcherServiceInterface $featureSwitcherService,
+        PuzzleTemplateServiceInterface                                                    $puzzleTemplateService,
+        PuzzleInstanceEntityServiceInterface                                              $puzzleInstanceService,
+        SerializerInterface                                                               $serializer,
+        EntityManagerInterface                                                            $entityManager,
+        SluggerInterface                                                                  $slugger,
+        ValidatorInterface                                                                $validator,
+        ManagedFileServiceInterface                                                       $filesService,
+        ManagedImageServiceInterface                                                      $managedImageService,
+        DynamicInstanceDataMapper                                                         $dynamicInstanceDataMapper,
+        FeatureSwitcherServiceInterface                                                   $featureSwitcherService,
     ) {
         parent::__construct(
             puzzleTemplateService: $puzzleTemplateService,
@@ -58,6 +60,7 @@ class CasebookSubjectController extends AbstractPuzzleController
             slugger: $slugger,
             validator: $validator,
             filesService: $filesService,
+            managedImageService: $managedImageService,
             dynamicInstanceDataMapper: $dynamicInstanceDataMapper,
             featureSwitcherService: $featureSwitcherService
         );
@@ -90,7 +93,7 @@ class CasebookSubjectController extends AbstractPuzzleController
                 casebookSubjectType: $dto->type,
                 casebookSubjectClues: $clues,
                 casebookSubjectNotes: new ArrayCollection(),
-                casebookSubjectImageFile: $imageFile ? $this->handleFileUpload($imageFile, $this->publicImagesDirectory) : null
+                casebookSubjectImageFile: $imageFile ? $this->handleImageUpload($imageFile, $this->publicImagesDirectory) : null
             );
             if ($dto->revealed) {
                 $subject->markRevealed();
@@ -171,7 +174,7 @@ class CasebookSubjectController extends AbstractPuzzleController
             $subject->setCasebookSubjectType($dto->type);
 
             if ($imageFile) {
-                $subject->setCasebookSubjectImageFile($this->handleFileUpload($imageFile, $this->publicImagesDirectory));
+                $subject->setCasebookSubjectImageFile($this->handleImageUpload($imageFile, $this->publicImagesDirectory, $subject->getCasebookSubjectImageFile()));
             }
             if ($dto->revealed && !$subject->isRevealed()) {
                 $subject->markRevealed();

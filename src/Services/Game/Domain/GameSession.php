@@ -3,8 +3,8 @@
 namespace App\Services\Game\Domain;
 
 use App\Services\Core\Domain\AbstractDomainEntity;
-use App\Services\Files\Domain\ManagedFile;
 use App\Services\Game\Infrastructure\GameSessionRepository;
+use App\Services\ManagedImages\Domain\ManagedImage;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Serializer\Attribute\Groups;
@@ -25,9 +25,9 @@ class GameSession extends AbstractDomainEntity
         private string $title,
 
         #[Groups(['extended'])]
-        #[ORM\OneToOne(targetEntity: ManagedFile::class)]
+        #[ORM\OneToOne(targetEntity: ManagedImage::class)]
         #[ORM\JoinColumn(nullable: true)]
-        private ? ManagedFile $sessionImage = null,
+        private ?ManagedImage $sessionImage = null,
 
         #[ORM\Column(type: Types::TEXT, nullable: true)]
         private ? string $description = null,
@@ -39,12 +39,12 @@ class GameSession extends AbstractDomainEntity
         parent::__construct($id);
     }
 
-    public function getSessionImage(): ?ManagedFile
+    public function getSessionImage(): ?ManagedImage
     {
         return $this->sessionImage;
     }
 
-    public function setSessionImage(?ManagedFile $sessionImage): void
+    public function setSessionImage(?ManagedImage $sessionImage): void
     {
         $this->sessionImage = $sessionImage;
     }

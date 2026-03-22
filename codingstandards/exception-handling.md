@@ -25,3 +25,4 @@
 * Application-level exceptions SHOULD be located next to the class that generates the responses. For example:
   * FooController throws FooException. This SHOULD be located in {fooController's path}/Exceptions
   * The Banana ApiResource throws UnripeBananaException. This SHOULD be located in {banana resource's *provider*'s path}/Exceptions
+* Exceptions MUST NOT have unit tests.

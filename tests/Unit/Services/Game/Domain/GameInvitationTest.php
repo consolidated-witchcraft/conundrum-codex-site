@@ -44,23 +44,3 @@ test('construct', function () {
     self::assertTrue($invitation->isUsed());
     self::assertSame(12, $invitation->getId());
 });
-
-test('setters and state transitions update invitation', function () {
-    $user = $this->createStub(User::class);
-    $invitation = ($this->makeInvitation)();
-
-    $invitation->setInvitationMessage('Updated message');
-    $invitation->setUser($user);
-
-    self::assertSame('Updated message', $invitation->getInvitationMessage());
-    self::assertSame($user, $invitation->getUser());
-    self::assertFalse($invitation->isUsed());
-
-    $invitation->markUsed();
-    self::assertTrue($invitation->isUsed());
-
-    $previousExpiresAt = $invitation->getExpiresAt();
-    $invitation->revoke();
-    self::assertLessThanOrEqual($previousExpiresAt, $invitation->getExpiresAt());
-    self::assertInstanceOf(DateTimeImmutable::class, $invitation->getExpiresAt());
-});

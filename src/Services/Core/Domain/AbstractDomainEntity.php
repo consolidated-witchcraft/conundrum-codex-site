@@ -62,5 +62,4 @@ abstract class AbstractDomainEntity implements DomainEntityInterface
     public function preUpdate(): void {
         $this->updatedAt = new \DateTimeImmutable();
     }
-
 }

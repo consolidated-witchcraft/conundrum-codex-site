@@ -1,7 +1,7 @@
 <?php
 
 declare(strict_types=1);
-use App\Services\Files\Domain\ManagedFile;
+use App\Services\ManagedImages\Domain\ManagedImage;
 use App\Services\Product\Domain\Product;
 use App\Services\Product\Domain\ProductVariant;
 use App\Services\Product\Domain\ProductVariantStock;
@@ -23,7 +23,7 @@ beforeEach(function () {
             taxExempt: $overrides['taxExempt'] ?? false,
             requiresPostage: $overrides['requiresPostage'] ?? false,
             productVariantImages: $overrides['productVariantImages'] ?? new ArrayCollection([
-                $this->createStub(ManagedFile::class),
+                $this->createStub(ManagedImage::class),
             ]),
             retiredDate: array_key_exists('retiredDate', $overrides) ? $overrides['retiredDate'] : new \DateTime('3000-01-01'),
             product: $overrides['product'] ?? $this->createStub(Product::class),
@@ -44,8 +44,8 @@ test('construct', function () {
     $retiredDate = clone $publicationDate;
     $retiredDate->add(new \DateInterval('P1D'));
     $productVariantImages = new ArrayCollection([
-        $this->createStub(ManagedFile::class),
-        $this->createStub(ManagedFile::class)
+        $this->createStub(ManagedImage::class),
+        $this->createStub(ManagedImage::class)
     ]);
     $productVariantStock = $this->createStub(ProductVariantStock::class);
 
@@ -127,10 +127,10 @@ test('set publication date', function () {
 test('set product variant images', function () {
     $productVariant = ($this->makeProductVariant)();
     $productVariantImages = new ArrayCollection([
-        $this->createStub(ManagedFile::class),
-        $this->createStub(ManagedFile::class),
-        $this->createStub(ManagedFile::class),
-        $this->createStub(ManagedFile::class),
+        $this->createStub(ManagedImage::class),
+        $this->createStub(ManagedImage::class),
+        $this->createStub(ManagedImage::class),
+        $this->createStub(ManagedImage::class),
     ]);
     self::assertNotEquals($productVariantImages, $productVariant->getProductVariantImages());
     $productVariant->setProductVariantImages($productVariantImages);
@@ -140,15 +140,15 @@ test('set product variant images', function () {
 test('add product variant image', function () {
     $productVariant = ($this->makeProductVariant)();
     $productVariantImages = new ArrayCollection([
-        $this->createStub(ManagedFile::class),
-        $this->createStub(ManagedFile::class),
-        $this->createStub(ManagedFile::class),
-        $this->createStub(ManagedFile::class),
+        $this->createStub(ManagedImage::class),
+        $this->createStub(ManagedImage::class),
+        $this->createStub(ManagedImage::class),
+        $this->createStub(ManagedImage::class),
     ]);
     $productVariant->setProductVariantImages($productVariantImages);
 
     $newImage = $this->createConfiguredStub(
-        ManagedFile::class,
+        ManagedImage::class,
         [
             'getDescription' => 'Test Managed File Description'
         ]
@@ -164,7 +164,7 @@ test('remove product variant image', function () {
     $productVariant = ($this->makeProductVariant)();
 
     $newImage = $this->createConfiguredStub(
-        ManagedFile::class,
+        ManagedImage::class,
         [
             'getDescription' => 'Test Managed File Description'
         ]

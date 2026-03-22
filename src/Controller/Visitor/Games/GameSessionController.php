@@ -9,11 +9,10 @@ use App\Dto\Visitor\Game\Sessions\GameSessionDto;
 use App\Form\Visitor\Game\Sessions\AddSessionType;
 use App\Security\GameManagerVoter;
 use App\Services\FeatureSwitcher\Service\Interfaces\FeatureSwitcherServiceInterface;
-use App\Services\Files\Service\Interfaces\FilesEntityServiceInterface;
 use App\Services\Game\Domain\Game;
 use App\Services\Game\Domain\GameSession;
 use App\Services\Game\Service\Interfaces\GameEntityServiceInterface;
-use App\Services\User\Domain\User;
+use App\Services\ManagedImages\Services\Interfaces\ManagedImageServiceInterface;
 use Symfony\Component\DependencyInjection\Attribute\Autowire;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -25,12 +24,12 @@ final class GameSessionController extends AbstractBaseController
 {
     use HandlesFileUploadsTrait;
     public function __construct(
-        private readonly ValidatorInterface $validator,
-        private readonly GameEntityServiceInterface $gameService,
-        protected SluggerInterface $slugger,
-        protected readonly FilesEntityServiceInterface $filesService,
+        private readonly ValidatorInterface                                                      $validator,
+        private readonly GameEntityServiceInterface                                              $gameService,
+        protected readonly ManagedImageServiceInterface                                          $managedImageService,
+        protected SluggerInterface                                                               $slugger,
         #[Autowire('%kernel.project_dir%/public/uploads/images/games/sessions/')] private string $publicImagesDirectory,
-        FeatureSwitcherServiceInterface $featureSwitcherService
+        FeatureSwitcherServiceInterface                                                          $featureSwitcherService
     ) {
         parent::__construct($featureSwitcherService);
     }
@@ -47,19 +46,13 @@ final class GameSessionController extends AbstractBaseController
 
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
-            $user = $this->getUser();
             $image = null;
-            if ($user instanceof User) {
-                $imageData = $form->get('sessionImage')->getData();
-                if ($imageData) {
-                    $image = $this->filesService->uploadFile(
-                        file: $imageData,
-                        title: sprintf("Session image for %s", $dto->title),
-                        description: sprintf("Session image for %s", $dto->title),
-                        uploader: $user,
-                        destination: $this->publicImagesDirectory,
-                    );
-                }
+            $imageData = $form->get('sessionImage')->getData();
+            if ($imageData) {
+                $image = $this->handleImageUpload(
+                    uploadedFile: $imageData,
+                    destination: $this->publicImagesDirectory,
+                );
             }
 
             $gameSession = new GameSession(
@@ -116,20 +109,14 @@ final class GameSessionController extends AbstractBaseController
 
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
-            $user = $this->getUser();
             $image = null;
-            if ($user instanceof User) {
-                $imageData = $form->get('sessionImage')->getData();
-                if ($imageData) {
-                    $image = $this->filesService->uploadFile(
-                        file: $imageData,
-                        title: sprintf("Session image for %s", $dto->title),
-                        description: sprintf("Session image for %s", $dto->title),
-                        uploader: $user,
-                        destination: $this->publicImagesDirectory,
-                        fileToReplace: $gameSession->getSessionImage(),
-                    );
-                }
+            $imageData = $form->get('sessionImage')->getData();
+            if ($imageData) {
+                $image = $this->handleImageUpload(
+                    uploadedFile: $imageData,
+                    destination: $this->publicImagesDirectory,
+                    imageToReplace: $gameSession->getSessionImage(),
+                );
             }
 
             $gameSession->setSessionDate($dto->sessionDate);

@@ -46,9 +46,6 @@ class World extends AbstractDomainEntity
         #[ORM\ManyToMany(targetEntity: User::class, mappedBy: 'worldsPlayed')]
         private Collection $players = new ArrayCollection(),
 
-        #[ORM\OneToMany(targetEntity: WorldEvent::class, mappedBy: 'world', cascade: ['persist', 'refresh', 'remove'], orphanRemoval: true)]
-        private Collection $worldEvents = new ArrayCollection(),
-
         ? int $id = null
     ) {
         parent::__construct($id);
@@ -101,41 +98,6 @@ class World extends AbstractDomainEntity
     public function setPlayers(Collection $players): void
     {
         $this->players = $players;
-    }
-
-    /**
-     * @return Collection<int, WorldEvent>
-     */
-    public function getWorldEvents(): Collection
-    {
-        return $this->worldEvents;
-    }
-
-    /**
-     * @param Collection<int, WorldEvent> $worldEvents
-     */
-    public function setWorldEvents(Collection $worldEvents): void
-    {
-        $this->worldEvents = new ArrayCollection();
-
-        foreach ($worldEvents as $worldEvent) {
-            $this->addWorldEvent($worldEvent);
-        }
-    }
-
-    public function addWorldEvent(WorldEvent $worldEvent): void
-    {
-        if ($this->worldEvents->contains($worldEvent)) {
-            return;
-        }
-
-        $this->worldEvents->add($worldEvent);
-        $worldEvent->setWorld($this);
-    }
-
-    public function removeWorldEvent(WorldEvent $worldEvent): void
-    {
-        $this->worldEvents->removeElement($worldEvent);
     }
 
     /**

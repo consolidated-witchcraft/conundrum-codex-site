@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 use App\Services\Events\Domain\Event;
 use App\Services\Events\Domain\Organisation;
-use App\Services\Files\Domain\ManagedFile;
+use App\Services\ManagedImages\Domain\ManagedImage;
 use App\Services\PostalAddress\Domain\PostalAddress;
 use App\Services\User\Domain\User;
 use Doctrine\Common\Collections\ArrayCollection;
@@ -24,7 +24,7 @@ beforeEach(function () {
 });
 
 test('construct', function () {
-    $logo = $this->createStub(ManagedFile::class);
+    $logo = $this->createStub(ManagedImage::class);
     $owner = $this->createStub(User::class);
     $events = new ArrayCollection([$this->createStub(Event::class)]);
     $managers = new ArrayCollection([$this->createStub(User::class)]);
@@ -59,7 +59,7 @@ test('setters and deactivate update state', function () {
     $organisation = new Organisation(
         name: 'Test Org',
         handle: 'test_org',
-        organisationLogo: $this->createStub(ManagedFile::class),
+        organisationLogo: $this->createStub(ManagedImage::class),
         owner: $this->createStub(User::class),
         events: new ArrayCollection(),
         managers: new ArrayCollection(),
@@ -71,7 +71,7 @@ test('setters and deactivate update state', function () {
     $postalAddress = ($this->makeAddress)();
     $invoiceAddress = ($this->makeAddress)();
     $owner = $this->createStub(User::class);
-    $logo = $this->createStub(ManagedFile::class);
+    $logo = $this->createStub(ManagedImage::class);
 
     $organisation->setName('Updated Org');
     $organisation->setHandle('updated_org');

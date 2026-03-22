@@ -4,7 +4,7 @@ namespace App\Services\Events\Domain;
 
 use App\Services\Core\Domain\AbstractDomainEntity;
 use App\Services\Events\Infrastructure\OrganisationRepository;
-use App\Services\Files\Domain\ManagedFile;
+use App\Services\ManagedImages\Domain\ManagedImage;
 use App\Services\PostalAddress\Domain\PostalAddress;
 use App\Services\User\Domain\User;
 use Doctrine\Common\Collections\Collection;
@@ -20,7 +20,7 @@ class Organisation extends AbstractDomainEntity
     /**
      * @param string $name
      * @param string $handle
-     * @param ManagedFile $organisationLogo
+     * @param ManagedImage $organisationLogo
      * @param User $owner
      * @param Collection<int, Event> $events
      * @param Collection<int, User> $managers
@@ -36,9 +36,9 @@ class Organisation extends AbstractDomainEntity
         #[ORM\Column(unique: true)]
         private string $handle,
 
-        #[ORM\OneToOne(targetEntity: ManagedFile::class)]
+        #[ORM\OneToOne(targetEntity: ManagedImage::class)]
         #[ORM\JoinColumn(nullable: false)]
-        private ManagedFile $organisationLogo,
+        private ManagedImage $organisationLogo,
 
         #[ORM\ManyToOne(targetEntity: User::class)]
         private User $owner,
@@ -83,12 +83,12 @@ class Organisation extends AbstractDomainEntity
         $this->postalAddress = $postalAddress;
     }
 
-    public function getOrganisationLogo(): ManagedFile
+    public function getOrganisationLogo(): ManagedImage
     {
         return $this->organisationLogo;
     }
 
-    public function setOrganisationLogo(ManagedFile $organisationLogo): void
+    public function setOrganisationLogo(ManagedImage $organisationLogo): void
     {
         $this->organisationLogo = $organisationLogo;
     }

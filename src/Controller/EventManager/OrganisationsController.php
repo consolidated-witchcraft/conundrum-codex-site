@@ -39,7 +39,7 @@ class OrganisationsController extends AbstractEventManagerController
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
             $organisationLogo = $form->get('organisationLogo')->getData();
-            $organisationLogo = $this->handleFileUpload($organisationLogo, $this->organisationLogoImagesDirectory);
+            $organisationLogo = $this->handleImageUpload($organisationLogo, $this->organisationLogoImagesDirectory);
             $organisation = new Organisation(
                 name: $dto->name,
                 handle: $dto->handle,
@@ -89,8 +89,10 @@ class OrganisationsController extends AbstractEventManagerController
         $form = $this->createForm(OrganisationType::class, $dto);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
-            $organisationLogo = $this->handleFileUpload($form->get('organisationLogo')->getData(), $this->organisationLogoImagesDirectory);
-            $organisation->setOrganisationLogo($organisationLogo);
+            $organisationLogo = $form->get('organisationLogo')->getData();
+            if ($organisationLogo) {
+                $organisation->setOrganisationLogo($this->handleImageUpload($organisationLogo, $this->organisationLogoImagesDirectory, $organisation->getOrganisationLogo()));
+            }
             $organisation->setName($dto->name);
             $organisation->setHandle($dto->handle);
 

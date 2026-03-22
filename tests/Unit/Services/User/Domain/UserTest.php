@@ -1,7 +1,7 @@
 <?php
 
 declare(strict_types=1);
-use App\Services\Files\Domain\ManagedFile;
+use App\Services\ManagedImages\Domain\ManagedImage;
 use App\Services\User\Domain\Role;
 use App\Services\User\Domain\User;
 use App\Services\User\Domain\UserFeat;
@@ -199,7 +199,7 @@ test('can create games', function () {
 
 test('set avatar', function () {
     $user = ($this->makeUser)();
-    $avatar = $this->createConfiguredStub(ManagedFile::class, [
+    $avatar = $this->createConfiguredStub(ManagedImage::class, [
         'getTitle' => 'Test Title'
     ]);
     self::assertNotEquals($avatar, $user->getAvatar());

@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Dto\Admin\File;
 
-use App\Services\Files\Domain\ManagedFile;
+use App\Services\ManagedFiles\Domain\ManagedFile;
 use App\Services\User\Domain\User;
 
 class AdminFileDto

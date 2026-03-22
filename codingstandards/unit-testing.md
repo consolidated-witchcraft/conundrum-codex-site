@@ -1,5 +1,5 @@
 ## Unit Testing Standards
-* All code MUST be covered by unit tests, save for code in the `vendor` directory, and Application layer code.
+* All code MUST be covered by unit tests, save for code in the `vendor` directory, exceptions, commands, and Application layer code.
 * Unit test MUST be written using Pest
 * Unit tests MUST follow the arrange-act-assert pattern.
 * Each unit test MUST:

@@ -6,8 +6,8 @@ namespace App\Services\User\Domain;
 
 use App\Services\Core\Domain\AbstractDomainEntity;
 use App\Services\Events\Domain\Organisation;
-use App\Services\Files\Domain\ManagedFile;
 use App\Services\Game\Domain\Game;
+use App\Services\ManagedImages\Domain\ManagedImage;
 use App\Services\Orders\Domain\Order;
 use App\Services\PostalAddress\Domain\PostalAddress;
 use App\Services\User\Domain\UserCart\UserCart;
@@ -93,7 +93,7 @@ class User extends AbstractDomainEntity implements UserInterface, PasswordAuthen
      * @param Collection|null $userBlocks
      * @param UserCart|null $userCart
      * @param Organisation|null $organisation
-     * @param ManagedFile|null $avatar
+     * @param ManagedImage|null $avatar
      * @param UserPreferences|null $userPreferences
      * @param int|null $id
      */
@@ -122,9 +122,9 @@ class User extends AbstractDomainEntity implements UserInterface, PasswordAuthen
         private ? Organisation $organisation = null,
 
 
-        #[ORM\OneToOne(targetEntity: ManagedFile::class, fetch: 'EAGER')]
+        #[ORM\OneToOne(targetEntity: ManagedImage::class, fetch: 'EAGER')]
         #[ORM\JoinColumn(nullable: true, onDelete: 'SET NULL')]
-        private ?ManagedFile $avatar = null,
+        private ?ManagedImage $avatar = null,
 
         #[ORM\Embedded(class: UserPreferences::class, columnPrefix: 'preferences_')]
         private ? UserPreferences $userPreferences = null,
@@ -163,12 +163,12 @@ class User extends AbstractDomainEntity implements UserInterface, PasswordAuthen
         $this->organisation = $organisation;
     }
 
-    public function getAvatar(): ?ManagedFile
+    public function getAvatar(): ?ManagedImage
     {
         return $this->avatar;
     }
 
-    public function setAvatar(ManagedFile $avatar): void
+    public function setAvatar(ManagedImage $avatar): void
     {
         $this->avatar = $avatar;
     }

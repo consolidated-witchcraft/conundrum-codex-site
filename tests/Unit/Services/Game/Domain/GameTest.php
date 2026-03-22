@@ -1,9 +1,9 @@
 <?php
 
 declare(strict_types=1);
-use App\Services\Files\Domain\ManagedFile;
 use App\Services\Game\Domain\Game;
 use App\Services\Game\Domain\GameSession;
+use App\Services\ManagedImages\Domain\ManagedImage;
 use App\Services\PuzzleInstance\Domain\Interfaces\PuzzleInstanceInterface;
 use App\Services\PuzzleInstance\Domain\Interfaces\StaticPuzzleInstanceInterface;
 use App\Services\User\Domain\User;
@@ -36,7 +36,7 @@ test('it exposes and updates state', function () {
     self::assertNull($game->getHeroImageFile());
 
     $newGamesMaster = $this->createStub(User::class);
-    $heroImage = $this->createStub(ManagedFile::class);
+    $heroImage = $this->createStub(ManagedImage::class);
 
     $game->setName('Updated Game');
     $game->setSlug('updated-game');

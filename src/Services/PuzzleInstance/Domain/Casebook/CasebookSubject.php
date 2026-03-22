@@ -4,7 +4,7 @@ namespace App\Services\PuzzleInstance\Domain\Casebook;
 
 use ApiPlatform\Metadata\ApiResource;
 use App\Services\Core\Domain\AbstractDomainEntity;
-use App\Services\Files\Domain\ManagedFile;
+use App\Services\ManagedImages\Domain\ManagedImage;
 use App\Services\PuzzleInstance\Infrastructure\Casebook\Repository\CasebookSubjectRepository;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
@@ -43,20 +43,21 @@ class CasebookSubject extends AbstractDomainEntity
         #[ORM\Column(type: 'datetime_immutable', nullable: true)]
         private ? \DateTimeImmutable $revealedDate = null,
 
-        #[ORM\OneToOne(targetEntity: ManagedFile::class)]
-        private ? ManagedFile $casebookSubjectImageFile = null,
+        #[ORM\OneToOne(targetEntity: ManagedImage::class, cascade: ['persist'], orphanRemoval: true)]
+        #[ORM\JoinColumn(nullable: true, onDelete: 'SET NULL')]
+        private ?ManagedImage $casebookSubjectImageFile = null,
 
         ?int $id = null
     ) {
         parent::__construct($id);
     }
 
-    public function getCasebookSubjectImageFile(): ?ManagedFile
+    public function getCasebookSubjectImageFile(): ?ManagedImage
     {
         return $this->casebookSubjectImageFile;
     }
 
-    public function setCasebookSubjectImageFile(ManagedFile $casebookSubjectImageFile): void
+    public function setCasebookSubjectImageFile(?ManagedImage $casebookSubjectImageFile): void
     {
         $this->casebookSubjectImageFile = $casebookSubjectImageFile;
     }

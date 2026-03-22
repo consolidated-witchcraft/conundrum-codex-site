@@ -2,8 +2,8 @@
 
 declare(strict_types=1);
 
-use App\Services\Files\Domain\ManagedFile;
 use App\Services\Game\Domain\Game;
+use App\Services\ManagedImages\Domain\ManagedImage;
 use App\Services\PuzzleInstance\Domain\Casebook\Casebook;
 use App\Services\PuzzleInstance\Domain\Casebook\CasebookSubject;
 use App\Services\PuzzleInstance\Domain\Casebook\CasebookSubjectClue;
@@ -34,7 +34,7 @@ test('construct and setters update state', function () {
         'getRevealedDate' => null,
     ]);
     $notes = new ArrayCollection([$this->createStub(CasebookSubjectNote::class)]);
-    $image = $this->createStub(ManagedFile::class);
+    $image = $this->createStub(ManagedImage::class);
     $subject = new CasebookSubject(
         name: 'The Alchemist',
         description: 'A suspicious figure.',
