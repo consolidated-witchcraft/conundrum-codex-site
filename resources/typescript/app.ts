@@ -16,10 +16,8 @@ import {LazyImage} from "./components/LazyImage";
 import {SubmenuTrigger} from "./components/SubmenuTrigger";
 import {NumberSpinner} from "./components/NumberSpinner";
 import {CartLinePreview} from "./components/CartLinePreview";
-
 import {UserCartProductLine} from "./components/UserCart/UserCartProductLine";
 import {UserCart} from "./components/UserCart/UserCart";
-import {WikiEditor} from "./components/WikiEditor";
 
 (()=> {
     document.addEventListener('DOMContentLoaded', () => {
@@ -54,9 +52,7 @@ import {WikiEditor} from "./components/WikiEditor";
         customElementRegistry.define('number-spinner', NumberSpinner, {extends: 'input'});
         customElementRegistry.define('cartline-preview', CartLinePreview, {extends: 'dl'});
         customElementRegistry.define('user-cart-product-line', UserCartProductLine, {extends: 'div'});
-        customElementRegistry.define('user-cart', UserCart, {extends: 'div'});
-        customElementRegistry.define('wiki-editor', WikiEditor, {extends: 'div'});
-    }
+        customElementRegistry.define('user-cart', UserCart, {extends: 'div'});}
 })();
 
 

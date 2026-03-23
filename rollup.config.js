@@ -261,21 +261,6 @@ const config = [
         ]
     },
     {
-        input: 'resources/sass/widgets/wikieditor.scss',
-        output: {
-            dir: './public/dist/css/widgets'
-        },
-        plugins: [
-            scss({
-                fileName: 'wikieditor.css',
-                outputStyle: 'compressed',
-                watch: ['resources/sass/widgets/wikieditor.scss']
-            }),
-            removeEmptyCssJs(),
-            summary()
-        ]
-    },
-    {
         input: 'resources/sass/widgets/cards.scss',
         output: {
             dir: './public/dist/css/widgets'
