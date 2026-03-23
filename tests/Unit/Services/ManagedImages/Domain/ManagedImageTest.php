@@ -7,6 +7,7 @@ use App\Services\ManagedImages\Domain\Exceptions\DuplicateManagedImageDerivative
 use App\Services\ManagedImages\Domain\ManagedImage;
 use App\Services\ManagedImages\Domain\ManagedImageDerivative;
 use App\Services\ManagedImages\Domain\ManagedImageDerivativeFormat;
+use App\Services\ManagedImages\Domain\Enums\ManagedImageTypeEnum;
 use App\Services\User\Domain\User;
 use Doctrine\Common\Collections\ArrayCollection;
 
@@ -27,6 +28,7 @@ beforeEach(function () {
             description: $overrides['description'] ?? 'Test managed image',
             createdBy: $overrides['createdBy'] ?? $this->createStub(User::class),
             sourceImage: $overrides['sourceImage'] ?? ($this->makeManagedFile)(),
+            type: $overrides['type'] ?? ManagedImageTypeEnum::DEFAULT,
             derivatives: $overrides['derivatives'] ?? new ArrayCollection(),
             id: $overrides['id'] ?? null,
         );
@@ -51,6 +53,7 @@ test('construct', function () {
         description: 'Test managed image',
         createdBy: $createdBy,
         sourceImage: $sourceImage,
+        type: ManagedImageTypeEnum::THUMBNAIL,
         derivatives: $derivatives,
         id: 12,
     );
@@ -58,6 +61,7 @@ test('construct', function () {
     self::assertSame('Test managed image', $managedImage->getDescription());
     self::assertSame($createdBy, $managedImage->getCreatedBy());
     self::assertSame($sourceImage, $managedImage->getSourceImage());
+    self::assertSame(ManagedImageTypeEnum::THUMBNAIL, $managedImage->getType());
     self::assertSame(12, $managedImage->getId());
     self::assertNull($managedImage->getDerivative('missing'));
 });
@@ -68,9 +72,11 @@ test('setters update mutable state', function () {
 
     $managedImage->setDescription('Updated description');
     $managedImage->setSourceImage($updatedSourceImage);
+    $managedImage->setType(ManagedImageTypeEnum::AVATAR_THUMBNAIL);
 
     self::assertSame('Updated description', $managedImage->getDescription());
     self::assertSame($updatedSourceImage, $managedImage->getSourceImage());
+    self::assertSame(ManagedImageTypeEnum::AVATAR_THUMBNAIL, $managedImage->getType());
 });
 
 test('add derivative attaches derivative to image and allows lookup by format handle', function () {

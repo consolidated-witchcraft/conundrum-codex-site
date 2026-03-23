@@ -7,6 +7,7 @@ namespace App\Services\ManagedImages\Domain;
 use App\Services\Core\Domain\AbstractDomainEntity;
 use App\Services\ManagedFiles\Domain\ManagedFile;
 use App\Services\ManagedImages\Domain\Exceptions\DuplicateManagedImageDerivativeFormatException;
+use App\Services\ManagedImages\Domain\Enums\ManagedImageTypeEnum;
 use App\Services\ManagedImages\Infrastructure\ManagedImageRepository;
 use App\Services\User\Domain\User;
 use Doctrine\Common\Collections\ArrayCollection;
@@ -30,6 +31,9 @@ class ManagedImage extends AbstractDomainEntity
         #[ORM\OneToOne(targetEntity: ManagedFile::class)]
         #[ORM\JoinColumn(nullable: false)]
         private ManagedFile $sourceImage,
+
+        #[ORM\Column(name: 'managed_image_type', type: 'string', length: 255, enumType: ManagedImageTypeEnum::class, options: ['default' => ManagedImageTypeEnum::DEFAULT->value])]
+        private ManagedImageTypeEnum $type = ManagedImageTypeEnum::DEFAULT,
 
         #[ORM\OneToMany(targetEntity: ManagedImageDerivative::class, mappedBy: 'parentImage')]
         private Collection $derivatives = new ArrayCollection(),
@@ -76,6 +80,16 @@ class ManagedImage extends AbstractDomainEntity
     public function setSourceImage(ManagedFile $sourceImage): void
     {
         $this->sourceImage = $sourceImage;
+    }
+
+    public function getType(): ManagedImageTypeEnum
+    {
+        return $this->type;
+    }
+
+    public function setType(ManagedImageTypeEnum $type): void
+    {
+        $this->type = $type;
     }
 
     /**

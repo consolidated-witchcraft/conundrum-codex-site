@@ -5,6 +5,7 @@ declare(strict_types=1);
 use App\Services\ManagedFiles\Domain\ManagedFile;
 use App\Services\ManagedFiles\Service\Interfaces\ManagedFileServiceInterface;
 use App\Services\ManagedImages\Domain\ManagedImage;
+use App\Services\ManagedImages\Domain\Enums\ManagedImageTypeEnum;
 use App\Services\ManagedImages\Infrastructure\ManagedImageRepository;
 use App\Services\ManagedImages\Services\ManagedImageService;
 use App\Services\User\Domain\User;
@@ -98,6 +99,7 @@ test('migrate managed file creates and saves managed image when one does not exi
     self::assertSame('Managed file description', $managedImage->getDescription());
     self::assertSame($managedFile->getUploader(), $managedImage->getCreatedBy());
     self::assertSame($managedFile, $managedImage->getSourceImage());
+    self::assertSame(ManagedImageTypeEnum::DEFAULT, $managedImage->getType());
     self::assertNull($managedImage->getDerivative('thumbnail'));
     self::assertSame(1, $flushCount);
 });
