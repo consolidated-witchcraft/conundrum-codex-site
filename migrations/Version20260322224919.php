@@ -130,6 +130,8 @@ final class Version20260322224919 extends AbstractMigration
             return;
         }
 
+        $this->createMissingManagedImagesForReference($tableName, $columnName);
+
         if ($this->foreignKeyExists($tableName, $foreignKeyName)) {
             $this->addSql(sprintf('ALTER TABLE %s DROP FOREIGN KEY %s', $tableName, $foreignKeyName));
         }
@@ -143,6 +145,21 @@ final class Version20260322224919 extends AbstractMigration
             $columnName,
         ));
         $this->addSql($foreignKeySql);
+    }
+
+    private function createMissingManagedImagesForReference(string $tableName, string $columnName): void
+    {
+        $this->addSql(sprintf(
+            'INSERT INTO managed_image (created_by_id, source_image_id, created_at, updated_at, description)
+                SELECT managed_file.uploader_id, managed_file.id, managed_file.created_at, managed_file.updated_at, managed_file.description
+                FROM %1$s
+                INNER JOIN managed_file ON managed_file.id = %1$s.%2$s
+                LEFT JOIN managed_image ON managed_image.source_image_id = managed_file.id
+                WHERE %1$s.%2$s IS NOT NULL
+                  AND managed_image.id IS NULL',
+            $tableName,
+            $columnName,
+        ));
     }
 
     private function tableExists(string $tableName): bool
