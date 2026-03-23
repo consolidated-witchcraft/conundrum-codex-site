@@ -1,3 +1,5 @@
+@use '../base/sassVariables/dimension';
+
 body {
     img {
         max-width: 100%;
@@ -6,6 +8,41 @@ body {
 
         &.loaded {
             opacity: 1;
+        }
+    }
+
+
+    .avatar-wrapper {
+        position: relative;
+        background: var(--charcoalGradient);
+        box-shadow: var(--baseBoxShadow);
+        display: inline-block;
+
+        &:before, &:after {
+            content: " ";
+            display: block;
+            position: absolute;
+            top: 0;
+            left: 0;
+            bottom: 0;
+            right: 0;
+        }
+        &:before {
+            background: linear-gradient(135deg, black 25.75%, white 26%, black 50%);
+            mix-blend-mode: soft-light;
+            opacity: 0.18181818;
+        }
+
+        &:after {
+
+            background-color: transparent;
+            border: 1.5rem solid transparent;
+            border-image: var(--blackFrame) 33%;
+            z-index: 2;
+        }
+
+        img {
+            object-fit: cover;
         }
     }
 }

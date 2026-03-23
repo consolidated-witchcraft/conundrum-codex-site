@@ -226,6 +226,20 @@ test('generate file hash hashes file contents', function () {
     self::assertSame(hash_file('sha256', $filePath), $service->generateFileHash(filePath: $filePath));
 });
 
+test('find one by file hash and uploader delegates to repository', function () {
+    $uploader = $this->createStub(User::class);
+    $expected = ($this->makeManagedFile)(['uploader' => $uploader]);
+    $this->managedFileRepository
+        ->expects($this->once())
+        ->method('findOneByFileHashAndUploader')
+        ->with('hash-value', $uploader)
+        ->willReturn($expected);
+
+    $service = ($this->makeService)();
+
+    self::assertSame($expected, $service->findOneByFileHashAndUploader('hash-value', $uploader));
+});
+
 test('upload file creates a managed file with a generated hash', function () {
     $sourcePath = dirname($this->uploadsDirectory).'/source-create.txt';
     file_put_contents($sourcePath, 'create content');

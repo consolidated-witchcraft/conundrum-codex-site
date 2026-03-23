@@ -7,6 +7,7 @@ namespace App\Controller\Traits;
 use App\Services\ManagedFiles\Domain\ManagedFile;
 use App\Services\ManagedFiles\Service\Interfaces\ManagedFileServiceInterface;
 use App\Services\ManagedImages\Domain\ManagedImage;
+use App\Services\ManagedImages\Domain\Enums\ManagedImageTypeEnum;
 use App\Services\ManagedImages\Services\Interfaces\ManagedImageServiceInterface;
 use App\Services\User\Domain\User;
 use RuntimeException;
@@ -42,6 +43,7 @@ trait HandlesFileUploadsTrait
         UploadedFile $uploadedFile,
         string $destination,
         ?ManagedImage $imageToReplace = null,
+        ManagedImageTypeEnum $type = ManagedImageTypeEnum::DEFAULT,
     ): ManagedImage {
         if (!isset($this->managedImageService) || !$this->managedImageService instanceof ManagedImageServiceInterface) {
             throw new RuntimeException('You must set a managed image service');
@@ -57,6 +59,7 @@ trait HandlesFileUploadsTrait
             title: sprintf("%s' upload", $user->getUserName()),
             description: sprintf("%s' avatar", $user->getUserName()),
             uploader: $user,
+            type: $type,
             destination: $destination,
             imageToReplace: $imageToReplace,
         );

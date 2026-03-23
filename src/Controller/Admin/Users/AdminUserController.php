@@ -20,6 +20,7 @@ use App\Services\Abuse\Service\AbuseReportService;
 use App\Services\FeatureSwitcher\Service\Interfaces\FeatureSwitcherServiceInterface;
 use App\Services\ManagedFiles\Service\Interfaces\ManagedFileServiceInterface;
 use App\Services\Game\Service\Interfaces\GameEntityServiceInterface;
+use App\Services\ManagedImages\Domain\Enums\ManagedImageTypeEnum;
 use App\Services\ManagedImages\Services\Interfaces\ManagedImageServiceInterface;
 use App\Services\PuzzleInstance\Service\Interfaces\PuzzleInstanceEntityServiceInterface;
 use App\Services\User\Domain\User;
@@ -105,7 +106,12 @@ class AdminUserController extends AbstractBaseController
         if ($form->isSubmitted() && $form->isValid()) {
             $imageFile = $form->get('avatar')->getData();
             if ($imageFile) {
-                $avatar = $this->handleImageUpload($imageFile, $this->publicImagesDirectory, $user->getAvatar());
+                $avatar = $this->handleImageUpload(
+                    $imageFile,
+                    $this->publicImagesDirectory,
+                    $user->getAvatar(),
+                    ManagedImageTypeEnum::AVATAR,
+                );
                 $user->setAvatar($avatar);
             }
             if (!$selfEditMode) {

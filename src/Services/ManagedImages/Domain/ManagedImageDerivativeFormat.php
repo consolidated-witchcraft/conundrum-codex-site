@@ -7,7 +7,7 @@ namespace App\Services\ManagedImages\Domain;
 use App\Services\Core\Domain\AbstractDomainEntity;
 use Doctrine\ORM\Mapping as ORM;
 
-#[ORM\Entity]
+#[ORM\Entity(readOnly: true)]
 class ManagedImageDerivativeFormat extends AbstractDomainEntity
 {
     public function __construct(
@@ -18,10 +18,16 @@ class ManagedImageDerivativeFormat extends AbstractDomainEntity
         private readonly int $resolutionX,
 
         #[ORM\Column]
-        private readonly int $resolutionY,
-
-        #[ORM\Column]
         private readonly int $quality,
+
+        #[ORM\Column(nullable: true)]
+        private readonly ?int $resolutionY = null,
+
+        #[ORM\Column(options: ['default' => false])]
+        private readonly bool $allowCrop = false,
+
+        #[ORM\Column(options: ['default' => false])]
+        private readonly bool $centreImage = false,
         ?int $id = null,
     ) {
         parent::__construct($id);
@@ -37,7 +43,7 @@ class ManagedImageDerivativeFormat extends AbstractDomainEntity
         return $this->resolutionX;
     }
 
-    public function getResolutionY(): int
+    public function getResolutionY(): ?int
     {
         return $this->resolutionY;
     }
@@ -45,5 +51,15 @@ class ManagedImageDerivativeFormat extends AbstractDomainEntity
     public function getQuality(): int
     {
         return $this->quality;
+    }
+
+    public function isAllowCrop(): bool
+    {
+        return $this->allowCrop;
+    }
+
+    public function isCentreImage(): bool
+    {
+        return $this->centreImage;
     }
 }

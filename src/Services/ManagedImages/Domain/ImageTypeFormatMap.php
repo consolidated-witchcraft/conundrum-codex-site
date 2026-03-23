@@ -11,7 +11,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
-#[ORM\Entity(repositoryClass: ImageTypeFormatMapRepository::class, readOnly: true)]
+#[ORM\Entity(repositoryClass: ImageTypeFormatMapRepository::class)]
 class ImageTypeFormatMap extends AbstractDomainEntity
 {
     /**
@@ -23,7 +23,7 @@ class ImageTypeFormatMap extends AbstractDomainEntity
 
         #[ORM\ManyToMany(targetEntity: ManagedImageDerivativeFormat::class, fetch: 'EAGER')]
         #[ORM\JoinTable(name: 'image_type_format_map_derivative_format')]
-        private readonly Collection $formats = new ArrayCollection(),
+        private Collection $formats = new ArrayCollection(),
         ?int $id = null,
     ) {
         parent::__construct($id);
@@ -40,5 +40,19 @@ class ImageTypeFormatMap extends AbstractDomainEntity
     public function getFormats(): Collection
     {
         return $this->formats;
+    }
+
+    public function addFormat(ManagedImageDerivativeFormat $format): void
+    {
+        if ($this->formats->contains($format)) {
+            return;
+        }
+
+        $this->formats->add($format);
+    }
+
+    public function removeFormat(ManagedImageDerivativeFormat $format): void
+    {
+        $this->formats->removeElement($format);
     }
 }

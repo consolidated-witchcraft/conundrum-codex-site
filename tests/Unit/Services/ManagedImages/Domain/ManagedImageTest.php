@@ -40,6 +40,8 @@ beforeEach(function () {
             resolutionX: $overrides['resolutionX'] ?? 320,
             resolutionY: $overrides['resolutionY'] ?? 180,
             quality: $overrides['quality'] ?? 85,
+            allowCrop: $overrides['allowCrop'] ?? false,
+            centreImage: $overrides['centreImage'] ?? false,
             id: $overrides['id'] ?? null,
         );
     };
@@ -91,6 +93,27 @@ test('add derivative attaches derivative to image and allows lookup by format ha
 
     self::assertSame($managedImage, $derivative->getParentImage());
     self::assertSame($derivative, $managedImage->getDerivative('card'));
+});
+
+test('get path for derivative returns derivative path when present', function () {
+    $managedImage = ($this->makeManagedImage)([
+        'sourceImage' => ($this->makeManagedFile)(['path' => 'test/source.webp']),
+    ]);
+    $managedImage->addDerivative(new ManagedImageDerivative(
+        parentImage: $managedImage,
+        format: ($this->makeManagedImageDerivativeFormat)(['handle' => 'thumbnail']),
+        derivative: ($this->makeManagedFile)(['path' => 'test/thumbnail.webp']),
+    ));
+
+    self::assertSame('test/thumbnail.webp', $managedImage->getPathForDerivative('thumbnail'));
+});
+
+test('get path for derivative falls back to source path when derivative is missing', function () {
+    $managedImage = ($this->makeManagedImage)([
+        'sourceImage' => ($this->makeManagedFile)(['path' => 'test/source.webp']),
+    ]);
+
+    self::assertSame('test/source.webp', $managedImage->getPathForDerivative('missing'));
 });
 
 test('add derivative rejects duplicate format handles', function () {

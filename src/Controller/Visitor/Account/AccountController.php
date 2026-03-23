@@ -13,6 +13,7 @@ use App\Form\Visitor\Account\UserEditType;
 use App\Services\FeatureSwitcher\Service\Interfaces\FeatureSwitcherServiceInterface;
 use App\Services\ManagedFiles\Service\Interfaces\ManagedFileServiceInterface;
 use App\Services\Game\Service\Interfaces\GameEntityServiceInterface;
+use App\Services\ManagedImages\Domain\Enums\ManagedImageTypeEnum;
 use App\Services\ManagedImages\Services\Interfaces\ManagedImageServiceInterface;
 use App\Services\User\Domain\User;
 use Doctrine\ORM\EntityManagerInterface;
@@ -74,7 +75,12 @@ final class AccountController extends AbstractBaseController
         if ($form->isSubmitted() && $form->isValid()) {
             $imageFile = $form->get('avatar')->getData();
             if ($imageFile) {
-                $avatar = $this->handleImageUpload($imageFile, $this->publicImagesDirectory, $user->getAvatar());
+                $avatar = $this->handleImageUpload(
+                    $imageFile,
+                    $this->publicImagesDirectory,
+                    $user->getAvatar(),
+                    ManagedImageTypeEnum::AVATAR,
+                );
                 $user->setAvatar($avatar);
             }
             $user->setEmail($dto->emailAddress);

@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Services\ManagedFiles\Infrastructure;
 
 use App\Services\ManagedFiles\Domain\ManagedFile;
+use App\Services\User\Domain\User;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\Tools\Pagination\Paginator;
 use Doctrine\Persistence\ManagerRegistry;
@@ -83,6 +84,22 @@ class ManagedFileRepository extends ServiceEntityRepository
             ->addOrderBy('f.id', 'ASC')
             ->getQuery()
             ->getResult();
+    }
+
+    public function findOneByFileHashAndUploader(string $fileHash, User $uploader): ?ManagedFile
+    {
+        $result = $this->createQueryBuilder('f')
+            ->where('f.fileHash = :fileHash')
+            ->andWhere('f.uploader = :uploader')
+            ->setParameter('fileHash', $fileHash)
+            ->setParameter('uploader', $uploader)
+            ->orderBy('f.updatedAt', 'DESC')
+            ->addOrderBy('f.id', 'DESC')
+            ->setMaxResults(1)
+            ->getQuery()
+            ->getOneOrNullResult();
+
+        return $result instanceof ManagedFile ? $result : null;
     }
 
     /**

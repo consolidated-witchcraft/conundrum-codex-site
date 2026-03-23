@@ -109,7 +109,7 @@ nav.pagination {
     }
     nav.secondary {
         flex-direction: row;
-        margin-bottom: spacing.$gutter;
+        margin: spacing.$gutter 0;
 
         a, span, em {
             padding: spacing.$gutter;

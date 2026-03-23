@@ -19,7 +19,7 @@ use Symfony\Component\Security\Core\Exception\UserNotFoundException;
     name: 'app:user:password',
     description: 'Reset a user\'s password',
 )]
-class PsswordResetCommand extends Command
+class PasswordResetCommand extends Command
 {
     public function __construct(private readonly UserService $userService)
     {

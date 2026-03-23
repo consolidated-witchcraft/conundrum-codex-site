@@ -192,4 +192,9 @@ class ManagedFileService extends AbstractDomainEntityService implements ManagedF
     {
         return hash_file('sha256', $filePath);
     }
+
+    public function findOneByFileHashAndUploader(string $fileHash, User $uploader): ?ManagedFile
+    {
+        return $this->managedFileRepository->findOneByFileHashAndUploader($fileHash, $uploader);
+    }
 }

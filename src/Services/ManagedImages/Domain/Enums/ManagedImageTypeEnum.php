@@ -8,5 +8,6 @@ enum ManagedImageTypeEnum: string
 {
     case DEFAULT = 'default';
     case THUMBNAIL = 'thumbnail';
+    case AVATAR = 'avatar';
     case AVATAR_THUMBNAIL = 'avatar-thumbnail';
 }

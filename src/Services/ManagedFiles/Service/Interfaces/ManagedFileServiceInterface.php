@@ -60,4 +60,6 @@ interface ManagedFileServiceInterface extends DomainEntityServiceInterface
     public function deduplicateFiles(): int;
 
     public function generateFileHash(string $filePath): string;
+
+    public function findOneByFileHashAndUploader(string $fileHash, User $uploader): ?ManagedFile;
 }

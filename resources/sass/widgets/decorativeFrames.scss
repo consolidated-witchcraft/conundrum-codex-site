@@ -23,7 +23,6 @@ $noiseScale: 30rem;
     background-size: $noiseScale $noiseScale, 100% 100%;
     background-blend-mode: overlay;
     box-shadow: var(--decorativeFrameShadow);
-
     box-sizing: border-box;
     z-index: 1;
 
@@ -63,14 +62,11 @@ $noiseScale: 30rem;
         bottom: 0;
         left: 0;
         z-index: 0;
-        height: $watermarkHeight;
-        width: 100%;
+        max-height: $watermarkHeight;
         mask-image: url("/dist/images/watercolor_mask_3.webp");
-
-
+        mask-repeat: no-repeat;
         opacity: 1;
-
-        object-fit: cover;
+        width: 100%;
     }
 }
 

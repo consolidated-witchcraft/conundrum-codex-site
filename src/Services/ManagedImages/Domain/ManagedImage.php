@@ -117,4 +117,24 @@ class ManagedImage extends AbstractDomainEntity
 
         return null;
     }
+
+    /**
+     * @return Collection<int, ManagedImageDerivative>
+     */
+    public function getDerivatives(): Collection
+    {
+        return $this->derivatives;
+    }
+
+    public function removeDerivative(ManagedImageDerivative $derivative): void
+    {
+        $this->derivatives->removeElement($derivative);
+    }
+
+    public function getPathForDerivative(string $derivativeFormatHandle): string
+    {
+        $derivative = $this->getDerivative($derivativeFormatHandle);
+
+        return $derivative?->getDerivative()->getPath() ?? $this->getPath();
+    }
 }

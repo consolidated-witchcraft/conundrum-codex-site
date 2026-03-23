@@ -36,6 +36,7 @@
         z-index: 0;
         border-radius: var(--baseBorderRadius);
         object-fit: cover;
+        max-width: 100%;
     }
 
     .hero-content {

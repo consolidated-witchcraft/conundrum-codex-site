@@ -26,6 +26,8 @@ beforeEach(function () {
             resolutionX: $overrides['resolutionX'] ?? 320,
             resolutionY: $overrides['resolutionY'] ?? 180,
             quality: $overrides['quality'] ?? 85,
+            allowCrop: $overrides['allowCrop'] ?? false,
+            centreImage: $overrides['centreImage'] ?? false,
             id: $overrides['id'] ?? null,
         );
     };
