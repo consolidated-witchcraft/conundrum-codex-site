@@ -149,14 +149,6 @@ abstract class AbstractBaseController extends AbstractController
 
         if ($user instanceof User) {
             $mainNav['games'] = $this->buildGamesItem($user);
-
-            if ($user->hasPermissionKey('admin_dash')) {
-                $mainNav['admin'] = new NavItem(
-                    handle: 'admin',
-                    label: 'Admin Dashboard',
-                    route: 'admin.dashboard'
-                );
-            }
         }
 
 
@@ -174,6 +166,14 @@ abstract class AbstractBaseController extends AbstractController
                 handle: 'worlds',
                 label: 'Worldbooks',
                 route: 'app.worlds.index'
+            );
+        }
+
+        if ($user instanceof User && $user->hasPermissionKey('admin_dash')) {
+            $mainNav['admin'] = new NavItem(
+                handle: 'admin',
+                label: 'Admin Dashboard',
+                route: 'admin.dashboard'
             );
         }
         return $mainNav;

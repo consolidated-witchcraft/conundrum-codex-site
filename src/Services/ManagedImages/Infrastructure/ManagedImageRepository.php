@@ -6,6 +6,7 @@ namespace App\Services\ManagedImages\Infrastructure;
 
 use App\Services\ManagedFiles\Domain\ManagedFile;
 use App\Services\ManagedImages\Domain\ManagedImage;
+use App\Services\ManagedImages\Domain\Enums\ManagedImageTypeEnum;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\Tools\Pagination\Paginator;
 use Doctrine\Persistence\ManagerRegistry;
@@ -52,5 +53,19 @@ class ManagedImageRepository extends ServiceEntityRepository
             ->getOneOrNullResult();
 
         return $result instanceof ManagedImage ? $result : null;
+    }
+
+    /**
+     * @return ManagedImage[]
+     */
+    public function findAllByDescriptionSuffixAndType(string $descriptionSuffix, ManagedImageTypeEnum $type): array
+    {
+        return $this->createQueryBuilder('i')
+            ->where('i.description LIKE :description')
+            ->andWhere('i.type = :type')
+            ->setParameter('description', '%'.$descriptionSuffix)
+            ->setParameter('type', $type)
+            ->getQuery()
+            ->getResult();
     }
 }

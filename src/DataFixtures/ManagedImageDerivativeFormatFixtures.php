@@ -58,8 +58,8 @@ class ManagedImageDerivativeFormatFixtures extends Fixture
             $manager->persist(new ManagedImageDerivativeFormat(
                 handle: $handle,
                 resolutionX: $definition['resolution_x'],
-                resolutionY: $definition['resolution_y'],
                 quality: $definition['quality'],
+                resolutionY: $definition['resolution_y'],
                 allowCrop: $definition['allow_crop'],
                 centreImage: $definition['centre_image'],
             ));

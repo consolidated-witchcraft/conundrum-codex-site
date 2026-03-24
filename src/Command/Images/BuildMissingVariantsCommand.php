@@ -17,7 +17,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
 
 #[AsCommand(
-    name: 'app:images:build-missing-variants',
+        name: 'app:images:build-missing-variants',
     description: 'Builds any missing managed image variants.',
 )]
 class BuildMissingVariantsCommand extends Command
