@@ -1,8 +1,0 @@
-@use  '../base/variables';
-
-.roundel {
-    border-radius: 0.125rem;
-    background-color: cyan;
-    box-shadow: variables.$baseBoxShadow;
-    padding: variables.$base-spacing;
-}

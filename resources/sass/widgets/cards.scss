@@ -13,7 +13,7 @@
     overflow: hidden;
     border-radius: var(--border-radius);
     border: dimension.$mediumBorderWidth solid transparent;
-    border-image: var(--goldFrame) 33%;
+    border-image: url("/dist/svgs/frames/simple-frame.svg") 33%;
     margin-bottom: spacing.$baseSpacing;
     text-align: left;
 
@@ -52,7 +52,7 @@
         }
 
         &:before {
-            background: var(--effectsGold);
+            background: var(--effectsGoldBright);
             background-clip: text;
             color: transparent;
             z-index: 1;
@@ -69,7 +69,7 @@
         position: relative;
         z-index: 1;
         border-top: dimension.$thickBorderWidth solid transparent;
-        border-image: var(--effectsGold) 33%;
+        border-image: url("/dist/svgs/frames/simple-frame.svg") 33%;
         background: var(--creamGradient);
         flex-grow: 2;
 
@@ -81,7 +81,7 @@
         background: var(--inkGradient);
         padding: spacing.$gutter;
         border-top: dimension.$thickBorderWidth solid transparent;
-        border-image: var(--goldFrame) 33%;
+        border-image: url("/dist/svgs/frames/simple-frame.svg") 33%;
 
         .btn {
             display: block;

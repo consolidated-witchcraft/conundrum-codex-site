@@ -4,7 +4,7 @@
     <div class="row flush centered hide-sm">
         <div class="col">
             <div class="hero">
-                <img src="/dist/images/hero2.webp" alt="Introduce the Dragon to the World - David Revoy" class="hero-backer" is="lazy-image" loading="lazy">
+                <img src="/dist/images/heros/hero2.webp" alt="Introduce the Dragon to the World - David Revoy" class="hero-backer" is="lazy-image" loading="lazy">
                 <div class="hero-content">
                     <h1 class="hero-heading" content="Welcome to the Conundrum Codex">Welcome to the Conundrum Codex</h1>
                     <div class="hero-body">
@@ -46,9 +46,9 @@
         <div class="col">
             <div class="decorative-frame">
                 <h2 class="frame-title">Puzzle Templates</h2>
-                <nav class="puzzle-categories lozenges grid">
+                <nav class="puzzle-categories grid lozenges">
                     {%  for template in templates %}
-                        <a href="{{ path('app.puzzles.template.show', {templateSlug: template.getSlug}) }}">{{ template.getTitle }}</a>
+                        <a class="btn btn-secondary" href="{{ path('app.puzzles.template.show', {templateSlug: template.getSlug}) }}">{{ template.getTitle }}</a>
                     {% endfor %}
                 </nav>
                 <img is="lazy-image" loading="lazy" src="/dist/images/illustrations/resized/new-skill_medium.webp" alt="Warrior by David Revoy" class="frame-watermark">

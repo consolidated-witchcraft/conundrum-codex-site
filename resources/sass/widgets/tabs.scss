@@ -22,7 +22,7 @@ $noiseScale: 50rem;
             font-weight: bold;
             font-size: 0.75rem;
             border: dimension.$thickBorderWidth solid transparent;
-            border-image: var(--goldFrame) 33%;
+            border-image: url("/dist/svgs/frames/simple-frame.svg") 33%;
             border-bottom: none;
             text-align: center;
             transition: all var(--animationSpeedNormal) ease-in-out;
@@ -42,7 +42,7 @@ $noiseScale: 50rem;
         }
         .tab-content {
             border: dimension.$mediumBorderWidth solid transparent;
-            border-image: var(--goldFrame) 33%;
+            border-image: url("/dist/svgs/frames/simple-frame.svg") 33%;
             background:
                 var(--parchmentNoise),
                 var(--vellumGradient);

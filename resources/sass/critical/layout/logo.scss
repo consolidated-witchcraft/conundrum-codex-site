@@ -73,13 +73,13 @@ $logoHeight: 8vh;
                 background-size: 400%;
                 backdrop-filter: blur(5px);
                 animation: gradient 5s ease infinite;
-                mask-image: var(--penroseMask);
+                mask-image: url("/dist/svgs/logos/penrose-mask.svg");
                 mask-size: contain;
                 mask-repeat: no-repeat;
             }
 
             &:after {
-                background-image: var(--penroseOverlay);
+                background-image: url("/dist/svgs/logos/penrose-overlay.svg");
                 background-size: contain;
                 background-repeat: no-repeat;
             }

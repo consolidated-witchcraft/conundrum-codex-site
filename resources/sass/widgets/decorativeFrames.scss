@@ -38,10 +38,16 @@ $noiseScale: 30rem;
         right: 0;
     }
 
+    &:before {
+        background-image: url("/dist/images/noise.webp");
+        background-size: 256px 256px;
+        mix-blend-mode: multiply;
+        opacity: 0.5;
+    }
     &:after {
         background-color: transparent;
         border: 1.25rem solid transparent;
-        border-image: var(--fancyFrame) 33%;
+        border-image: url("/dist/svgs/frames/fancy-frame.svg") 33%;
         z-index: 2;
     }
 

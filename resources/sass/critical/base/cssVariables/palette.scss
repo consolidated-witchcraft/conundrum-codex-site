@@ -16,6 +16,7 @@ $inkBlue: #001957;
 $wyrdPurple: #831e57;
 $tan: #786044;
 $effectsGold: repeating-linear-gradient(33deg, #988014, #bfa12a, #e1d3b0, #af9739, #ffcc00);
+$effectsGoldBright: repeating-linear-gradient(33deg, #986e14, #eac01e, #fffdc3, #eac01e, #986e14);
 $effectsCopper: repeating-linear-gradient(33deg, #d47800, #ffa32a, #f6c676, #ff952a, #ffcc00);
 $effectsSilver: repeating-linear-gradient(33deg, #616161, #C8C8C8FF, #fff, #c8c8c8, #616161);
 
@@ -73,8 +74,8 @@ $effectsSilver: repeating-linear-gradient(33deg, #616161, #C8C8C8FF, #fff, #c8c8
 
     --inkGradient: linear-gradient(to top, #{$ink}, var(--colorInkHighlight));
     --creamGradient: linear-gradient(to top, #{color.adjust($cream, $lightness: -5%)}, #{$cream});
-    --offWhiteGradient: linear-gradient(to top, #{color.adjust($offWhite, $lightness: -5%)}, #{$offWhite});
-    --vellumGradient: linear-gradient(to top,  #{$vellum}, #{color.adjust($vellum, $lightness: +5%)});
+    --offWhiteGradient: linear-gradient(to top,  #{color.adjust($vellum, $lightness: +10%)}, #{color.adjust($vellum, $lightness: +15%)});
+    --vellumGradient: linear-gradient(to top,  #{color.adjust($vellum, $lightness: +5%)}, #{color.adjust($vellum, $lightness: +10%)});
     --whiteGradient: linear-gradient(to top, #{color.adjust($white, $lightness: -5%)}, #{$white});
     --charcoalGradient: linear-gradient(to top, #{color.adjust($charcoal, $lightness: -5%)}, #{$charcoal});
 
@@ -98,6 +99,9 @@ $effectsSilver: repeating-linear-gradient(33deg, #616161, #C8C8C8FF, #fff, #c8c8
     --greenGradientRadial: radial-gradient(ellipse at 50% 100%, var(--colorGreenDarker) 33%, var(--colorGreenHighlight) 100%);
     --greenGradientLighter: linear-gradient(to top,var(--colorGreen), var(--colorGreenHighlight));
 
+
+    --lightGreenGradient: linear-gradient(to top, $green, $white);
+
     --orangeGradient: linear-gradient(to top, var(--colorOrangeDarker), var(--colorOrange));
     --orangeGradientRadial: radial-gradient(ellipse at 50% 100%, var(--colorOrangeDarker) 33%, var(--colorOrangeHighlight) 100%);
     --orangeGradientLighter: linear-gradient(to top,var(--colorOrange), var(--colorOrangeHighlight));
@@ -110,6 +114,7 @@ $effectsSilver: repeating-linear-gradient(33deg, #616161, #C8C8C8FF, #fff, #c8c8
     * Effects
      */
     --effectsGold: #{$effectsGold};
+    --effectsGoldBright: #{$effectsGoldBright};
     --effectsCopper: #{$effectsCopper};
     --effectsSilver: #{$effectsSilver};
 }

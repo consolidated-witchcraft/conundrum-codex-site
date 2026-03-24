@@ -1,6 +1,7 @@
 <header is="header-element">
     {% embed 'base/partials/menus/_main.html.twig' %}{% endembed %}
+    <!--<a class="top-level-nav-link cart" href="{{ app.user ? path('app.user.cart') : path('app.auth.login') }}">Cart</a>-->
     <a class="top-level-nav-link user" href="{{ app.user ? path('app.user.account') : path('app.auth.login') }}">Account</a>
-    <a class="top-level-nav-link cart" href="{{ app.user ? path('app.user.cart') : path('app.auth.login') }}">Cart</a>
+
 </header>
 

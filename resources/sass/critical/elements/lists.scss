@@ -30,10 +30,13 @@ ul.stars {
                 text-shadow: none;
                 height: 100%;
                 color: transparent;
-                background-image: var(--erodedStar);
-                background-size: contain;
-                background-repeat: no-repeat;
-                background-position: top left;
+                background: var(--effectsGold);
+                background-size: 50%;
+                background-attachment: fixed;
+                mask-image: url("/dist/svgs/dividers/eroded-star.svg");
+                mask-size: contain;
+                mask-repeat: no-repeat;
+                mask-position: top left;
             }
         }
     }

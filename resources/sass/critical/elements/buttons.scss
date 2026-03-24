@@ -14,7 +14,7 @@
         box-shadow: var(--baseBoxShadow);
         color: var(--colorOffWhite);
         border: dimension.$thickBorderWidth solid saddlebrown;
-        border-image: var(--goldFrame) 33%;
+        border-image: url("/dist/svgs/frames/simple-frame.svg") 33%;
         overflow: hidden;
         text-shadow: var(--effectsEngravedShadow);
         text-align: center;

@@ -22,7 +22,7 @@
         right: 0;
         background-color: transparent;
         border: 1.25rem solid transparent;
-        border-image: var(--fancyFrame) 33%;
+        border-image: url("/dist/svgs/frames/fancy-frame.svg") 33%;
         z-index: 2;
         pointer-events: none;
     }
@@ -61,7 +61,7 @@
             height: 100%;
             width: 5vw;
             z-index: -1;
-            mask-image: url("/dist/images/paint-mask-right.webp");
+            mask-image: url("/dist/images/watercolor_mask_right.webp");
             mask-size: 25vw;
             mask-position: right;
             mask-repeat: repeat-y;
@@ -91,7 +91,7 @@
             text-shadow: 0 0 0.25rem var(--colorInk);
         }
         &:before {
-            background: var(--effectsGold);
+            background: var(--effectsGoldBright);
             background-clip: text;
             color: transparent;
             z-index: 1;

@@ -14,26 +14,28 @@ label {
 input,
 textarea {
     display: flex;
-    border: dimension.$extraThickBorderWidth solid transparent;
-    border-image: var(--erodedFrameWhiteInner) 33%;
-    background-color: var(--colorWhite);
+    border: dimension.$mediumBorderWidth solid transparent;
+    border-image: url("/dist/svgs/frames/simple-frame.svg") 33%;
+    background: var(--whiteGradient);
+    box-shadow: inset 0 0.125rem 0.25rem rgba(89, 62, 0, 0.5);
     padding: math.div(spacing.$baseSpacing, 2);
     flex: 1;
     width: 100%;
     font-family: var(--textStack);
+    transition: box-shadow var(--animationSpeedSnappy) ease-in-out;
     font-size: 1rem;
 
     &:focus {
         outline: none;
-        border-image: var(--erodedFrameWhiteInnerGreen) 33%;
+        box-shadow: inset 0 0.125rem 0.25rem rgba(89, 62, 0, 0.5), inset 0 0 0.25rem lime;
     }
 }
 
 .email-wrapper {
     position: relative;
     background-color: var(--colorWhite);
-    border: dimension.$extraThickBorderWidth solid transparent;
-    border-image: var(--erodedFrameWhiteInner) 33%;
+    border: dimension.$mediumBorderWidth solid transparent;
+    border-image: url("/dist/svgs/frames/simple-frame.svg") 33%;
     padding-left: 3rem;
 
     &:before {
@@ -57,7 +59,7 @@ textarea {
     }
 
     &:focus,&:active {
-        border-image: var(--erodedFrameWhiteInnerGreen) 33%;
+        box-shadow: inset 0 0.125rem 0.25rem rgba(89, 62, 0, 0.5), inset 0 0 0.25rem lime;
     }
 
 
@@ -65,8 +67,8 @@ textarea {
 .money-widget {
     position: relative;
     background-color: var(--colorWhite);
-    border: dimension.$extraThickBorderWidth solid transparent;
-    border-image: var(--erodedFrameWhiteInner) 33%;
+    border: dimension.$mediumBorderWidth solid transparent;
+    border-image: url("/dist/svgs/frames/simple-frame.svg") 33%;
     padding-left: 3rem;
 
     .money-widget-addon {
@@ -124,9 +126,10 @@ textarea {
         }
         &:before {
 
-            border: dimension.$extraThickBorderWidth solid transparent;
-            border-image: var(--erodedFrameWhiteInner) 33%;
-            background-color: var(--colorWhite);
+            border: dimension.$mediumBorderWidth solid transparent;
+            border-image: url("/dist/svgs/frames/simple-frame.svg") 33%;
+            background: var(--whiteGradient);
+            box-shadow: inset 0 0.125rem 0.25rem rgba(89, 62, 0, 0.5);
 
         }
 
@@ -138,6 +141,9 @@ textarea {
         }
 
         &:hover {
+            &:before {
+                box-shadow: inset 0 0.125rem 0.25rem rgba(89, 62, 0, 0.5), inset 0 0 0.25rem lime;
+            }
             &:after {
                 opacity :0.5;
             }
@@ -231,16 +237,17 @@ textarea {
 }
 
 select {
-    border: dimension.$extraThickBorderWidth solid transparent;
-    border-image: var(--erodedFrameWhiteInner) 33%;
-    background-color: var(--colorWhite);
+    border: dimension.$mediumBorderWidth solid transparent;
+    border-image: url("/dist/svgs/frames/simple-frame.svg") 33%;
+    box-shadow: var(--baseBoxShadow);
+
     padding: math.div(spacing.$baseSpacing, 4);
     font-family: var(--textStack);
     width: 100%;
 
     &:open,
     &:hover {
-        border-image: var(--erodedFrameWhiteInnerGreen) 33%;
+
     }
 }
 
@@ -249,7 +256,7 @@ select {
     border-radius: var(--baseBorderRadius);
     background: var(--parchmentNoise),
         var(--vellumGradient);
-    background-size: $noiseScale $noiseScale, 100% 50%;
+    background-size: $noiseScale $noiseScale, 100% 100%;
     background-repeat: no-repeat;
     background-blend-mode: overlay;
     box-shadow: var(--baseBoxShadow);
@@ -289,7 +296,7 @@ select {
 
     &.errors {
         input, select, textarea {
-            border-image: var(--erodedFrameWhiteInnerCrimson) 33%;
+            box-shadow: inset 0 0.125rem 0.25rem rgba(89, 62, 0, 0.5), inset 0 0 0.25rem red;
         }
     }
 }

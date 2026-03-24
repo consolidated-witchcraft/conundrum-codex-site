@@ -11,49 +11,6 @@ nav.lozenges {
     margin: spacing.$baseSpacing 0;
     position: relative;
 
-    a {
-        padding: math.div(spacing.$baseSpacing, 2);
-        margin-right: math.div(spacing.$baseSpacing, 2);
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        color: var(--colorInk);
-        font-weight: 800;
-        font-size: 1rem;
-        flex: 1;
-        border: dimension.$extraThickBorderWidth solid transparent;
-        border-image: var(--erodedFrameTan) 33%;
-        text-align: center;
-        position: relative;
-        z-index: 0;
-        transition: all var(--animationSpeedNormal) ease-in-out;
-        transition-property: background-color, color;
-
-        &:hover {
-            background-color: var(--colorTeal);
-            color: var(--colorWhite);
-
-        }
-        &:before {
-            content: " ";
-            display: block;
-            width: 100%;
-            height: 100%;
-            pointer-events: none;
-            position: absolute;
-            top: 0;
-            left: 0;
-            z-index: -2;
-            border: var(--baseBorderWidth) solid transparent;
-            border-image: url('/dist/images/eroded-frame.svg') 33%;
-        }
-
-
-        &:last-child {
-            margin-right: 0;
-        }
-    }
-
     &.grid {
         display: grid;
         grid-template-columns: 1fr;
@@ -61,8 +18,9 @@ nav.lozenges {
         column-gap: spacing.$baseSpacing;
 
         a {
-            margin: 0;
-
+            margin: 0 !important;
+            text-align: center;
+            flex: 1;
         }
 
     }

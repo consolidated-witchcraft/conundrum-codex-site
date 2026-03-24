@@ -1,18 +1,16 @@
 @use 'sass:math';
-@use '../../criticalOld/base/variables';
-@use '../../criticalOld/base/palette';
+
 
 nav.admin-navbar {
     display: flex;
     flex-direction: row;
-    padding: 0 math.div((100vw - variables.$desktopMedViewportWidth), 2);
-    background: palette.$charcoal;
-    margin-bottom: variables.$base-spacing;
+    padding: 1rem;
+    background: black;
     width: 100%;
 
     a {
-        color: palette.$white;
-        padding: math.div(variables.$base-spacing, 2);
+
+        padding: 1rem;
 
         &:first-child {
             padding-left: 0;

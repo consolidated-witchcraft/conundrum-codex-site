@@ -37,7 +37,7 @@ body {
 
             background-color: transparent;
             border: 1.5rem solid transparent;
-            border-image: var(--blackFrame) 33%;
+            border-image: url("/dist/svgs/frames/fancy-frame.svg") 33%;
             z-index: 2;
         }
 

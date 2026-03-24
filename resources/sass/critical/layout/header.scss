@@ -61,22 +61,23 @@ header {
             height: 100%;
             top: 0;
             left: 0;
-            background-size: 80%;
-            background-repeat: no-repeat;
-            background-position: 10%;
+            mask-size: 80%;
+            mask-repeat: no-repeat;
+            mask-position: 10%;
+            background-color: var(--colorVellum);
         }
 
         &.user {
             right: dimension.$mobileHeaderHeight;
             &:before {
-                background-image: var(--userIconVellum);
+                mask-image: url("/dist/svgs/icons/usericon.svg");
             }
 
         }
 
         &.cart {
             &:before {
-                background-image: var(--cartIconVellum);
+                mask-image: url("/dist/svgs/icons/cart-icon.svg");
             }
 
         }
@@ -101,10 +102,17 @@ header {
             left: 1vh;
             height: dimension.$mobileHeaderHeight - 2vh;
             width: dimension.$mobileHeaderHeight - 2vh;
-            background-image: var(--menuIcon);
-            background-position: center;
-            background-size: 66%;
-            background-repeat: no-repeat;
+            background-color: var(--colorVellum);
+            mask-image: url("/dist/svgs/icons/hamburger.svg");
+            mask-position: center;
+            mask-size: 66%;
+            mask-repeat: no-repeat;
+        }
+
+        &.open {
+            &:before {
+                background: linear-gradient(33deg, cyan, magenta);
+            }
         }
     }
 
@@ -195,11 +203,14 @@ header {
                             height: 100%;
                             width: 1em;
                             margin-left: 1em;
-                            background-image: var(--erodedStar);
-                            background-repeat: no-repeat;
-                            background-size: contain;
-                            background-position: center;
-                            transition: opacity var(--animationSpeedSnappy) ease-in-out;
+                            background: var(--effectsGoldBright);
+                            background-size: 50%;
+                            background-attachment: fixed;
+                            mask-image: url("/dist/svgs/dividers/eroded-star.svg");
+                            mask-repeat: no-repeat;
+                            mask-size: contain;
+                            mask-position: center;
+                            transition: background-color var(--animationSpeedSnappy) ease-in-out;
                         }
                     }
                 }
@@ -207,35 +218,28 @@ header {
 
             a.top-level-nav-link {
                 height: 100%;
-                width: 2em;
+                width: 3em;
                 right: spacing.$desktopContainerPadding;
                 z-index: 9999;
                 border: none;
+                mask-size: cover;
 
-                &.user {
-                    right: spacing.$desktopContainerPadding;
-                    margin-right: 3em;
-                    &:before {
-                        background-image: var(--userIcon);
-                    }
-                    &:hover, &:active, &:focus {
-                        &:before {
-                            background-image: var(--userIconActive);
-                        }
-                    }
 
+                &:before {
+                    background-color: var(--colorInk);
+                    opacity: 0.9;
+                    mix-blend-mode: multiply;
+                    transition: background-color var(--animationSpeedSnappy) ease-in-out;
                 }
 
-                &.cart {
+                &:hover, &:active, &:focus {
                     &:before {
-                        background-image: var(--cartIcon);
+                        background-color: var(--colorCrimson);
                     }
-                    &:hover, &:active, &:focus {
-                        &:before {
-                            background-image: var(--cartIconActive);
-                        }
-                    }
-
+                }
+                &.cart {
+                    right: spacing.$desktopContainerPadding;
+                    margin-right: 5em;
                 }
             }
 
@@ -254,24 +258,16 @@ header {
 
                         &:not(:last-child) {
                             &:after {
-                                background-image: var(--erodedStarVellum);
-                                opacity: 0;
+                                background-color: var(--colorVellum);
                             }
                         }
                     }
                 }
 
                 a.top-level-nav-link {
-                    &.user {
-                        &:before {
-                            background-image: var(--userIconVellum);
-                        }
-                    }
 
-                    &.cart {
-                        &:before {
-                            background-image: var(--cartIconVellum);
-                        }
+                    &:before {
+                        background: var(--effectsGoldBright);
                     }
                 }
             }

@@ -1,13 +1,17 @@
 import resolve from '@rollup/plugin-node-resolve';
 import summary from 'rollup-plugin-summary';
-import terser  from '@rollup/plugin-terser';
-import copy from 'rollup-plugin-copy'
+import terser from '@rollup/plugin-terser';
 import typescript from '@rollup/plugin-typescript';
 import scss from 'rollup-plugin-scss';
-import sass from 'rollup-plugin-sass';
 import clean from '@rollup-extras/plugin-clean';
 import replace from '@rollup/plugin-replace';
 import dotenv from 'dotenv';
+import { transform as lightningTransform } from 'lightningcss';
+import { optimize as optimizeSvg } from 'svgo';
+
+import fg from 'fast-glob';
+import fs from 'node:fs/promises';
+import path from 'node:path';
 
 dotenv.config();
 
@@ -16,22 +20,94 @@ const envReplacements = {
     'process.env.APP_ENV': JSON.stringify(process.env.APP_ENV)
 };
 
-const copyConfig = {
-  targets: [
-  	{
-        src: 'resources/images',
-        dest: 'public/dist'
-    },
-    {
-        src: 'resources/fonts',
-        dest: 'public/dist'
-    },
-    {
-        src: 'resources/audio',
-        dest: 'public/dist'
-    }
-  ]
-};
+function minifyCssWithLightning(css, filePath = 'unknown.css') {
+    const { code } = lightningTransform({
+        filename: filePath,
+        code: Buffer.from(css),
+        minify: true,
+        sourceMap: false
+    });
+
+    return code.toString();
+}
+
+function optimiseSvg(svg, filePath = 'unknown.svg') {
+    const result = optimizeSvg(svg, {
+        path: filePath,
+        multipass: true,
+        plugins: [
+            { name: 'preset-default' },
+            'removeDimensions'
+        ]
+    });
+
+    return result.data;
+}
+
+function copyDirectory({
+   srcDir,
+   destDir,
+   pattern = '**/*'
+}) {
+    return {
+        name: `copy-directory:${srcDir}`,
+
+        buildStart() {
+            this.addWatchFile(srcDir);
+        },
+
+        async writeBundle() {
+            const files = await fg(pattern, {
+                cwd: srcDir,
+                onlyFiles: true,
+                dot: false
+            });
+
+            await Promise.all(
+                files.map(async (relativePath) => {
+                    const sourcePath = path.join(srcDir, relativePath);
+                    const outputPath = path.join(destDir, relativePath);
+
+                    await fs.mkdir(path.dirname(outputPath), { recursive: true });
+                    await fs.copyFile(sourcePath, outputPath);
+                })
+            );
+        }
+    };
+}
+
+function copyOptimisedSvgs({
+                               srcDir = 'resources/svgs',
+                               destDir = 'public/dist/svgs'
+                           } = {}) {
+    return {
+        name: 'copy-optimised-svgs',
+
+        buildStart() {
+            this.addWatchFile(srcDir);
+        },
+
+        async writeBundle() {
+            const files = await fg('**/*.svg', {
+                cwd: srcDir,
+                onlyFiles: true
+            });
+
+            await Promise.all(
+                files.map(async (relativePath) => {
+                    const sourcePath = path.join(srcDir, relativePath);
+                    const outputPath = path.join(destDir, relativePath);
+
+                    const raw = await fs.readFile(sourcePath, 'utf8');
+                    const optimised = optimiseSvg(raw, sourcePath);
+
+                    await fs.mkdir(path.dirname(outputPath), { recursive: true });
+                    await fs.writeFile(outputPath, optimised, 'utf8');
+                })
+            );
+        }
+    };
+}
 
 const terserOptions = {
     ecma: 2021,
@@ -43,7 +119,7 @@ const terserOptions = {
             regex: /^__/,
         },
     },
-}
+};
 
 function removeEmptyCssJs() {
     return {
@@ -63,365 +139,159 @@ function removeEmptyCssJs() {
         }
     };
 }
+
+function makeScssConfig(input, outputDir, fileName, watch = []) {
+    return {
+        input,
+        output: {
+            dir: outputDir
+        },
+        plugins: [
+            scss({
+                fileName,
+                outputStyle: 'expanded',
+                processor: (css) => minifyCssWithLightning(css, fileName),
+                watch
+            }),
+            removeEmptyCssJs(),
+            summary()
+        ]
+    };
+}
+
 const config = [
     {
-
         input: 'resources/typescript/app.ts',
         output: {
             dir: './public/dist/js/',
             format: 'es'
         },
-
         plugins: [
-            copy(copyConfig),
+            clean(),
+            copyDirectory({
+                srcDir: 'resources/images',
+                destDir: 'public/dist/images'
+            }),
+            copyDirectory({
+                srcDir: 'resources/fonts',
+                destDir: 'public/dist/fonts'
+            }),
+            copyDirectory({
+                srcDir: 'resources/audio',
+                destDir: 'public/dist/audio'
+            }),
+            copyOptimisedSvgs({
+                srcDir: 'resources/svgs',
+                destDir: 'public/dist/svgs'
+            }),
             typescript(),
             resolve(),
-            clean(),
             replace(envReplacements),
             summary(),
         ],
         preserveEntrySignatures: false,
     },
-    {
-        input: 'resources/sass/critical.scss',
-        output: {
-            dir: './public/dist/css/'
-        },
-        plugins: [
-            scss({
-                processor: (css) => {
-                    return css;
-                },
-                fileName: 'critical.css',
-                outputStyle: 'compressed',
-                watch: [
-                    'resources/sass/critical.scss',
-                    'resources/sass/critical/'
-                ],
-            }),
-            removeEmptyCssJs(),
 
-            summary()
+    makeScssConfig(
+        'resources/sass/critical.scss',
+        './public/dist/css/',
+        'critical.css',
+        [
+            'resources/sass/critical.scss',
+            'resources/sass/critical/'
         ]
-    },
-    /**
-     * Widgets
-     */
-    {
-        input: 'resources/sass/widgets/panels.scss',
-        output: {
-            dir: './public/dist/css/widgets'
-        },
-        plugins: [
-            scss({
-                fileName: 'panels.css',
-                outputStyle: 'compressed',
-                watch: ['resources/sass/widgets/panels.scss']
+    ),
 
-            }),
-            removeEmptyCssJs(),
-            summary()
+    makeScssConfig(
+        'resources/sass/admin/admin.scss',
+        './public/dist/css/',
+        'admin.css',
+        [
+            'resources/sass/admin.scss',
+            'resources/sass/admin/'
         ]
-    },
-    {
-        input: 'resources/sass/widgets/hero.scss',
-        output: {
-            dir: './public/dist/css/widgets'
-        },
-        plugins: [
-            scss({
-                fileName: 'hero.css',
-                outputStyle: 'compressed',
-                watch: ['resources/sass/widgets/hero.scss']
-            }),
-            removeEmptyCssJs(),
-            summary()
-        ]
-    },
-    {
-        input: 'resources/sass/widgets/decorativeFrames.scss',
-        output: {
-            dir: './public/dist/css/widgets'
-        },
-        plugins: [
-            scss({
-                fileName: 'decorativeFrames.css',
-                outputStyle: 'compressed',
-                watch: ['resources/sass/widgets/decorativeFrames.scss']
-            }),
-            removeEmptyCssJs(),
-            summary()
-        ]
-    },
-    {
-        input: 'resources/sass/widgets/randomQuotation.scss',
-        output: {
-            dir: './public/dist/css/widgets'
-        },
-        plugins: [
-            scss({
-                fileName: 'randomQuotation.css',
-                outputStyle: 'compressed',
-                watch: ['resources/sass/widgets/randomQuotation.scss']
-            }),
-            removeEmptyCssJs(),
-            summary()
-        ]
-    },
-    {
-        input: 'resources/sass/widgets/tables.scss',
-        output: {
-            dir: './public/dist/css/widgets'
-        },
-        plugins: [
-            scss({
-                fileName: 'tables.css',
-                outputStyle: 'compressed',
-                watch: ['resources/sass/widgets/tables.scss']
-            }),
-            removeEmptyCssJs(),
-            summary()
-        ]
-    },
-    {
-        input: 'resources/sass/widgets/tabs.scss',
-        output: {
-            dir: './public/dist/css/widgets'
-        },
-        plugins: [
-            scss({
-                fileName: 'tabs.css',
-                outputStyle: 'compressed',
-                watch: ['resources/sass/widgets/tabs.scss']
-            }),
-            removeEmptyCssJs(),
-            summary()
-        ]
-    },
-    {
-        input: 'resources/sass/widgets/accordions.scss',
-        output: {
-            dir: './public/dist/css/widgets'
-        },
-        plugins: [
-            scss({
-                fileName: 'accordions.css',
-                outputStyle: 'compressed',
-                watch: ['resources/sass/widgets/accordions.scss']
+    ),
 
-            }),
-            removeEmptyCssJs(),
-            summary()
-        ]
-    },
-    {
-        input: 'resources/sass/widgets/badges.scss',
-        output: {
-            dir: './public/dist/css/widgets'
-        },
-        plugins: [
-            scss({
-                fileName: 'badges.css',
-                outputStyle: 'compressed',
-                watch: ['resources/sass/widgets/badges.scss']
+    makeScssConfig(
+        'resources/sass/widgets/panels.scss',
+        './public/dist/css/widgets',
+        'panels.css',
+        ['resources/sass/widgets/panels.scss']
+    ),
 
-            }),
-            removeEmptyCssJs(),
-            summary()
-        ]
-    },
-    {
-        input: 'resources/sass/widgets/feats.scss',
-        output: {
-            dir: './public/dist/css/widgets'
-        },
-        plugins: [
-            scss({
-                fileName: 'feats.css',
-                outputStyle: 'compressed',
-                watch: ['resources/sass/widgets/feats.scss']
-            }),
-            removeEmptyCssJs(),
-            summary()
-        ]
-    },
-    {
-        input: 'resources/sass/widgets/slideshow.scss',
-        output: {
-            dir: './public/dist/css/widgets'
-        },
-        plugins: [
-            scss({
-                fileName: 'slideshow.css',
-                outputStyle: 'compressed',
-                watch: ['resources/sass/widgets/slideshow.scss']
-            }),
-            removeEmptyCssJs(),
-            summary()
-        ]
-    },
-    {
-        input: 'resources/sass/widgets/cards.scss',
-        output: {
-            dir: './public/dist/css/widgets'
-        },
-        plugins: [
-            scss({
-                fileName: 'cards.css',
-                outputStyle: 'compressed',
-                watch: ['resources/sass/widgets/cards.scss']
-            }),
-            removeEmptyCssJs(),
-            summary()
-        ]
-    },
-    /**
-     * Puzzles
-     */
-    {
-        input: 'resources/typescript/puzzles/hammer/hammerBoot.ts',
-        output: {
-            dir: './public/dist/js/',
-            format: 'es',
-        },
+    makeScssConfig(
+        'resources/sass/widgets/hero.scss',
+        './public/dist/css/widgets',
+        'hero.css',
+        ['resources/sass/widgets/hero.scss']
+    ),
 
-        plugins: [
-            typescript(),
-            resolve()
-        ],
-        preserveEntrySignatures: false,
-    },
-    {
-        input: 'resources/typescript/puzzles/lightforge/lightforgeBoot.ts',
-        output: {
-            dir: './public/dist/js/',
+    makeScssConfig(
+        'resources/sass/widgets/decorativeFrames.scss',
+        './public/dist/css/widgets',
+        'decorativeFrames.css',
+        ['resources/sass/widgets/decorativeFrames.scss']
+    ),
 
-            format: 'es',
-        },
+    makeScssConfig(
+        'resources/sass/widgets/randomQuotation.scss',
+        './public/dist/css/widgets',
+        'randomQuotation.css',
+        ['resources/sass/widgets/randomQuotation.scss']
+    ),
 
-        plugins: [
-            typescript(),
-            resolve()
-        ],
-        preserveEntrySignatures: false,
-    },
-    {
-        input: 'resources/typescript/puzzles/casebook/casebookBoot.ts',
-        output: {
-            dir: './public/dist/js/',
-            format: 'es',
-        },
+    makeScssConfig(
+        'resources/sass/widgets/tables.scss',
+        './public/dist/css/widgets',
+        'tables.css',
+        ['resources/sass/widgets/tables.scss']
+    ),
 
-        plugins: [
-            typescript(),
-            replace(envReplacements),
-            sass(),
-            resolve()
-        ],
-        preserveEntrySignatures: false,
-    },
-    {
-        input: 'resources/typescript/puzzles/buttons/buttonsBoot.ts',
-        output: {
-            dir: './public/dist/js/',
-            format: 'es',
-        },
+    makeScssConfig(
+        'resources/sass/widgets/tabs.scss',
+        './public/dist/css/widgets',
+        'tabs.css',
+        ['resources/sass/widgets/tabs.scss']
+    ),
 
-        plugins: [
-            typescript(),
-            replace(envReplacements),
-            sass(),
-            resolve()
-        ],
-        preserveEntrySignatures: false,
-    },
-    {
-        input: 'resources/sass/puzzles/lightforge.scss',
-        output: {
-            dir: './public/dist/css/puzzles'
-        },
-        plugins: [
-            scss({
-                fileName: 'lightforge.css',
-                outputStyle: 'compressed',
-                watch: ['resources/sass/puzzles/lightforge.scss']
+    makeScssConfig(
+        'resources/sass/widgets/accordions.scss',
+        './public/dist/css/widgets',
+        'accordions.css',
+        ['resources/sass/widgets/accordions.scss']
+    ),
 
-            }),
-            summary()
-        ]
-    },
-    {
-        input: 'resources/sass/puzzles/hammer.scss',
-        output: {
-            dir: './public/dist/css/puzzles'
-        },
-        plugins: [
-            scss({
-                fileName: 'hammer.css',
-                outputStyle: 'compressed',
-                watch: ['resources/sass/puzzles/hammer.scss']
-            }),
-            summary()
-        ]
-    },
-    {
-        input: 'resources/sass/puzzles/casebook.scss',
-        output: {
-            dir: './public/dist/css/casebook'
-        },
-        plugins: [
-            scss({
-                fileName: 'casebook.css',
-                outputStyle: 'compressed',
-                watch: ['resources/sass/puzzles/casebook.scss']
-            }),
-            summary()
-        ]
-    },
-    {
-        input: 'resources/sass/puzzles/casebook-clue.scss',
-        output: {
-            dir: './public/dist/css/casebook'
-        },
-        plugins: [
-            scss({
-                fileName: 'casebook-clue.css',
-                outputStyle: 'compressed',
-                watch: ['resources/sass/puzzles/casebook-clue.scss']
-            }),
-            summary()
-        ]
-    },
-    {
-        input: 'resources/sass/admin/admin.scss',
-        output: {
-            dir: './public/dist/css/'
-        },
-        plugins: [
-            scss({
-                fileName: 'admin.css',
-                outputStyle: 'compressed',
-                watch: [
-                    'resources/sass/admin/admin.scss',
-                    'resources/sass/admin/',
-                    'resources/sass/criticalOld/'
-                ],
-            }),
+    makeScssConfig(
+        'resources/sass/widgets/badges.scss',
+        './public/dist/css/widgets',
+        'badges.css',
+        ['resources/sass/widgets/badges.scss']
+    ),
 
-            summary()
-        ]
-    },
+    makeScssConfig(
+        'resources/sass/widgets/feats.scss',
+        './public/dist/css/widgets',
+        'feats.css',
+        ['resources/sass/widgets/feats.scss']
+    ),
 
+    makeScssConfig(
+        'resources/sass/widgets/slideshow.scss',
+        './public/dist/css/widgets',
+        'slideshow.css',
+        ['resources/sass/widgets/slideshow.scss']
+    ),
+
+    makeScssConfig(
+        'resources/sass/widgets/cards.scss',
+        './public/dist/css/widgets',
+        'cards.css',
+        ['resources/sass/widgets/cards.scss']
+    )
 ];
-
-
 
 if (process.env.NODE_ENV !== 'development') {
     config[0].plugins.push(terser(terserOptions));
-    config[13].plugins.push(terser(terserOptions)); // hammerBoot
-    config[14].plugins.push(terser(terserOptions)); // lightforgeBoot
-    config[15].plugins.push(terser(terserOptions)); // casebookBoot
-    config[16].plugins.push(terser(terserOptions)); // buttonsBoot
 }
 
 export default config;

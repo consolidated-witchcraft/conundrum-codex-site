@@ -14,7 +14,7 @@ nav.breadcrumbs {
         background: var(--vellumGradient);
         box-shadow: var(--baseBoxShadow);
         border: dimension.$mediumBorderWidth solid transparent;
-        border-image: var(--goldFrame) 33%;
+        border-image: url("/dist/svgs/frames/simple-frame.svg") 33%;
         border-radius: var(--baseBorderRadius);
         margin: 0 0 spacing.$baseSpacing 0;
         padding: 0 spacing.$gutter;
@@ -40,7 +40,7 @@ nav.breadcrumbs {
                     right: 0;
                     display: block;
                     border-right: dimension.$mediumBorderWidth solid transparent;
-                    border-image: var(--goldFrame) 33%;
+                    border-image: url("/dist/svgs/frames/simple-frame.svg") 33%;
                     height: 200%;
                     pointer-events: none;
                     transform: rotate(33deg);
