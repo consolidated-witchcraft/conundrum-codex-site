@@ -3,7 +3,6 @@ import summary from 'rollup-plugin-summary';
 import terser from '@rollup/plugin-terser';
 import typescript from '@rollup/plugin-typescript';
 import scss from 'rollup-plugin-scss';
-import clean from '@rollup-extras/plugin-clean';
 import replace from '@rollup/plugin-replace';
 import dotenv from 'dotenv';
 import { transform as lightningTransform } from 'lightningcss';
@@ -44,11 +43,28 @@ function optimiseSvg(svg, filePath = 'unknown.svg') {
     return result.data;
 }
 
+function cleanDirectory(dir) {
+    let cleaned = false;
+
+    return {
+        name: `clean-directory:${dir}`,
+
+        async buildStart() {
+            if (cleaned) {
+                return;
+            }
+
+            await fs.rm(dir, { recursive: true, force: true });
+            cleaned = true;
+        }
+    };
+}
+
 function copyDirectory({
-   srcDir,
-   destDir,
-   pattern = '**/*'
-}) {
+                           srcDir,
+                           destDir,
+                           pattern = '**/*'
+                       }) {
     return {
         name: `copy-directory:${srcDir}`,
 
@@ -159,6 +175,29 @@ function makeScssConfig(input, outputDir, fileName, watch = []) {
     };
 }
 
+const widgetScssEntries = [
+    'panels',
+    'hero',
+    'decorativeFrames',
+    'randomQuotation',
+    'tables',
+    'tabs',
+    'accordions',
+    'badges',
+    'feats',
+    'slideshow',
+    'cards'
+];
+
+const widgetConfigs = widgetScssEntries.map((name) =>
+    makeScssConfig(
+        `resources/sass/widgets/${name}.scss`,
+        './public/dist/css/widgets',
+        `${name}.css`,
+        [`resources/sass/widgets/${name}.scss`]
+    )
+);
+
 const config = [
     {
         input: 'resources/typescript/app.ts',
@@ -167,7 +206,7 @@ const config = [
             format: 'es'
         },
         plugins: [
-            clean(),
+            cleanDirectory('public/dist'),
             copyDirectory({
                 srcDir: 'resources/images',
                 destDir: 'public/dist/images'
@@ -202,92 +241,7 @@ const config = [
         ]
     ),
 
-    makeScssConfig(
-        'resources/sass/admin/admin.scss',
-        './public/dist/css/',
-        'admin.css',
-        [
-            'resources/sass/admin.scss',
-            'resources/sass/admin/'
-        ]
-    ),
-
-    makeScssConfig(
-        'resources/sass/widgets/panels.scss',
-        './public/dist/css/widgets',
-        'panels.css',
-        ['resources/sass/widgets/panels.scss']
-    ),
-
-    makeScssConfig(
-        'resources/sass/widgets/hero.scss',
-        './public/dist/css/widgets',
-        'hero.css',
-        ['resources/sass/widgets/hero.scss']
-    ),
-
-    makeScssConfig(
-        'resources/sass/widgets/decorativeFrames.scss',
-        './public/dist/css/widgets',
-        'decorativeFrames.css',
-        ['resources/sass/widgets/decorativeFrames.scss']
-    ),
-
-    makeScssConfig(
-        'resources/sass/widgets/randomQuotation.scss',
-        './public/dist/css/widgets',
-        'randomQuotation.css',
-        ['resources/sass/widgets/randomQuotation.scss']
-    ),
-
-    makeScssConfig(
-        'resources/sass/widgets/tables.scss',
-        './public/dist/css/widgets',
-        'tables.css',
-        ['resources/sass/widgets/tables.scss']
-    ),
-
-    makeScssConfig(
-        'resources/sass/widgets/tabs.scss',
-        './public/dist/css/widgets',
-        'tabs.css',
-        ['resources/sass/widgets/tabs.scss']
-    ),
-
-    makeScssConfig(
-        'resources/sass/widgets/accordions.scss',
-        './public/dist/css/widgets',
-        'accordions.css',
-        ['resources/sass/widgets/accordions.scss']
-    ),
-
-    makeScssConfig(
-        'resources/sass/widgets/badges.scss',
-        './public/dist/css/widgets',
-        'badges.css',
-        ['resources/sass/widgets/badges.scss']
-    ),
-
-    makeScssConfig(
-        'resources/sass/widgets/feats.scss',
-        './public/dist/css/widgets',
-        'feats.css',
-        ['resources/sass/widgets/feats.scss']
-    ),
-
-    makeScssConfig(
-        'resources/sass/widgets/slideshow.scss',
-        './public/dist/css/widgets',
-        'slideshow.css',
-        ['resources/sass/widgets/slideshow.scss']
-    ),
-
-    makeScssConfig(
-        'resources/sass/widgets/cards.scss',
-        './public/dist/css/widgets',
-        'cards.css',
-        ['resources/sass/widgets/cards.scss']
-    )
+    ...widgetConfigs
 ];
 
 if (process.env.NODE_ENV !== 'development') {
