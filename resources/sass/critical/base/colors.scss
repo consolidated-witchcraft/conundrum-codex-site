@@ -17,16 +17,22 @@
 
 html {
     body {
-        background:
-
+        background-image:
+            url("/dist/images/papertex.webp"),
             radial-gradient(
-                circle at 50% 50%, palette.$cream 66%,
-                color.adjust(palette.$cream, $saturation: +10%, $lightness: -5%) 100%
-            );
-        background-size: 100% 100%, 50rem 50rem;
+                    circle at 50% 50%, palette.$cream 66%,
+                    color.adjust(palette.$cream, $saturation: +10%, $lightness: -5%) 100%
+            ),
+            url("/dist/images/sigils_faded_ink_small.webp");
+
+
+
+        background-size: 128px 128px, 100% 100%, 389px 427px;
+        background-repeat: repeat, repeat, no-repeat;
+        background-blend-mode: soft-light;
         min-width: 100%;
         min-height: 100vh;
-        //background-blend-mode: multiply;
+
         position: relative;
 
         &:after,
@@ -38,27 +44,6 @@ html {
             left: 0;
 
             position: absolute;
-        }
-
-        &:before {
-            width: 100%;
-            height: 100%;
-            position: absolute;
-            background-image: url("/dist/images/papertex.webp");
-            background-size: 128px 128px;
-            mix-blend-mode: soft-light;
-        }
-
-        &:after {
-            width: 100vw;
-            height: 100vw;
-            background: var(--colorInk);
-            mask-image: url("/dist/images/sigils_faded.webp");
-            animation: gradient 5s ease infinite;
-            mask-size: cover;
-            mask-repeat: no-repeat;
-
-            opacity: 0.3333;
         }
 
         color: var(--colorInk);

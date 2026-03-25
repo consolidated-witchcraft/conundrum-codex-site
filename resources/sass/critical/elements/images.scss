@@ -18,7 +18,7 @@ body {
         box-shadow: var(--baseBoxShadow);
         display: inline-block;
 
-        &:before, &:after {
+        &:after {
             content: " ";
             display: block;
             position: absolute;
@@ -27,11 +27,7 @@ body {
             bottom: 0;
             right: 0;
         }
-        &:before {
-            background: linear-gradient(135deg, black 25.75%, white 26%, black 50%);
-            mix-blend-mode: soft-light;
-            opacity: 0.18181818;
-        }
+
 
         &:after {
 

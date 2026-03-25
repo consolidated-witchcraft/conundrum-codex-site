@@ -147,7 +147,7 @@ test('timestamp to world date rejects unconfigured calendars', function () {
     $worldService->timeStampToWorldDate(1, $world);
 });
 
-test('world date to timestamp rejects mismatched day of week', function () {
+test( 'world date to timestamp rejects mismatched day of week', function () {
     $world = ($this->makeWorld)();
     $settings = $world->getWorldCalendarSettings();
     $settings->setHoursInDay(24);

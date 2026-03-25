@@ -230,7 +230,12 @@ function generateWebpImages({
             await Promise.all(
                 files.map(async (relativePath) => {
                     const sourcePath = path.join(srcDir, relativePath);
-                    const outputRelativePath = relativePath.replace(/\.(png|jpe?g)$/i, '.webp');
+                    const outputRelativePath = relativePath
+                        .replace(/\.(png|jpe?g)$/i, '.webp')
+                        .split(path.sep)
+                        .map((segment) => segment.toLowerCase())
+                        .join(path.sep);
+
                     const finalDestDir = subDir ? path.join(destDir, subDir) : destDir;
                     const outputPath = path.join(finalDestDir, outputRelativePath);
 
