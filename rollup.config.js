@@ -45,7 +45,8 @@ const widgetScssEntries = [
     'badges',
     'feats',
     'slideshow',
-    'cards'
+    'cards',
+    'userCards'
 ];
 
 function resolveInternalAlias(source) {
@@ -177,11 +178,30 @@ function copyOptimisedSvgs({
                                srcDir = 'resources/svgs',
                                destDir = 'public/dist/svgs'
                            } = {}) {
+    async function watchSvgFiles(context) {
+        const files = await fg('**/*.svg', {
+            cwd: srcDir,
+            onlyFiles: true
+        });
+
+        for (const relativePath of files) {
+            context.addWatchFile(path.resolve(srcDir, relativePath));
+        }
+    }
+
     return {
         name: 'copy-optimised-svgs',
 
-        buildStart() {
-            this.addWatchFile(srcDir);
+        async buildStart() {
+            await watchSvgFiles(this);
+        },
+
+        async watchChange(id) {
+            if (!id.endsWith('.svg')) {
+                return;
+            }
+
+            await watchSvgFiles(this);
         },
 
         async writeBundle() {

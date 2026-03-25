@@ -169,6 +169,7 @@ header {
             position: sticky;
             background-color: transparent;
             box-shadow: none;
+
             .nav-toggle {
                 display: none;
             }
@@ -182,11 +183,13 @@ header {
                 height: initial;
                 justify-content: center;
                 background: transparent;
+                gap: 1.25rem;
                 a {
                     border: none;
                     font-family: var(--displayStack);
                     position: relative;
-                    font-size: 133%;
+                    font-size: 150%;
+                    text-shadow: var(--effectsEngravedShadow);
                     &:hover, &:active, &:focus {
                         background-color: transparent;
                         color: var(--colorCrimsonHighlight);
@@ -203,7 +206,7 @@ header {
                             height: 100%;
                             width: 1em;
                             margin-left: 1em;
-                            background: var(--effectsGoldBright);
+                            background: var(--colorInk);
                             background-size: 50%;
                             background-attachment: fixed;
                             mask-image: url("/dist/svgs/dividers/eroded-star.svg");
@@ -265,7 +268,7 @@ header {
                 a.top-level-nav-link {
 
                     &:before {
-                        background: var(--effectsGoldBright);
+                        background: var(--effectsGold);
                     }
                 }
             }

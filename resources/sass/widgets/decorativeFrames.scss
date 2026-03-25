@@ -20,9 +20,10 @@ $noiseScale: 30rem;
 
     background-image:
         url("/dist/images/watercolor_paper.webp"),
-        var(--vellumGradient);
+        var(--vellumGradient),
+        radial-gradient(ellipse at 50% 50%, transparent 50%, rgba(62, 38, 7, 0.1), rgba(62, 38, 7, 0.33));
 
-    background-size: 128px 128px, 100% 100%;
+    background-size: 64px 64px, 100% 100%, 100% 100%;
     background-blend-mode: overlay;
 
     box-shadow: var(--decorativeFrameShadow);
@@ -44,7 +45,7 @@ $noiseScale: 30rem;
     &:after {
         background-color: transparent;
         border: dimension.$decorativeFrameBorderWidth solid transparent;
-        border-image: url("/dist/svgs/frames/fancy-frame.svg") 33%;
+        border-image: url("/dist/svgs/frames/fancy-frame-ferruled.svg") 33%;
         z-index: 2;
     }
 
@@ -56,7 +57,12 @@ $noiseScale: 30rem;
     .frame-title {
 
         text-align: center;
-        font-size: 200%;
+        font-size: 2rem;
+        border-bottom: dimension.$thickBorderWidth solid transparent;
+        padding-bottom: spacing.$gutter;
+        margin-bottom: spacing.$gutter;
+        border-image: url("/dist/svgs/frames/simple-frame.svg") 33%;
+
     }
 
 

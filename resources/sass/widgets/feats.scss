@@ -4,49 +4,13 @@
 @use '../critical/base/sassVariables/spacing';
 @use '../critical/base/sassVariables/dimension';
 
-@keyframes gemGlint {
-    0% {
-        background-position: 0 50%;
-    }
-
-    50% {
-        background-position: -200% 50%;
-    }
-    99% {
-        background-position: -200% 50%;
-    }
-    100% {
-        background-position: 0 50%;
-    }
-}
-
-$feat-height: 5rem;
-$feat-height-sm: 2rem;
 
 .feat-icon {
-    position: relative;
-    text-align: center;
-    font-size: $feat-height - 2rem;
-    width: $feat-height;
-    height: $feat-height;
-    line-height: $feat-height;
     display: block;
-    color: transparent;
-    background: var(--crimsonGradient);
-    border: dimension.$extraThickBorderWidth solid transparent;
-    border-image: url("/dist/svgs/frames/simple-frame.svg") 33%;
+    position: relative;
+    height: 5rem;
+    width: 4rem;
     margin: 0 auto;
-    box-shadow: var(--baseBoxShadow);
-    overflow: hidden;
-    border-radius: 0;
-
-    i {
-        background: var(--effectsGold);
-        background-clip: text;
-        position: relative;
-        z-index: 2;
-        text-shadow: -1px -1px 0 rgba(255, 255, 255, 0.05), 1px 1px 0 rgba(255, 255, 255, 0.05);
-    }
 
     &:before, &:after {
         content: " ";
@@ -56,37 +20,43 @@ $feat-height-sm: 2rem;
         left: 0;
         bottom: 0;
         right: 0;
+
     }
 
     &:before {
-        height: 100%;
-        width: 200%;
-
-        mix-blend-mode: luminosity;
-        opacity: 0.5;
-        background: linear-gradient(225deg, transparent 33%, white 35%, transparent 66%);
-        background-size: 200%;
-        background-position: 0% 50%;
-        transition: background-position var(--animationSpeedSlow) ease-in-out;
-
-
+        background: var(--crimsonGradientRadial);
+        mask-image: url("/dist/svgs/badges-icons/shield-mask.svg");
+        mask-size: contain;
+        mask-repeat: no-repeat;
     }
-
     &:after {
-        background: transparent;
-        border: 0.5rem outset white;
-        border-left-color: #dfdfdf;
-        border-right-color: #cccccc;
-        border-bottom-color: #8f8f8f;
-        mix-blend-mode: hard-light;
-        opacity: 0.4;
+        background-image: url("/dist/svgs/badges-icons/shield-border.svg");
+        background-repeat: no-repeat;
+        background-size: contain;
     }
 
-    &:hover {
-        &:before {
-            animation: gemGlint 1500ms infinite;
+    i {
+        position: absolute;
+        top: 0;
+        left: 0;
+        bottom: 0;
+        right: 0;
+        z-index: 9;
+        background: var(--effectsGold);
+        font-size: 2rem;
+        line-height: 4rem;
+        background-clip: text;
+        color: transparent;
+        text-align: center;
+    }
+
+    &.feat-epic {
+        i {
+            background: var(--effectsGold);
+            background-clip: text;
         }
     }
+
     &.feat-common {
         i {
             background: var(--effectsCopper);
@@ -100,46 +70,25 @@ $feat-height-sm: 2rem;
             background: var(--effectsSilver);
             background-clip: text;
         }
-    }
 
-    &.feat-rare {
-        .feat-icon {
-            i {
-                background: var(--effectsGold);
-                background-clip: text;
-            }
-        }
-    }
-
-    &.feat-epic {
-        i {
-            background: var(--effectsGold);
-            background-clip: text;
-        }
     }
 
     &.feat-legendary {
         i {
-            background: linear-gradient(33deg, cyan, magenta);
-            background-size: 400%;
-            animation: gradient 5s ease infinite;
+            background: radial-gradient(ellipse at 50% 50%, cyan, magenta);
             background-clip: text;
         }
     }
-}
 
-.feat-legend {
-    margin: 0 auto;
-    background: var(--inkGradient);
-    color: var(--colorOffWhite);
-    margin-top: spacing.$gutter;
-    box-shadow: var(--baseBoxShadow);
-    border-radius: var(--baseBorderRadius);
-    padding: spacing.$gutter;
-    .feat-title {
+    &.sm {
+        height: 4rem;
+        width: 3rem;
 
+        i {
+            font-size: 1.5rem;
+            line-height: 3rem;
+        }
     }
 }
-
 @media only screen and (min-width: spacing.$mobileBreakPointUpper) {
 }

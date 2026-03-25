@@ -19,7 +19,7 @@
 
     img.card-hero {
         position: absolute;
-        top: -50%;
+        top: 0;
         left: 0;
         z-index: 0;
         width: auto;
@@ -33,17 +33,18 @@
         text-align: center;
         margin: 8vh;
         color: var(--colorInk);
-        font-size: 2rem;
+        font-size: 3rem;
         font-family: var(--displayStack);
-        top: -0.125rem;
-        left: -0.15rem;
+        top: -0.25rem;
+        left: -0.25rem;
+        text-shadow: none;
 
         &:before, &:after {
             content: attr(content);
             position: absolute;
             width: 100%;
-            top: 0.125rem;
-            left: 0.125rem;
+            top: 0.25rem;
+            left: 0.25rem;
         }
 
         &:after {
@@ -52,7 +53,7 @@
         }
 
         &:before {
-            background: var(--effectsGoldBright);
+            background: var(--effectsGold);
             background-clip: text;
             color: transparent;
             z-index: 1;
@@ -70,11 +71,14 @@
         z-index: 1;
         border-top: dimension.$thickBorderWidth solid transparent;
         border-image: url("/dist/svgs/frames/simple-frame.svg") 33%;
-        background:
-            var(--parchmentNoise),
-            var(--whiteGradient);
-        background-size: 512px 512px, 100% 100%;
+        background-image:
+            url("/dist/images/watercolor_paper.webp"),
+            var(--vellumGradient),
+            radial-gradient(ellipse at 50% 50%, transparent 50%, rgba(62, 38, 7, 0.1), rgba(62, 38, 7, 0.33));
+
+        background-size: 64px 64px, 100% 100%, 100% 100%;
         background-blend-mode: overlay;
+
         flex-grow: 2;
 
     }

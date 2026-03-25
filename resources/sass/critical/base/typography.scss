@@ -138,10 +138,13 @@ h6 {
     font-weight: var(--heaviestFontWeight);
     line-height: var(--smallLineHeight);
     margin-bottom: calc(1.618vmin - 1vmax + .35em); /* increases margin as screen width gets smaller */
+    text-shadow: var(--effectsEngravedShadow);
+
 }
 
 h1 {
     font-size: var(--biggestTitleSize);
+
 }
 
 h2 {

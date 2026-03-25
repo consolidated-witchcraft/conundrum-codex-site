@@ -3,9 +3,11 @@
 
 
 hr {
-
-
     padding: 0;
+    margin: spacing.$gutter 0;
+    border: 0;
+    background-image: url("/dist/svgs/dividers/rule.svg");
+    height: dimension.$mediumBorderWidth;
+    width: 100%;
 
-    margin: spacing.$baseSpacing 0;
 }

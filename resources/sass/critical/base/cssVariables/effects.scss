@@ -4,6 +4,7 @@
     --baseBoxShadowUp: 0 0 0.05rem rgba(66, 42, 17, 0.9), 0 -0.5rem 0.5rem rgba(66, 42, 17, 0.125), 0 -0.25rem 0.25rem rgba(66, 42, 17, 0.25), 0 -0.125rem 0.125rem rgba(66, 42, 17, 0.5);
     --subtleBoxShadowUp: 0 0 0.05rem rgba(66, 42, 17, 0.25), 0 -0.5rem 0.5rem rgba(66, 42, 17, 0.05), 0 -0.25rem 0.25rem rgba(66, 42, 17, 0.025), 0 -0.125rem 0.125rem rgba(66, 42, 17, 0.125);
     --effectsEngravedShadow: -1px -1px 0 rgba(0, 0, 0, 0.333), 1px 1px 0 rgba(255, 255, 255, 0.333);
+    --effectsEmbossedShadow: -1px -1px 0 rgba(255, 255, 255, 0.333), 1px 1px 0 rgba(0, 0, 0, 0.333);
     --baseInsetShadow: inset 0 0.25rem 0.75rem rgba(138, 106, 60, 0.75);
     --decorativeFrameShadow:  var(--baseBoxShadow), var(--baseInsetShadow);
 }

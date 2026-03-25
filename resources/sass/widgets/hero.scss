@@ -22,7 +22,7 @@
         right: 0;
         background-color: transparent;
         border: dimension.$decorativeFrameBorderWidth solid transparent;
-        border-image: url("/dist/svgs/frames/fancy-frame.svg") 33%;
+        border-image: url("/dist/svgs/frames/fancy-frame-ferruled.svg") 33%;
         z-index: 2;
         pointer-events: none;
     }
@@ -50,7 +50,7 @@
         height: 100%;
         text-align: center;
         color: var(--colorOffWhite);
-        background: rgba(0, 0, 0, 0.9);
+        background: rgba(3, 6, 25, 0.9);
 
         &:after {
             content: " ";
@@ -65,7 +65,7 @@
             mask-size: 25vw;
             mask-position: right;
             mask-repeat: repeat-y;
-            background: rgba(0, 0, 0, 0.9);
+            background: rgba(3, 6, 25, 0.9);
             pointer-events: none;
         }
     }
@@ -78,6 +78,7 @@
         font-size: 3rem;
         top: -0.125rem;
         left: -0.15rem;
+        text-shadow: none;
 
         &:before, &:after {
             content: attr(content);
@@ -91,7 +92,7 @@
             text-shadow: 0 0 0.25rem var(--colorInk);
         }
         &:before {
-            background: var(--effectsGoldBright);
+            background: var(--effectsGold);
             background-clip: text;
             color: transparent;
             z-index: 1;

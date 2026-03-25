@@ -43,11 +43,14 @@ $noiseScale: 50rem;
         .tab-content {
             border: dimension.$thickBorderWidth solid transparent;
             border-image: url("/dist/svgs/frames/simple-frame.svg") 33%;
-            background:
-                var(--parchmentNoise),
-                var(--vellumGradient);
-            background-size: $noiseScale $noiseScale, 100% 100%;
+            background-image:
+                url("/dist/images/watercolor_paper.webp"),
+                var(--vellumGradient),
+                radial-gradient(ellipse at 50% 50%, transparent 50%, rgba(62, 38, 7, 0.1), rgba(62, 38, 7, 0.33));
+
+            background-size: 64px 64px, 100% 100%, 100% 100%;
             background-blend-mode: overlay;
+
             box-shadow: var(--baseBoxShadow);
             min-height: 33vh;
             opacity: 0;

@@ -18,7 +18,7 @@ textarea {
     border-image: url("/dist/svgs/frames/simple-frame.svg") 33%;
     background:
         var(--parchmentNoise),
-        var(--whiteGradient);
+        var(--whiteGradientFlipped);
     background-size: $noiseScale $noiseScale, 100% 100%;
     background-blend-mode: overlay;
     box-shadow: inset 0 0.125rem 0.25rem rgba(89, 62, 0, 0.5);
@@ -93,10 +93,6 @@ textarea {
         background-color: transparent;
         border: none !important;
     }
-
-    &:focus,&:active {
-        border-image: var(--erodedFrameWhiteInnerGreen) 33%;
-    }
 }
 
 .checkbox-wrapper {
@@ -134,7 +130,7 @@ textarea {
             border-image: url("/dist/svgs/frames/simple-frame.svg") 33%;
             background:
                 var(--parchmentNoise),
-                var(--whiteGradient);
+                var(--whiteGradientFlipped);
             background-size: $noiseScale $noiseScale, 100% 100%;
             background-blend-mode: overlay;
             box-shadow: inset 0 0.125rem 0.25rem rgba(89, 62, 0, 0.5);
@@ -213,18 +209,18 @@ textarea {
         &:before {
             height: 1.5rem;
             width: 1.5rem;
-            background: transparent var(--erodedCircle);
+            background: transparent url("/dist/svgs/form-elements/circle.svg");
             background-size: contain;
             left: 0;
             top: 0;
         }
 
         &:after {
-            width: 0.75rem;
-            height: 0.75rem;
-            background-color: var(--colorInk);
-            top: 0.375rem;
-            left: 0.375rem;
+            width: 1.5rem;
+            height: 1.5rem;
+            background: transparent url("/dist/svgs/form-elements/circle-pip.svg");
+            top: 0;
+            left: 0;
             border-radius: 50%;
             opacity: 0;
             transition: opacity 125ms ease-in-out;
@@ -248,6 +244,7 @@ select {
     border: dimension.$mediumBorderWidth solid transparent;
     border-image: url("/dist/svgs/frames/simple-frame.svg") 33%;
     box-shadow: var(--baseBoxShadow);
+    background: var(--offWhiteGradient);
 
     padding: math.div(spacing.$baseSpacing, 4);
     font-family: var(--textStack);

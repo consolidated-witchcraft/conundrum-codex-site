@@ -1,6 +1,6 @@
 <aside class="user-card">
     <div class="user-info">
-        <div class="card avatar-wrapper thumbnail">
+        <div class="avatar-wrapper thumbnail">
             <img class="card-avatar" src="{{ user.getAvatar ? user.getAvatar.getPathForDerivative('avatar-thumbnail') : '/dist/images/default-avatar.webp' }}" alt="{{ user.getUserName }}" is="lazy-image" loading="lazy">
         </div>
         <div class="user-details">
@@ -15,11 +15,14 @@
     </div>
 
     {% if user.getFeats is not empty %}
+        <hr>
         <div class="user-feats">
-            {% for feat in user.getFeats %}
-                {% embed 'visitor/account/partials/_featIcon.html.twig' with {'feat' : feat, smallMode: true} %}{% endembed %}
-            {% endfor %}
-            {% embed 'visitor/account/partials/_featOverlayTemplate.html.twig' %}{% endembed %}
+            <h3>Feats</h3>
+            <div class="feats-grid">
+                {% for feat in user.getFeats %}
+                    {% embed 'visitor/account/partials/_featIcon.html.twig' with {'feat' : feat, smallMode: true} %}{% endembed %}
+                {% endfor %}
+            </div>
         </div>
     {% endif %}
 </aside>

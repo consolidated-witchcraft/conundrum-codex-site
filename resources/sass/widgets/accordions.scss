@@ -66,7 +66,8 @@ $noiseScale: 30rem;
                 height: 1rem;
                 width: 1rem;
 
-                background-image: var(--chevron);
+                background-image: url("/dist/svgs/form-elements/chevron.svg");
+                background-repeat: no-repeat;
                 background-size: contain;
                 top: 1rem;
                 right: 1rem;
@@ -83,10 +84,12 @@ $noiseScale: 30rem;
             max-height: 0;
             overflow: hidden;
             transition: max-height var(--animationSpeedNormal) ease-in-out;
-            background:
-                var(--parchmentNoise),
-                var(--vellumGradient);
-            background-size: $noiseScale $noiseScale, 100% 100%;
+            background-image:
+                url("/dist/images/watercolor_paper.webp"),
+                var(--vellumGradient),
+                radial-gradient(ellipse at 50% 50%, transparent 50%, rgba(62, 38, 7, 0.1), rgba(62, 38, 7, 0.33));
+
+            background-size: 64px 64px, 100% 100%, 100% 100%;
             background-blend-mode: overlay;
             box-shadow: var(--decorativeFrameShadow);
 

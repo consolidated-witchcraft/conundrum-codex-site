@@ -15,8 +15,8 @@ $blue: #2853ff;
 $inkBlue: #001957;
 $wyrdPurple: #831e57;
 $tan: #786044;
-$effectsGold: repeating-linear-gradient(33deg, #988014, #bfa12a, #e1d3b0, #af9739, #ffcc00);
-$effectsGoldBright: repeating-linear-gradient(33deg, #986e14, #eac01e, #fffdc3, #eac01e, #986e14);
+$effectsGold: repeating-linear-gradient(33deg, #91692e, #facf83ff, #f8d392, #facf83ff, #91692e);
+
 $effectsCopper: repeating-linear-gradient(33deg, #d47800, #ffa32a, #f6c676, #ff952a, #ffcc00);
 $effectsSilver: repeating-linear-gradient(33deg, #616161, #C8C8C8FF, #fff, #c8c8c8, #616161);
 
@@ -47,7 +47,7 @@ $effectsSilver: repeating-linear-gradient(33deg, #616161, #C8C8C8FF, #fff, #c8c8
 
     --colorInkHighlight: #{color.adjust($ink, $saturation: +10%, $lightness: +10%)};
     --colorCharcoalHighlight: #{color.adjust($charcoal, $saturation: +10%, $lightness: +10%)};
-    --colorCrimsonHighlight: #{color.adjust($crimson, $saturation: +10%, $lightness: +10%)};
+    --colorCrimsonHighlight: #{color.adjust($crimson, $saturation: +10%, $lightness: +12.5%)};
     --colorCrimsonDarker: #{color.adjust($crimson, $saturation: +10%, $lightness: -12.5%)};
 
     --colorBlueHighlight: #{color.adjust($blue, $saturation: +5%, $lightness: +10%)};
@@ -77,6 +77,7 @@ $effectsSilver: repeating-linear-gradient(33deg, #616161, #C8C8C8FF, #fff, #c8c8
     --offWhiteGradient: linear-gradient(to top,  #{color.adjust($vellum, $lightness: +10%)}, #{color.adjust($vellum, $lightness: +15%)});
     --vellumGradient: linear-gradient(to top,  #{color.adjust($vellum, $lightness: +5%)}, #{color.adjust($vellum, $lightness: +10%)});
     --whiteGradient: linear-gradient(to top, #{color.adjust($white, $lightness: -5%)}, #{$white});
+    --whiteGradientFlipped: linear-gradient(to bottom, #{color.adjust($white, $lightness: -5%)}, #{$white});
     --charcoalGradient: linear-gradient(to top, #{color.adjust($charcoal, $lightness: -5%)}, #{$charcoal});
 
     --crimsonGradient: linear-gradient(to top, var(--colorCrimsonDarker), var(--colorCrimson));
@@ -89,6 +90,7 @@ $effectsSilver: repeating-linear-gradient(33deg, #616161, #C8C8C8FF, #fff, #c8c8
 
     --inkBlueGradient: linear-gradient(to top, var(--colorInkBlueDarker), var(--colorInkBlue));
     --inkBlueGradientRadial: radial-gradient(ellipse at 50% 100%, var(--colorInkBlueDarker) 33%, var(--colorInkBlueHighlight) 100%);
+
     --inkBlueGradientLighter: linear-gradient(to top,var(--colorInkBlue), var(--colorInkBlueHighlight));
 
     --wyrdPurpleGradient: linear-gradient(to top, var(--colorWyrdPurpleDarker), var(--colorWyrdPurple));
@@ -114,7 +116,6 @@ $effectsSilver: repeating-linear-gradient(33deg, #616161, #C8C8C8FF, #fff, #c8c8
     * Effects
      */
     --effectsGold: #{$effectsGold};
-    --effectsGoldBright: #{$effectsGoldBright};
     --effectsCopper: #{$effectsCopper};
     --effectsSilver: #{$effectsSilver};
 }

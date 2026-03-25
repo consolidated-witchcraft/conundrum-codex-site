@@ -1,0 +1,72 @@
+@use 'sass:math';
+
+@use '../critical/base/sassVariables/spacing';
+@use '../critical/base/sassVariables/dimension';
+
+.user-card {
+    position: relative;
+    background-image:
+        url("/dist/images/watercolor_paper.webp"),
+        var(--vellumGradient),
+        radial-gradient(ellipse at 50% 50%, transparent 50%, rgba(62, 38, 7, 0.1), rgba(62, 38, 7, 0.33));
+
+    background-size: 64px 64px, 100% 100%, 100% 100%;
+    background-blend-mode: overlay;
+    box-shadow: var(--decorativeFrameShadow);
+    overflow: hidden;
+    border-radius: var(--baseBorderRadius);
+    display: flex;
+    flex-direction: column;
+    padding: spacing.$gutter;
+
+    &:not(:last-child) {
+        margin-bottom: spacing.$baseSpacing;
+    }
+
+    &:after {
+        content: " ";
+        display: block;
+        top: 0;
+        left: 0;
+        bottom: 0;
+        right: 0;
+        position: absolute;
+        z-index: 1;
+        border: dimension.$decorativeFrameBorderWidth solid transparent;
+        border-image: url("/dist/svgs/frames/fancy-frame-ferruled.svg") 33%;
+        pointer-events: none;
+
+    }
+    .user-info {
+        display: flex;
+        flex-direction: row;
+        .avatar-wrapper {
+            flex-basis: 25%;
+
+            &:after {
+                border: dimension.$mediumBorderWidth solid transparent;
+                border-image: url("/dist/svgs/frames/simple-frame.svg") 33%;
+            }
+        }
+
+        .user-details {
+            padding: spacing.$gutter;
+            display: flex;
+            flex-direction: column;
+        }
+    }
+
+    .user-feats {
+        display: flex;
+        flex-direction: column;
+        h3 {
+            text-align: center;
+            font-size: 1.5rem;
+        }
+        .feats-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr 1fr;
+        }
+
+    }
+}
