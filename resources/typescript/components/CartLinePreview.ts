@@ -1,4 +1,4 @@
-import {centessimalToCurrency} from "../helpers/CentessimalToCurrency";
+import {centessimalToCurrency} from "@shared/helpers/CentessimalToCurrency";
 
 export class CartLinePreview extends HTMLDListElement {
 

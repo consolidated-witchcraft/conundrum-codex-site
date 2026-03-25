@@ -1,6 +1,6 @@
 import {Client} from "openapi-fetch";
 import type { paths } from "../schema/schema";
-import {createApiClient} from "../helpers/CreateApiClient";
+import {createApiClient} from "@shared/helpers/CreateApiClient";
 
 export default class RandomQuotation extends HTMLQuoteElement {
 

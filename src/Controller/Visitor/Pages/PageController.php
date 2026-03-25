@@ -62,6 +62,13 @@ class PageController extends AbstractBaseController
             'pageTitle' => 'Credits',
             'credits' => [
                 [
+                    'author' => 'Greg \'CRAOLA\' Simkins',
+                    'contribution' => 'Various Art',
+                    'link' => 'https://gregsimkinsart.com/',
+                    'license' => 'https://creativecommons.org/licenses/by/4.0/'
+                ],
+
+                [
                     'author' => 'David Revoy',
                     'contribution' => 'Various Art',
                     'link' => 'https://www.davidrevoy.com/',

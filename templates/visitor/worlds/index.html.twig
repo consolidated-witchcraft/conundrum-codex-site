@@ -2,9 +2,10 @@
 {% block body %}
     <div class="row bordered">
         <div class="col">
-            <div class="panel">
-                <h2 class="panel-title">Worlds I created</h2>
-                <div class="panel-content">
+            <div class="card">
+                <h2 class="card-title" content="Worlds I created">Worlds I created</h2>
+                <img class="card-hero" src="/dist/images/illustrations/good_knight.webp" alt="Good Knight - Greg 'CRAOLA' Simkins - CC 4" loading="lazy" is="lazy-image">
+                <div class="card-body">
                     {% if user.getWorldsCreated is not empty %}
                         <div class="accordion-list" is="accordion-list">
                             {% for world in user.getWorldsCreated %}
@@ -29,16 +30,16 @@
                     {% endif %}
                 </div>
 
-                <div class="panel-footer">
+                <div class="card-footer">
                     <a class="btn btn-primary" href="{{ path('app.worlds.create') }}">Create a World</a>
                 </div>
             </div>
 
         </div>
         <div class="col">
-            <div class="panel">
-                <h2 class="panel-title">Worlds I'm playing in</h2>
-                <div class="panel-content">
+            <div class="card">
+                <h2 class="card-title" content="Worlds I'm Playing In">Worlds I'm Playing In</h2>
+                <div class="card-body">
                     {% if user.getWorldsPlayed is not empty %}
                     {% else %}
                         <em>It looks like you're not playing in any worlds yet.</em>
@@ -51,7 +52,7 @@
 {% endblock %}
 
 {% block footerStyles %}
-    <link rel="stylesheet" href="/dist/css/widgets/panels.css" />
+    <link rel="stylesheet" href="/dist/css/widgets/cards.css" />
     <link rel="stylesheet" href="/dist/css/widgets/accordions.css" />
 
 {% endblock %}

@@ -7,8 +7,8 @@
     background: var(--whiteGradient);
     box-shadow: var(--baseBoxShadow);
     border-radius: var(--baseBorderRadius);
-    border: dimension.$baseBorderWidth solid transparent;
-    border-image: var(--effectsGold) 33%;
+    border: dimension.$thickBorderWidth solid transparent;
+    border-image: url("/dist/svgs/frames/simple-frame.svg") 33%;
     padding: 0;
     overflow: hidden;
 
@@ -16,19 +16,25 @@
         padding: spacing.$gutter;
         font-size: 1.25rem;
         border-radius: var(--baseBorderRadius) var(--baseBorderRadius) 0 0;
-        border-bottom: dimension.$mediumBorderWidth solid transparent;
-        border-image: var(--effectsGold) 33%;
+        border-bottom: dimension.$thickBorderWidth solid transparent;
+        border-image: url("/dist/svgs/frames/simple-frame.svg") 33%;
     }
 
     .panel-content {
         padding: spacing.$gutter;
+        background:
+            var(--parchmentNoise),
+            var(--vellumGradient);
+        background-size: $noiseScale $noiseScale, 100% 100%;
+        background-blend-mode: overlay;
     }
 
     .panel-footer {
         padding: spacing.$gutter;
         background: var(--inkGradient);
-        border-top: dimension.$baseBorderWidth solid transparent;
-        border-image: var(--effectsGold) 33%;
+
+        border-top: dimension.$thickBorderWidth solid transparent;
+        border-image: url("/dist/svgs/frames/simple-frame.svg") 33%;
         box-shadow: var(--subtleBoxShadowUp);
 
         .btn, button {

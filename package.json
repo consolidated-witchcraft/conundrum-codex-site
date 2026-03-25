@@ -46,6 +46,8 @@
     "rollup-plugin-sass": "^1.15.3",
     "rollup-plugin-scss": "^4.0.1",
     "rollup-plugin-summary": "^2.0.1",
+    "rollup-plugin-tsconfig-paths": "^1.5.2",
+    "sharp": "^0.34.5",
     "svgo": "^4.0.1",
     "typescript": "~5.5.0"
   },

@@ -1,7 +1,7 @@
 import type { paths } from "../../schema/schema";
 import {Client} from "openapi-fetch";
-import {centessimalToCurrency} from "../../helpers/CentessimalToCurrency";
-import {createApiClient} from "../../helpers/CreateApiClient";
+import {centessimalToCurrency} from "@shared/helpers/CentessimalToCurrency";
+import {createApiClient} from "@shared/helpers/CreateApiClient";
 export class UserCartProductLine extends HTMLDivElement {
 
     private client: Client<paths>;

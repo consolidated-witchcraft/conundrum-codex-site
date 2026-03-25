@@ -1,0 +1,19 @@
+{
+    "compilerOptions": {
+        "baseUrl": ".",
+        "target": "ES2022",
+        "module": "ESNext",
+        "moduleResolution": "Bundler",
+        "paths": {
+            "@shared/*": [
+                "shared/*"
+            ]
+        }
+    },
+    "files": [],
+    "references": [
+        { "path": "./tsconfig.shared.json" },
+        { "path": "./tsconfig.app.json" },
+        { "path": "./tsconfig.puzzles.json" }
+    ]
+}

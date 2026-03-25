@@ -11,7 +11,11 @@ $noiseScale: 30rem;
 .decorative-frame {
     position: relative;
     padding: spacing.$gutter + math.div($mobileFrameWidth, 4);
-    background: var(--creamGradient);
+    background:
+        var(--parchmentNoise),
+        var(--vellumGradient);
+    background-size: $noiseScale $noiseScale, 100% 100%;
+
     display: flex;
     flex: 1;
     flex-grow: 2;
@@ -22,6 +26,7 @@ $noiseScale: 30rem;
         var(--vellumGradient);
     background-size: $noiseScale $noiseScale, 100% 100%;
     background-blend-mode: overlay;
+
     box-shadow: var(--decorativeFrameShadow);
     box-sizing: border-box;
     z-index: 1;
@@ -46,7 +51,7 @@ $noiseScale: 30rem;
     }
     &:after {
         background-color: transparent;
-        border: 1.25rem solid transparent;
+        border: dimension.$decorativeFrameBorderWidth solid transparent;
         border-image: url("/dist/svgs/frames/fancy-frame.svg") 33%;
         z-index: 2;
     }
@@ -69,7 +74,7 @@ $noiseScale: 30rem;
         left: 0;
         z-index: 0;
         max-height: $watermarkHeight;
-        mask-image: url("/dist/images/watercolor_mask_3.webp");
+        mask-image: url("/dist/images/masks/watercolor_mask_3.webp");
         mask-repeat: no-repeat;
         opacity: 1;
         width: 100%;

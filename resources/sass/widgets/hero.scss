@@ -21,7 +21,7 @@
         bottom: 0;
         right: 0;
         background-color: transparent;
-        border: 1.25rem solid transparent;
+        border: dimension.$decorativeFrameBorderWidth solid transparent;
         border-image: url("/dist/svgs/frames/fancy-frame.svg") 33%;
         z-index: 2;
         pointer-events: none;
@@ -61,7 +61,7 @@
             height: 100%;
             width: 5vw;
             z-index: -1;
-            mask-image: url("/dist/images/watercolor_mask_right.webp");
+            mask-image: url("/dist/images/masks/watercolor_mask_right.webp");
             mask-size: 25vw;
             mask-position: right;
             mask-repeat: repeat-y;

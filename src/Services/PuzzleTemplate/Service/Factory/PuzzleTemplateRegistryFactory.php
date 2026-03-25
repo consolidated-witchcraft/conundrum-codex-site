@@ -62,7 +62,7 @@ class PuzzleTemplateRegistryFactory implements CacheWarmerInterface
         return $this->cache->get(self::CACHE_KEY, function (ItemInterface $item) use ($verbose) {
             $mappedTemplates = [];
             $finder = new Finder();
-            $finder->directories()->in($this->modulesDirectoryName);
+            $finder->directories()->in($this->modulesDirectoryName)->depth('== 0');
             if (!$finder->hasResults()) {
                 throw new PuzzleTemplateRegistryBuildException("Could not build Template registry: puzzleTemplatesFolder is not populated");
             }

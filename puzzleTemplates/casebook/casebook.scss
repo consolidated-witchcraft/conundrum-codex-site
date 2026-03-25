@@ -1,10 +1,6 @@
 @use "sass:color";
 @use "sass:math";
 
-@use "../criticalOld/base/palette";
-@use "../criticalOld/base/typography";
-@use "../criticalOld/base/variables";
-
 $pulsarHeight: 3rem;
 @keyframes spin {
     0%  {transform: rotate(0deg);}
@@ -15,12 +11,11 @@ $pulsarHeight: 3rem;
 .subject-wrapper {
     display: flex;
     flex-direction: column;
-    margin: 0 0 variables.$base-spacing 0;
-    border-bottom: 0.125rem dashed color.adjust(palette.$ink, $alpha: -0.5);
+    border-bottom: 0.125rem dashed var(--colorInk);
     position: relative;
     z-index: 998;
     .basic-info, .description, .clues {
-        padding: math.div(variables.$base-spacing, 2);
+
     }
 
     .basic-info {
@@ -31,11 +26,11 @@ $pulsarHeight: 3rem;
             overflow: hidden;
             position: relative;
             border: 1rem solid transparent;
-            border-image: url('/dist/images/eroded-frame.svg') 33%;
-            margin-bottom: math.div(variables.$base-spacing, 2);
+            border-image: url('/dist/svgs/frames/simple-frame.svg') 33%;
+
 
             img {
-                transition: opacity variables.$animationSpeedNormal ease-in-out;
+                transition: opacity var(--animationSpeedNormal) ease-in-out;
                 position: absolute;
                 top: 0;
                 left: 0;
@@ -44,13 +39,13 @@ $pulsarHeight: 3rem;
             }
 
             .placeholder {
-                transition: opacity variables.$animationSpeedNormal ease-in-out;
+                transition: opacity var(--animationSpeedNormal) ease-in-out;
                 display: block;
-                background-color: palette.$charcoal;
-                color: palette.$offWhite;
+                background-color: var(--colorCharcoal);
+                color: var(--colorOffWhite);
                 font-size: 5rem;
                 text-align: center;
-                font-family: typography.$displayStack;
+                font-family: var(--displayStack);
                 height: 100%;
             }
         }
@@ -82,14 +77,14 @@ $pulsarHeight: 3rem;
 
     a.top_link {
         text-decoration: none;
-        color: palette.$crimson;
+        color: var(--colorCrimson);
         display: block;
 
     }
 
 }
 
-@media only screen and (min-width: variables.$mobileBreakPointUpper) {
+@media only screen and (min-width: 768px) {
     .subject-wrapper {
         flex-direction: row;
 

@@ -12,7 +12,7 @@
     position: relative;
     overflow: hidden;
     border-radius: var(--border-radius);
-    border: dimension.$mediumBorderWidth solid transparent;
+    border: dimension.$thickBorderWidth solid transparent;
     border-image: url("/dist/svgs/frames/simple-frame.svg") 33%;
     margin-bottom: spacing.$baseSpacing;
     text-align: left;
@@ -70,7 +70,11 @@
         z-index: 1;
         border-top: dimension.$thickBorderWidth solid transparent;
         border-image: url("/dist/svgs/frames/simple-frame.svg") 33%;
-        background: var(--creamGradient);
+        background:
+            var(--parchmentNoise),
+            var(--whiteGradient);
+        background-size: 512px 512px, 100% 100%;
+        background-blend-mode: overlay;
         flex-grow: 2;
 
     }

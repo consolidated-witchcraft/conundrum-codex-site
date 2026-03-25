@@ -1,0 +1,20 @@
+{
+    "extends": "./tsconfig.base.json",
+    "compilerOptions": {
+        "declaration": true,
+        "declarationMap": true,
+        "inlineSources": true,
+        "rootDir": ".",
+        "outDir": "public/dist/js"
+    },
+    "include": [
+        "resources/**/*",
+        "shared/**/*"
+    ],
+    "exclude": [
+        "node_modules",
+        "public/dist",
+        "public/contrib",
+        "puzzleTemplates"
+    ]
+}

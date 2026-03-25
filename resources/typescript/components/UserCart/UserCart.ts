@@ -2,7 +2,7 @@ import {Client} from "openapi-fetch";
 import type { paths } from "../../schema/schema";
 import {UserCartProductLine} from "./UserCartProductLine";
 import {UserCartProductLineRemovedDetail} from "./types/UserCartProductLineRemovedDetail";
-import {createApiClient} from "../../helpers/CreateApiClient";
+import {createApiClient} from "@shared/helpers/CreateApiClient";
 
 export class UserCart extends HTMLDivElement {
 

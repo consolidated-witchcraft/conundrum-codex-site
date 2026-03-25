@@ -5,8 +5,6 @@ main {
     margin: 0;
     padding: 0 spacing.$mobileContainerPadding;
     min-height: 100vh - (dimension.$mobileHeaderHeight * 2);
-    width: 100vw;
-    overflow-x: hidden;
 
     .row {
         display: flex;

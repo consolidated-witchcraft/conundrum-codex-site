@@ -1,8 +1,9 @@
 import {Client} from "openapi-fetch";
-import type { paths } from "../../schema/schema";
+import type { paths } from "../../../resources/typescript/schema/schema";
 import {CasebookSubjectClue} from "./CasebookSubjectClue";
 import {Clue} from "./clue";
-import {createApiClient} from "../../helpers/CreateApiClient";
+import {createApiClient} from "../../../shared/helpers/CreateApiClient";
+
 
 export class CasebookSubject extends HTMLElement {
 
@@ -16,7 +17,7 @@ export class CasebookSubject extends HTMLElement {
 
     private cluesList: HTMLDivElement;
 
-    private timer: number | undefined;
+    private timer: ReturnType<typeof setInterval> | undefined;
 
     constructor() {
         super();

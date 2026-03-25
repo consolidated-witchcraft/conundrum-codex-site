@@ -41,14 +41,14 @@ $noiseScale: 50rem;
             display: none;
         }
         .tab-content {
-            border: dimension.$mediumBorderWidth solid transparent;
+            border: dimension.$thickBorderWidth solid transparent;
             border-image: url("/dist/svgs/frames/simple-frame.svg") 33%;
             background:
                 var(--parchmentNoise),
                 var(--vellumGradient);
             background-size: $noiseScale $noiseScale, 100% 100%;
             background-blend-mode: overlay;
-            box-shadow: var(--decorativeFrameShadow);
+            box-shadow: var(--baseBoxShadow);
             min-height: 33vh;
             opacity: 0;
             transition: opacity var(--animationSpeedNormal) ease-in-out;
@@ -110,7 +110,6 @@ $noiseScale: 50rem;
                 display: initial;
             }
             .tab-content {
-                border-top: dimension.$mediumBorderWidth solid var(--colorCrimson);
                 z-index: 998;
                 padding: math.div(spacing.$baseSpacing, 2);
                 border-radius: 0 0 var(--baseBorderRadius) var(--baseBorderRadius);

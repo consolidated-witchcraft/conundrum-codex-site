@@ -9,10 +9,11 @@
 /var/
 /vendor/
 ###< symfony/framework-bundle ###
-
+.rollup.cache
 node_modules
 .idea
 /public/dist/
+/public/contrib/
 .DS_Store
 swagger_docs.*
 resources/typescript/schema/schema.d.ts

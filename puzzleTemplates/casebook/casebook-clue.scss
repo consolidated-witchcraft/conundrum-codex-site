@@ -1,15 +1,8 @@
 @use "sass:color";
 @use "sass:math";
 
-@use "../criticalOld/base/palette";
-@use "../criticalOld/base/variables";
-
 .clue-wrapper {
-    padding: math.div(variables.$base-spacing, 4);
-    background-color: color.mix(palette.$yellow, palette.$offWhite, 25%);
-    margin-bottom: math.div(variables.$base-spacing, 2);
-    position: relative;
-    box-shadow: palette.$baseBoxShadow;
+
 
     .clue-title {
         margin: 0;
@@ -23,9 +16,7 @@
         text-transform: capitalize;
         font-family: sans-serif;
         font-size: 0.8rem;
-        background-color: palette.$blue;
-        color: palette.$offWhite;
-        padding: math.div(variables.$base-spacing, 4);
+
         border-radius: 0.2rem;
         &:before {
             content: " ";
@@ -34,7 +25,7 @@
         }
 
         &.motive {
-            background-color: palette.$crimson;
+            background-color: var(--colorCrimson);
             &:before {
                 content: " "
             }
@@ -44,42 +35,42 @@
             &:before {
                 content: " "
             }
-            background-color: palette.$stormBlue;
+            background-color: var(--colorBlue);
         }
 
         &.misc {
             &:before {
                 content: " "
             }
-            background-color: palette.$wyrdPurple;
+            background-color: var(--colorWyrdPurple);
         }
 
         &.physical_details {
             &:before {
                 content: " "
             }
-            background-color: palette.$crimson;
+            background-color: var(--colorCrimson);
         }
 
         &.whereabouts {
             &:before {
                 content: " "
             }
-            background-color: palette.$stormBlue;
+            background-color: var(--colorBlue);
         }
 
         &.timing {
             &:before {
                 content: " "
             }
-            background-color: palette.$green;
+            background-color: var(--colorGreen);
         }
 
         &.background {
             &:before {
                 content: " "
             }
-            background-color: palette.$wyrdPurple;
+            background-color: var(--colorWyrdPurple);
         }
     }
 
@@ -88,17 +79,8 @@
         position: absolute;
         top: 0;
         right: 0;
-        padding: math.div(variables.$base-spacing, 2);
+
         font-style: italic;
         font-size: 50%;
-    }
-}
-
-
-@media only screen and (min-width: variables.$mobileBreakPointUpper) {
-    .clue-wrapper {
-        .revealed-at {
-            display: block;
-        }
     }
 }
