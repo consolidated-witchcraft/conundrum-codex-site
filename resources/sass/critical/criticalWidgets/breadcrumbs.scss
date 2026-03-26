@@ -13,9 +13,9 @@ nav.breadcrumbs {
         flex-direction: row;
         background: var(--vellumGradient);
         box-shadow: var(--baseBoxShadow);
-        border: dimension.$mediumBorderWidth solid transparent;
+        border: dimension.$baseBorderWidth solid transparent;
         border-image: url("/dist/svgs/frames/simple-frame.svg") 33%;
-        border-radius: var(--baseBorderRadius);
+        border-radius: 0.5rem;
         margin: 0 0 spacing.$baseSpacing 0;
         padding: 0 spacing.$gutter;
         overflow: hidden;

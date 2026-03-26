@@ -35,7 +35,8 @@ table {
             padding: spacing.$gutter;
             text-align: left;
             font-size: 1rem;
-            border: dimension.$thinBorderWidth solid var(--colorInk);
+            border: dimension.$baseBorderWidth solid #facf83ff;
+
             .btn, button {
                 margin-bottom: 0 !important;
             }
@@ -56,18 +57,26 @@ table {
 
     tbody {
         tr {
-            background-color: var(--colorOffWhite);
-
-            &:nth-child(even) {
-                background-color: var(--colorOffWhiteDarker);
-            }
-
             .btn, button {
                 margin-bottom: 0 !important;
             }
 
             td {
+                background-image:
+                    url("/dist/images/textures/watercolor_paper.webp"),
+                    var(--offWhiteGradient);
+
+                background-size: 128px 128px, 100% 100%;
+                background-blend-mode: overlay;
                 box-shadow: inset 0 0.125rem 0.15rem rgba(80, 50, 20, 0.3333333);
+            }
+
+            &:nth-child(even) {
+                td {
+                    background-image:
+                        url("/dist/images/textures/watercolor_paper.webp"),
+                        var(--vellumGradient);
+                }
             }
         }
     }
