@@ -10,7 +10,7 @@
                 </nav>
 
             {% endif %}
-            <hr class="subtle">
+            <hr class="embossed">
             <h2>Upcoming Sessions</h2>
             {% if game.getUpcomingGameSessions is empty %}
                 <em>There are no upcoming sessions scheduled</em>
@@ -24,7 +24,7 @@
                     {% endfor  %}
                 </ul>
             {% endif %}
-            <hr class="subtle">
+            <hr class="embossed">
             <h2>Puzzles</h2>
             {% if game.getPublishedPuzzleInstances is not empty %}
                 <div class="accordion-list" is="accordion-list">
@@ -63,7 +63,7 @@
         <div class="col">
             <h2>Games Master</h2>
             {% embed 'visitor/account/partials/_userCard.html.twig' with {'user': game.getGamesMaster} %}{% endembed %}
-            <hr class="subtle">
+
             <h2>Other Players</h2>
             {% for player in game.getPlayers %}
                 {% embed 'visitor/account/partials/_userCard.html.twig' with {'user': player} %}{% endembed %}

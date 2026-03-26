@@ -24,13 +24,13 @@
     }
 
     &:before {
-        background: var(--crimsonGradientRadial);
+        background: radial-gradient(circle at 50% 33%, var(--colorInkBlue), var(--colorInkBlueDarker) 75%);
         mask-image: url("/dist/svgs/badges-icons/shield-mask.svg");
         mask-size: contain;
         mask-repeat: no-repeat;
     }
     &:after {
-        background-image: url("/dist/svgs/badges-icons/shield-border.svg");
+        background-image: url("/dist/svgs/badges-icons/shield-border-overlay.svg");
         background-repeat: no-repeat;
         background-size: contain;
     }

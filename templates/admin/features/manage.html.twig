@@ -2,46 +2,36 @@
 {% block body %}
     <div class="row">
         <div class="col">
-            <div class="panel">
-                <h2 class="panel-title">Site Features</h2>
-                <div class="panel-content">
-                    <table class="table">
-                        <thead>
+            <table class="table">
+                <thead>
+                <tr>
+                    <th>Feature Label</th>
+                    <th>Feature Handle</th>
+                    <th>Feature Enabled</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% if features is not empty %}
+                    {% for feature in features %}
                         <tr>
-                            <th>Feature Label</th>
-                            <th>Feature Handle</th>
-                            <th>Feature Enabled</th>
+                            <td>{{ feature.label }}</td>
+                            <td>{{ feature.handle }}</td>
+                            <td>
+                                <a href="{{ path('admin.features.toggle', {'featureHandle': feature.handle}) }}" class="btn {{ feature.enabled ? 'btn-success' : 'btn-danger' }}">
+                                    {{ feature.enabled ? 'On' : 'Off' }}
+                                </a>
+
+                            </td>
                         </tr>
-                        </thead>
-                        <tbody>
-                        {% if features is not empty %}
-                            {% for feature in features %}
-                                <tr>
-                                    <td>{{ feature.label }}</td>
-                                    <td>{{ feature.handle }}</td>
-                                    <td>
-                                        <a href="{{ path('admin.features.toggle', {'featureHandle': feature.handle}) }}" class="btn {{ feature.enabled ? 'btn-success' : 'btn-danger' }}">
-                                            {{ feature.enabled ? 'On' : 'Off' }}
-                                        </a>
-
-                                    </td>
-                                </tr>
-                            {% endfor %}
-                        {% else %}
-                            <tr>
-                                <td colspan="4">No Feature Features Available</td>
-                            </tr>
-                        {% endif %}
-                        </tbody>
-                    </table>
-                </div>
-
-                <div class="panel-footer">
-
-                    <a class="btn btn-secondary" href="{{ path('admin.features.add') }}">Add Feature</a>
-
-                </div>
-            </div>
+                    {% endfor %}
+                {% else %}
+                    <tr>
+                        <td colspan="4">No Feature Features Available</td>
+                    </tr>
+                {% endif %}
+                </tbody>
+            </table>
+            <a class="btn btn-secondary" href="{{ path('admin.features.add') }}">Add Feature</a>
         </div>
     </div>
 

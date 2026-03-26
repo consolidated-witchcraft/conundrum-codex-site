@@ -5,9 +5,18 @@
 hr {
     padding: 0;
     margin: spacing.$gutter 0;
-    border: 0;
-    background-image: url("/dist/svgs/dividers/rule.svg");
-    height: dimension.$mediumBorderWidth;
+    border: 1px solid rgba(46, 37, 26, 0.5);
+    background: linear-gradient(to top, #91692e, #facf83, #91692e);
+    height: dimension.$thickBorderWidth;
     width: 100%;
+    border-radius: 4px;
+    box-shadow: var(--subtleBoxShadow);
 
+    &.embossed {
+        border: none;
+        background: transparent;
+        box-shadow: var(--effectsEngravedShadow);
+        height: dimension.$baseBorderWidth;
+        opacity: 0.75;
+    }
 }

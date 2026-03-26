@@ -35,7 +35,6 @@ const terserOptions = {
 };
 
 const widgetScssEntries = [
-    'panels',
     'hero',
     'decorativeFrames',
     'randomQuotation',
@@ -468,6 +467,16 @@ export default (async () => {
             'critical.css',
             [
                 'resources/sass/critical.scss',
+                'resources/sass/critical/'
+            ]
+        ),
+        makeScssConfig(
+            'resources/sass/admin/admin.scss',
+            './public/dist/css/',
+            'admin.css',
+            [
+                'resources/sass/admin/admin.scss',
+                'resources/sass/admin/',
                 'resources/sass/critical/'
             ]
         ),

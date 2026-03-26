@@ -2,7 +2,7 @@
 {% block body %}
         {{ form_start(form) }}
         <div class="row">
-            <div class="col panel">
+            <div class="col">
                 {%  if file.isImage %}
                     <img class="preview" src="{{ file.path }}" alt="{{ file.title }}">
                 {% else %}
@@ -11,7 +11,7 @@
                 {{ form_row(form.file) }}
             </div>
 
-            <div class="col panel">
+            <div class="col">
                 {{ form_row(form.title) }}
                 {{ form_row(form.description) }}
                 {{ form_row(form.submit) }}

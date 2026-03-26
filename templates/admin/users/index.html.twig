@@ -7,117 +7,112 @@
     </div>
     <div class="row">
         <div class="col">
-            <div class="panel">
-                <div class="panel-content">
-                    {% embed 'admin/users/partials/_userAdminNav.html.twig' %}{% endembed %}
-                    <table class="table">
-                        <thead>
-                        <tr>
-                            <th>Avatar</th>
-                            <th>E-Mail</th>
-                            <th>Name</th>
-                            <th>Feats</th>
-                            <th>Roles</th>
-                            <th>Blocked?</th>
-                            <th>Joined</th>
-                            <th>Operations</th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        {% for user in users %}
-                            <tr>
-                                <td>
-                                    <div class="avatar-wrapper">
-                                        <img class="avatar thumbnail-xs"
-                                             src="{{ user.getAvatar ? user.getAvatar.getPath : '/dist/images/default-avatar.webp' }}"
-                                             alt="{{ user.getUserName }}" is="lazy-image" loading="lazy">
-                                    </div>
-                                </td>
-                                <td>
-                                    {{ user.email }}
-                                </td>
-                                <td>
-                                    {{ user.userName }}
-                                </td>
-                                <td>
-                                    <ul>
-                                        {% for feat in user.getFeats %}
-                                            <li>{{ feat.getLabel }}</li>
-                                        {% endfor %}
-                                    </ul>
-                                </td>
-                                <td>
-                                    <ul>
-                                        {% for role in user.getRoles %}
-                                            <li>{{ role }}</li>
-                                        {% endfor %}
-                                    </ul>
-                                </td>
-                                <td>
-                                    {% if user.getUserBlock is empty %}
-                                        <em>Not blocked.</em>
-                                    {% else %}
-                                        <ul>
+            {% embed 'admin/users/partials/_userAdminNav.html.twig' %}{% endembed %}
+            <table class="table">
+                <thead>
+                <tr>
+                    <th>Avatar</th>
+                    <th>E-Mail</th>
+                    <th>Name</th>
+                    <th>Feats</th>
+                    <th>Roles</th>
+                    <th>Blocked?</th>
+                    <th>Joined</th>
+                    <th>Operations</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for user in users %}
+                    <tr>
+                        <td>
+                            <div class="avatar-wrapper">
+                                <img class="avatar thumbnail-xs"
+                                     src="{{ user.getAvatar ? user.getAvatar.getPath : '/dist/images/default-avatar.webp' }}"
+                                     alt="{{ user.getUserName }}" is="lazy-image" loading="lazy">
+                            </div>
+                        </td>
+                        <td>
+                            {{ user.email }}
+                        </td>
+                        <td>
+                            {{ user.userName }}
+                        </td>
+                        <td>
+                            <ul>
+                                {% for feat in user.getFeats %}
+                                    <li>{{ feat.getLabel }}</li>
+                                {% endfor %}
+                            </ul>
+                        </td>
+                        <td>
+                            <ul>
+                                {% for role in user.getRoles %}
+                                    <li>{{ role }}</li>
+                                {% endfor %}
+                            </ul>
+                        </td>
+                        <td>
+                            {% if user.getUserBlock is empty %}
+                                <em>Not blocked.</em>
+                            {% else %}
+                                <ul>
 
-                                        </ul>
-                                        {% for block in user.getUserBlock %}
-                                            <li>
-                                                <strong>{{ block.getReason }}</strong>
-                                                <em>Block
-                                                    expires {{ block.isPermanent ? 'never' : block.getExpirationDate.format('Y-m-d H:i:s') }}</em>
-                                            </li>
-                                        {% endfor %}
+                                </ul>
+                                {% for block in user.getUserBlock %}
+                                    <li>
+                                        <strong>{{ block.getReason }}</strong>
+                                        <em>Block
+                                            expires {{ block.isPermanent ? 'never' : block.getExpirationDate.format('Y-m-d H:i:s') }}</em>
+                                    </li>
+                                {% endfor %}
 
-                                    {% endif %}
-                                </td>
-                                <td>
-                                    {{ user.getCreatedAt.format('Y-m-d H:i:s') }}
-                                </td>
-                                <td>
-
-                                    <nav class="secondary">
-
-                                        <a href="{{ path('admin.users.edit', {'userId': user.getId}) }}">Edit</a>
-                                        {% if user.getUserBlock is null %}
-                                            <a href="{{ path('admin.users.block', {'userId': user.getId}) }}">Block</a>
-                                        {% else %}
-                                            <a href="{{ path('admin.users.unblock', {'userId': user.getId}) }}">Unblock</a>
-                                        {% endif %}
-                                        <a href="{{ path('admin.users.delete', {'userId': user.getId}) }}">Delete</a>
-                                        <a href="{{ path('admin.users.games', {'userId': user.getId}) }}">Manage Games</a>
-                                    </nav>
-
-
-                                </td>
-                            </tr>
-                        {% endfor %}
-                        </tbody>
-                    </table>
-                    {% if pager is not empty %}
-                        <nav class="pagination">
-                            {% if pager.back is defined %}
-                                <a href="{{ path('admin.users.manage', {
-                                    'page': pager.back,
-                                    'resultsPerPage': resultsPerPage
-                                }) }}"><<</a>
                             {% endif %}
-                            {% for pagerPage in pager.pages %}
-                                <a href="{{ path('admin.users.manage', {
-                                    'page': pagerPage,
-                                    'resultsPerPage': resultsPerPage
-                                }) }}" {% if currentPage == pagerPage %}class="active"{% endif %} >{{ pagerPage }}</a>
-                            {% endfor %}
-                            {% if pager.next is defined %}
-                                <a href="{{ path('admin.users.manage', {
-                                    'page': pager.next,
-                                    'resultsPerPage': resultsPerPage
-                                }) }}">>></a>
-                            {% endif %}
-                        </nav>
+                        </td>
+                        <td>
+                            {{ user.getCreatedAt.format('Y-m-d H:i:s') }}
+                        </td>
+                        <td>
+
+                            <nav class="secondary">
+
+                                <a href="{{ path('admin.users.edit', {'userId': user.getId}) }}">Edit</a>
+                                {% if user.getUserBlock is null %}
+                                    <a href="{{ path('admin.users.block', {'userId': user.getId}) }}">Block</a>
+                                {% else %}
+                                    <a href="{{ path('admin.users.unblock', {'userId': user.getId}) }}">Unblock</a>
+                                {% endif %}
+                                <a href="{{ path('admin.users.delete', {'userId': user.getId}) }}">Delete</a>
+                                <a href="{{ path('admin.users.games', {'userId': user.getId}) }}">Manage Games</a>
+                            </nav>
+
+
+                        </td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+            {% if pager is not empty %}
+                <nav class="pagination">
+                    {% if pager.back is defined %}
+                        <a href="{{ path('admin.users.manage', {
+                            'page': pager.back,
+                            'resultsPerPage': resultsPerPage
+                        }) }}"><<</a>
                     {% endif %}
-                </div>
-
-            </div>
+                    {% for pagerPage in pager.pages %}
+                        <a href="{{ path('admin.users.manage', {
+                            'page': pagerPage,
+                            'resultsPerPage': resultsPerPage
+                        }) }}" {% if currentPage == pagerPage %}class="active"{% endif %} >{{ pagerPage }}</a>
+                    {% endfor %}
+                    {% if pager.next is defined %}
+                        <a href="{{ path('admin.users.manage', {
+                            'page': pager.next,
+                            'resultsPerPage': resultsPerPage
+                        }) }}">>></a>
+                    {% endif %}
+                </nav>
+            {% endif %}
         </div>
     </div>
 

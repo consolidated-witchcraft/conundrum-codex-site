@@ -12,8 +12,20 @@ table {
     border-radius: var(--baseBorderRadius);
     overflow: hidden;
     box-shadow: var(--subtleBoxShadow);
-
-
+    position: relative;
+    &:after {
+        content: " ";
+        display: block;
+        position: absolute;
+        top: 0;
+        left: 0;
+        bottom: 0;
+        right: 0;
+        pointer-events: none;
+        background: transparent;
+        border: math.div(dimension.$decorativeFrameBorderWidth, 2) solid transparent;
+        border-image: url("/dist/svgs/frames/fancy-frame-ferruled.svg") 33%;
+    }
     tbody,
     thead,
     tfoot {
@@ -23,7 +35,7 @@ table {
             padding: spacing.$gutter;
             text-align: left;
             font-size: 1rem;
-            border: dimension.$thinBorderWitch solid var(--colorCrimsonDarker);
+            border: dimension.$thinBorderWidth solid var(--colorInk);
             .btn, button {
                 margin-bottom: 0 !important;
             }
@@ -32,11 +44,9 @@ table {
     thead {
         tr {
             th, td {
-                background: var(--crimsonGradient);
+                background: var(--inkGradient);
                 color: var(--colorOffWhite);
                 text-shadow: var(--effectsEngravedShadow);
-
-
             }
             th {
                 font-weight: bold;

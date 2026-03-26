@@ -18,7 +18,7 @@
 html {
     body {
         background-image:
-            url("/dist/images/papertex.webp"),
+            url("/dist/images/textures/vellum.webp"),
             radial-gradient(
                     circle at 50% 50%, palette.$cream 66%,
                     color.adjust(palette.$cream, $saturation: +10%, $lightness: -5%) 100%
@@ -27,7 +27,7 @@ html {
 
 
 
-        background-size: 128px 128px, 100% 100%, 389px 427px;
+        background-size: 64px 64px, 100% 100%, 389px 427px;
         background-repeat: repeat, repeat, no-repeat;
         background-blend-mode: soft-light;
         min-width: 100%;

@@ -12,7 +12,7 @@
         padding: math.div(spacing.$baseSpacing, 4);
         background-color: var(--colorOffWhite);
         margin-bottom: spacing.$gutter;
-        box-shadow: var(--baseShadow);
+        box-shadow: var(--baseBoxShadow);
         border-radius: 0.25rem;
         border: dimension.$thickBorderWidth solid gold;
         border-image: url("/dist/svgs/frames/simple-frame.svg") 33%;

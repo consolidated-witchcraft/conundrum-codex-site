@@ -44,7 +44,7 @@ $noiseScale: 50rem;
             border: dimension.$thickBorderWidth solid transparent;
             border-image: url("/dist/svgs/frames/simple-frame.svg") 33%;
             background-image:
-                url("/dist/images/watercolor_paper.webp"),
+                url("/dist/images/textures/watercolor_paper.webp"),
                 var(--vellumGradient),
                 radial-gradient(ellipse at 50% 50%, transparent 50%, rgba(62, 38, 7, 0.1), rgba(62, 38, 7, 0.33));
 

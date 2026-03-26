@@ -23,6 +23,7 @@
         <div class="col">
             <div class="decorative-frame">
                 <h2 class="frame-title">What is {{ siteName }}?</h2>
+                <hr>
                 <p>{{ siteName }} is designed to help online games-masters of tabletop RPGs set give remote players the full RPG experience, regardless of neurodiversity and cognitive differences.</p>
                 <p>We're community driven, and offer many different types of tools that can be customised to meet the needs of your game and setting.</p>
                 <p>We also offer interactive puzzles that you can set remotely and allow players to respond to, either individually or collaboratively.</p>
@@ -33,6 +34,7 @@
         <div class="col">
             <div class="decorative-frame">
                 <h2 class="frame-title">Features</h2>
+                <hr>
                 <ul class="stars">
                     <li><strong>Worldbooks</strong> - Create custom Wikis for your worlds complete with people, locations, factions and history.</li>
                     <li><strong>Puzzles</strong> - Create customisable puzzles you can share with your players</li>
@@ -46,6 +48,7 @@
         <div class="col">
             <div class="decorative-frame">
                 <h2 class="frame-title">Puzzle Templates</h2>
+                <hr>
                 <nav class="puzzle-categories grid lozenges">
                     {%  for template in templates %}
                         <a class="btn btn-secondary" href="{{ path('app.puzzles.template.show', {templateSlug: template.getSlug}) }}">{{ template.getTitle }}</a>

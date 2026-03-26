@@ -19,18 +19,18 @@ $noiseScale: 30rem;
     padding-bottom: $watermarkHeight;
 
     background-image:
-        url("/dist/images/watercolor_paper.webp"),
+        url("/dist/images/textures/watercolor_paper.webp"),
         var(--vellumGradient),
         radial-gradient(ellipse at 50% 50%, transparent 50%, rgba(62, 38, 7, 0.1), rgba(62, 38, 7, 0.33));
 
-    background-size: 64px 64px, 100% 100%, 100% 100%;
+    background-size: 128px 128px, 100% 100%, 100% 100%;
     background-blend-mode: overlay;
 
     box-shadow: var(--decorativeFrameShadow);
     box-sizing: border-box;
     z-index: 1;
 
-    &:before, &:after {
+    &:after {
         content: " ";
         display: block;
         position: absolute;
@@ -40,9 +40,6 @@ $noiseScale: 30rem;
         left: 0;
         bottom: 0;
         right: 0;
-    }
-
-    &:after {
         background-color: transparent;
         border: dimension.$decorativeFrameBorderWidth solid transparent;
         border-image: url("/dist/svgs/frames/fancy-frame-ferruled.svg") 33%;
@@ -58,10 +55,6 @@ $noiseScale: 30rem;
 
         text-align: center;
         font-size: 2rem;
-        border-bottom: dimension.$thickBorderWidth solid transparent;
-        padding-bottom: spacing.$gutter;
-        margin-bottom: spacing.$gutter;
-        border-image: url("/dist/svgs/frames/simple-frame.svg") 33%;
 
     }
 
@@ -73,7 +66,7 @@ $noiseScale: 30rem;
         z-index: 0;
         max-height: $watermarkHeight;
         mask-image: url("/dist/images/masks/watercolor_mask_3.webp");
-        mask-repeat: no-repeat;
+        mask-repeat: repeat-x;
         opacity: 1;
         width: 100%;
     }

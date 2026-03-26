@@ -2,51 +2,47 @@
 {% block body %}
     <div class="row">
         <div class="col">
-            <div class="panel">
-                <div class="panel-content">
-                    {% embed 'admin/users/partials/_userAdminNav.html.twig' %}{% endembed %}
-                    <table class="table">
-                        <thead>
+            {% embed 'admin/users/partials/_userAdminNav.html.twig' %}{% endembed %}
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Handle</th>
+                        <th>Name</th>
+                        <th>Permissions</th>
+                        <th>Edit</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% if roles is empty %}
+                        <tr>
+                            <td colspan="3">
+                                <em>No Roles on system.</em>
+                            </td>
+                        </tr>
+                    {% else %}
+                        {% for role in roles %}
                             <tr>
-                                <th>Handle</th>
-                                <th>Name</th>
-                                <th>Permissions</th>
-                                <th>Edit</th>
+                                <td>
+                                    {{ role.handle }}
+                                </td>
+                                <td>
+                                    {{ role.label }}
+                                </td>
+                                <td>
+                                    <ul>
+                                        {% for permission in role.getPermissions %}
+                                            <li>{{ permission.label }}</li>
+                                        {% endfor %}
+                                    </ul>
+                                </td>
+                                <td>
+                                    <a href="{{ path('admin.users.roles.edit', {'roleHandle': role.getHandle}) }}">Edit</a>
+                                </td>
                             </tr>
-                        </thead>
-                        <tbody>
-                            {% if roles is empty %}
-                                <tr>
-                                    <td colspan="3">
-                                        <em>No Roles on system.</em>
-                                    </td>
-                                </tr>
-                            {% else %}
-                                {% for role in roles %}
-                                    <tr>
-                                        <td>
-                                            {{ role.handle }}
-                                        </td>
-                                        <td>
-                                            {{ role.label }}
-                                        </td>
-                                        <td>
-                                            <ul>
-                                                {% for permission in role.getPermissions %}
-                                                    <li>{{ permission.label }}</li>
-                                                {% endfor %}
-                                            </ul>
-                                        </td>
-                                        <td>
-                                            <a href="{{ path('admin.users.roles.edit', {'roleHandle': role.getHandle}) }}">Edit</a>
-                                        </td>
-                                    </tr>
-                                {% endfor %}
-                            {% endif %}
-                        </tbody>
-                    </table>
-                </div>
-            </div>
+                        {% endfor %}
+                    {% endif %}
+                </tbody>
+            </table>
         </div>
     </div>
 {% endblock %}

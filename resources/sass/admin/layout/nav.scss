@@ -1,17 +1,18 @@
 @use 'sass:math';
-
+@use '../../critical/base/sassVariables/spacing';
 
 nav.admin-navbar {
     display: flex;
     flex-direction: row;
-    padding: 1rem;
     background: black;
     width: 100%;
+    padding: 0 spacing.$desktopContainerPadding;
+    margin-bottom: spacing.$gutter;
 
     a {
-
+        font-weight: bold;
         padding: 1rem;
-
+        color: var(--colorWhite);
         &:first-child {
             padding-left: 0;
         }

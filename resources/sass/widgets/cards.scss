@@ -31,20 +31,20 @@
         position: relative;
         z-index: 2;
         text-align: center;
-        margin: 8vh;
+        margin: 8vh 0;
         color: var(--colorInk);
         font-size: 3rem;
         font-family: var(--displayStack);
-        top: -0.25rem;
-        left: -0.25rem;
+        top: -0.125rem;
+        left: -0.125rem;
         text-shadow: none;
 
         &:before, &:after {
             content: attr(content);
             position: absolute;
-            width: 100%;
-            top: 0.25rem;
-            left: 0.25rem;
+            min-width: 100%;
+            top: 0.125rem;
+            left: 0.125rem;
         }
 
         &:after {
@@ -72,7 +72,7 @@
         border-top: dimension.$thickBorderWidth solid transparent;
         border-image: url("/dist/svgs/frames/simple-frame.svg") 33%;
         background-image:
-            url("/dist/images/watercolor_paper.webp"),
+            url("/dist/images/textures/watercolor_paper.webp"),
             var(--vellumGradient),
             radial-gradient(ellipse at 50% 50%, transparent 50%, rgba(62, 38, 7, 0.1), rgba(62, 38, 7, 0.33));
 
@@ -80,7 +80,14 @@
         background-blend-mode: overlay;
 
         flex-grow: 2;
+        &.flush {
+            padding: 0;
 
+            .accordion-list {
+                border: none;
+                margin-bottom: 0;
+            }
+        }
     }
 
     .card-footer {

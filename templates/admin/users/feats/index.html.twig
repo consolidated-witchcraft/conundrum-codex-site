@@ -2,53 +2,49 @@
 {% block body %}
     <div class="row">
         <div class="col">
-            <div class="panel">
-                <div class="panel-content">
-                    {% embed 'admin/users/partials/_userAdminNav.html.twig' %}{% endembed %}
-                    <table class="table">
-                        <thead>
+            {% embed 'admin/users/partials/_userAdminNav.html.twig' %}{% endembed %}
+            <table class="table">
+                <thead>
+                <tr>
+                    <th>Handle</th>
+                    <th>Name</th>
+                    <th>Rarity</th>
+                    <th>Description</th>
+                    <th>Edit</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% if feats is empty %}
+                    <tr>
+                        <td colspan="3">
+                            <em>No Feats on system.</em>
+                        </td>
+                    </tr>
+                {% else %}
+                    {% for feat in feats %}
                         <tr>
-                            <th>Handle</th>
-                            <th>Name</th>
-                            <th>Rarity</th>
-                            <th>Description</th>
-                            <th>Edit</th>
+                            <td>
+                                {{ feat.handle }}
+                            </td>
+                            <td>
+                                {{ feat.rarity.getLabel }}
+                            </td>
+                            <td>
+                                {{ feat.label }}
+                            </td>
+                            <td>
+                                {{ feat.description }}
+                            </td>
+                            <td>
+                                <a href="{{ path('admin.users.feats.edit', {'featHandle': feat.getHandle}) }}">Edit</a>
+                            </td>
                         </tr>
-                        </thead>
-                        <tbody>
-                        {% if feats is empty %}
-                            <tr>
-                                <td colspan="3">
-                                    <em>No Feats on system.</em>
-                                </td>
-                            </tr>
-                        {% else %}
-                            {% for feat in feats %}
-                                <tr>
-                                    <td>
-                                        {{ feat.handle }}
-                                    </td>
-                                    <td>
-                                        {{ feat.rarity.getLabel }}
-                                    </td>
-                                    <td>
-                                        {{ feat.label }}
-                                    </td>
-                                    <td>
-                                        {{ feat.description }}
-                                    </td>
-                                    <td>
-                                        <a href="{{ path('admin.users.feats.edit', {'featHandle': feat.getHandle}) }}">Edit</a>
-                                    </td>
-                                </tr>
-                            {% endfor %}
-                        {% endif %}
-                        </tbody>
-                    </table>
-                    <div class="btn-group">
-                        <a href="{{ path('admin.users.feats.add') }}" class="btn btn-primary">Add a new Feat</a>
-                    </div>
-                </div>
+                    {% endfor %}
+                {% endif %}
+                </tbody>
+            </table>
+            <div class="btn-group">
+                <a href="{{ path('admin.users.feats.add') }}" class="btn btn-primary">Add a new Feat</a>
             </div>
         </div>
     </div>

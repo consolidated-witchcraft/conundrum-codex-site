@@ -85,7 +85,7 @@ $noiseScale: 30rem;
             overflow: hidden;
             transition: max-height var(--animationSpeedNormal) ease-in-out;
             background-image:
-                url("/dist/images/watercolor_paper.webp"),
+                url("/dist/images/textures/watercolor_paper.webp"),
                 var(--vellumGradient),
                 radial-gradient(ellipse at 50% 50%, transparent 50%, rgba(62, 38, 7, 0.1), rgba(62, 38, 7, 0.33));
 
