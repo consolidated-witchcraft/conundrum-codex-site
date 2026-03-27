@@ -13,9 +13,17 @@
                 <p>Before registering, please read our <a href="{{ path('app.pages.coc') }}">Code of Conduct</a></p>
                 {{ form(registrationForm) }}
             {% else %}
-                <blockquote is="random-quotation">
-                </blockquote>
+                <div class="decorative-frame no-watermark">
+                    <blockquote is="random-quotation">
+                    </blockquote>
+                </div>
+
             {% endif %}
         </div>
     </div>
+{% endblock %}
+
+{% block footerStyles %}
+    <link rel="stylesheet" href="/dist/css/widgets/decorativeFrames.css" />
+    <link rel="stylesheet" href="/dist/css/widgets/randomQuotation.css" />
 {% endblock %}

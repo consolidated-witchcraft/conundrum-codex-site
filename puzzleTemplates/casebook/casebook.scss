@@ -1,21 +1,44 @@
 @use "sass:color";
 @use "sass:math";
 
+@use 'critical/base/sassVariables/spacing';
+@use 'critical/base/sassVariables/dimension';
+
 $pulsarHeight: 3rem;
 @keyframes spin {
     0%  {transform: rotate(0deg);}
     100% {transform: rotate(360deg);}
 }
 
-
+//noinspection CssUnknownTarget
 .subject-wrapper {
     display: flex;
     flex-direction: column;
-    border-bottom: 0.125rem dashed var(--colorInk);
+    border-bottom: dimension.$thickBorderWidth solid transparent;
+    border-image: url("svgs/dividers/gold-bead-horizontal.svg") 33%;
     position: relative;
     z-index: 998;
+    margin: spacing.$gutter;
+
     .basic-info, .description, .clues {
 
+    }
+
+    .clues,
+    .basic-info{
+        h4 {
+            font-family: var(--displayStack);
+            font-size: 2rem;
+            text-shadow: var(--effectsEngravedShadow);
+            margin-bottom: spacing.$gutter;
+            margin-top: 0;
+        }
+    }
+
+    .clues {
+        h4 {
+            margin-left: spacing.$gutter;
+        }
     }
 
     .basic-info {
@@ -25,8 +48,20 @@ $pulsarHeight: 3rem;
             height: 80vw;
             overflow: hidden;
             position: relative;
-            border: 1rem solid transparent;
-            border-image: url('/dist/svgs/frames/simple-frame.svg') 33%;
+
+            &:after {
+                content: " ";
+                display: block;
+                pointer-events: none;
+                position: absolute;
+                top: 0;
+                left: 0;
+                bottom: 0;
+                right: 0;
+                background-color: transparent;
+                border: dimension.$decorativeFrameBorderWidth solid transparent;
+                border-image: url('/dist/svgs/frames/fancy-frame-ferruled.svg') 33%;
+            }
 
 
             img {
@@ -57,8 +92,9 @@ $pulsarHeight: 3rem;
         flex-basis: 50vw;
         display: grid;
         grid-template-columns: 1fr;
-        grid-column-gap: 1rem;
-        grid-row-gap: 1rem;
+        grid-column-gap: spacing.$baseSpacing;
+        grid-row-gap: spacing.$baseSpacing;
+        margin: spacing.$gutter;
     }
 
     &.revealed {
@@ -91,6 +127,7 @@ $pulsarHeight: 3rem;
         .basic-info {
             flex-basis: 33%;
             flex-shrink: 0;
+            margin-right: spacing.$gutter;
             .image-wrapper {
                 height: 20vw;
                 img {}

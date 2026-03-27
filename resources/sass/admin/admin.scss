@@ -1,34 +1,34 @@
-@use "../critical/base/cssVariables/inlinedFiles";
-@use "../critical/base/cssVariables/fontFamilies";
-@use "../critical/base/cssVariables/palette";
-@use "../critical/base/cssVariables/effects";
-@use "../critical/base/cssVariables/animation";
-@use "../critical/base/cssVariables/misc";
+@use "critical/base/cssVariables/inlinedFiles";
+@use "critical/base/cssVariables/fontFamilies";
+@use "critical/base/cssVariables/palette";
+@use "critical/base/cssVariables/effects";
+@use "critical/base/cssVariables/animation";
+@use "critical/base/cssVariables/misc";
 
-@use "../critical/base/reset";
-@use "../contrib/RpgAwesome/rpg-awesome";
+@use "critical/base/reset";
+@use "contrib/RpgAwesome/rpg-awesome";
 
-@use "../critical/base/typography";
-@use "../critical/base/colors";
+@use "critical/base/typography";
+@use "critical/base/colors";
 
-@use "../critical/layout/flex";
-@use "../critical/layout/grid";
-@use "../critical/layout/logo";
-@use "../critical/layout/header";
-@use "../critical/layout/footer";
+@use "critical/layout/flex";
+@use "critical/layout/grid";
+@use "critical/layout/logo";
+@use "critical/layout/header";
+@use "critical/layout/footer";
 
-@use "../critical/elements/links";
-@use "../critical/elements/forms";
-@use "../critical/elements/buttons";
-@use "../critical/elements/navs";
-@use "../critical/elements/images";
-@use "../critical/elements/rules";
+@use "critical/elements/links";
+@use "critical/elements/forms";
+@use "critical/elements/buttons";
+@use "critical/elements/navs";
+@use "critical/elements/images";
+@use "critical/elements/rules";
 
-@use "../critical/criticalWidgets/alerts";
-@use "../critical/criticalWidgets/cookieNotice";
-@use "../critical/criticalWidgets/multiaddRow";
-@use "../critical/criticalWidgets/breadcrumbs";
-@use "../widgets/tables";
+@use "critical/criticalWidgets/alerts";
+@use "critical/criticalWidgets/cookieNotice";
+@use "critical/criticalWidgets/multiaddRow";
+@use "critical/criticalWidgets/breadcrumbs";
+@use "widgets/tables";
 
 @use "layout/nav";
 

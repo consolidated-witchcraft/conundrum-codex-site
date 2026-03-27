@@ -1,0 +1,19 @@
+@use 'critical/base/sassVariables/dimension';
+
+@mixin framed-surface(
+    $frame-url: "/dist/svgs/frames/simple-frame.svg",
+    $border-width: dimension.$thickBorderWidth,
+    $shadow: var(--baseBoxShadow)
+) {
+    &:after {
+        content: "";
+        position: absolute;
+        inset: 0;
+        box-shadow: $shadow;
+        border: $border-width solid transparent;
+        border-image: url(#{$frame-url}) 33%;
+        z-index: 9999;
+        pointer-events: none;
+    }
+
+}

@@ -1,8 +1,8 @@
 @use 'sass:math';
 @use 'sass:color';
 
-@use '../critical/base/sassVariables/spacing';
-@use '../critical/base/sassVariables/dimension';
+@use 'critical/base/sassVariables/spacing';
+@use 'critical/base/sassVariables/dimension';
 
 $slideshowHeight: 40vh;
 

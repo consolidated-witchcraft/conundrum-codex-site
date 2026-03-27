@@ -1,7 +1,7 @@
 @use 'sass:color';
 @use 'sass:math';
 
-@use '../critical/base/sassVariables/spacing';
+@use 'critical/base/sassVariables/spacing';
 
 .badge {
     background: cyan;

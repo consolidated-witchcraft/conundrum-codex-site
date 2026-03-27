@@ -146,11 +146,21 @@ function copyDirectory({
                            destDir,
                            pattern = '**/*'
                        }) {
+    const resolvedSrcDir = path.resolve(srcDir);
+
     return {
         name: `copy-directory:${srcDir}`,
 
         buildStart() {
             this.addWatchFile(srcDir);
+        },
+
+        watchChange(id) {
+            if (!id.startsWith(resolvedSrcDir)) {
+                return;
+            }
+
+            this.warn(`Asset changed: ${path.relative(process.cwd(), id)}`);
         },
 
         async writeBundle() {
@@ -177,6 +187,8 @@ function copyOptimisedSvgs({
                                srcDir = 'resources/svgs',
                                destDir = 'public/dist/svgs'
                            } = {}) {
+    const resolvedSrcDir = path.resolve(srcDir);
+
     async function watchSvgFiles(context) {
         const files = await fg('**/*.svg', {
             cwd: srcDir,
@@ -196,10 +208,11 @@ function copyOptimisedSvgs({
         },
 
         async watchChange(id) {
-            if (!id.endsWith('.svg')) {
+            if (!id.endsWith('.svg') || !id.startsWith(resolvedSrcDir)) {
                 return;
             }
 
+            this.warn(`Asset changed: ${path.relative(process.cwd(), id)}`);
             await watchSvgFiles(this);
         },
 
@@ -232,11 +245,21 @@ function generateWebpImages({
                                 pattern = '**/*.{png,jpg,jpeg}',
                                 quality = 82
                             } = {}) {
+    const resolvedSrcDir = path.resolve(srcDir);
+
     return {
         name: 'generate-webp-images',
 
         buildStart() {
             this.addWatchFile(srcDir);
+        },
+
+        watchChange(id) {
+            if (!id.startsWith(resolvedSrcDir)) {
+                return;
+            }
+
+            this.warn(`Asset changed: ${path.relative(process.cwd(), id)}`);
         },
 
         async writeBundle() {
@@ -292,7 +315,20 @@ function removeEmptyCssJs() {
     };
 }
 
+function rewriteAssetUrls(css) {
+    return css
+        .replace(/url\((['"]?)svgs\//g, 'url($1/dist/svgs/')
+        .replace(/url\((['"]?)images\//g, 'url($1/dist/images/')
+        .replace(/url\((['"]?)fonts\//g, 'url($1/dist/fonts/');
+}
+
 function makeScssConfig(input, outputDir, fileName, watch = []) {
+    const resolvedWatch = Array.from(new Set([
+        ...watch,
+        'resources/sass/**/*.scss',
+        'puzzleTemplates/**/*.scss'
+    ]));
+
     return {
         input,
         output: {
@@ -302,8 +338,12 @@ function makeScssConfig(input, outputDir, fileName, watch = []) {
             scss({
                 fileName,
                 outputStyle: 'expanded',
-                processor: (css) => minifyCssWithLightning(css, fileName),
-                watch
+                includePaths: [
+                    path.resolve('resources/sass'),
+                    path.resolve('resources')
+                ],
+                processor: (css) => minifyCssWithLightning(rewriteAssetUrls(css), fileName),
+                watch: resolvedWatch
             }),
             removeEmptyCssJs(),
             summary()

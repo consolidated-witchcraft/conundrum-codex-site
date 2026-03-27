@@ -1,7 +1,7 @@
 @use 'sass:math';
 
-@use '../critical/base/sassVariables/spacing';
-@use '../critical/base/sassVariables/dimension';
+@use 'critical/base/sassVariables/spacing';
+@use 'critical/base/sassVariables/dimension';
 
 table {
 
@@ -13,6 +13,7 @@ table {
     overflow: hidden;
     box-shadow: var(--subtleBoxShadow);
     position: relative;
+    //noinspection CssUnknownTarget
     &:after {
         content: " ";
         display: block;

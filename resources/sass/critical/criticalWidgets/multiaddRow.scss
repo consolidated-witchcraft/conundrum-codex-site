@@ -1,13 +1,14 @@
 @use "sass:color";
 @use "sass:math";
 
-@use '../base/sassVariables/spacing';
-@use '../base/sassVariables/dimension';
+@use 'critical/base/sassVariables/spacing';
+@use 'critical/base/sassVariables/dimension';
 
 .multiadd-wrapper {
     flex: 1;
     flex-direction: column;
 
+    //noinspection CssUnknownTarget
     .multiadd-row {
         padding: math.div(spacing.$baseSpacing, 4);
         background-color: var(--colorOffWhite);

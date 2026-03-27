@@ -1,10 +1,11 @@
 @use 'sass:math';
 
-@use '../base/sassVariables/dimension';
-@use '../base/sassVariables/spacing';
+@use 'critical/base/sassVariables/dimension';
+@use 'critical/base/sassVariables/spacing';
 
 .btn, button {
 
+    //noinspection CssUnknownTarget
     &:not(.unstyle, .sf-toolbar-toggle-button) {
         font-size: 100%;
         display: block;
@@ -38,7 +39,6 @@
             border-left-color: #dfdfdf;
             border-right-color: #cccccc;
             border-bottom-color: #8f8f8f;
-            mix-blend-mode: hard-light;
             opacity: 0.4;
         }
 
@@ -149,11 +149,6 @@
             background: gray;
 
             opacity: 0.6;
-        }
-
-        &.cta {
-
-            font-size: 125%;
         }
     }
 }

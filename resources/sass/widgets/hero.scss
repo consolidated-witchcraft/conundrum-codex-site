@@ -1,7 +1,7 @@
 @use 'sass:color';
-@use '../critical/base/sassVariables/spacing';
-@use '../critical/base/sassVariables/dimension';
-
+@use 'critical/base/sassVariables/spacing';
+@use 'critical/base/sassVariables/dimension';
+@use 'critical/mixins/framedSurface';
 .hero {
     width: 100%;
     position: relative;
@@ -10,22 +10,10 @@
     background: var(--creamGradient);
     box-shadow: var(--baseBoxShadow);
     min-height: 50vh;
-
-
-    &:after {
-        content: " ";
-        display: block;
-        position: absolute;
-        top: 0;
-        left: 0;
-        bottom: 0;
-        right: 0;
-        background-color: transparent;
-        border: dimension.$decorativeFrameBorderWidth solid transparent;
-        border-image: url("/dist/svgs/frames/fancy-frame-ferruled.svg") 33%;
-        z-index: 2;
-        pointer-events: none;
-    }
+    @include framedSurface.framed-surface(
+        "svgs/frames/fancy-frame-ferruled.svg",
+        dimension.$decorativeFrameBorderWidth
+    );
 
     img.hero-backer {
         width: initial;
@@ -52,6 +40,7 @@
         color: var(--colorOffWhite);
         background: rgba(3, 6, 25, 0.9);
 
+        //noinspection CssUnknownTarget
         &:after {
             content: " ";
             display: block;

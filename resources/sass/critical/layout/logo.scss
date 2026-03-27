@@ -1,8 +1,8 @@
 @use 'sass:color';
 @use 'sass:math';
 
-@use '../base/sassVariables/spacing';
-@use '../base/cssVariables/animation';
+@use 'critical/base/sassVariables/spacing';
+@use 'critical/base/cssVariables/animation';
 
 $logoHeight: 9vh;
 
@@ -24,72 +24,80 @@ $logoHeight: 9vh;
 
 
 @media only screen and (min-width: spacing.$mobileBreakPointUpper) {
-
-    .logo-wrapper {
-        display: block;
-        position: relative;
-        transition: opacity var(--animationSpeedNormal) ease-in-out;
-        padding: spacing.$baseSpacing;
-        padding-bottom: 0;
-
-        a.header-logo {
-            display: block;
-            color: transparent;
-            width: 50vw;
-            padding-top: $logoHeight + 2vh;
-            position: relative;
-            margin: 0 auto;
-            border: none;
-
-            &:hover, &:focus, &:active {
-                color: transparent;
-            }
-
-            span.logo-text {
-                display: block;
-                width: 50%;
-                margin: 0 auto;
-
-                position: relative;
-                color: var(--colorInk);
-                font-family: var(--displayStack);
-                text-shadow: var(--effectsEngravedShadow);
-                font-size: 2rem;
-                text-align: center;
-            }
-
-            &:before, &:after {
-                content: " ";
-                display: block;
-                position: absolute;
-                top: 2vh;
-                left: 50%;
-                margin-left: 0 - math.div($logoHeight, 2);
-                height: $logoHeight;
-                width: $logoHeight;
-            }
-
-            &:before {
-                background: linear-gradient(33deg, color.adjust(cyan, $alpha: -0.25), color.adjust(magenta, $alpha: -0.25));
-                background-size: 400%;
-                backdrop-filter: blur(5px);
-                animation: gradient 5s ease infinite;
-                mask-image: url("/dist/svgs/logos/penrose-mask.svg");
-                mask-size: contain;
-                mask-repeat: no-repeat;
-            }
-
-            &:after {
-                background-image: url("/dist/svgs/logos/penrose-overlay.svg");
-                background-size: contain;
-                background-repeat: no-repeat;
-            }
-        }
-    }
-
-    body.scrolled {
+    body {
         .logo-wrapper {
-            opacity: 0;
+            display: block;
+            position: relative;
+            transition: opacity var(--animationSpeedNormal) ease-in-out;
+            padding: spacing.$baseSpacing;
+            padding-bottom: 0;
+
+            a.header-logo {
+                display: block;
+                color: transparent;
+                width: 50vw;
+                padding-top: $logoHeight + 2vh;
+                position: relative;
+                margin: 0 auto;
+                border: none;
+
+                &:hover, &:focus, &:active {
+                    color: transparent;
+                }
+
+                span.logo-text {
+                    display: block;
+                    width: 50%;
+                    margin: 0 auto;
+
+                    position: relative;
+
+                    font-family: var(--displayStack);
+                    text-shadow: var(--effectsEngravedShadow);
+                    font-size: 2rem;
+                    text-align: center;
+
+                }
+
+                &:before, &:after {
+                    content: " ";
+                    display: block;
+                    position: absolute;
+                    top: 2vh;
+                    left: 50%;
+                    margin-left: 0 - math.div($logoHeight, 2);
+                    height: $logoHeight;
+                    width: $logoHeight;
+                }
+
+                &:before {
+                    background: linear-gradient(33deg, cyan, magenta);
+                    background-size: 400%;
+                    animation: gradient 12s ease infinite;
+                    mask-image: url("/dist/svgs/logos/penrose-mask.svg");
+                    mask-size: contain;
+                    mask-repeat: no-repeat;
+                }
+
+                &:after {
+                    background-image: url("/dist/svgs/logos/penrose-overlay.svg");
+                    background-size: contain;
+                    background-repeat: no-repeat;
+                }
+            }
+        }
+
+        &.scrolled {
+            .logo-wrapper {
+                opacity: 0;
+
+                a.header-logo {
+                    &:before {
+                        animation-play-state: paused;
+                    }
+                }
+            }
         }
     }
+
 }

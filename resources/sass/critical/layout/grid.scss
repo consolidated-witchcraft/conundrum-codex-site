@@ -1,12 +1,12 @@
-@use '../base/sassVariables/spacing';
-@use '../base/sassVariables/dimension';
+@use 'critical/base/sassVariables/spacing';
+@use 'critical/base/sassVariables/dimension';
 
 main {
     .grid {
         display: grid;
         grid-template-columns: 1fr;
-        grid-column-gap: spacing.$gutter;
-        grid-row-gap: spacing.$gutter;
+        grid-column-gap: spacing.$baseSpacing;
+        grid-row-gap: spacing.$baseSpacing;
         text-align: center;
     }
 }

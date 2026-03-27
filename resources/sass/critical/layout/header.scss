@@ -1,7 +1,7 @@
 @use 'sass:math';
 
-@use '../base/sassVariables/spacing';
-@use '../base/sassVariables/dimension';
+@use 'critical/base/sassVariables/spacing';
+@use 'critical/base/sassVariables/dimension';
 
 body {
     a.skip-link {
@@ -10,7 +10,6 @@ body {
 
     .shade {
         background-color: rgba(0, 0, 0, 0.5);
-        backdrop-filter: blur(10px);
         position: absolute;
         top: dimension.$mobileHeaderHeight;
         bottom: 0;
@@ -208,7 +207,7 @@ header {
                             margin-left: 1em;
                             background: var(--colorInk);
                             background-size: 50%;
-                            background-attachment: fixed;
+
                             mask-image: url("/dist/svgs/dividers/eroded-star.svg");
                             mask-repeat: no-repeat;
                             mask-size: contain;
@@ -252,7 +251,6 @@ header {
         &.scrolled {
             header {
                 background-color: rgba(0, 0, 0, 0.85);
-                backdrop-filter: blur(10px);
                 nav.mobile-nav {
                     a {
                         color: var(--colorVellum);

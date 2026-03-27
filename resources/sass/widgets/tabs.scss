@@ -1,8 +1,8 @@
 @use 'sass:color';
 @use 'sass:math';
 
-@use '../critical/base/sassVariables/spacing';
-@use '../critical/base/sassVariables/dimension';
+@use 'critical/base/sassVariables/spacing';
+@use 'critical/base/sassVariables/dimension';
 
 $noiseScale: 50rem;
 
@@ -15,7 +15,7 @@ $noiseScale: 50rem;
         background: var(--offWhiteGradient);
         border-radius: var(--baseBorderRadius) var(--baseBorderRadius) 0 0;
         overflow: hidden;
-
+        //noinspection CssUnknownTarget
         a {
             padding: spacing.$gutter;
             color: var(--colorInk);
@@ -40,16 +40,11 @@ $noiseScale: 50rem;
         .hide-sm {
             display: none;
         }
+        //noinspection CssUnknownTarget
         .tab-content {
             border: dimension.$thickBorderWidth solid transparent;
             border-image: url("/dist/svgs/frames/simple-frame.svg") 33%;
-            background-image:
-                url("/dist/images/textures/watercolor_paper.webp"),
-                var(--vellumGradient),
-                radial-gradient(ellipse at 50% 50%, transparent 50%, rgba(62, 38, 7, 0.1), rgba(62, 38, 7, 0.33));
-
-            background-size: 64px 64px, 100% 100%, 100% 100%;
-            background-blend-mode: overlay;
+            background-color: var(--colorVellum);
 
             box-shadow: var(--baseBoxShadow);
             min-height: 33vh;
@@ -112,10 +107,19 @@ $noiseScale: 50rem;
             .hide-sm {
                 display: initial;
             }
+            //noinspection CssUnknownTarget
             .tab-content {
                 z-index: 998;
                 padding: math.div(spacing.$baseSpacing, 2);
                 border-radius: 0 0 var(--baseBorderRadius) var(--baseBorderRadius);
+                background-color: transparent;
+                background-image:
+                    url("/dist/images/textures/watercolor_paper.webp"),
+                    var(--vellumGradient),
+                    radial-gradient(ellipse at 50% 50%, transparent 50%, rgba(62, 38, 7, 0.1), rgba(62, 38, 7, 0.33));
+
+                background-size: 128px 128px, 100% 100%, 100% 100%;
+                background-blend-mode: overlay;
             }
         }
     }

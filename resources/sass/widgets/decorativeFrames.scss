@@ -1,8 +1,10 @@
 @use 'sass:math';
 
-@use '../critical/base/sassVariables/spacing';
-@use '../critical/base/sassVariables/dimension';
+@use 'critical/base/sassVariables/spacing';
+@use 'critical/base/sassVariables/dimension';
 
+@use 'critical/mixins/vellumSurface';
+@use 'critical/mixins/framedSurface';
 $watermarkHeight: 30vh;
 $desktopFrameWidth: 5rem;
 $mobileFrameWidth: 2rem;
@@ -11,40 +13,21 @@ $noiseScale: 30rem;
 .decorative-frame {
     position: relative;
     padding: spacing.$gutter + math.div($mobileFrameWidth, 4);
-
     display: flex;
     flex: 1;
     flex-grow: 2;
     flex-direction: column;
     padding-bottom: $watermarkHeight;
-
-    background-image:
-        url("/dist/images/textures/watercolor_paper.webp"),
-        var(--vellumGradient),
-        radial-gradient(ellipse at 50% 50%, transparent 50%, rgba(62, 38, 7, 0.1), rgba(62, 38, 7, 0.33));
-
-    background-size: 128px 128px, 100% 100%, 100% 100%;
-    background-blend-mode: overlay;
-
-    box-shadow: var(--decorativeFrameShadow);
+    background-color: var(--colorVellum);
     box-sizing: border-box;
+    box-shadow: var(--baseBoxShadow);
     z-index: 1;
 
-    &:after {
-        content: " ";
-        display: block;
-        position: absolute;
-        pointer-events: none;
-        box-sizing: border-box;
-        top: 0;
-        left: 0;
-        bottom: 0;
-        right: 0;
-        background-color: transparent;
-        border: dimension.$decorativeFrameBorderWidth solid transparent;
-        border-image: url("/dist/svgs/frames/fancy-frame-ferruled.svg") 33%;
-        z-index: 2;
-    }
+
+    @include framedSurface.framed-surface(
+        "/dist/svgs/frames/fancy-frame-ferruled.svg",
+        dimension.$decorativeFrameBorderWidth
+    );
 
     > * {
         position: relative;
@@ -58,7 +41,7 @@ $noiseScale: 30rem;
 
     }
 
-
+    //noinspection CssUnknownTarget
     img.frame-watermark {
         position: absolute;
         bottom: 0;
@@ -70,11 +53,20 @@ $noiseScale: 30rem;
         opacity: 1;
         width: 100%;
     }
+
+    &.no-watermark {
+        padding-bottom: spacing.$gutter + math.div($mobileFrameWidth, 4);
+    }
 }
 
 @media only screen and (min-width: spacing.$mobileBreakPointUpper) {
+    //noinspection CssUnknownTarget
     .decorative-frame {
-        padding: spacing.$gutter + math.div($desktopFrameWidth, 2);
-        padding-bottom: $watermarkHeight;
+        @include vellumSurface.vellum-surface();
+
+
+        &.no-watermark {
+            padding-bottom: spacing.$gutter + math.div($desktopFrameWidth, 2);
+        }
     }
 }

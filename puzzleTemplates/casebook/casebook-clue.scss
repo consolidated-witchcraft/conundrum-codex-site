@@ -1,27 +1,51 @@
 @use "sass:color";
 @use "sass:math";
+@use 'critical/base/sassVariables/spacing';
+@use 'critical/base/sassVariables/dimension';
 
 .clue-wrapper {
-
+    background: var(--vellumGradient);
+    padding: spacing.$gutter;
+    box-shadow: var(--baseBoxShadow);
+    border-radius: var(--baseBorderRadius);
+    position: relative;
+    //noinspection CssUnknownTarget
+    &:before {
+        content: " ";
+        display: block;
+        position: absolute;
+        top: 0;
+        left: 0;
+        bottom: 0;
+        right: 0;
+        background-color: transparent;
+        pointer-events: none;
+        border: dimension.$thickBorderWidth solid transparent;
+        border-image: url("svgs/frames/simple-frame.svg") 33%;
+    }
 
     .clue-title {
         margin: 0;
+        text-shadow: var(--effectsEngravedShadow);
+        font-size: 110%;
     }
 
     .clue-body {
-
     }
 
     .clue-type {
         text-transform: capitalize;
         font-family: sans-serif;
         font-size: 0.8rem;
-
-        border-radius: 0.2rem;
+        padding: math.div(spacing.$gutter, 2);
+        color: var(--colorWhite);
+        border-radius: var(--baseBorderRadius);
+        position: relative;
+        box-shadow: var(--effectsEngravedShadow);
+        text-shadow: var(--effectsEngravedShadow);
         &:before {
             content: " ";
             font-family: "RPGAwesome", sans-serif;
-
         }
 
         &.motive {

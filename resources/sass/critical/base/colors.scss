@@ -17,19 +17,7 @@
 
 html {
     body {
-        background-image:
-            url("/dist/images/textures/vellum.webp"),
-            radial-gradient(
-                    circle at 50% 50%, palette.$cream 66%,
-                    color.adjust(palette.$cream, $saturation: +10%, $lightness: -5%) 100%
-            ),
-            url("/dist/images/sigils_faded_ink_small.webp");
-
-
-
-        background-size: 64px 64px, 100% 100%, 389px 427px;
-        background-repeat: repeat, repeat, no-repeat;
-        background-blend-mode: soft-light;
+        background: var(--creamGradient);
         min-width: 100%;
         min-height: 100vh;
 
@@ -44,6 +32,13 @@ html {
             left: 0;
 
             position: absolute;
+        }
+
+        &:before {
+            width: 512px;
+            height: 768px;
+            background-image: url("/dist/images/sigils_brown_small.webp");
+            background-repeat: no-repeat;
         }
 
         color: var(--colorInk);
