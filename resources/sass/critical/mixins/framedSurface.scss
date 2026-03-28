@@ -3,17 +3,15 @@
 @mixin framed-surface(
     $frame-url: "/dist/svgs/frames/simple-frame.svg",
     $border-width: dimension.$thickBorderWidth,
-    $shadow: var(--baseBoxShadow)
+    $placeholderColor: #aa7d3b
 ) {
     &:after {
         content: "";
         position: absolute;
         inset: 0;
-        box-shadow: $shadow;
-        border: $border-width solid transparent;
+        border: $border-width solid $placeholderColor;
         border-image: url(#{$frame-url}) 33%;
-        z-index: 9999;
+        z-index: 2;
         pointer-events: none;
     }
-
 }

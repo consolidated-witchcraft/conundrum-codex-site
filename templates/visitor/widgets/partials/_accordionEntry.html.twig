@@ -1,0 +1,17 @@
+<article class="accordion-entry" id="{{ entryId }}" is="accordion-entry">
+    <h3 class="accordion-heading">{{ title }}</h3>
+    <div class="accordion-body">
+        <div class="accordion-content">
+            {% block accordionContent %}{% endblock %}
+        </div>
+        {% set accordionFooter %}
+            {% block accordionFooter %}{% endblock %}
+        {% endset %}
+
+        {% if accordionFooter is not empty %}
+            <div class="accordion-footer">
+                {{ accordionFooter|raw }}
+            </div>
+        {% endif %}
+    </div>
+</article>

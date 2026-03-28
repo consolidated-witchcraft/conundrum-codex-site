@@ -26,7 +26,8 @@ $noiseScale: 30rem;
 
     @include framedSurface.framed-surface(
         "/dist/svgs/frames/fancy-frame-ferruled.svg",
-        dimension.$decorativeFrameBorderWidth
+        dimension.$decorativeFrameBorderWidth,
+        transparent
     );
 
     > * {

@@ -3,45 +3,31 @@
 @use '../base/cssVariables/palette';
 @use '../base/sassVariables/spacing';
 
-@keyframes gradient {
-    0% {
-        background-position: 0% 50%;
-    }
-    50% {
-        background-position: 100% 50%;
-    }
-    100% {
-        background-position: 0% 50%;
-    }
-}
 
 html {
     body {
         background: var(--creamGradient);
         min-width: 100%;
         min-height: 100vh;
-
         position: relative;
+        color: var(--colorInk);
 
-        &:after,
-        &:before {
-            content: " ";
-            z-index: -999;
+
+
+        &:after {
+            position: absolute;
+            content: "";
             display: block;
+            pointer-events: none;
             top: 0;
             left: 0;
-
-            position: absolute;
-        }
-
-        &:before {
-            width: 512px;
-            height: 768px;
+            width: 256px;
+            height: 384px;
             background-image: url("/dist/images/sigils_brown_small.webp");
             background-repeat: no-repeat;
+            opacity: 0.5;
         }
 
-        color: var(--colorInk);
 
         .logo-wrapper {
             a.header-logo {
@@ -55,9 +41,11 @@ html {
 @media only screen and (min-width: spacing.$mobileBreakPointUpper) {
     html {
         body {
+
             &:after {
-                height: 33vw;
-                width: 33vw;
+                width: 512px;
+                height: 768px;
+                opacity: 1;
             }
         }
     }

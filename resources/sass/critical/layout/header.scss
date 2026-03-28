@@ -35,7 +35,7 @@ header {
     display: flex;
     top: 0;
     flex-direction: row;
-    width: 100vw;
+    width: 100%;
     background-color: var(--colorCrimson);
     z-index: 999;
     box-shadow: var(--baseBoxShadow);
@@ -148,7 +148,7 @@ header {
     }
 
     nav#main-nav {
-        transform: translateX(-100vw);
+        transform: translateX(-100%);
         left: 0;
 
         &.open {

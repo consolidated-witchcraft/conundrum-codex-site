@@ -6,25 +6,29 @@
             {% else %}
                 <div class="accordion-list" is="accordion-list">
                     {% for postalAddress in user.getPostalAddresses %}
-                        <article class="accordion-entry" id="address-{{ postalAddress.id }}" is="accordion-entry" data-open="false">
-                            <h3 class="accordion-heading">{{ postalAddress.label }}</h3>
-                            <div class="accordion-body">
-                                <div class="accordion-content">
-                                    {% embed 'visitor/postalAddress/partials/_postalAddress.view.html.twig' with {'postalAddress': postalAddress} %}{% endembed %}
-                                    {% if postalAddress.isDefaultShippingAddress %}
-                                        <span class="badge">Default Shipping Address</span>
-                                    {% endif %}
-                                    {% if postalAddress.isDefaultBillingAddress %}
-                                        <span class="badge">Default Billing Address</span>
-                                    {% endif %}
-                                    <nav class="secondary">
-                                        <a href="{{ path('app.user.address.edit', {'postalAddressId': postalAddress.getId}) }}">Edit this address</a>
-                                        <a href="{{ path('app.user.address.delete', {'postalAddressId': postalAddress.getId}) }}">Delete this address</a>
-                                    </nav>
-                                </div>
-                            </div>
-                        </article>
-                    {% endfor  %}
+                        {% embed '/visitor/widgets/partials/_accordionEntry.html.twig' with {
+                            'entryId': postalAddress.id,
+                            'title': postalAddress.label
+                        }%}
+                            {% block accordionContent %}
+                                {% embed 'visitor/postalAddress/partials/_postalAddress.view.html.twig' with {'postalAddress': postalAddress} %}{% endembed %}
+                                {% if postalAddress.isDefaultShippingAddress %}
+                                    <span class="badge">Default Shipping Address</span>
+                                {% endif %}
+                                {% if postalAddress.isDefaultBillingAddress %}
+                                    <span class="badge">Default Billing Address</span>
+                                {% endif %}
+                            {% endblock %}
+                            {% block accordionFooter %}
+                                <nav class="secondary">
+                                    <a href="{{ path('app.user.address.edit', {'postalAddressId': postalAddress.getId}) }}">Edit this address</a>
+                                    <a href="{{ path('app.user.address.delete', {'postalAddressId': postalAddress.getId}) }}">Delete this address</a>
+                                </nav>
+
+                            {% endblock %}
+                        {% endembed %}
+
+                    {% endfor %}
                 </div>
             {% endif %}
             <nav class="secondary">

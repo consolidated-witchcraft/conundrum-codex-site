@@ -4,6 +4,10 @@ export class TabsElement extends HTMLDivElement {
 
     private contentContainer: HTMLElement;
 
+    private resizeObserver: ResizeObserver | null = null;
+
+    private heightUpdateFrame: number | null = null;
+
     constructor() {
         super();
         let headings: HTMLElement|null = this.querySelector('nav.tab-headings');
@@ -22,8 +26,18 @@ export class TabsElement extends HTMLDivElement {
 
 
     connectedCallback() {
-        this.setHeight();
         this.setupListeners();
+        this.setupResizeObserver();
+        this.queueHeightUpdate();
+    }
+
+    disconnectedCallback(): void {
+        this.resizeObserver?.disconnect();
+
+        if (this.heightUpdateFrame !== null) {
+            cancelAnimationFrame(this.heightUpdateFrame);
+            this.heightUpdateFrame = null;
+        }
     }
 
     private setHeight(): void {
@@ -39,23 +53,39 @@ export class TabsElement extends HTMLDivElement {
         let totalHeight = navBarHeight + tallestElementHeight;
 
         this.style.height = totalHeight + 'px';
-        this.classList.add('loaded');
     }
 
-    private setupListeners() {
+    private queueHeightUpdate(): void {
+        if (this.heightUpdateFrame !== null) {
+            cancelAnimationFrame(this.heightUpdateFrame);
+        }
+
+        this.heightUpdateFrame = requestAnimationFrame(() => {
+            this.heightUpdateFrame = null;
+            this.setHeight();
+        });
+    }
+
+    private setupResizeObserver(): void {
+        this.resizeObserver = new ResizeObserver(() => {
+            this.queueHeightUpdate();
+        });
+
+        this.resizeObserver.observe(this.headings);
+        this.contentContainer.querySelectorAll('.tab-content').forEach((contentElement: Element) => {
+            this.resizeObserver?.observe(contentElement);
+        });
+    }
+
+    private setupListeners(): void {
         this.headings.querySelectorAll('a').forEach(heading => {
             heading.addEventListener('click', (e: MouseEvent) => {
                 e.preventDefault();
                 this.setActiveHeading(heading);
             });
         });
-        window.addEventListener('resize', (e: UIEvent) => {
-            e.preventDefault();
-            this.classList.remove('loaded');
-            this.setHeight();
-        });
         this.addEventListener('child-element-resize', () => {
-            this.setHeight();
+            this.queueHeightUpdate();
         });
     }
 

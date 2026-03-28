@@ -11,7 +11,7 @@ import sharp from 'sharp';
 import tsconfigPaths from 'rollup-plugin-tsconfig-paths';
 
 import fg from 'fast-glob';
-import { existsSync } from 'node:fs';
+import { existsSync, statSync } from 'node:fs';
 import fs from 'node:fs/promises';
 import path from 'node:path';
 
@@ -322,12 +322,51 @@ function rewriteAssetUrls(css) {
         .replace(/url\((['"]?)fonts\//g, 'url($1/dist/fonts/');
 }
 
+function expandScssWatchEntries(entries) {
+    const watchFiles = new Set();
+
+    for (const entry of entries) {
+        const hasGlob = /[*?[\]{}()!+@]/.test(entry);
+
+        if (hasGlob) {
+            fg.sync(entry, {
+                onlyFiles: true
+            }).forEach((filePath) => {
+                watchFiles.add(path.resolve(filePath));
+            });
+
+            continue;
+        }
+
+        if (!existsSync(entry)) {
+            continue;
+        }
+
+        const stats = statSync(entry);
+
+        if (stats.isDirectory()) {
+            fg.sync('**/*.scss', {
+                cwd: entry,
+                onlyFiles: true
+            }).forEach((filePath) => {
+                watchFiles.add(path.resolve(entry, filePath));
+            });
+
+            continue;
+        }
+
+        watchFiles.add(path.resolve(entry));
+    }
+
+    return Array.from(watchFiles);
+}
+
 function makeScssConfig(input, outputDir, fileName, watch = []) {
-    const resolvedWatch = Array.from(new Set([
+    const resolvedWatch = expandScssWatchEntries([
         ...watch,
         'resources/sass/**/*.scss',
         'puzzleTemplates/**/*.scss'
-    ]));
+    ]);
 
     return {
         input,

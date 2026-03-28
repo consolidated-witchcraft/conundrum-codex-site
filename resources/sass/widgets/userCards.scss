@@ -9,7 +9,9 @@
 .user-card {
     @include vellumSurface.vellum-surface();
     @include framedSurface.framed-surface(
-        "/dist/svgs/frames/fancy-frame-ferruled.svg"
+        "/dist/svgs/frames/fancy-frame-ferruled.svg",
+        dimension.$decorativeFrameBorderWidth,
+        transparent
     );
     overflow: hidden;
     border-radius: var(--baseBorderRadius);

@@ -66,51 +66,42 @@
             <h2>Accordion</h2>
             <div class="accordion-list" is="accordion-list">
 
-                <article class="accordion-entry" id="item-1" is="accordion-entry">
-                    <h3 class="accordion-heading">Item One</h3>
-                    <div class="accordion-body">
-                        <div class="accordion-content">
-                            Content One
-                        </div>
+                {% embed '/visitor/widgets/partials/_accordionEntry.html.twig' with {
+                    'entryId': 'item-1',
+                    'title': 'Entry 1'
+                }%}
+                    {% block accordionContent %}
+                        Yo yo, this is accordion content.
+                    {% endblock %}
+                    {% block accordionFooter %}
+                        <strong>I'm in the footer.</strong>
+                    {% endblock %}
+                {% endembed %}
 
-                        <div class="accordion-footer">
-                            <nav class="secondary">
-                                <a href="">Accept</a>
-                                <a href="">Decline</a>
-                            </nav>
-                        </div>
-                    </div>
-                </article>
-                <article class="accordion-entry" id="item-2" is="accordion-entry">
-                    <h3 class="accordion-heading">Item Two</h3>
-                    <div class="accordion-body">
-                        <div class="accordion-content">
-                            Content Two
-                        </div>
-
-                        <div class="accordion-footer">
-                            <nav class="secondary">
-                                <a href="">Accept</a>
-                                <a href="">Decline</a>
-                            </nav>
-                        </div>
-                    </div>
-                </article>
-                <article class="accordion-entry" id="item-3" is="accordion-entry">
-                    <h3 class="accordion-heading">Item Three</h3>
-                    <div class="accordion-body">
-                        <div class="accordion-content">
-                            Content Three
-                        </div>
-
-                        <div class="accordion-footer">
-                            <nav class="secondary">
-                                <a href="">Accept</a>
-                                <a href="">Decline</a>
-                            </nav>
-                        </div>
-                    </div>
-                </article>
+                {% embed '/visitor/widgets/partials/_accordionEntry.html.twig' with {
+                    'entryId': 'item-2',
+                    'title': 'Entry 2'
+                }%}
+                    {% block accordionContent %}
+                        Content Two
+                    {% endblock %}
+                {% endembed %}
+                {% embed '/visitor/widgets/partials/_accordionEntry.html.twig' with {
+                    'entryId': 'item-3',
+                    'title': 'Entry 3'
+                }%}
+                    {% block accordionContent %}
+                        Content Three
+                    {% endblock %}
+                {% endembed %}
+                {% embed '/visitor/widgets/partials/_accordionEntry.html.twig' with {
+                    'entryId': 'item-4',
+                    'title': 'Entry 4'
+                }%}
+                    {% block accordionContent %}
+                        Content Four
+                    {% endblock %}
+                {% endembed %}
             </div>
         </div>
         <div class="col">

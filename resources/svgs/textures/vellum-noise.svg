@@ -1,0 +1,35 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="240" height="240" viewBox="0 0 240 240" fill="none">
+  <defs>
+    <filter id="grain" x="0" y="0" width="100%" height="100%" color-interpolation-filters="sRGB">
+      <feTurbulence
+        type="fractalNoise"
+        baseFrequency="0.9"
+        numOctaves="3"
+        seed="11"
+        stitchTiles="stitch"
+      />
+      <feColorMatrix
+        type="saturate"
+        values="0"
+      />
+      <feComponentTransfer>
+        <feFuncA type="table" tableValues="0 0.08" />
+      </feComponentTransfer>
+    </filter>
+
+    <linearGradient id="wash" x1="0" y1="0" x2="240" y2="240" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#f4e6ca" stop-opacity="0.18" />
+      <stop offset="0.5" stop-color="#e7d1a8" stop-opacity="0.08" />
+      <stop offset="1" stop-color="#c8a06b" stop-opacity="0.14" />
+    </linearGradient>
+  </defs>
+
+  <rect width="240" height="240" fill="url(#wash)" />
+  <rect width="240" height="240" filter="url(#grain)" fill="#6f522d" />
+
+  <g opacity="0.08" stroke="#8a673d" stroke-width="1.2" stroke-linecap="round">
+    <path d="M14 36C36 31 55 43 78 40C102 36 122 22 145 24C170 26 191 42 226 36" />
+    <path d="M8 118C31 113 50 124 73 122C97 119 119 105 145 107C171 110 192 127 232 121" />
+    <path d="M21 196C44 191 63 202 86 199C109 196 128 183 151 185C177 188 196 203 223 198" />
+  </g>
+</svg>

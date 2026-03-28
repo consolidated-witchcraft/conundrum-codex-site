@@ -3,8 +3,8 @@
 
 @use 'critical/base/sassVariables/spacing';
 @use 'critical/base/sassVariables/dimension';
-
-$noiseScale: 50rem;
+@use 'critical/mixins/vellumSurface';
+@use 'critical/mixins/framedSurface';
 
 .tabs-element {
     margin: math.div(spacing.$baseSpacing, 4) 0;
@@ -12,7 +12,7 @@ $noiseScale: 50rem;
     nav.tab-headings {
         display: grid;
         grid-template-columns: 1fr 1fr;
-        background: var(--offWhiteGradient);
+
         border-radius: var(--baseBorderRadius) var(--baseBorderRadius) 0 0;
         overflow: hidden;
         //noinspection CssUnknownTarget
@@ -21,9 +21,12 @@ $noiseScale: 50rem;
             color: var(--colorInk);
             font-weight: bold;
             font-size: 0.75rem;
-            border: dimension.$thickBorderWidth solid transparent;
-            border-image: url("/dist/svgs/frames/simple-frame.svg") 33%;
+            @include vellumSurface.vellum-surface();
+            @include framedSurface.framed-surface();
             border-bottom: none;
+            &:after {
+                border-bottom: none;
+            }
             text-align: center;
             transition: all var(--animationSpeedNormal) ease-in-out;
             transition-property: color, background-color;
@@ -31,6 +34,7 @@ $noiseScale: 50rem;
             &.active, &:hover, &:focus, &:active {
                 color: var(--colorWhite);
                 background-color: var(--colorCrimson);
+
             }
         }
     }
@@ -42,32 +46,23 @@ $noiseScale: 50rem;
         }
         //noinspection CssUnknownTarget
         .tab-content {
-            border: dimension.$thickBorderWidth solid transparent;
-            border-image: url("/dist/svgs/frames/simple-frame.svg") 33%;
+            @include framedSurface.framed-surface();
             background-color: var(--colorVellum);
-
             box-shadow: var(--baseBoxShadow);
             min-height: 33vh;
             opacity: 0;
             transition: opacity var(--animationSpeedNormal) ease-in-out;
             pointer-events: none;
-
+            position: absolute;
+            top: 0;
+            width: 100%;
+            padding: spacing.$gutter;
             &.active {
                 opacity: 1;
                 pointer-events: all;
             }
         }
 
-    }
-    &.loaded {
-        div.tab-content-container {
-            .tab-content {
-                position: absolute;
-                top: 0;
-                width: 100%;
-                padding: spacing.$gutter;
-            }
-        }
     }
 }
 
@@ -109,17 +104,12 @@ $noiseScale: 50rem;
             }
             //noinspection CssUnknownTarget
             .tab-content {
+                @include vellumSurface.vellum-surface();
+                position: absolute;
+                top: 0;
                 z-index: 998;
                 padding: math.div(spacing.$baseSpacing, 2);
                 border-radius: 0 0 var(--baseBorderRadius) var(--baseBorderRadius);
-                background-color: transparent;
-                background-image:
-                    url("/dist/images/textures/watercolor_paper.webp"),
-                    var(--vellumGradient),
-                    radial-gradient(ellipse at 50% 50%, transparent 50%, rgba(62, 38, 7, 0.1), rgba(62, 38, 7, 0.33));
-
-                background-size: 128px 128px, 100% 100%, 100% 100%;
-                background-blend-mode: overlay;
             }
         }
     }

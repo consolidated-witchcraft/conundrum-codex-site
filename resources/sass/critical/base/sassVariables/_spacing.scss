@@ -8,4 +8,4 @@ $desktopBreakPointUpper: 1920px;
 
 $desktopContainerPadding: $baseSpacing * 4;
 $wideDesktopContainerPadding: $baseSpacing * 5;
-$mobileContainerPadding: $gutter;
+$mobileContainerPadding: math.div($gutter, 2);

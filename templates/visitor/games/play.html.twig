@@ -29,29 +29,25 @@
             {% if game.getPublishedPuzzleInstances is not empty %}
                 <div class="accordion-list" is="accordion-list">
                     {% for puzzleInstance in game.getPublishedPuzzleInstances %}
-                        <article class="accordion-entry" id="instance-{{ puzzleInstance.getInstanceCode }}" is="accordion-entry">
-                            <h3 class="accordion-heading">{{ puzzleInstance.getTemplate.getTitle }} - {{ puzzleInstance.getName }}</h3>
-                            <div class="accordion-body">
-                                <div class="accordion-content">
-                                    <dl>
-                                        <dt>Publication Date:</dt>
-                                        <dd>{{ puzzleInstance.publicationDate is not null ? puzzleInstance.getPublicationDate.format('Y-m-d H:i') : 'Not set' }}</dd>
-                                    </dl>
+                        {% embed '/visitor/widgets/partials/_accordionEntry.html.twig' with {
+                            'entryId': puzzleInstance.getInstanceCode,
+                            'title': puzzleInstance.getName
+                        }%}
+                            {% block accordionContent %}
+                                <dl>
+                                    <dt>Publication Date:</dt>
+                                    <dd>{{ puzzleInstance.publicationDate is not null ? puzzleInstance.getPublicationDate.format('Y-m-d H:i') : 'Not set' }}</dd>
+                                </dl>
 
-                                    {{ puzzleInstance.getDescription }}
-                                </div>
-
-                                <div class="accordion-footer">
-
-                                        <a class="btn btn-success" href="{{ path('app.games.puzzles.instance.play', {'gameSlug': game.getSlug, 'templateSlug': puzzleInstance.getTemplate.getSlug, 'instanceCode': puzzleInstance.getInstanceCode }) }}">Play</a>
-                                        {% if is_game_manager(app.user, game) %}
-                                            <a class="btn btn-secondary" href="{{ path('app.games.puzzles.instance.manage', {'gameSlug': game.getSlug, 'templateSlug': puzzleInstance.getTemplate.getSlug, 'instanceCode': puzzleInstance.getInstanceCode }) }}">Manage</a>
-                                        {% endif %}
-
-                                </div>
-                            </div>
-
-                        </article>
+                                {{ puzzleInstance.getDescription }}
+                            {% endblock %}
+                            {% block accordionFooter %}
+                                <a class="btn btn-success" href="{{ path('app.games.puzzles.instance.play', {'gameSlug': game.getSlug, 'templateSlug': puzzleInstance.getTemplate.getSlug, 'instanceCode': puzzleInstance.getInstanceCode }) }}">Play</a>
+                                {% if is_game_manager(app.user, game) %}
+                                    <a class="btn btn-secondary" href="{{ path('app.games.puzzles.instance.manage', {'gameSlug': game.getSlug, 'templateSlug': puzzleInstance.getTemplate.getSlug, 'instanceCode': puzzleInstance.getInstanceCode }) }}">Manage</a>
+                                {% endif %}
+                            {% endblock %}
+                        {% endembed %}
                     {% endfor %}
                 </div>
 

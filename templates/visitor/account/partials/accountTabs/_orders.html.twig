@@ -6,17 +6,17 @@
             {% else %}
                 <div class="accordion-list" is="accordion-list">
                     {% for order in orders %}
-                        <article class="accordion-entry" id="order-{{ order.getOrderReference }}" is="accordion-entry" data-open="false">
-                            <h3 class="accordion-heading">{{ order.getOrderReference }}</h3>
-                            <div class="accordion-body">
-                                <div class="accordion-content">
-                                    <span class="order-summary-line">{{ order.getOrderReference }} - {{ friendly_date(order.getCreatedAt) }} - {{ order.getTotalPostTaxDecimal|format_currency('GBP') }}</span>
-                                    <nav class="secondary">
-                                        <a href="{{ path('orders.view', {'orderReference': order.getOrderReference}) }}">View this order</a>
-                                    </nav>
-                                </div>
-                            </div>
-                        </article>
+                        {% embed '/visitor/widgets/partials/_accordionEntry.html.twig' with {
+                            'entryId': order.getOrderReference,
+                            'title': order.getOrderReference
+                        }%}
+                            {% block accordionContent %}
+                                <span class="order-summary-line">{{ order.getOrderReference }} - {{ friendly_date(order.getCreatedAt) }} - {{ order.getTotalPostTaxDecimal|format_currency('GBP') }}</span>
+                                <nav class="secondary">
+                                    <a href="{{ path('orders.view', {'orderReference': order.getOrderReference}) }}">View this order</a>
+                                </nav>
+                            {% endblock %}
+                        {% endembed %}
                     {% endfor  %}
                 </div>
             {% endif %}

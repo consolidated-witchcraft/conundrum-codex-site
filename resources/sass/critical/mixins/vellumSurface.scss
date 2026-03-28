@@ -1,5 +1,5 @@
 @mixin vellum-surface(
-    $texture-url: "/dist/images/textures/watercolor_paper_high_contrast_semitransparent.webp",
+    $texture-url: "images/textures/watercolor_paper_high_contrast_semitransparent.webp",
     $texture-size: 128px 128px
 ) {
     background: var(--vellumGradient);
@@ -11,7 +11,7 @@
         inset: 0;
         background: url(#{$texture-url}) 0 0 / #{$texture-size} repeat;
         pointer-events: none;
-        box-shadow: inset 0 0 2rem rgba(64,37,1,1);
+        box-shadow: inset 0 0 1rem rgba(64,37,1,0.5);
     }
 
     > * {

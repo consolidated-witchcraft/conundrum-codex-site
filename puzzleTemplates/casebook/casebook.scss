@@ -35,11 +35,7 @@ $pulsarHeight: 3rem;
         }
     }
 
-    .clues {
-        h4 {
-            margin-left: spacing.$gutter;
-        }
-    }
+
 
     .basic-info {
 
@@ -94,7 +90,7 @@ $pulsarHeight: 3rem;
         grid-template-columns: 1fr;
         grid-column-gap: spacing.$baseSpacing;
         grid-row-gap: spacing.$baseSpacing;
-        margin: spacing.$gutter;
+        margin: spacing.$gutter 0;
     }
 
     &.revealed {
@@ -128,13 +124,22 @@ $pulsarHeight: 3rem;
             flex-basis: 33%;
             flex-shrink: 0;
             margin-right: spacing.$gutter;
+
+
             .image-wrapper {
                 height: 20vw;
                 img {}
             }
         }
+
+        .clues {
+            h4 {
+                margin-left: spacing.$gutter;
+            }
+        }
         .clues-list {
             grid-template-columns: 1fr 1fr;
+            margin: spacing.$gutter;
         }
     }
 }
