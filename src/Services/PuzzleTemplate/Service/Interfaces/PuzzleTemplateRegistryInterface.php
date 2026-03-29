@@ -9,7 +9,7 @@ interface PuzzleTemplateRegistryInterface
     /**
      * @return array<PuzzleTemplate>
      */
-    public function getTemplates(): array;
+    public function getTemplates(bool $includeHidden = false): array;
 
     public function getTemplate(string $slug): ?PuzzleTemplate;
 

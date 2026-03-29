@@ -36,9 +36,9 @@ class PuzzleTemplateService implements PuzzleTemplateServiceInterface
     /**
      * @return PuzzleTemplate[]
      */
-    public function getTemplates(): iterable
+    public function getTemplates(bool $includeHidden = false): iterable
     {
-        return $this->templateRegistry->getTemplates();
+        return $this->templateRegistry->getTemplates($includeHidden);
     }
 
     public function getTemplateBySlug(string $categorySlug): ?PuzzleTemplate
@@ -56,10 +56,10 @@ class PuzzleTemplateService implements PuzzleTemplateServiceInterface
     /**
      * @return ArrayCollection<int, PuzzleTemplate>
      */
-    public function getTemplatesByCategory(PuzzleCategory $category): ArrayCollection
+    public function getTemplatesByCategory(PuzzleCategory $category, bool $includeHidden = false): ArrayCollection
     {
         $collection = new ArrayCollection();
-        foreach ($this->getTemplates() as $template) {
+        foreach ($this->getTemplates($includeHidden) as $template) {
             foreach ($template->getCategories() as $puzzleCategory) {
                 if ($puzzleCategory->getHandle() === $category->getHandle()) {
                     if (!$collection->contains($template)) {

@@ -1,6 +1,7 @@
 {
     "title": "Casebook",
     "slug": "casebook",
+    "hidden": false,
     "description": "In a casebook puzzle, players must gather clues, revealed by the Games Master, to solve a mystery. The games master lists the suspects, and the players piece information through role-play. Casebook puzzles are especially useful for helping ADHD/AuDHD players keep track of complex information.",
     "categories": [
         "logic",

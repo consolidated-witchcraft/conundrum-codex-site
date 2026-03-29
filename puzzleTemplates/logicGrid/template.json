@@ -1,6 +1,7 @@
 {
     "title": "Logic Grid",
     "slug": "logic_grid",
+    "hidden": true,
     "description": "In a Logic Grid type puzzle, players must utilise clues to move elements into an appropriate place on a grid",
     "categories": [
         "logic",

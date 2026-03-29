@@ -22,6 +22,7 @@ readonly class PuzzleTemplateMapper
         return new PuzzleTemplate(
             slug: $templateData['slug'],
             title: $templateData['title'],
+            hidden: $templateData['hidden'],
             createdAt: new \DateTimeImmutable($templateData['created']),
             description: $templateData['description'],
             categories: $this->mapCategories($templateData['categories']),

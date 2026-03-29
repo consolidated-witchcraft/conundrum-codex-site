@@ -1,5 +1,5 @@
 # Contributing
-To contribute a puzzle to the Conundrum Codex, you MUST follow this structure to enable auto-discovery:
+To contribute a puzzle to the Conundrum Codex, you MUST follow this folder structure to enable auto-discovery:
 
 
 puzzlename
@@ -8,8 +8,8 @@ puzzlename
 - /sass/
 - /typescript/puzzlenameBoot.ts
 
-## Things to note
-- Any sass in the sass subfolder will be auto-compiled, and you will find it them /contrib/puzzlename/css/
+## Building
+- Any .scss files in the sass subfolder will be auto-compiled, and you will find it them /contrib/puzzlename/css/
 - Images will be automatically converted to webp
 - Only puzzlenameBoot.ts will be compiled - other TypeScript files will be cooked into the final output js.
 
@@ -22,10 +22,11 @@ However, it's also extremely strict! Certain fields are required, and builds wit
 |------------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|--------------------------------------------------------|-----------|
 | title      | The human-readable name of your puzzle template                                                                                                                                            | Alphanumeric characters, spaces, hyphens and underscros | YES       |
 | slug       | The machine-readable name of your puzzle template. This MUST be unique in the system                                                                                                       | Alphanumeric characters, hyphens and underscores ONLY | YES |
+| hidden | Whether or not this template is hidden. Hidden templates will still be built, but will not appear on the Puzzle Templates index.                                                           |
 | type       | The type of your template. Either 'puzzle' or 'tool'                                                                                                                                       | 'puzzle' or 'tool' | YES       |
 | credits    | An array of objects containing the credits that should appear on the template's page.                                                                                                      |  [{"name": "Your Name", "email": "Your E-Mail address", "created": "Code, Styling"}] | NO        |
 | created    | When this template was created.                                                                                                                                                            | A date string, formatted as 'Y-m-d' | YES       |
-| configOptions | What options the user should be able to configure when creating an instance of your template. An array of configOption objects. See 'configOption field reference' below for more details.  | See configOptions field reference | YES
+| configOptions | What options the user should be able to configure when creating an instance of your template. An array of configOption objects. See 'configOption field reference' below for more details. | See configOptions field reference | YES
 
 ## configOptions Field Reference
 Whatever you define in this array will be presented to the user when configuring an instance of your template.

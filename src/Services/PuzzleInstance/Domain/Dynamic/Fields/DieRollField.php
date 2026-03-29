@@ -54,7 +54,7 @@ class DieRollField extends AbstractDynamicField implements DynamicPuzzleFieldInt
                 );
             }
 
-            if (!is_int($item)) {
+            if (!is_numeric($item)) {
                 throw new DynamicFieldInvalidValueException(
                     fieldName: $this->getName(),
                     acceptedType: self::ACCEPTED_SCALAR_TYPE_DESCRIPTION,

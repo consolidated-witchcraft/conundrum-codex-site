@@ -13,6 +13,7 @@ readonly class PuzzleTemplate
     /**
      * @param non-empty-string $slug
      * @param non-empty-string $title
+     * @param bool $hidden
      * @param \DateTimeImmutable $createdAt
      * @param non-empty-string $description
      * @param ArrayCollection<int, PuzzleCategory> $categories
@@ -28,6 +29,7 @@ readonly class PuzzleTemplate
     public function __construct(
         private string $slug,
         private string $title,
+        private bool $hidden,
         private \DateTimeImmutable $createdAt,
         private string $description,
         private Collection $categories,
@@ -116,6 +118,9 @@ readonly class PuzzleTemplate
         return $this->static;
     }
 
+    public function isHidden(): bool {
+        return $this->hidden;
+    }
     /**
      * @throws RoutelessStaticConfigurationAttemptException
      * @throws NonStaticConfigurationAttemptException

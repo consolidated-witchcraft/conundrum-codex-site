@@ -39,6 +39,7 @@ class PuzzleTemplateDefinitionValidator
 
     private const array KNOWN_TEMPLATE_FIELDS = [
         'title' => 'string',
+        'hidden' => 'boolean',
         'created' => 'date',
         'slug' => 'slug',
         'description' => 'string',

@@ -6,6 +6,7 @@
         "buttons_and_switches"
     ],
     "type": "test",
+    "hidden": false,
     "created": "2025-09-17",
     "static": false,
     "creator": "sam.baynham@gmail.com",

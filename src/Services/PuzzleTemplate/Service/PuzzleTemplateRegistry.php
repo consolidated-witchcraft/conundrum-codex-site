@@ -20,9 +20,14 @@ class PuzzleTemplateRegistry implements PuzzleTemplateRegistryInterface
      * @return PuzzleTemplate[]
      */
 
-    public function getTemplates(): array
+    public function getTemplates(bool $includeHidden = false): array
     {
-        return $this->templates;
+        if ($includeHidden) {
+            return $this->templates;
+        } else {
+            return array_filter($this->templates, fn (PuzzleTemplate $template): bool => !$template->isHidden());
+        }
+
     }
 
     public function getTemplate(string $slug): ?PuzzleTemplate

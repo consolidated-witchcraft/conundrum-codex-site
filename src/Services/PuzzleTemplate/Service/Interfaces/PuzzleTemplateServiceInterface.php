@@ -14,7 +14,7 @@ interface PuzzleTemplateServiceInterface
     /**
      * @return iterable<PuzzleTemplate>
      */
-    public function getTemplates(): iterable;
+    public function getTemplates(bool $includeHidden = false): iterable;
 
     public function getTemplateBySlug(string $categorySlug): ?PuzzleTemplate;
 
@@ -26,7 +26,7 @@ interface PuzzleTemplateServiceInterface
     /**
      * @return ArrayCollection<int, PuzzleTemplate>
      */
-    public function getTemplatesByCategory(PuzzleCategory $category): ArrayCollection;
+    public function getTemplatesByCategory(PuzzleCategory $category, bool $includeHidden = false): ArrayCollection;
 
     public function getCategoryBySlug(string $categorySlug): ? PuzzleCategory;
 
