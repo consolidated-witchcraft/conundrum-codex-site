@@ -1,5 +1,7 @@
 <?php
 
+require_once __DIR__.'/ApplicationLayer/API/Support/ApiFixtureFactory.php';
+
 use Tests\ApplicationLayer\API\ApiTestCase;
 use Tests\TestCase;
 

@@ -22,7 +22,6 @@ use App\Services\User\Domain\UserCart\UserCartProductLine;
                     fromClass: ApiUserCartDto::class
                 ),
             ],
-            security: 'is_granted("current_user_owns_cart", object)'
         ),
         new Get(
             uriTemplate: '/cart/{cartId}/productLines/{productLineId}',

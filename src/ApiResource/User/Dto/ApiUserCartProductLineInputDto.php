@@ -25,7 +25,6 @@ use App\Services\User\Domain\UserCart\UserCartProductLine;
         ),
     ],
     stateless: false,
-    security: 'is_granted("current_user_owns_cart", object)',
     processor: ApiUserCartProductLineStateProcessor::class
 )]
 class ApiUserCartProductLineInputDto
