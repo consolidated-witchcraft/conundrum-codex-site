@@ -16,4 +16,16 @@ class CasebookSubjectRepository extends ServiceEntityRepository
         parent::__construct($registry, CasebookSubject::class);
     }
 
+    public function findOneBySubjectIdAndInstanceCode(int $subjectId, string $instanceCode): ?CasebookSubject
+    {
+        return $this->createQueryBuilder('subject')
+            ->innerJoin('subject.casebook', 'casebook')
+            ->andWhere('subject.id = :subjectId')
+            ->andWhere('casebook.slug = :instanceCode')
+            ->setParameter('subjectId', $subjectId)
+            ->setParameter('instanceCode', $instanceCode)
+            ->getQuery()
+            ->getOneOrNullResult();
+    }
+
 }

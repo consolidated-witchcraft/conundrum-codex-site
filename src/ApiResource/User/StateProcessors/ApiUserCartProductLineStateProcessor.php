@@ -16,6 +16,7 @@ use App\Services\User\Domain\User;
 use App\Services\User\Domain\UserCart\UserCartProductLine;
 use App\Services\User\Service\Interfaces\UserServiceInterface;
 use Symfony\Bundle\SecurityBundle\Security;
+use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 use Symfony\Component\Security\Core\User\UserInterface;
 
@@ -32,12 +33,21 @@ class ApiUserCartProductLineStateProcessor implements ProcessorInterface
 
     public function process(mixed $data, Operation $operation, array $uriVariables = [], array $context = [])
     {
+        if (!isset($uriVariables['cartId']) || !is_numeric($uriVariables['cartId'])) {
+            throw new BadRequestHttpException('Cart ID not numeric.');
+        }
+        $requestedCartId = (int) $uriVariables['cartId'];
+
+
         $isDeletingLine = false;
         $user = $this->security->getUser();
         if (!$user instanceof User) {
             return null;
         }
         $cart = $user->getUserCart();
+        if ($cart->getId() !== $requestedCartId) {
+            throw new AccessDeniedHttpException('You do not own this cart.');
+        }
 
         if (
             $operation instanceof Patch

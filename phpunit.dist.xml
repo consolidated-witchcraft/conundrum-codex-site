@@ -18,6 +18,12 @@
     </php>
 
     <testsuites>
+        <testsuite name="Unit">
+            <directory>tests/Unit</directory>
+        </testsuite>
+        <testsuite name="ApplicationLayerApi">
+            <directory>tests/ApplicationLayer/API</directory>
+        </testsuite>
         <testsuite name="Project Test Suite">
             <directory>tests</directory>
         </testsuite>

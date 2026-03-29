@@ -84,6 +84,10 @@ class RoleFixtures extends Fixture
         'manage_cache' => [
             'label' => 'Manage Cache',
             'description' => 'Manage and Clear the system cache'
+        ],
+        'access_private_data' => [
+            'label' => 'Access Private Data',
+            'description' => 'Access private data for users.'
         ]
     ];
 
@@ -110,7 +114,8 @@ class RoleFixtures extends Fixture
                 'manage_user_games',
                 'manage_all_files',
                 'manage_features',
-                'manage_cache'
+                'manage_cache',
+                'access_private_data'
             ]
         ],
         'ROLE_MODERATOR' => [
@@ -156,23 +161,19 @@ class RoleFixtures extends Fixture
         $permissionsRepo = $manager->getRepository(Permission::class);
 
         foreach (self::ROLES as $handle => $definition) {
-            if (!$roleRepo->findByHandle($handle)) {
-
-                $role = new Role(
-                    label: $definition['name'],
-                    handle: $handle,
-                );
-                foreach ($definition['permissions'] as $permissionHandle) {
-
-                    $permission = $permissionsRepo->findOneByHandle($permissionHandle);
-                    if (null === $permission) {
-                        throw new InvalidArgumentException(sprintf("Permission %s is not a valid handle", $permissionHandle));
-                    }
-                    $role->addPermission($permission);
+            $role = $roleRepo->findOneByHandle($handle) ?? new Role(
+                label: $definition['name'],
+                handle: $handle,
+            );
+            foreach ($definition['permissions'] as $permissionHandle) {
+                $permission = $permissionsRepo->findOneByHandle($permissionHandle);
+                if (null === $permission) {
+                    throw new InvalidArgumentException(sprintf("Permission %s is not a valid handle", $permissionHandle));
                 }
-
-                $manager->persist($role);
+                $role->addPermission($permission);
             }
+
+            $manager->persist($role);
         }
         $manager->flush();
     }

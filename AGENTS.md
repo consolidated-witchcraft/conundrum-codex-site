@@ -140,7 +140,7 @@ Then precedence is:
 - All new features MUST include tests
 - Code SHOULD follow Symfony best practices
 - All PHP files MUST declare strict_types=1
-- All rules in ./codingstandards/ MUST be obeyed
+- All rules in ./codingstandards/ and its subdirectories MUST be obeyed
 - Within coding standards, the words MUST, MUST NOT, SHOULD, SHOULD NOT and MAY are to be interpreted as described in RFC 2119
 
 ### Expertise

@@ -10,4 +10,4 @@
   * Be Idempotent: No unit test should rely on another test passing in order to pass itself.
 
 ## Running the test suite
-To run the test suite, use runTestSuite.sh to execute the tests within the container.
+To run the test suite, execute the tests within the container.

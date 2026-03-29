@@ -14,14 +14,16 @@ use ApiPlatform\Metadata\Patch;
 use ApiPlatform\Metadata\Post;
 use ApiPlatform\State\ProviderInterface;
 use App\ApiResource\User\Dto\ApiUserCartProductLineOutputDto;
-use App\Services\User\Service\Interfaces\UserServiceInterface;
+use App\Services\User\Domain\User;
+use Symfony\Bundle\SecurityBundle\Security;
+use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 
-class ApiUserCartProductLineProvider implements ProviderInterface
+readonly class ApiUserCartProductLineProvider implements ProviderInterface
 {
     public function __construct(
-        private readonly UserServiceInterface $userService,
-        private readonly IriConverterInterface $iriConverter,
+        private Security              $security,
+        private IriConverterInterface $iriConverter,
     ) {
 
     }
@@ -34,17 +36,25 @@ class ApiUserCartProductLineProvider implements ProviderInterface
             throw new BadRequestHttpException("Cart ID not numeric.");
         }
 
-        $cartId = (int) $uriVariables['cartId'];
-        $cart = $this->userService->findCartById($cartId);
-        if (!$cart) {
+        $requestedCartId = (int) $uriVariables['cartId'];
+
+        $user = $this->security->getUser();
+        if (!$user instanceof User) {
             return null;
         }
+
+        $cart = $user->getUserCart();
+        if ($cart->getId() !== $requestedCartId) {
+            throw new AccessDeniedHttpException('You do not own this cart.');
+        }
+
+        $cartId = $cart->getId();
         if ($operation instanceof Post) {
             return null;
         }
 
         if ($operation instanceof GetCollection) {
-            $productCartLines = array_map(
+            return array_map(
                 fn ($line): ?string => $this->iriConverter->getIriFromResource(
                     ApiUserCartProductLineOutputDto::class,
                     context: [
@@ -57,7 +67,6 @@ class ApiUserCartProductLineProvider implements ProviderInterface
                 ),
                 $cart->getUserCartProductLines()->toArray()
             );
-            return $productCartLines;
         }
 
         /**

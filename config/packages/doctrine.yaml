@@ -171,6 +171,13 @@ doctrine:
                 prefix: 'App\Services\World\Domain'
                 alias: World
 
+            PlayEvent:
+                type: attribute
+                is_bundle: false
+                dir: '%kernel.project_dir%/src/Services/PlayEvent/Domain'
+                prefix: 'App\Services\PlayEvent\Domain'
+                alias: PlayEvent
+
         controller_resolver:
             auto_mapping: false
 

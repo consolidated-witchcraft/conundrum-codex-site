@@ -17,9 +17,6 @@
 - Authentication MUST precede authorization
 - Authorization MUST be enforced server-side
 - The principle of least privilege MUST be enforced
-- Roles MUST be treated as permission groupings only.
-- Authorization decisions MUST be made against permissions, not roles directly.
-- Direct role checks MUST NOT be used for access control.
 
 ## Database Security
 - Queries MUST be parameterized
@@ -54,7 +51,6 @@
 - All External systems MUST be treated as untrusted
 - All external responses MUST be validated
 - Outbound requests MUST be validated (where applicable)
-
 
 ## Rate Limiting & Abuse Protection
 - Public interfaces MUST be protected against abuse
