@@ -53,6 +53,7 @@ class PuzzleInstanceService extends AbstractDomainEntityService implements Puzzl
      */
     public function getInstanceByTemplateAndCode(string $templateSlug, string $instanceCode): ?PuzzleInstanceInterface
     {
+
         $template = $this->puzzleTemplateRegistry->getTemplate($templateSlug);
         if (!$template) {
             throw new TemplateNotFoundException(sprintf("No template found %s", $templateSlug));
@@ -60,7 +61,9 @@ class PuzzleInstanceService extends AbstractDomainEntityService implements Puzzl
         if (isset($this->staticInstanceProviders[$templateSlug])) {
             return $this->staticInstanceProviders[$templateSlug]->getInstance($instanceCode);
         }
+
         $instance = $this->puzzleInstanceRepository->findOneBy(['instanceCode' => $instanceCode]);
+
         if ($instance) {
             $instance->setTemplate($template);
             return $instance;

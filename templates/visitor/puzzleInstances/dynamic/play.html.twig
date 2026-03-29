@@ -1,13 +1,14 @@
 {% extends 'base/base.html.twig' %}
 {% block body %}
     <div
-        class="puzzle-container"
-        is="{{ elementName }}"
+        id="puzzle-container"
         data-templateslug="{{ templateSlug }}"
-        data-instancecode="{{ instanceCode }}">
+        data-instancecode="{{ instanceCode }}"
+        data-userid="{{ userId }}"
+    >
     </div>
 {% endblock %}
 
 {% block footerScripts %}
-    <script src="/dist/js/{{ templateSlug }}Boot.js"></script>
+    <script src="/contrib/puzzles/{{ templateSlug }}/js/{{ templateSlug }}Boot.js"></script>
 {% endblock %}

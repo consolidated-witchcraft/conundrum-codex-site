@@ -118,6 +118,7 @@ class PuzzleInstanceController extends AbstractPuzzleController
         PuzzleInstanceInterface $puzzleInstance,
         Request $request
     ): Response {
+        $user = $this->getUser();
         if ($puzzleTemplate->isStatic()) {
             return $this->redirectToRoute($puzzleTemplate->getStaticPlayRoute(), [
                 'gameSlug' => $game->getSlug(),
@@ -131,6 +132,7 @@ class PuzzleInstanceController extends AbstractPuzzleController
                     'templateSlug' => $puzzleTemplate->getSlug(),
                     'instanceCode' => $puzzleInstance->getInstanceCode(),
                     'elementName' => $puzzleTemplate->getElementName(),
+                    'userId' => $user->getId(),
                 ];
                 return $this->render('/visitor/puzzleInstances/dynamic/play.html.twig', $this->populatePageVars($pageVars, $request));
             }
