@@ -20,10 +20,13 @@ class PuzzleTemplateConfigOptionValidator
         'configName' => 'configName',
         'label' => 'string',
         'type' => 'type',
+        'helpText' => 'string',
     ];
 
 
     private const string CONFIG_NAME_REGEX = '/^[a-z0-9_]+$/';
+
+    private const string TEXT_FIELD_REGEX = '/^[A-Za-z0-9., ]+$/';
 
     /**
      * @throws ConfigOptionTypeScalarMismatchException
@@ -111,6 +114,7 @@ class PuzzleTemplateConfigOptionValidator
 
     /**
      * @throws ConfigOptionTypeScalarMismatchException
+     * @throws ConfigOptionTypeInvalidPatternException
      */
     private static function validateStringField(string $fieldName, mixed $fieldValue, string $moduleName): void {
         if (!is_string($fieldValue)) {
@@ -119,6 +123,13 @@ class PuzzleTemplateConfigOptionValidator
                 expectedType: 'string',
                 actualType: gettype($fieldValue),
                 moduleName: $moduleName
+            );
+        }
+        if (!preg_match(self::TEXT_FIELD_REGEX, $fieldValue)) {
+            throw new ConfigOptionTypeInvalidPatternException(
+                fieldName: $fieldName,
+                moduleName: $moduleName,
+                infoMessage: "Text fields may only contain spaces, periods, commas and alphanumeric characters."
             );
         }
     }

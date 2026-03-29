@@ -36,19 +36,13 @@
             "configName": "grid_elements",
             "label": "Elements",
             "type": "keyValueList",
-            "helpText": "The elements on your logic grid that must be placed. Give each a unique key (machineName) and value (Human-Readable Label)."
+            "helpText": "The elements on your logic grid that must be placed. Give each a unique key and value."
         },
         {
             "configName": "solution",
             "label": "Solution",
             "type": "stringArray",
             "helpText": "The correct solution. These will be laid out right to left along your rows and columns."
-        },
-        {
-            "configName": "clues",
-            "label": "Clues",
-            "type": "clueArray",
-            "helpText": "An array of clues you can reveal to the players as they go."
         }
     ]
 }

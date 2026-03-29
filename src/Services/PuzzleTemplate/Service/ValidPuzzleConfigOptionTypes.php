@@ -36,7 +36,6 @@ class ValidPuzzleConfigOptionTypes
         self::ROUTE_TYPE_KEY,
         self::BOOLEAN_TYPE_KEY,
         self::BOOLEAN_ARRAY_TYPE_KEY,
-        self::KEY_VALUE_LIST_TYPE_KEY,
-        self::CLUE_ARRAY_KEY,
+        self::KEY_VALUE_LIST_TYPE_KEY
     ];
 }

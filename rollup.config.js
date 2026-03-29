@@ -315,6 +315,46 @@ function removeEmptyCssJs() {
     };
 }
 
+function removeEmptyEntryChunks() {
+    return {
+        name: 'remove-empty-entry-chunks',
+
+        generateBundle(options, bundle) {
+            for (const [fileName, file] of Object.entries(bundle)) {
+                if (
+                    file.type === 'chunk' &&
+                    file.isEntry &&
+                    file.code.trim() === ''
+                ) {
+                    delete bundle[fileName];
+                }
+            }
+        }
+    };
+}
+
+function emptyEntryPlugin(entryId) {
+    return {
+        name: `empty-entry:${entryId}`,
+
+        resolveId(source) {
+            if (source === entryId) {
+                return source;
+            }
+
+            return null;
+        },
+
+        load(id) {
+            if (id === entryId) {
+                return 'export {};';
+            }
+
+            return null;
+        }
+    };
+}
+
 function rewriteAssetUrls(css) {
     return css
         .replace(/url\((['"]?)svgs\//g, 'url($1/dist/svgs/')
@@ -419,6 +459,30 @@ function makeTypescriptConfig(input, outputDir, tsconfigPath = './tsconfig.app.j
     };
 }
 
+function makeWebpCopyConfig(srcDir, outputDir, pattern = '**/*.{png,jpg,jpeg}', quality = 82) {
+    const entryId = `virtual:webp:${srcDir}`;
+
+    return {
+        input: entryId,
+        output: {
+            dir: outputDir,
+            format: 'es'
+        },
+        plugins: [
+            emptyEntryPlugin(entryId),
+            generateWebpImages({
+                srcDir,
+                destDir: outputDir,
+                pattern,
+                quality
+            }),
+            removeEmptyEntryChunks(),
+            summary()
+        ],
+        preserveEntrySignatures: false,
+    };
+}
+
 function getMainAppConfig() {
     return {
         input: 'resources/typescript/app.ts',
@@ -491,7 +555,12 @@ async function getPuzzleTemplateConfigs() {
     for (const puzzleName of puzzleDirs) {
         const puzzleDir = path.join(puzzleRoot, puzzleName);
         const tsDir = path.join(puzzleDir, 'typeScript');
+        const sassDir = path.join(puzzleDir, 'sass');
+        const imagesDir = path.join(puzzleDir, 'images');
         const outputDir = `./public/contrib/puzzles/${puzzleName}`;
+        const cssOutputDir = `${outputDir}/css`;
+        const jsOutputDir = `${outputDir}/js`;
+        const imagesOutputDir = `${outputDir}/images`;
 
         const bootInput = path.join(tsDir, `${puzzleName}Boot.ts`);
 
@@ -501,7 +570,7 @@ async function getPuzzleTemplateConfigs() {
             configs.push(
                 makeTypescriptConfig(
                     bootInput,
-                    outputDir,
+                    jsOutputDir,
                     './tsconfig.puzzles.json'
                 )
             );
@@ -510,23 +579,31 @@ async function getPuzzleTemplateConfigs() {
         }
 
         const scssFiles = await fg('*.scss', {
-            cwd: puzzleDir,
+            cwd: sassDir,
             onlyFiles: true,
             ignore: ['_*.scss']
         }).catch(() => []);
 
         for (const scssFile of scssFiles) {
-            const scssInput = path.join(puzzleDir, scssFile);
+            const scssInput = path.join(sassDir, scssFile);
             const cssFileName = scssFile.replace(/\.scss$/i, '.css');
 
             configs.push(
                 makeScssConfig(
                     scssInput,
-                    outputDir,
+                    cssOutputDir,
                     cssFileName,
-                    [scssInput, puzzleDir]
+                    [scssInput, sassDir]
                 )
             );
+        }
+
+        try {
+            await fs.access(imagesDir);
+
+            configs.push(makeWebpCopyConfig(imagesDir, imagesOutputDir));
+        } catch {
+            // No image directory for this puzzle; skip asset conversion
         }
     }
 
