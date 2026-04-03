@@ -74,7 +74,6 @@ The HTML presented when your user lands on an instance is very simple; a div wit
 It has two data properties
 - ```data-templateslug``` <- Your template's slug
 - ```data-instancecode``` <- The unique instance code of the puzzle instance being played
-- ```data-userid``` <- The user ID of the player.
 
 Using this div, and retrieving these two data means you have all the information you need to interact with the API.
 Make a GET request (with an authorised user) /api/puzzles/instances/dynamic/{templateSlug}/{instanceCode}
@@ -88,3 +87,6 @@ If you want to inform the system of your players' progress, you can make a post 
     "puzzleInstanceCode": "string",
     "puzzleTemplateSlug": "string"
 }
+
+There's a fully typed client waiting for you in shared/helpers/CreateApiClient.ts
+This will auto-type any requests you make.

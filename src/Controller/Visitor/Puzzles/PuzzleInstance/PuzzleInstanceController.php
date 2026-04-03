@@ -131,8 +131,7 @@ class PuzzleInstanceController extends AbstractPuzzleController
                     'pageTitle' => sprintf("Play puzzle %s", $puzzleInstance->getName()),
                     'templateSlug' => $puzzleTemplate->getSlug(),
                     'instanceCode' => $puzzleInstance->getInstanceCode(),
-                    'elementName' => $puzzleTemplate->getElementName(),
-                    'userId' => $user->getId(),
+                    'elementName' => $puzzleTemplate->getElementName()
                 ];
                 return $this->render('/visitor/puzzleInstances/dynamic/play.html.twig', $this->populatePageVars($pageVars, $request));
             }
