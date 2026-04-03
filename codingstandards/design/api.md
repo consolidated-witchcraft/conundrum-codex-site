@@ -21,3 +21,8 @@
 - If an output DTO is used as an item resource, its item identifier MUST be explicit and unambiguous.
 - Collection and item operations for the same resource MUST agree on the canonical item route used for IRI generation.
 - API tests for collection endpoints SHOULD assert the returned data shape in a way that is robust to API Platform collection wrappers unless the response format is explicitly fixed as part of the contract.
+- The current canonical struct
+
+## Working with the API in TypeScript
+- You MUST use createApiClient in shared/helpers/CreateApiClient.ts to create clients within typescript.
+- You MUST NOT manually patch the resources/typescript/schema/schema.d.ts file, as it is auto-generated.

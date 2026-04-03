@@ -28,7 +28,11 @@ class DynamicPuzzleFieldDto
             return null;
         }
         if (is_array($this->value)) {
-            return array_values($this->value);
+            if (array_is_list($this->value)) {
+                return array_values($this->value);
+            }
+
+            return $this->value;
         }
         return $this->value;
     }

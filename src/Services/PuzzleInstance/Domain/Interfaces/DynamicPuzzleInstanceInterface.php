@@ -7,12 +7,12 @@ use App\Dto\Visitor\Puzzles\Dynamic\DynamicPuzzleFieldDto;
 interface DynamicPuzzleInstanceInterface extends PuzzleInstanceInterface
 {
     /**
-     * @return DynamicPuzzleFieldDto[]
+     * @return array<string, DynamicPuzzleFieldDto>|array<int, DynamicPuzzleFieldDto>
      */
     public function getConfig(): array;
 
     /**
-     * @param DynamicPuzzleFieldDto[] $config
+     * @param array<string, DynamicPuzzleFieldDto>|array<int, DynamicPuzzleFieldDto> $config
      */
     public function setConfig(array $config): void;
 }

@@ -10,10 +10,7 @@ use ApiPlatform\Metadata\Link;
 use App\ApiResource\PuzzleInstance\ApiPuzzleInstanceDtoInterface;
 use App\ApiResource\PuzzleTemplate\Dto\PuzzleTemplateDto;
 use App\Dto\Visitor\Puzzles\Dynamic\DynamicPuzzleFieldDto;
-use App\Security\GameManagerVoter;
-use App\Services\PuzzleInstance\Domain\Dynamic\Dto\DynamicPuzzleInstanceDto;
 use App\Services\PuzzleInstance\Domain\Dynamic\Providers\DynamicPuzzleInstanceProvider;
-use App\Services\PuzzleInstance\Domain\Dynamic\PuzzleInstance;
 use App\Services\PuzzleInstance\Domain\Interfaces\DynamicPuzzleInstanceInterface;
 
 
@@ -42,7 +39,7 @@ class ApiDynamicPuzzleInstanceDto implements ApiPuzzleInstanceDtoInterface
      * @param string $gameSlug
      * @param string $puzzleName
      * @param string $puzzleDescription
-     * @param DynamicPuzzleFieldDto[] $config
+     * @param array<string, DynamicPuzzleFieldDto> $config
      * @param string $instanceCode
      * @param \DateTimeInterface $publicationDate
      */
@@ -60,10 +57,28 @@ class ApiDynamicPuzzleInstanceDto implements ApiPuzzleInstanceDtoInterface
             gameSlug: $puzzleInstance->getGame()->getSlug(),
             puzzleName: $puzzleInstance->getName(),
             puzzleDescription: $puzzleInstance->getDescription(),
-            config: $puzzleInstance->getConfig(),
+            config: self::mapConfigByName($puzzleInstance),
             instanceCode: $puzzleInstance->getInstanceCode(),
             publicationDate: $puzzleInstance->getPublicationDate()
         );
+    }
+
+    /**
+     * @return array<string, DynamicPuzzleFieldDto>
+     */
+    private static function mapConfigByName(DynamicPuzzleInstanceInterface $puzzleInstance): array
+    {
+        $config = [];
+
+        foreach ($puzzleInstance->getConfig() as $field) {
+            $config[$field->getName()] = new DynamicPuzzleFieldDto(
+                name: $field->getName(),
+                type: $field->getType(),
+                value: $field->getValue(),
+            );
+        }
+
+        return $config;
     }
 
     public function getInstanceCode(): string

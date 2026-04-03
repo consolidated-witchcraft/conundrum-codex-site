@@ -95,7 +95,7 @@ export class ButtonsElement extends HTMLDivElement {
     }
 
 
-    private unpackConfig(data: { "@context"?: string | ({ "@vocab": string; hydra: "http://www.w3.org/ns/hydra/core#"; } & { [key: string]: unknown; }); "@id": string; "@type": string; } & { instanceCode?: string; name?: string; description?: string; config?: components["schemas"]["DynamicPuzzleFieldDto.jsonld"][]; publicationDate?: string | null; }): ButtonsConfig {
+    private unpackConfig(data: { "@context"?: string | ({ "@vocab": string; hydra: "http://www.w3.org/ns/hydra/core#"; } & { [key: string]: unknown; }); "@id": string; "@type": string; } & { gameSlug?: string; puzzleName?: string; puzzleDescription?: string; config?: { [key: string]: components["schemas"]["DynamicPuzzleFieldDto.jsonld"]; }; instanceCode?: string; publicationDate?: string | null; }): ButtonsConfig {
         let clue: string | null = null;
 
         let failure: string | null = null;
@@ -107,7 +107,8 @@ export class ButtonsElement extends HTMLDivElement {
         if (data.config === undefined) {
             throw new Error("Malformed configuration payload");
         }
-        data.config.forEach((config: any) => {
+
+        Object.values(data.config).forEach((config: any) => {
 
             if (config.name === 'clue') {
                 clue = config.value;

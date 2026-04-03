@@ -90,3 +90,7 @@ If you want to inform the system of your players' progress, you can make a post 
 
 There's a fully typed client waiting for you in shared/helpers/CreateApiClient.ts
 This will auto-type any requests you make.
+
+## Styling
+Your primary styles should be in a sass subfolder with the name 'yourPuzzleName.scss'
+This will be automatically built and made available to your puzzle.

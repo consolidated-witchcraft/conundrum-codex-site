@@ -4,10 +4,16 @@
         id="puzzle-container"
         data-templateslug="{{ templateSlug }}"
         data-instancecode="{{ instanceCode }}"
+        data-userid="{{ app.user.id }}"
     >
     </div>
 {% endblock %}
 
+{% block footerStyles %}
+    {% if puzzleCssHref is not null %}
+        <link rel="stylesheet" href="{{ puzzleCssHref }}">
+    {% endif %}
+{% endblock %}
 {% block footerScripts %}
     <script src="/contrib/puzzles/{{ templateSlug }}/js/{{ templateSlug }}Boot.js"></script>
 {% endblock %}

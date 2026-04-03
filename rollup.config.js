@@ -584,6 +584,11 @@ async function getPuzzleTemplateConfigs() {
             ignore: ['_*.scss']
         }).catch(() => []);
 
+        const sassWatchFiles = await fg('**/*.scss', {
+            cwd: sassDir,
+            onlyFiles: true
+        }).catch(() => []);
+
         for (const scssFile of scssFiles) {
             const scssInput = path.join(sassDir, scssFile);
             const cssFileName = scssFile.replace(/\.scss$/i, '.css');
@@ -593,7 +598,7 @@ async function getPuzzleTemplateConfigs() {
                     scssInput,
                     cssOutputDir,
                     cssFileName,
-                    [scssInput, sassDir]
+                    sassWatchFiles.map((file) => path.join(sassDir, file))
                 )
             );
         }

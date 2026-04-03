@@ -127,11 +127,17 @@ class PuzzleInstanceController extends AbstractPuzzleController
             ]);
         } else {
             if ($puzzleInstance instanceof DynamicPuzzleInstanceInterface) {
+                $templateSlug = $puzzleTemplate->getSlug();
+                $relativeCssPath = sprintf('contrib/puzzles/%s/css/%s.css', $templateSlug, $templateSlug);
+                $absoluteCssPath = sprintf('%s/public/%s', $this->getParameter('kernel.project_dir'), $relativeCssPath);
+
+                $puzzleCssHref = file_exists($absoluteCssPath) ? '/' . $relativeCssPath : null;
                 $pageVars = [
                     'pageTitle' => sprintf("Play puzzle %s", $puzzleInstance->getName()),
                     'templateSlug' => $puzzleTemplate->getSlug(),
                     'instanceCode' => $puzzleInstance->getInstanceCode(),
-                    'elementName' => $puzzleTemplate->getElementName()
+                    'elementName' => $puzzleTemplate->getElementName(),
+                    'puzzleCssHref' => $puzzleCssHref,
                 ];
                 return $this->render('/visitor/puzzleInstances/dynamic/play.html.twig', $this->populatePageVars($pageVars, $request));
             }
