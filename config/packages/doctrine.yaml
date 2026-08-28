@@ -45,6 +45,13 @@ doctrine:
                 prefix: 'App\Services\Core\Domain'
                 alias: Core
 
+            Campaign:
+                type: attribute
+                is_bundle: false
+                dir: '%kernel.project_dir%/src/Services/Campaign/Domain'
+                prefix: 'App\Services\Campaign\Domain'
+                alias: Campaign
+
             User:
                 type: attribute
                 is_bundle: false

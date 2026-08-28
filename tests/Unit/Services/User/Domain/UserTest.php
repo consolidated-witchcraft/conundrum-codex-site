@@ -1,6 +1,8 @@
 <?php
 
 declare(strict_types=1);
+
+use App\Services\Campaign\Domain\CampaignMembership;
 use App\Services\ManagedImages\Domain\ManagedImage;
 use App\Services\User\Domain\Role;
 use App\Services\User\Domain\User;
@@ -51,6 +53,27 @@ test('construct', function () {
     self::assertEmpty($user->getFeats());
     self::assertFalse($user->isBlocked());
     self::assertEmpty($user->getUserBlock());
+    self::assertEmpty($user->getCampaignMemberships());
+});
+
+test('add campaign membership adds a membership once', function () {
+    $user = ($this->makeUser)();
+    $membership = $this->createStub(CampaignMembership::class);
+
+    $user->addCampaignMembership(membership: $membership);
+    $user->addCampaignMembership(membership: $membership);
+
+    self::assertSame(expected: [$membership], actual: $user->getCampaignMemberships()->toArray());
+});
+
+test('remove campaign membership removes a membership', function () {
+    $user = ($this->makeUser)();
+    $membership = $this->createStub(CampaignMembership::class);
+    $user->addCampaignMembership(membership: $membership);
+
+    $user->removeCampaignMembership(membership: $membership);
+
+    self::assertCount(expectedCount: 0, haystack: $user->getCampaignMemberships());
 });
 
 test('set email', function () {

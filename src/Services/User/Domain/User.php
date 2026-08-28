@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Services\User\Domain;
 
+use App\Services\Campaign\Domain\CampaignMembership;
 use App\Services\Core\Domain\AbstractDomainEntity;
 use App\Services\Events\Domain\Organisation;
 use App\Services\Game\Domain\Game;
@@ -27,6 +28,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 #[ORM\Entity(
     repositoryClass: UserRepository::class
 )]
+#[ORM\Table(name: '`user`')]
 #[ORM\Index(name: 'username_idx', columns: ['username'])]
 #[UniqueEntity("email")]
 class User extends AbstractDomainEntity implements UserInterface, PasswordAuthenticatedUserInterface
@@ -95,6 +97,7 @@ class User extends AbstractDomainEntity implements UserInterface, PasswordAuthen
      * @param Organisation|null $organisation
      * @param ManagedImage|null $avatar
      * @param UserPreferences|null $userPreferences
+     * @param Collection<int, CampaignMembership> $campaignMemberships
      * @param int|null $id
      */
     public function __construct(
@@ -129,6 +132,14 @@ class User extends AbstractDomainEntity implements UserInterface, PasswordAuthen
         #[ORM\Embedded(class: UserPreferences::class, columnPrefix: 'preferences_')]
         private ? UserPreferences $userPreferences = null,
 
+        #[ORM\OneToMany(
+            targetEntity: CampaignMembership::class,
+            mappedBy: 'user',
+            cascade: ['persist', 'remove'],
+            orphanRemoval: true,
+        )]
+        private Collection $campaignMemberships = new ArrayCollection(),
+
         ? int $id = null
     ) {
         parent::__construct($id);
@@ -151,6 +162,26 @@ class User extends AbstractDomainEntity implements UserInterface, PasswordAuthen
     public function getOrders(): Collection
     {
         return $this->orders;
+    }
+
+    /**
+     * @return Collection<int, CampaignMembership>
+     */
+    public function getCampaignMemberships(): Collection
+    {
+        return $this->campaignMemberships;
+    }
+
+    public function addCampaignMembership(CampaignMembership $membership): void
+    {
+        if (!$this->campaignMemberships->contains($membership)) {
+            $this->campaignMemberships->add($membership);
+        }
+    }
+
+    public function removeCampaignMembership(CampaignMembership $membership): void
+    {
+        $this->campaignMemberships->removeElement($membership);
     }
 
     public function getOrganisation(): ?Organisation
