@@ -25,6 +25,8 @@ class WorldCalendarSettings extends AbstractDomainEntity
     public const int MAXIMUM_MONTHS_PER_YEAR = 50;
 
     /**
+     * @param Collection<int, WorldCalendarMonth> $worldCalendarMonths
+     * @param Collection<int, WorldCalendarDayOfWeek> $daysOfWeek
      * @throws TooManyWorldCalendarMonthsException
      */
     public function __construct(
@@ -279,6 +281,6 @@ class WorldCalendarSettings extends AbstractDomainEntity
             static fn (WorldCalendarMonth $leftMonth, WorldCalendarMonth $rightMonth): int => $leftMonth->getDelta() <=> $rightMonth->getDelta()
         );
 
-        return array_values($worldCalendarMonths);
+        return $worldCalendarMonths;
     }
 }

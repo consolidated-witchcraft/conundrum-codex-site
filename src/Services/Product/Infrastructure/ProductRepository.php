@@ -20,15 +20,12 @@ class ProductRepository extends ServiceEntityRepository
 
     public function getProductBySku(string $sku, bool $includeRetired = false): ? Product {
         $qb = $this->createQueryBuilder('p');
-        $qb->where('p.sku = :sku')
+        $qb->where('p.baseSku = :sku')
             ->setParameter('sku', $sku);
 
         $result = $qb->getQuery()->getOneOrNullResult();
         if ($result instanceof Product) {
-            if ($includeRetired) {
-                return $result;
-            }
-            return $result->isRetired() ? null : $result;
+            return $result;
         }
         return null;
     }

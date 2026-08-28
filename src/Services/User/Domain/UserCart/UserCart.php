@@ -24,6 +24,7 @@ class UserCart extends AbstractDomainEntity
      */
     public function __construct(
         #[ORM\OneToOne(targetEntity: User::class, inversedBy: 'userCart', cascade: ['persist', 'refresh'], orphanRemoval: true)]
+        #[ORM\JoinColumn(nullable: false)]
         private User                $user,
 
         #[ORM\OneToMany(targetEntity: UserCartProductLine::class, mappedBy: 'userCart', cascade: ['persist', 'refresh'], fetch: 'EAGER', orphanRemoval: true)]

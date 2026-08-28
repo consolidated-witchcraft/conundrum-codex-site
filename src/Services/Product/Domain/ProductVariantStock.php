@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Services\Product\Domain;
 
 use App\Services\Core\Domain\AbstractDomainEntity;
@@ -13,12 +15,12 @@ use Doctrine\ORM\Mapping as ORM;
 #[ORM\Entity(repositoryClass: ProductVariantStockRepository::class)]
 class ProductVariantStock extends AbstractDomainEntity
 {
+    /** @param Collection<int, ProductVariant> $productVariants */
     public function __construct(
         #[ORM\Column(type: 'integer')]
         private int $stockLevel,
 
         #[ORM\OneToMany(targetEntity: ProductVariant::class, mappedBy: 'productVariantStock')]
-        #[ORM\JoinColumn(nullable: false)]
         private Collection $productVariants = new ArrayCollection(),
 
         ? int $id = null
@@ -35,8 +37,12 @@ class ProductVariantStock extends AbstractDomainEntity
      */
     public function decreaseStockLevel(int $stockToRemove): void {
         if ($stockToRemove > $this->stockLevel) {
+            $productVariant = $this->productVariants->first();
+            if (!$productVariant instanceof ProductVariant) {
+                throw new \LogicException('Cannot decrease shared stock before a product variant is attached.');
+            }
             throw new InsufficientStockException(
-                $this->productVariants->first()->getSku(),
+                $productVariant->getSku(),
                 $this->getStockLevel(),
                 $stockToRemove
             );

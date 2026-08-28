@@ -31,5 +31,7 @@ class BugReportService extends AbstractDomainEntityService implements DomainEnti
         if ($flush) {
             $this->flush();
         }
+
+        return $bugReport;
     }
 }

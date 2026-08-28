@@ -12,7 +12,7 @@ use Doctrine\Common\Collections\Collection;
 interface FeatureSwitcherServiceInterface extends DomainEntityServiceInterface
 {
     /**
-     * @return Collection<FeatureSwitcher>
+     * @return Collection<int, FeatureSwitcher>
      */
     public function getAllFeatureSwitchers(): Collection;
 

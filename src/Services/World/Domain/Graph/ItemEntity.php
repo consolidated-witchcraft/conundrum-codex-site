@@ -12,6 +12,7 @@ use Doctrine\ORM\Mapping as ORM;
 #[ORM\Table(name: 'world_item')]
 class ItemEntity extends AbstractWorldGraphEntity
 {
+    /** @param Collection<int, WorldEntityRevision> $revisions */
     public function __construct(
         string $slug,
         string $currentName,

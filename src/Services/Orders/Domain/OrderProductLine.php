@@ -14,10 +14,11 @@ class OrderProductLine extends AbstractDomainEntity
 {
     public function __construct(
         #[ORM\ManyToOne(targetEntity: Order::class, inversedBy: 'productOrderLines')]
-
+        #[ORM\JoinColumn(nullable: false)]
         private Order $order,
 
         #[ORM\ManyToOne(targetEntity: ProductVariant::class)]
+        #[ORM\JoinColumn(nullable: false)]
         private ProductVariant $productVariant,
 
         #[ORM\Column(type: 'integer')]

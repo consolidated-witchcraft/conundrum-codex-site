@@ -55,11 +55,13 @@ class User extends AbstractDomainEntity implements UserInterface, PasswordAuthen
     #[ORM\ManyToMany(targetEntity: World::class, inversedBy: 'players')]
     private Collection $worldsPlayed;
 
+    /** @return Collection<int, World> */
     public function getWorldsPlayed(): Collection
     {
         return $this->worldsPlayed;
     }
 
+    /** @var Collection<int, PostalAddress> */
     #[ORM\OneToMany(targetEntity: PostalAddress::class, mappedBy: 'user', orphanRemoval: true, fetch: 'EAGER')]
     private Collection $postalAddresses;
 
@@ -82,9 +84,14 @@ class User extends AbstractDomainEntity implements UserInterface, PasswordAuthen
     #[ORM\ManyToMany(targetEntity: UserFeat::class, cascade: ['persist'], fetch: 'EAGER', indexBy: 'handle')]
     private Collection $feats;
 
+    /** @var Collection<int, Order> */
     #[ORM\OneToMany(targetEntity: Order::class, mappedBy: 'user', orphanRemoval: false)]
     #[OrderBy(["createdAt" => "DESC"])]
     private Collection $orders;
+
+    /** @var Collection<int, UserBlock> */
+    #[ORM\OneToMany(targetEntity: UserBlock::class, mappedBy: 'user', cascade: ['persist'])]
+    private Collection $userBlocks;
 
 
     /**
@@ -92,7 +99,7 @@ class User extends AbstractDomainEntity implements UserInterface, PasswordAuthen
      * @param non-empty-string $username
      * @param UserAccountType $userAccountType
      * @param non-empty-string $password
-     * @param Collection|null $userBlocks
+     * @param Collection<int, UserBlock>|null $userBlocks
      * @param UserCart|null $userCart
      * @param Organisation|null $organisation
      * @param ManagedImage|null $avatar
@@ -115,8 +122,7 @@ class User extends AbstractDomainEntity implements UserInterface, PasswordAuthen
         #[ORM\Column(type: 'non_empty_string', length: 255)]
         private string $password = 'REPLACEME',
 
-        #[ORM\OneToMany(targetEntity: UserBlock::class, mappedBy: 'user', cascade: ['persist'])]
-        private ? Collection $userBlocks = null,
+        ?Collection $userBlocks = null,
 
         #[ORM\OneToOne(targetEntity: UserCart::class, mappedBy: 'user', cascade: ['persist', 'refresh'], orphanRemoval: true)]
         private ? UserCart $userCart = null,
@@ -145,12 +151,13 @@ class User extends AbstractDomainEntity implements UserInterface, PasswordAuthen
         parent::__construct($id);
         $this->roles = new ArrayCollection();
         $this->gamesMastered = new ArrayCollection();
+        $this->worldsCreated = new ArrayCollection();
+        $this->worldsPlayed = new ArrayCollection();
+        $this->postalAddresses = new ArrayCollection();
         $this->games = new ArrayCollection();
         $this->feats = new ArrayCollection();
         $this->orders = new ArrayCollection();
-        if ($this->userBlocks === null) {
-            $this->userBlocks = new ArrayCollection();
-        }
+        $this->userBlocks = $userBlocks ?? new ArrayCollection();
         if ($this->userCart === null) {
             $this->userCart = new UserCart($this);
         }
@@ -159,6 +166,7 @@ class User extends AbstractDomainEntity implements UserInterface, PasswordAuthen
         }
     }
 
+    /** @return Collection<int, Order> */
     public function getOrders(): Collection
     {
         return $this->orders;
@@ -206,7 +214,7 @@ class User extends AbstractDomainEntity implements UserInterface, PasswordAuthen
 
     public function setProfilePublic(bool $profilePublic): void
     {
-        $this->userPreferences->setProfilePublic($profilePublic);
+        $this->getUserPreferences()->setProfilePublic($profilePublic);
     }
 
 
@@ -275,22 +283,22 @@ class User extends AbstractDomainEntity implements UserInterface, PasswordAuthen
 
     public function getHasAcceptedCookies(): bool
     {
-        return $this->userPreferences->getHasAcceptedCookies();
+        return $this->getUserPreferences()->getHasAcceptedCookies();
     }
 
     public function setHasAcceptedCookies(bool $hasAcceptedCookies): void
     {
-        $this->userPreferences->setHasAcceptedCookies($hasAcceptedCookies);
+        $this->getUserPreferences()->setHasAcceptedCookies($hasAcceptedCookies);
     }
 
     public function isProfilePublic(): bool
     {
-        return $this->userPreferences->isProfilePublic();
+        return $this->getUserPreferences()->isProfilePublic();
     }
 
     public function setIsProfilePublic(bool $isProfilePublic): void
     {
-        $this->userPreferences->setProfilePublic($isProfilePublic);
+        $this->getUserPreferences()->setProfilePublic($isProfilePublic);
     }
 
 
@@ -387,14 +395,21 @@ class User extends AbstractDomainEntity implements UserInterface, PasswordAuthen
         $this->feats->add($userFeat);
     }
 
+    /** @return Collection<int, UserBlock> */
     public function getUserBlock(): Collection {
         return $this->userBlocks;
+    }
+
+    public function getLatestUserBlock(): ?UserBlock
+    {
+        $block = $this->getUserBlock()->last();
+        return $block instanceof UserBlock ? $block : null;
     }
 
 
     public function isBlocked(): bool
     {
-        return count($this->userBlocks) > 0;
+        return !$this->getUserBlock()->isEmpty();
     }
 
     public function canCreateGames(): bool
@@ -419,11 +434,13 @@ class User extends AbstractDomainEntity implements UserInterface, PasswordAuthen
         // @deprecated, to be removed when upgrading to Symfony 8
     }
 
+    /** @return Collection<int, PostalAddress> */
     public function getPostalAddresses(): Collection
     {
         return $this->postalAddresses;
     }
 
+    /** @param Collection<int, PostalAddress> $postalAddresses */
     public function setPostalAddresses(Collection $postalAddresses): void
     {
         $this->postalAddresses = $postalAddresses;
@@ -443,6 +460,7 @@ class User extends AbstractDomainEntity implements UserInterface, PasswordAuthen
         return $this->userPreferences;
     }
 
+    /** @return Collection<int, World> */
     public function getWorldsCreated(): Collection
     {
         return $this->worldsCreated;

@@ -8,6 +8,7 @@ use App\Services\PuzzleInstance\Domain\Dynamic\Fields\Exceptions\DynamicFieldInv
 use App\Services\PuzzleInstance\Domain\Dynamic\Fields\Traits\ValidatesStringsTrait;
 use App\Services\PuzzleTemplate\Service\ValidPuzzleConfigOptionTypes;
 
+/** @extends AbstractDynamicField<list<string>> */
 class StringArrayField extends AbstractDynamicField implements DynamicPuzzleFieldInterface
 {
     use ValidatesStringsTrait;
@@ -17,7 +18,7 @@ class StringArrayField extends AbstractDynamicField implements DynamicPuzzleFiel
     }
 
     /**
-     * @return array|null
+     * @return list<string>|null
      */
     public function getValue(): ?array
     {

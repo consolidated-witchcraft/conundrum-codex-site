@@ -5,6 +5,7 @@ namespace App\Services\PuzzleInstance\Domain\Dynamic\Fields;
 use App\Services\PuzzleInstance\Domain\Dynamic\Fields\Exceptions\DynamicFieldInvalidValueException;
 use App\Services\PuzzleTemplate\Service\ValidPuzzleConfigOptionTypes;
 
+/** @extends AbstractDynamicField<int> */
 class IntegerField extends AbstractDynamicField implements DynamicPuzzleFieldInterface
 {
 

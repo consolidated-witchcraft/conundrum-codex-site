@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Services\Game\Domain;
 
 use App\Services\Core\Domain\AbstractDomainEntity;
@@ -66,12 +68,12 @@ class GameSession extends AbstractDomainEntity
     }
 
 
-    public function getGame(): ?Game
+    public function getGame(): Game
     {
         return $this->game;
     }
 
-    public function setGame(?Game $game): void
+    public function setGame(Game $game): void
     {
         $this->game = $game;
     }

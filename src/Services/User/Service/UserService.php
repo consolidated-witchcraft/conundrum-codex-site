@@ -38,9 +38,6 @@ use Symfony\Component\Security\Http\Authenticator\Passport\Badge\UserBadge;
 use Symfony\Component\Validator\ConstraintViolationListInterface;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface as SymfonyUserPasswordHasherInterface;
-/**
- * @implements UserProviderInterface<User>
- */
 class UserService
     implements UserServiceInterface, AccessTokenHandlerInterface, DomainEntityServiceInterface
 {
@@ -93,7 +90,11 @@ class UserService
         }
 
         if ($user->isBlocked()) {
-            $block = $user->getUserBlocks()->last();
+            $block = $user->getLatestUserBlock();
+
+            if ($block === null) {
+                return $user;
+            }
 
             $message = sprintf("Your account has been banned for %s. ", $block->getReason());
             $expired = false;

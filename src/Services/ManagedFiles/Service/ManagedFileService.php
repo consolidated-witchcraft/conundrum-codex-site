@@ -154,7 +154,7 @@ class ManagedFileService extends AbstractDomainEntityService implements ManagedF
     }
 
     /**
-     * @param array $mimeTypes
+     * @param array<int, string> $mimeTypes
      * @return ManagedFile[]
      */
     public function findByMimeTypes(array $mimeTypes): iterable
@@ -190,7 +190,12 @@ class ManagedFileService extends AbstractDomainEntityService implements ManagedF
 
     public function generateFileHash(string $filePath): string
     {
-        return hash_file('sha256', $filePath);
+        $hash = hash_file('sha256', $filePath);
+        if ($hash === false) {
+            throw new GeneralFileManagementException(sprintf('Could not hash file "%s".', $filePath));
+        }
+
+        return $hash;
     }
 
     public function findOneByFileHashAndUploader(string $fileHash, User $uploader): ?ManagedFile

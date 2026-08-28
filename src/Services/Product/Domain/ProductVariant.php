@@ -18,6 +18,7 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 #[UniqueEntity(fields: ['sku'], message: 'There is already a productvariant  with this SKU. Please choose another one.')]
 class ProductVariant extends AbstractDomainEntity
 {
+    /** @param Collection<int, ManagedImage> $productVariantImages */
     public function __construct(
         #[ORM\Column(type: 'string', length: 255, unique: true)]
         private readonly string $sku,
@@ -35,13 +36,19 @@ class ProductVariant extends AbstractDomainEntity
         private int $preTaxPriceCentessimal,
 
         #[ORM\ManyToOne(targetEntity: User::class)]
+        #[ORM\JoinColumn(nullable: false)]
         private readonly User $createdBy,
 
-        #[ORM\Column(type: 'datetime', nullable: true)]
+        #[ORM\Column(type: 'datetime')]
         private \DateTimeInterface $publicationDate,
 
         #[ORM\ManyToOne(targetEntity: ProductVariantStock::class, cascade: ['persist', 'refresh', 'remove'], inversedBy: 'productVariants')]
+        #[ORM\JoinColumn(nullable: false)]
         private readonly ProductVariantStock $productVariantStock,
+
+        #[ORM\ManyToOne(targetEntity: Product::class, inversedBy: 'productVariants')]
+        #[ORM\JoinColumn(nullable: false)]
+        private Product $product,
 
         #[ORM\Column(type: 'boolean')]
         private bool $taxExempt = false,
@@ -54,10 +61,6 @@ class ProductVariant extends AbstractDomainEntity
 
         #[ORM\Column(type: 'datetime', nullable: true)]
         private ? \DateTimeInterface $retiredDate = null,
-
-        #[ORM\ManyToOne(targetEntity: Product::class, inversedBy: 'productVariants')]
-        #[ORM\JoinColumn(nullable: false)]
-        private ? Product $product = null,
 
         ? int $id = null
     ) {
@@ -150,13 +153,15 @@ class ProductVariant extends AbstractDomainEntity
 
     public function isRetired(): bool {
         $date= new \DateTime();
-        return $this->retiredDate <= $date;
+        return $this->retiredDate !== null && $this->retiredDate <= $date;
     }
 
+    /** @param Collection<int, ManagedImage> $productVariantImages */
     public function setProductVariantImages(Collection $productVariantImages): void {
         $this->productVariantImages = $productVariantImages;
     }
 
+    /** @return Collection<int, ManagedImage> */
     public function getProductVariantImages(): Collection {
         return $this->productVariantImages;
     }

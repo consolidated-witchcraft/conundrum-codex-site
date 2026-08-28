@@ -19,6 +19,8 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 #[UniqueEntity(fields: ['paymentReference'])]
 class Payment extends AbstractDomainEntity
 {
+    #[ORM\Column(type: 'payment_status')]
+    private PaymentStatus $paymentStatus;
 
     /**
      * @param string $name
@@ -41,23 +43,22 @@ class Payment extends AbstractDomainEntity
         private readonly string $paymentReference,
 
         #[ORM\ManyToOne(targetEntity: Order::class, inversedBy: 'orderPayments')]
+        #[ORM\JoinColumn(nullable: false)]
         private readonly Order $order,
 
         #[ORM\OneToMany(targetEntity: PaymentReceipt::class, mappedBy: 'payment', fetch: 'EAGER')]
         private Collection $paymentReceipts = new ArrayCollection(),
 
-        #[ORM\Column(type: 'payment_status')]
-        private ? PaymentStatus $paymentStatus = null,
+        ?PaymentStatus $paymentStatus = null,
 
         ? int $id = null
     ){
         parent::__construct($id);
 
-        if ($this->paymentStatus === null) {
-            $this->paymentStatus = PaymentStatus::makeFromHandle('unpaid');
-        }
+        $this->paymentStatus = $paymentStatus ?? PaymentStatus::makeFromHandle('unpaid');
     }
 
+    /** @return Collection<int, PaymentReceipt> */
     public function getPaymentReceipts(): Collection
     {
         return $this->paymentReceipts;

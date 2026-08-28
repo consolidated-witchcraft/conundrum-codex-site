@@ -129,5 +129,7 @@ class PuzzleInstanceService extends AbstractDomainEntityService implements Puzzl
         } else {
             return $this->puzzleInstanceRepository;
         }
+
+        throw new \LogicException(sprintf('No puzzle-instance provider is registered for template "%s".', $puzzleTemplate->getSlug()));
     }
 }

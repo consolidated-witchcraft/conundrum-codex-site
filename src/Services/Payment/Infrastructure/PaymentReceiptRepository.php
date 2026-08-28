@@ -19,10 +19,12 @@ class PaymentReceiptRepository extends ServiceEntityRepository
     }
 
     public function findByReceiptReference(string $receiptReference): ?PaymentReceipt {
-        return $this->createQueryBuilder('pr')
+        $result = $this->createQueryBuilder('pr')
             ->where('pr.receiptReference = :receiptReference')
             ->setParameter('receiptReference', $receiptReference)
             ->getQuery()
             ->getOneOrNullResult();
+
+        return $result instanceof PaymentReceipt ? $result : null;
     }
 }

@@ -23,12 +23,8 @@ class UserChecker implements UserCheckerInterface
             return;
         }
 
-        if ($user->isBlocked() && !$user->getUserBlock()?->isExpired()) {
-            $block = $user->getUserBlock();
-
-            if (!$block instanceof UserBlock) {
-                return;
-            }
+        $block = $user->getLatestUserBlock();
+        if ($block instanceof UserBlock && !$block->isExpired()) {
             $message = $block->isPermanent()
                 ? sprintf(self::PERMABLOCK_MESSAGE_PATTERN, $block->getReason())
                 : sprintf(self::TEMPORARY_BLOCK_MESSAGE_PATTERN, $block->getReason(), $block->getExpirationDate()?->format('Y-m-d H:i'));

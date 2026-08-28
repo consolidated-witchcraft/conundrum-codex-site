@@ -48,7 +48,7 @@ class IsoCountryListFactory implements CacheWarmerInterface
         if ($forceRefresh) {
             $this->cache->delete(self::CACHE_KEY);
         }
-        $countryCodeList = $this->cache->get(self::CACHE_KEY, function (ItemInterface $item) use ($verbose) {
+        $countryCodeList = $this->cache->get(self::CACHE_KEY, function (ItemInterface $item) {
             /**
              * @var array<string, \App\Services\PostalAddress\Domain\ValueObjects\IsoCountry> $list
              */
@@ -58,26 +58,55 @@ class IsoCountryListFactory implements CacheWarmerInterface
             if (!$finder->hasResults()) {
                 throw new \Exception("Could not build postal codes country registry: country-codes.json is missing");
             }
-            $fileContents = file_get_contents($this->configDirectory . DIRECTORY_SEPARATOR . 'country-codes.json');
-            $fileContents = json_decode($fileContents, true);
-            foreach ($fileContents as $countryCode => $countryData) {
-                self::validateCountryData($countryCode, $countryData);
+            $json = file_get_contents($this->configDirectory . DIRECTORY_SEPARATOR . 'country-codes.json');
+            if ($json === false) {
+                throw new InvalidIsoCountryDataException('Could not read country-codes.json.');
+            }
+
+            $fileContents = json_decode($json, true, flags: JSON_THROW_ON_ERROR);
+            if (!is_array($fileContents)) {
+                throw new InvalidIsoCountryDataException('country-codes.json must contain an object.');
+            }
+
+            foreach ($fileContents as $countryCode => $rawCountryData) {
+                if (!is_string($countryCode) || !is_array($rawCountryData)) {
+                    throw new InvalidIsoCountryDataException('country-codes.json contains an invalid country entry.');
+                }
+
+                $countryData = [];
+                foreach ($rawCountryData as $field => $value) {
+                    if (!is_string($field)) {
+                        throw new InvalidIsoCountryDataException('A country-data field name must be a string.');
+                    }
+                    $countryData[$field] = $value;
+                }
+
+                $validatedCountryData = self::validateCountryData($countryCode, $countryData);
                 $list[$countryCode] = new IsoCountry(
                     isoCountryCode: $countryCode,
-                    alphaThree: $countryData['alpha3'],
-                    name: $countryData['name'],
-                    num: (int) $countryData['num'],
+                    alphaThree: $validatedCountryData['alpha3'],
+                    name: $validatedCountryData['name'],
+                    num: $validatedCountryData['num'],
                 );
             }
 
             return $list;
         });
+        if (!is_array($countryCodeList)) {
+            throw new InvalidIsoCountryDataException('The cached country list is invalid.');
+        }
+
+        /** @var array<string, IsoCountry> $countryCodeList */
         return new IsoCountryList(
             countryList: $countryCodeList
         );
     }
 
-    public static function validateCountryData(string $countryCode, array $countryData): void {
+    /**
+     * @param array<string, mixed> $countryData
+     * @return array{alpha3: string, name: string, num: int}
+     */
+    public static function validateCountryData(string $countryCode, array $countryData): array {
         if (strlen($countryCode) !== 2) {
             throw new InvalidIsoCountryDataException(sprintf("%s is not a valid country code", $countryCode));
         }
@@ -92,12 +121,24 @@ class IsoCountryListFactory implements CacheWarmerInterface
                     if (!is_numeric($countryData[$requiredFieldName])) {
                         throw new InvalidIsoCountryDataException(sprintf("The data for %s is invalid. The %s field must be an integer", $countryCode, $requiredFieldName));
                     }
+                    break;
                 case 'string':
                     if (!is_string($countryData[$requiredFieldName]) || empty($countryData[$requiredFieldName])) {
                         throw new InvalidIsoCountryDataException(sprintf("The data for %s is invalid. The %s field must be a non-blank string", $countryCode, $requiredFieldName));
                     }
+                    break;
 
             }
         }
+
+        $alphaThree = $countryData['alpha3'];
+        $name = $countryData['name'];
+        $numericCode = $countryData['num'];
+
+        if (!is_string($alphaThree) || !is_string($name) || (!is_int($numericCode) && !is_string($numericCode))) {
+            throw new InvalidIsoCountryDataException(sprintf('The data for %s is invalid.', $countryCode));
+        }
+
+        return ['alpha3' => $alphaThree, 'name' => $name, 'num' => (int) $numericCode];
     }
 }

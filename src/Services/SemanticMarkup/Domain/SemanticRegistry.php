@@ -24,13 +24,7 @@ readonly class SemanticRegistry
     public const string ENTITY_KIND_EVENT = 'event';
 
     /**
-     * @return array<string, list<
-     *     EventEntityRelationTypeEnum|
-     *     FactionEntityRelationTypeEnum|
-     *     ItemEntityRelationTypeEnum|
-     *     LocationEntityRelationTypeEnum|
-     *     PersonEntityRelationshipTypeEnum
-     * >>
+     * @return array<string, list<EventEntityRelationTypeEnum|FactionEntityRelationTypeEnum|ItemEntityRelationTypeEnum|LocationEntityRelationTypeEnum|PersonEntityRelationshipTypeEnum>>
      */
     public function getEntityKinds(): array
     {

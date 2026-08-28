@@ -113,7 +113,11 @@ class WorldCalendarDayOfWeek extends AbstractDomainEntity
      * @throws InvalidWorldCalendarDayOfWeekAbbreviationException
      */
     public static function makeFromDto(WorldCalendarSettings $worldCalendarSettings, WorldCalendarDayOfWeekDto $dto): self {
-        return new static(
+        if ($dto->name === null || $dto->abbreviation === null) {
+            throw new \InvalidArgumentException('A calendar day requires a name and abbreviation.');
+        }
+
+        return new self(
             worldCalendarSettings: $worldCalendarSettings,
             name: $dto->name,
             abbreviation: $dto->abbreviation,

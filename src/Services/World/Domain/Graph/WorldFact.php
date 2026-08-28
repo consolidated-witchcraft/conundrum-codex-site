@@ -25,12 +25,12 @@ class WorldFact extends AbstractDomainEntity
         #[ORM\Column(name: 'value_text', type: 'text')]
         private string $valueText,
 
-        #[ORM\Column(name: 'revealed_at', type: 'datetime_immutable', nullable: true)]
-        private ?\DateTimeImmutable $revealedAt = null,
-
         #[ORM\ManyToOne(targetEntity: WorldEntityRevision::class, inversedBy: 'projectedFacts')]
         #[ORM\JoinColumn(name: 'source_revision_id', referencedColumnName: 'id', nullable: false, onDelete: 'CASCADE')]
         private readonly WorldEntityRevision $sourceRevision,
+
+        #[ORM\Column(name: 'revealed_at', type: 'datetime_immutable', nullable: true)]
+        private ?\DateTimeImmutable $revealedAt = null,
 
         ? int $id = null
     ) {

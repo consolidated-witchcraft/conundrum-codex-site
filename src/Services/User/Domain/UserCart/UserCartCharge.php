@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Services\User\Domain\UserCart;
 
 use App\Services\Core\Domain\AbstractDomainEntity;
@@ -13,6 +15,7 @@ class UserCartCharge extends AbstractDomainEntity
 {
     public function __construct(
         #[ORM\ManyToOne(targetEntity: UserCart::class, inversedBy: 'userCartCharges')]
+        #[ORM\JoinColumn(nullable: false)]
         private readonly UserCart $userCart,
 
         #[ORM\Column(type: 'charge_type')]

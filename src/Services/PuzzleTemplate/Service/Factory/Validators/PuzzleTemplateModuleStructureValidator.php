@@ -42,7 +42,17 @@ class PuzzleTemplateModuleStructureValidator
     }
 
     private function getFileMimeType(string $filePath): string {
-        return finfo_file(finfo_open(FILEINFO_MIME_TYPE), $filePath);
+        $fileInfo = finfo_open(FILEINFO_MIME_TYPE);
+        if ($fileInfo === false) {
+            throw new PuzzleTemplateModuleStructureValidationException('Could not initialize MIME-type detection.');
+        }
+
+        $mimeType = finfo_file($fileInfo, $filePath);
+        if ($mimeType === false) {
+            throw new PuzzleTemplateModuleStructureValidationException(sprintf('Could not detect the MIME type of "%s".', $filePath));
+        }
+
+        return $mimeType;
     }
 
     private function fileExists(string $filePath): bool {

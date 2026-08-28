@@ -18,7 +18,7 @@ abstract class AbstractDoctrineEnum implements \Stringable
     /**
      * @throws UnknownValueObjectKeyException
      */
-    public static function makeFromKey(string $key): self {
+    public static function makeFromKey(string $key): static {
 
         if (!array_key_exists($key, static::KNOWN_KEYS)) {
             throw new UnknownValueObjectKeyException(
@@ -26,9 +26,14 @@ abstract class AbstractDoctrineEnum implements \Stringable
                 key: $key
             );
         }
+        $label = static::KNOWN_KEYS[$key];
+        if (!is_string($label)) {
+            throw new \LogicException(sprintf('%s::KNOWN_KEYS values must be strings.', static::class));
+        }
+
         return new static(
             key: $key,
-            label: static::KNOWN_KEYS[$key],
+            label: $label,
         );
     }
 

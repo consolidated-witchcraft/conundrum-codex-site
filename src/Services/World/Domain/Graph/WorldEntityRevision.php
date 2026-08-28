@@ -17,6 +17,13 @@ use Doctrine\ORM\Mapping as ORM;
 #[ORM\Index(name: 'idx_world_entity_revision_entity', columns: ['entity_id'])]
 class WorldEntityRevision extends AbstractDomainEntity
 {
+    /**
+     * @param array<array-key, mixed>|null $astJson
+     * @param array<array-key, mixed>|null $parseErrorsJson
+     * @param Collection<int, WorldEdge> $projectedEdges
+     * @param Collection<int, WorldFact> $projectedFacts
+     * @param Collection<int, EventParticipation> $eventParticipations
+     */
     public function __construct(
         #[ORM\ManyToOne(targetEntity: AbstractWorldGraphEntity::class, inversedBy: 'revisions')]
         #[ORM\JoinColumn(name: 'entity_id', referencedColumnName: 'id', nullable: false, onDelete: 'CASCADE')]
@@ -85,11 +92,13 @@ class WorldEntityRevision extends AbstractDomainEntity
         return $this->sourceHash;
     }
 
+    /** @param array<array-key, mixed>|null $astJson */
     public function setAstJson(?array $astJson): void
     {
         $this->astJson = $astJson;
     }
 
+    /** @return array<array-key, mixed>|null */
     public function getAstJson(): ?array
     {
         return $this->astJson;
@@ -115,11 +124,13 @@ class WorldEntityRevision extends AbstractDomainEntity
         return $this->parseStatus;
     }
 
+    /** @param array<array-key, mixed>|null $parseErrorsJson */
     public function setParseErrorsJson(?array $parseErrorsJson): void
     {
         $this->parseErrorsJson = $parseErrorsJson;
     }
 
+    /** @return array<array-key, mixed>|null */
     public function getParseErrorsJson(): ?array
     {
         return $this->parseErrorsJson;

@@ -29,7 +29,7 @@ class FeatureSwitcherService extends AbstractDomainEntityService implements Feat
     }
 
     /**
-     * @return Collection<FeatureSwitcher>
+     * @return Collection<int, FeatureSwitcher>
      */
     public function getAllFeatureSwitchers(): Collection
     {

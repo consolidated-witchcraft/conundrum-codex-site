@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Services\Game\Domain;
 
 use App\Services\Core\Domain\AbstractDomainEntity;
@@ -260,6 +262,7 @@ class Game extends AbstractDomainEntity
         return $this->gameSessions;
     }
 
+    /** @return Collection<int, GameSession> */
     public function getUpcomingGameSessions(): Collection {
         $now = new \DateTime();
         $filteredSessions = $this->gameSessions->filter(function (GameSession $gameSession) use ($now) {
@@ -283,12 +286,7 @@ class Game extends AbstractDomainEntity
 
     public function removeGameSession(GameSession $gameSession): static
     {
-        if ($this->gameSessions->removeElement($gameSession)) {
-            // set the owning side to null (unless already changed)
-            if ($gameSession->getGame() === $this) {
-                $gameSession->setGame(null);
-            }
-        }
+        $this->gameSessions->removeElement($gameSession);
 
         return $this;
     }

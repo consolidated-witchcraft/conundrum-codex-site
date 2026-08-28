@@ -73,6 +73,7 @@ class PuzzleTemplateDefinitionValidator
      * @throws ConfigOptionTypeInvalidPatternException
      * @throws PuzzleTemplateRegistryBuildException
      */
+    /** @param array<string, mixed> $decodedJson */
     public function validateJson(array $decodedJson, string $moduleName): void {
         self::validateRequiredFieldsPresent($decodedJson, $moduleName);
         self::validateAllFieldsKnown($decodedJson, $moduleName);
@@ -83,6 +84,7 @@ class PuzzleTemplateDefinitionValidator
     /**
      * @throws MissingRequiredTemplateFieldException
      */
+    /** @param array<string, mixed> $decodedJson */
     private static function validateRequiredFieldsPresent(array $decodedJson, string $moduleName): void {
         foreach (self::REQUIRED_TEMPLATE_FIELDS as $requiredField) {
             if (!isset($decodedJson[$requiredField])) {
@@ -94,6 +96,7 @@ class PuzzleTemplateDefinitionValidator
     /**
      * @throws UnknownFieldSpecifiedException
      */
+    /** @param array<string, mixed> $decodedJson */
     private static function validateAllFieldsKnown(array $decodedJson, string $moduleName): void {
         foreach ($decodedJson as $key => $definition) {
             if (!in_array($key, array_keys(self::KNOWN_TEMPLATE_FIELDS))) {
@@ -102,6 +105,7 @@ class PuzzleTemplateDefinitionValidator
         }
     }
 
+    /** @param array<string, mixed> $decodedJson */
     public static function validateStaticRoutes(array $decodedJson, string $moduleName): void {
         if ($decodedJson['static'] === true) {
             foreach (self::REQUIRED_STATIC_ROUTE_KEYS as $requireStaticRouteKey) {
@@ -120,6 +124,7 @@ class PuzzleTemplateDefinitionValidator
      * @throws ConfigOptionTypeScalarMismatchException
      * @throws PuzzleTemplateRegistryBuildException
      */
+    /** @param array<string, mixed> $decodedJson */
     private function validateFields(array $decodedJson, string $moduleName): void {
         foreach (self::KNOWN_TEMPLATE_FIELDS as $fieldName => $fieldType) {
             $value = $decodedJson[$fieldName] ?? null;
@@ -178,6 +183,14 @@ class PuzzleTemplateDefinitionValidator
                         );
                     } else {
                         foreach ($value as $configOption) {
+                            if (!is_array($configOption)) {
+                                throw new TemplateFieldScalarMismatchException(
+                                    fieldName: $fieldName,
+                                    expectedType: 'array',
+                                    actualType: gettype($configOption),
+                                    moduleName: $moduleName,
+                                );
+                            }
                             PuzzleTemplateConfigOptionValidator::validateConfigOption($configOption, $moduleName);
                         }
                     }
@@ -186,6 +199,14 @@ class PuzzleTemplateDefinitionValidator
                 case 'route':
                     if ($value === null) {
                         break;
+                    }
+                    if (!is_string($value)) {
+                        throw new TemplateFieldScalarMismatchException(
+                            fieldName: $fieldName,
+                            expectedType: 'string',
+                            actualType: gettype($value),
+                            moduleName: $moduleName,
+                        );
                     }
                     try {
                         $this->router->generate($value, [

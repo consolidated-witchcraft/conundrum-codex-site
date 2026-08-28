@@ -17,6 +17,7 @@ use App\Services\PuzzleInstance\Domain\Dynamic\Fields\Exceptions\UnmappableDynam
 use App\Services\PuzzleInstance\Domain\Dynamic\Fields\IntegerArrayField;
 use App\Services\PuzzleInstance\Domain\Dynamic\Fields\IntegerField;
 use App\Services\PuzzleInstance\Domain\Dynamic\Fields\KeyValueListField;
+use App\Services\PuzzleInstance\Domain\Dynamic\Fields\DynamicPuzzleFieldInterface;
 use App\Services\PuzzleInstance\Domain\Dynamic\Fields\StringArrayField;
 use App\Services\PuzzleInstance\Domain\Dynamic\Fields\StringField;
 use App\Services\PuzzleInstance\Domain\Dynamic\Providers\DynamicPuzzleInstanceProvider;
@@ -34,6 +35,7 @@ class DynamicPuzzleInstanceDto
         public readonly Game $game,
         public string $puzzleName,
         public string $puzzleDescription,
+        /** @var array<string, DynamicPuzzleFieldInterface> */
         public array $config,
         public ? string $instanceCode = null,
         public ?\DateTimeInterface $publicationDate = null
@@ -53,11 +55,11 @@ class DynamicPuzzleInstanceDto
         string $puzzleDescription,
         Game $game,
         PuzzleTemplate $puzzleTemplate
-    ): DynamicPuzzleInstanceDto {
+    ): self {
         if ($puzzleTemplate->isStatic()) {
             throw new AttemptingToGenerateDtoForStaticPuzzleException($puzzleTemplate->getTitle());
         }
-        return new static(
+        return new self(
             game: $game,
             puzzleName: $puzzleName,
             puzzleDescription: $puzzleDescription,
@@ -70,11 +72,11 @@ class DynamicPuzzleInstanceDto
      * @throws AttemptingToGenerateDtoForStaticPuzzleException
      * @throws PuzzleTemplateNotMappedException
      */
-    public static function makeFromPuzzleInstance(PuzzleInstance $puzzleInstance): DynamicPuzzleInstanceDto {
+    public static function makeFromPuzzleInstance(PuzzleInstance $puzzleInstance): self {
         if ($puzzleInstance->getTemplate()->isStatic()) {
             throw new AttemptingToGenerateDtoForStaticPuzzleException($puzzleInstance->getTemplate()->getTitle());
         }
-        return new static(
+        return new self(
             game: $puzzleInstance->getGame(),
             puzzleName: $puzzleInstance->getName(),
             puzzleDescription: $puzzleInstance->getDescription(),
@@ -109,7 +111,7 @@ class DynamicPuzzleInstanceDto
     /**
      * @param PuzzleTemplate $template
      * @param PuzzleInstance|null $instance
-     * @return array
+     * @return array<string, DynamicPuzzleFieldInterface>
      * @throws UnmappableDynamicFieldTypeException
      */
     private static function mapConfig(PuzzleTemplate $template, ?PuzzleInstance $instance = null): array {

@@ -142,7 +142,11 @@ class WorldCalendarService implements WorldCalendarServiceInterface
             }
         }
 
-        $lastMonth = $months[array_key_last($months)];
+        $lastMonthIndex = array_key_last($months);
+        if ($lastMonthIndex === null) {
+            throw new \LogicException('Cannot resolve a calendar month from an empty calendar.');
+        }
+        $lastMonth = $months[$lastMonthIndex];
 
         return [$lastMonth, $lastMonth->getNumberOfDays()];
     }

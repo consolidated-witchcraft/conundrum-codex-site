@@ -17,6 +17,7 @@ class TicketTypeProductVariantMap extends AbstractDomainEntity
 {
     public function __construct(
         #[ORM\ManyToOne(targetEntity: TicketType::class, inversedBy: "ticketTypeProductVariantMaps")]
+        #[ORM\JoinColumn(nullable: false)]
         private TicketType $ticketType,
 
         #[ORM\OneToOne(targetEntity: ProductVariant::class)]

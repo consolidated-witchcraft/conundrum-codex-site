@@ -27,6 +27,16 @@ class PuzzleInstanceRevealableClue extends AbstractDomainEntity
         return $this->body;
     }
 
+    public function getSlug(): string
+    {
+        return $this->slug;
+    }
+
+    public function getPuzzleInstance(): PuzzleInstance
+    {
+        return $this->puzzleInstance;
+    }
+
     public function getRevealedAt(): ? \DateTimeImmutable {
         return $this->revealedAt;
     }

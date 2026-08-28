@@ -7,7 +7,6 @@ namespace App\Services\ManagedFiles\Service\Interfaces;
 use App\Services\Core\Service\Interfaces\DomainEntityServiceInterface;
 use App\Services\ManagedFiles\Domain\ManagedFile;
 use App\Services\User\Domain\User;
-use Doctrine\Common\Collections\Collection;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 
 interface ManagedFileServiceInterface extends DomainEntityServiceInterface
@@ -42,7 +41,7 @@ interface ManagedFileServiceInterface extends DomainEntityServiceInterface
     ): ManagedFile;
 
     /**
-     * @param array $mimeTypes
+     * @param array<int, string> $mimeTypes
      * @return ManagedFile[]
      */
     public function findByMimeTypes(array $mimeTypes): iterable;

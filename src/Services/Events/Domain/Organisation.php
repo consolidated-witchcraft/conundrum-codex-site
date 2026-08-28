@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Services\Events\Domain;
 
 use App\Services\Core\Domain\AbstractDomainEntity;
@@ -41,6 +43,7 @@ class Organisation extends AbstractDomainEntity
         private ManagedImage $organisationLogo,
 
         #[ORM\ManyToOne(targetEntity: User::class)]
+        #[ORM\JoinColumn(nullable: false)]
         private User $owner,
 
         #[ORM\OneToMany(targetEntity: Event::class, mappedBy: 'organisation', cascade: ['persist'], orphanRemoval: true)]
@@ -50,9 +53,11 @@ class Organisation extends AbstractDomainEntity
         private Collection $managers,
 
         #[ORM\OneToOne(targetEntity: PostalAddress::class, cascade: ['persist', 'refresh', 'remove'], orphanRemoval: true)]
+        #[ORM\JoinColumn(nullable: false)]
         private PostalAddress $postalAddress,
 
         #[ORM\OneToOne(targetEntity: PostalAddress::class, cascade: ['persist', 'refresh', 'remove'], orphanRemoval: true)]
+        #[ORM\JoinColumn(nullable: false)]
         private PostalAddress $invoiceAddress,
 
         #[ORM\Column(type: 'datetime', nullable: true)]
@@ -123,6 +128,7 @@ class Organisation extends AbstractDomainEntity
         return $this->events;
     }
 
+    /** @param Collection<int, Event> $events */
     public function setEvents(Collection $events): void
     {
         $this->events = $events;
@@ -158,11 +164,13 @@ class Organisation extends AbstractDomainEntity
         $this->owner = $owner;
     }
 
+    /** @return Collection<int, User> */
     public function getManagers(): Collection
     {
         return $this->managers;
     }
 
+    /** @param Collection<int, User> $managers */
     public function setManagers(Collection $managers): void
     {
         $this->managers = $managers;

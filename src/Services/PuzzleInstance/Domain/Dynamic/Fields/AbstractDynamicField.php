@@ -4,8 +4,10 @@ declare(strict_types=1);
 
 namespace App\Services\PuzzleInstance\Domain\Dynamic\Fields;
 
+/** @template TValue */
 abstract class AbstractDynamicField implements \JsonSerializable
 {
+    /** @var TValue|null */
     protected mixed $value;
 
     public function __construct(
@@ -39,6 +41,7 @@ abstract class AbstractDynamicField implements \JsonSerializable
         $this->value = $value;
     }
 
+    /** @return array{name: string, label: string, value: TValue|null, type: string} */
     public function jsonSerialize(): array
     {
         return [
@@ -48,5 +51,10 @@ abstract class AbstractDynamicField implements \JsonSerializable
             'type' => $this->getType()
         ];
     }
+
+    /** @phpstan-assert TValue $value */
+    abstract public function guard(mixed $value): void;
+
+    abstract public function getType(): string;
 
 }

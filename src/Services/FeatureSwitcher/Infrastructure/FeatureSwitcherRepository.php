@@ -20,20 +20,18 @@ class FeatureSwitcherRepository extends ServiceEntityRepository
         parent::__construct($registry, FeatureSwitcher::class);
     }
 
-    /**
-     * @param string $handle
-     * @return FeatureSwitcher
-     */
     final public function findByHandle(string $handle):  ? FeatureSwitcher {
-        return $this->createQueryBuilder('v')
+        $result = $this->createQueryBuilder('v')
             ->where('v.handle = :handle')
             ->setParameter('handle', $handle)
             ->getQuery()
             ->getOneOrNullResult();
+
+        return $result instanceof FeatureSwitcher ? $result : null;
     }
 
     /**
-     * @return Collection<FeatureSwitcher>
+     * @return Collection<int, FeatureSwitcher>
      */
     public function findAllFeatureSwitchers(): Collection {
         $results = $this->findAll();

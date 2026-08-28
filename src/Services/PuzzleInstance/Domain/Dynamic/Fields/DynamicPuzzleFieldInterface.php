@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Services\PuzzleInstance\Domain\Dynamic\Fields;
 
 use App\Services\PuzzleInstance\Domain\Dynamic\Fields\Exceptions\DynamicFieldInvalidValueException;
@@ -12,9 +14,6 @@ interface DynamicPuzzleFieldInterface
 
     public function getLabel(): string;
 
-    /**
-     * @return null|string|int|bool|array<int, string>|array<int, int>|array<int, bool>
-     */
     public function getValue(): mixed;
 
     public function getType(): string;
@@ -27,10 +26,6 @@ interface DynamicPuzzleFieldInterface
 
     public function clearValue(): void;
 
-    /**
-     * @param bool|string|int|float|array $value
-     * @return void
-     * @throws DynamicFieldInvalidValueException
-     */
+    /** @throws DynamicFieldInvalidValueException */
     public function guard(mixed $value): void;
 }

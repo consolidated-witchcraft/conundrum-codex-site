@@ -80,7 +80,10 @@ class NoNonServiceDoctrineUsageRule implements Rule
 
         $className = $scope->getNamespace() . '\\' . $node->name->name;
         $classReflection = $this->reflectionProvider->getClass($className);
-        if ($classReflection->implementsInterface(self::BASE_DOMAIN_SERVICE_INTERFACE)) {
+        if (
+            $classReflection->implementsInterface(self::BASE_DOMAIN_SERVICE_INTERFACE)
+            || str_contains($className, '\\Service\\')
+        ) {
             return [];
         }
         if (!$classReflection->hasConstructor()) {

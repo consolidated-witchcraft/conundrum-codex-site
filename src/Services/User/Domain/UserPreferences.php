@@ -11,6 +11,9 @@ use Doctrine\ORM\Mapping as ORM;
 #[ORM\Embeddable]
 class UserPreferences
 {
+    #[ORM\Column(type: 'preferred_font_stack', nullable: false, options: ['default' => 'regular'])]
+    private PreferredFontStack $preferredFontStack;
+
     /**
      * @throws UnmappableObjectException
      */
@@ -21,12 +24,9 @@ class UserPreferences
         #[ORM\Column(type: 'boolean', nullable: false)]
         private bool $profilePublic = false,
 
-        #[ORM\Column(type: 'preferred_font_stack', nullable: false, options: ['default' => 'regular'])]
-        private ? PreferredFontStack $preferredFontStack = null
+        ?PreferredFontStack $preferredFontStack = null
     ) {
-        if ($preferredFontStack === null) {
-            $this->preferredFontStack = PreferredFontStack::makeFromKey('regular');
-        }
+        $this->preferredFontStack = $preferredFontStack ?? PreferredFontStack::makeFromKey('regular');
     }
 
     public function setProfilePublic(bool $profilePublic): void {

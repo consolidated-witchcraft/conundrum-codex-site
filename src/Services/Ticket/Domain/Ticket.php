@@ -25,6 +25,7 @@ class Ticket extends AbstractDomainEntity
         private readonly string $ticketCode,
 
         #[ORM\ManyToOne(targetEntity: TicketType::class, fetch: 'EAGER')]
+        #[ORM\JoinColumn(nullable: false)]
         private readonly TicketType $ticketType,
 
         #[ORM\Column(type: 'datetime_immutable')]

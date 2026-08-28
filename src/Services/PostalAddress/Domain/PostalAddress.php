@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Services\PostalAddress\Domain;
 
 use App\Dto\Visitor\User\PostalAddressDto;
@@ -13,8 +15,9 @@ use Doctrine\ORM\Mapping as ORM;
 #[ORM\Entity(repositoryClass: PostalAddressRepository::class)]
 class PostalAddress extends AbstractDomainEntity
 {
-    final public function __construct(
+    public function __construct(
         #[ORM\ManyToOne(targetEntity: User::class, inversedBy: 'postalAddresses')]
+        #[ORM\JoinColumn(nullable: false)]
         private readonly User $user,
 
         #[ORM\Column(length: 255)]
@@ -166,34 +169,47 @@ class PostalAddress extends AbstractDomainEntity
         $this->isDefaultShippingAddress = $isDefaultShippingAddress;
     }
 
-    public static function makeFromDto(PostalAddressDto $dto): static {
+    public static function makeFromDto(PostalAddressDto $dto): self {
+        $address = $dto->postalAddress;
+        if ($address === null) {
+            throw new \InvalidArgumentException('A postal address is required.');
+        }
 
-        return new static(
+        return new self(
             user: $dto->user,
-            label: $dto->postalAddress->label,
-            addressLineOne: $dto->postalAddress->addressLineOne,
-            townCity: $dto->postalAddress->townCity,
-            postalZip: $dto->postalAddress->postalZip,
-            countryCode: $dto->postalAddress->countryCode,
-            countyProvince: $dto->postalAddress->countyProvince,
-            addressLineTwo: $dto->postalAddress->addressLineTwo,
+            label: self::requireField($address->label, 'label'),
+            addressLineOne: self::requireField($address->addressLineOne, 'address line one'),
+            townCity: self::requireField($address->townCity, 'town/city'),
+            postalZip: self::requireField($address->postalZip, 'postal/ZIP code'),
+            countryCode: self::requireField($address->countryCode, 'country code'),
+            countyProvince: self::requireField($address->countyProvince, 'county/province'),
+            addressLineTwo: $address->addressLineTwo,
             id: $dto->id
         );
     }
 
-    public static function makeFromPostalAddressFieldDto(User $user, PostalAddressFieldDto $dto): static {
-        return new static(
+    public static function makeFromPostalAddressFieldDto(User $user, PostalAddressFieldDto $dto): self {
+        return new self(
             user: $user,
-            label: $dto->label,
-            addressLineOne: $dto->addressLineOne,
-            townCity: $dto->townCity,
-            postalZip: $dto->postalZip,
-            countryCode: $dto->countryCode,
-            countyProvince: $dto->countyProvince,
+            label: self::requireField($dto->label, 'label'),
+            addressLineOne: self::requireField($dto->addressLineOne, 'address line one'),
+            townCity: self::requireField($dto->townCity, 'town/city'),
+            postalZip: self::requireField($dto->postalZip, 'postal/ZIP code'),
+            countryCode: self::requireField($dto->countryCode, 'country code'),
+            countyProvince: self::requireField($dto->countyProvince, 'county/province'),
             addressLineTwo: $dto->addressLineTwo,
             latitude: $dto->latitude,
             longitude: $dto->longitude,
             id: $dto->id
         );
+    }
+
+    private static function requireField(?string $value, string $field): string
+    {
+        if ($value === null || trim($value) === '') {
+            throw new \InvalidArgumentException(sprintf('Postal address %s is required.', $field));
+        }
+
+        return $value;
     }
 }

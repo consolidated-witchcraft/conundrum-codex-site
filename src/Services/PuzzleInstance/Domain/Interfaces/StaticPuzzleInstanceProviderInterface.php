@@ -7,7 +7,7 @@ namespace App\Services\PuzzleInstance\Domain\Interfaces;
 use App\Services\Game\Domain\Game;
 use Doctrine\Common\Collections\Collection;
 
-interface StaticPuzzleInstanceProviderInterface
+interface StaticPuzzleInstanceProviderInterface extends PuzzleInstanceProviderInterface
 {
     public function providesTemplateInstances(): string;
 

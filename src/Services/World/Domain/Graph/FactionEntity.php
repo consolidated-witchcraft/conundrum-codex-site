@@ -12,16 +12,17 @@ use Doctrine\ORM\Mapping as ORM;
 #[ORM\Table(name: 'world_faction')]
 class FactionEntity extends AbstractWorldGraphEntity
 {
+    /** @param Collection<int, WorldEntityRevision> $revisions */
     public function __construct(
         string               $slug,
         string               $currentName,
-        ?\DateTimeImmutable  $revealedAt = null,
-        Collection           $revisions = new ArrayCollection(),
-        ?WorldEntityRevision $currentRevision = null,
 
         #[ORM\Column(type: 'string', length: 100)]
         private string       $factionName,
 
+        ?\DateTimeImmutable  $revealedAt = null,
+        Collection           $revisions = new ArrayCollection(),
+        ?WorldEntityRevision $currentRevision = null,
         ?int                 $id = null
 
     ) {

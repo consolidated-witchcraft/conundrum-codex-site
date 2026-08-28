@@ -12,6 +12,7 @@ use Doctrine\ORM\Mapping as ORM;
 #[ORM\Table(name: 'world_event')]
 class EventEntity extends AbstractWorldGraphEntity
 {
+    /** @param Collection<int, WorldEntityRevision> $revisions */
     public function __construct(
         string $slug,
         string $currentName,
@@ -46,22 +47,22 @@ class EventEntity extends AbstractWorldGraphEntity
 
 
 
-    public function getStartAt(): ?\DateTimeImmutable
+    public function getStartAt(): \DateTimeImmutable
     {
         return $this->startAt;
     }
 
-    public function setStartAt(?\DateTimeImmutable $startAt): void
+    public function setStartAt(\DateTimeImmutable $startAt): void
     {
         $this->startAt = $startAt;
     }
 
-    public function getEndAt(): ?\DateTimeImmutable
+    public function getEndAt(): \DateTimeImmutable
     {
         return $this->endAt;
     }
 
-    public function setEndAt(?\DateTimeImmutable $endAt): void
+    public function setEndAt(\DateTimeImmutable $endAt): void
     {
         $this->endAt = $endAt;
     }

@@ -7,6 +7,7 @@ namespace App\Services\PuzzleInstance\Domain\Dynamic\Fields;
 use App\Services\PuzzleInstance\Domain\Dynamic\Fields\Exceptions\DynamicFieldInvalidValueException;
 use App\Services\PuzzleTemplate\Service\ValidPuzzleConfigOptionTypes;
 
+/** @extends AbstractDynamicField<array{x: int, d: int, p?: int|null}> */
 class DieRollField extends AbstractDynamicField implements DynamicPuzzleFieldInterface
 {
     private const array KNOWN_SUBFIELDS = [
@@ -21,6 +22,7 @@ class DieRollField extends AbstractDynamicField implements DynamicPuzzleFieldInt
         return self::ACCEPTED_SCALAR_TYPE_DESCRIPTION;
     }
 
+    /** @return array{x: int, d: int, p?: int|null}|null */
     public function getValue(): ?array
     {
         return $this->value;
@@ -31,11 +33,7 @@ class DieRollField extends AbstractDynamicField implements DynamicPuzzleFieldInt
         return ValidPuzzleConfigOptionTypes::DIE_ROLL_TYPE_KEY;
     }
 
-    /**
-     * @param float|array|bool|int|string $value
-     * @return void
-     * @throws DynamicFieldInvalidValueException
-     */
+    /** @throws DynamicFieldInvalidValueException */
     public function guard(mixed $value): void
     {
         if (!is_array($value)) {

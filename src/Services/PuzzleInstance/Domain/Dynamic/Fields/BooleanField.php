@@ -5,6 +5,7 @@ namespace App\Services\PuzzleInstance\Domain\Dynamic\Fields;
 use App\Services\PuzzleInstance\Domain\Dynamic\Fields\Exceptions\DynamicFieldInvalidValueException;
 use App\Services\PuzzleTemplate\Service\ValidPuzzleConfigOptionTypes;
 
+/** @extends AbstractDynamicField<bool> */
 class BooleanField extends AbstractDynamicField implements DynamicPuzzleFieldInterface
 {
 
@@ -26,11 +27,7 @@ class BooleanField extends AbstractDynamicField implements DynamicPuzzleFieldInt
         return ValidPuzzleConfigOptionTypes::BOOLEAN_TYPE_KEY;
     }
 
-    /**
-     * @param float|array|bool|int|string $value
-     * @return void
-     * @throws DynamicFieldInvalidValueException
-     */
+    /** @throws DynamicFieldInvalidValueException */
     public function guard(mixed $value): void
     {
         if (!is_bool($value)) {

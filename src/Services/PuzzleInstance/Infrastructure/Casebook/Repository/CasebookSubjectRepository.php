@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Services\PuzzleInstance\Infrastructure\Casebook\Repository;
 
 use App\Services\PuzzleInstance\Domain\Casebook\CasebookSubject;
@@ -18,7 +20,7 @@ class CasebookSubjectRepository extends ServiceEntityRepository
 
     public function findOneBySubjectIdAndInstanceCode(int $subjectId, string $instanceCode): ?CasebookSubject
     {
-        return $this->createQueryBuilder('subject')
+        $result = $this->createQueryBuilder('subject')
             ->innerJoin('subject.casebook', 'casebook')
             ->andWhere('subject.id = :subjectId')
             ->andWhere('casebook.slug = :instanceCode')
@@ -26,6 +28,8 @@ class CasebookSubjectRepository extends ServiceEntityRepository
             ->setParameter('instanceCode', $instanceCode)
             ->getQuery()
             ->getOneOrNullResult();
+
+        return $result instanceof CasebookSubject ? $result : null;
     }
 
 }

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Services\Events\Domain;
 
 use App\Services\Core\Domain\AbstractDomainEntity;
@@ -16,7 +18,9 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 #[UniqueEntity(fields: 'eventSlug', message: 'Event with this slug already exists')]
 class Event extends AbstractDomainEntity
 {
-
+    /**
+     * @param Collection<int, TicketType> $ticketTypes
+     */
     public function __construct(
         #[ORM\Column(type: 'string', length: 255)]
         private string $title,
@@ -28,6 +32,7 @@ class Event extends AbstractDomainEntity
         private string $description,
 
         #[ORM\OneToOne(targetEntity: ManagedImage::class)]
+        #[ORM\JoinColumn(nullable: false)]
         private ManagedImage $heroImage,
 
         #[ORM\OneToOne(targetEntity: PostalAddress::class)]
@@ -37,6 +42,7 @@ class Event extends AbstractDomainEntity
         private bool $prebookOnly,
 
         #[ORM\ManyToOne(targetEntity: Organisation::class, inversedBy: 'events')]
+        #[ORM\JoinColumn(nullable: false)]
         private Organisation $organisation,
 
         #[ORM\Column(type: 'datetime')]
@@ -46,7 +52,6 @@ class Event extends AbstractDomainEntity
         private \DateTimeInterface $endDate,
 
         #[ORM\OneToMany(targetEntity: TicketType::class, mappedBy: 'event', fetch: 'EAGER')]
-        #[ORM\JoinColumn(nullable: false)]
         private Collection $ticketTypes = new ArrayCollection(),
         ? int $id = null
     ) {
@@ -135,11 +140,13 @@ class Event extends AbstractDomainEntity
         $this->endDate = $endDate;
     }
 
+    /** @return Collection<int, TicketType> */
     public function getTicketTypes(): Collection
     {
         return $this->ticketTypes;
     }
 
+    /** @param Collection<int, TicketType> $ticketTypes */
     public function setTicketTypes(Collection $ticketTypes): void
     {
         $this->ticketTypes = $ticketTypes;

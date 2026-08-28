@@ -9,7 +9,7 @@ use App\Services\PuzzleTemplate\Domain\PuzzleCategory;
 use App\Services\PuzzleTemplate\Domain\PuzzleTemplate;
 use Doctrine\Common\Collections\ArrayCollection;
 
-interface PuzzleTemplateServiceInterface
+interface PuzzleTemplateServiceInterface extends DomainEntityServiceInterface
 {
     /**
      * @return iterable<PuzzleTemplate>

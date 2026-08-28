@@ -21,7 +21,7 @@ class TicketType extends AbstractDomainEntity
      * @param string $slug
      * @param string $description
      * @param int $priceCentessimal
-     * @param Collection<int, TicketTypeProductVariantMap> $ticketTypeFormats
+     * @param Collection<int, TicketTypeProductVariantMap> $ticketTypeProductVariantMaps
      * @param Event $event
      * @param int|null $id
      */
@@ -40,10 +40,10 @@ class TicketType extends AbstractDomainEntity
         private int $priceCentessimal,
 
         #[ORM\ManyToOne(targetEntity: Event::class, inversedBy: 'ticketTypes')]
+        #[ORM\JoinColumn(nullable: false)]
         private readonly Event $event,
 
         #[ORM\OneToMany(targetEntity: TicketTypeProductVariantMap::class, mappedBy: 'ticketType', cascade: ['persist', 'refresh', 'refresh'], fetch: 'EAGER')]
-        #[ORM\JoinColumn(nullable: false)]
         private Collection $ticketTypeProductVariantMaps = new ArrayCollection(),
 
         #[ORM\Column(type: 'datetime', nullable: true)]
@@ -54,11 +54,13 @@ class TicketType extends AbstractDomainEntity
         parent::__construct($id);
     }
 
+    /** @return Collection<int, TicketTypeProductVariantMap> */
     public function getTicketTypeProductVariantMaps(): Collection
     {
         return $this->ticketTypeProductVariantMaps;
     }
 
+    /** @param Collection<int, TicketTypeProductVariantMap> $ticketTypeProductVariantMaps */
     public function setTicketTypeProductVariantMaps(Collection $ticketTypeProductVariantMaps): void
     {
         $this->ticketTypeProductVariantMaps = $ticketTypeProductVariantMaps;

@@ -19,6 +19,7 @@ class PaymentReceipt extends AbstractDomainEntity
         private readonly string $receiptReference,
 
         #[ORM\ManyToOne(targetEntity: Payment::class, inversedBy: 'paymentReceipts')]
+        #[ORM\JoinColumn(nullable: false)]
         private Payment $payment,
 
         #[ORM\Column(type: Types::INTEGER)]

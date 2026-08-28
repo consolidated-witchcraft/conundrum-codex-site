@@ -27,7 +27,7 @@ use Doctrine\ORM\Mapping as ORM;
 ])]
 abstract class AbstractWorldGraphEntity extends AbstractDomainEntity
 {
-
+    /** @param Collection<int, WorldEntityRevision> $revisions */
     public function __construct(
         #[ORM\Column(type: 'string', length: 255, unique: true)]
         protected string $slug,

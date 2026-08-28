@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Services\User\Service\Interfaces;
 
 use App\Services\Game\Domain\GameInvitation;
@@ -12,6 +14,7 @@ use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Security\Core\User\UserProviderInterface;
 use Symfony\Component\Validator\ConstraintViolationListInterface;
 
+/** @extends UserProviderInterface<User> */
 interface UserServiceInterface extends UserProviderInterface, UserPasswordHasherInterface
 {
     public function saveUser(User $user, bool $flush = true): User;

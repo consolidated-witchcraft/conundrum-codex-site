@@ -36,6 +36,7 @@ class TicketTypeDto
         #[Assert\Type('integer')]
         public ? int $initialQuantity = null,
 
+        /** @var list<string> */
         public array $ticketTypeFormats = [],
 
         public ? \DateTimeInterface $refundableUntil = null,
@@ -50,16 +51,23 @@ class TicketTypeDto
             description: $ticketType->getDescription(),
             priceCentessimal: $ticketType->getPriceCentessimal(),
             initialQuantity: 123,
-            ticketTypeFormats: self::mapTicketTypeFormats($ticketType->getTicketTypeFormats()),
+            ticketTypeFormats: self::mapTicketTypeFormats($ticketType->getTicketTypeProductVariantMaps()),
             refundableUntil: $ticketType->getRefundableUntil(),
             id: $ticketType->getId()
         );
     }
 
+    /**
+     * @param Collection<int, \App\Services\Ticket\Domain\TicketTypeProductVariantMap> $ticketTypeFormats
+     * @return list<string>
+     */
     private static function mapTicketTypeFormats(Collection $ticketTypeFormats): array {
         $formats = [];
-        foreach ($ticketTypeFormats as $ticketTypeFormat) {
-
+        foreach ($ticketTypeFormats as $ticketTypeFormatMap) {
+            $productVariant = $ticketTypeFormatMap->getProductVariant();
+            if ($productVariant !== null) {
+                $formats[] = $productVariant->getType()->getHandle();
+            }
         }
         return $formats;
     }

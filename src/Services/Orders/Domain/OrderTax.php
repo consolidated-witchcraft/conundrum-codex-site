@@ -24,6 +24,7 @@ class OrderTax extends AbstractDomainEntity
         private readonly string $taxRateHandle,
 
         #[ORM\ManyToOne(targetEntity: Order::class, inversedBy: "orderTaxes")]
+        #[ORM\JoinColumn(nullable: false)]
         private readonly Order $order,
 
         #[ORM\Column(type: Types::INTEGER, nullable: false)]

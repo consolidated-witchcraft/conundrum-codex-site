@@ -7,6 +7,7 @@ namespace App\Services\PuzzleInstance\Domain\Dynamic\Fields;
 use App\Services\PuzzleInstance\Domain\Dynamic\Fields\Exceptions\DynamicFieldInvalidValueException;
 use App\Services\PuzzleTemplate\Service\ValidPuzzleConfigOptionTypes;
 
+/** @extends AbstractDynamicField<list<bool|null>> */
 class BooleanArrayField extends AbstractDynamicField implements DynamicPuzzleFieldInterface
 {
 
@@ -15,6 +16,7 @@ class BooleanArrayField extends AbstractDynamicField implements DynamicPuzzleFie
         return 'bool[]';
     }
 
+    /** @return list<bool|null>|null */
     public function getValue(): ?array
     {
         return $this->value;

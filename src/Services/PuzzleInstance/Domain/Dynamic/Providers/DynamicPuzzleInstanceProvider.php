@@ -17,6 +17,7 @@ use App\Services\PuzzleTemplate\Service\Exceptions\TemplateNotFoundException;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
+/** @implements ProviderInterface<ApiDynamicPuzzleInstanceDto> */
 readonly class DynamicPuzzleInstanceProvider implements ProviderInterface
 {
     public function __construct(private PuzzleInstanceEntityServiceInterface $puzzleInstanceService) {}
@@ -28,15 +29,15 @@ readonly class DynamicPuzzleInstanceProvider implements ProviderInterface
      */
     public function provide(Operation $operation, array $uriVariables = [], array $context = []): object|array|null
     {
-        if (!$uriVariables['templateSlug']) {
+        $templateSlug = $uriVariables['templateSlug'] ?? null;
+        if (!is_string($templateSlug) || $templateSlug === '') {
             throw new BadRequestHttpException('You must provide a template slug.');
         }
-        if (!$uriVariables['instanceCode'] || !is_string($uriVariables['instanceCode'])) {
+        $instanceCode = $uriVariables['instanceCode'] ?? null;
+        if (!is_string($instanceCode) || $instanceCode === '') {
             throw new BadRequestHttpException("Instance Code not set.");
         }
 
-        $instanceCode = $uriVariables['instanceCode'];
-        $templateSlug = $uriVariables['templateSlug'];
         try {
             $instance = $this->puzzleInstanceService->getInstanceByTemplateAndCode(templateSlug: $templateSlug, instanceCode: $instanceCode);
         } catch (TemplateNotFoundException $e) {

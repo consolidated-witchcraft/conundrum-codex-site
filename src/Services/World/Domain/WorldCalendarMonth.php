@@ -132,7 +132,11 @@ class WorldCalendarMonth extends AbstractDomainEntity
      * @throws InvalidWorldCalendarMonthNumberOfDaysException
      */
     public static function makeFromDto(WorldCalendarSettings $worldCalendarSettings, WorldCalendarMonthDto $dto): self {
-        return new static(
+        if ($dto->name === null || $dto->abbreviation === null || $dto->delta === null || $dto->numberOfDays === null) {
+            throw new \InvalidArgumentException('A calendar month requires a name, abbreviation, delta, and number of days.');
+        }
+
+        return new self(
             worldCalendarSettings: $worldCalendarSettings,
             name: $dto->name,
             abbreviation: $dto->abbreviation,

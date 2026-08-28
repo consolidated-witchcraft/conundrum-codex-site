@@ -16,9 +16,11 @@ class UserCartProductLine extends AbstractDomainEntity implements JsonSerializab
 {
     public function __construct(
         #[ORM\ManyToOne(targetEntity: UserCart::class, cascade: ['persist', 'refresh'], fetch: 'EAGER', inversedBy: 'userCartProductLines')]
+        #[ORM\JoinColumn(nullable: false)]
         private readonly UserCart $userCart,
 
         #[ORM\ManyToOne(targetEntity: ProductVariant::class)]
+        #[ORM\JoinColumn(nullable: false)]
         private readonly ProductVariant $productVariant,
 
         #[ORM\Column(type: 'integer')]
@@ -44,6 +46,7 @@ class UserCartProductLine extends AbstractDomainEntity implements JsonSerializab
         $this->quantity = $quantity;
     }
 
+    /** @return array<string, int|string|\DateTimeImmutable|null> */
     public function jsonSerialize(): array
     {
         return [

@@ -20,6 +20,7 @@ class OrderChargeLine extends AbstractDomainEntity
         private string $name,
 
         #[ORM\ManyToOne(targetEntity: Order::class, inversedBy: 'chargeLines')]
+        #[ORM\JoinColumn(nullable: false)]
         private readonly Order $order,
 
         #[ORM\Column(type: 'integer')]

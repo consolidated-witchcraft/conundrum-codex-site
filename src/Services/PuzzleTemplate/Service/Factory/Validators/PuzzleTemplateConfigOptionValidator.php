@@ -35,6 +35,7 @@ class PuzzleTemplateConfigOptionValidator
      * @throws UnknownFieldTypeSpecifiedException
      * @throws UnknownConfigOptionTypeSpecifiedException
      */
+    /** @param array<array-key, mixed> $configOptionDefinition */
     public static function validateConfigOption(array $configOptionDefinition, string $moduleName): void {
 
         self::validateRequiredFieldKeys($configOptionDefinition, $moduleName);
@@ -42,9 +43,18 @@ class PuzzleTemplateConfigOptionValidator
         foreach (self::REQUIRED_CONFIG_OPTION_FIELDS as $fieldName => $type) {
             switch ($type) {
                 case 'configName':
+                    $configName = $configOptionDefinition['configName'];
+                    if (!is_string($configName)) {
+                        throw new ConfigOptionTypeScalarMismatchException(
+                            fieldName: $fieldName,
+                            expectedType: 'string',
+                            actualType: gettype($configName),
+                            moduleName: $moduleName,
+                        );
+                    }
                     self::validateConfigNameField(
                         fieldName: $fieldName,
-                        configName: $configOptionDefinition['configName'],
+                        configName: $configName,
                         moduleName: $moduleName
                     );
                     break;
@@ -88,6 +98,7 @@ class PuzzleTemplateConfigOptionValidator
     /**
      * @throws MissingConfigOptionSubfieldException
      */
+    /** @param array<array-key, mixed> $configOptionDefinition */
     private static function validateRequiredFieldKeys(array $configOptionDefinition, string $moduleName): void {
         foreach (self::REQUIRED_CONFIG_OPTION_FIELDS as $fieldName => $type) {
             if (!isset($configOptionDefinition[$fieldName])) {
@@ -102,11 +113,23 @@ class PuzzleTemplateConfigOptionValidator
     /**
      * @throws UnknownConfigOptionTypeSpecifiedException
      */
+    /** @param array<array-key, mixed> $configOptionDefinition */
     private static function validateConfigFieldTypeKnown(array $configOptionDefinition, string $moduleName): void {
-        if (!in_array($configOptionDefinition['type'], ValidPuzzleConfigOptionTypes::KNOWN_CONFIG_OPTION_TYPES)) {
+        $type = $configOptionDefinition['type'];
+        $configName = $configOptionDefinition['configName'];
+        if (!is_string($type) || !is_string($configName)) {
+            throw new ConfigOptionTypeScalarMismatchException(
+                fieldName: 'type',
+                expectedType: 'string',
+                actualType: gettype($type),
+                moduleName: $moduleName,
+            );
+        }
+
+        if (!in_array($type, ValidPuzzleConfigOptionTypes::KNOWN_CONFIG_OPTION_TYPES, true)) {
             throw new UnknownConfigOptionTypeSpecifiedException(
-                unknownFieldType: (string) $configOptionDefinition['type'],
-                configOptionName: $configOptionDefinition['configName'],
+                unknownFieldType: $type,
+                configOptionName: $configName,
                 moduleName: $moduleName,
             );
         }

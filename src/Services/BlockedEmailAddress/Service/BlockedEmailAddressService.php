@@ -28,5 +28,7 @@ class BlockedEmailAddressService extends AbstractDomainEntityService implements 
         if ($flush) {
             $this->flush();
         }
+
+        return $blockedEmailAddress;
     }
 }

@@ -56,6 +56,7 @@ class ProductService extends AbstractDomainEntityService implements ProductServi
         if ($flush) {
             $this->flush();
         }
+        return $productVariant;
     }
 
     public function removeProductVariant(ProductVariant $productVariant, bool $flush = true): void

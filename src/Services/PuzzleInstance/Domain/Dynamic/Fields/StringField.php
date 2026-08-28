@@ -7,6 +7,7 @@ use App\Services\PuzzleInstance\Domain\Dynamic\Fields\Exceptions\DynamicFieldUns
 use App\Services\PuzzleInstance\Domain\Dynamic\Fields\Traits\ValidatesStringsTrait;
 use App\Services\PuzzleTemplate\Service\ValidPuzzleConfigOptionTypes;
 
+/** @extends AbstractDynamicField<string> */
 class StringField extends AbstractDynamicField implements DynamicPuzzleFieldInterface
 {
     private const string ACCEPTED_SCALAR_TYPE_DESCRIPTION = 'string';

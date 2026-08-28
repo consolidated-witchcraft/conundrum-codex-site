@@ -15,7 +15,7 @@ parameters:
        - tools
 
    excludePaths:
-       - src/Services/Puzzle/Service/Factory/PuzzleTemplateRegistryFactory.php
+       - src/Services/PuzzleTemplate/Service/Factory/PuzzleTemplateRegistryFactory.php
    level: 10
 
    banned_code:

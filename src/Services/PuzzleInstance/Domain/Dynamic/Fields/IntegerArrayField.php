@@ -7,6 +7,7 @@ namespace App\Services\PuzzleInstance\Domain\Dynamic\Fields;
 use App\Services\PuzzleInstance\Domain\Dynamic\Fields\Exceptions\DynamicFieldInvalidValueException;
 use App\Services\PuzzleTemplate\Service\ValidPuzzleConfigOptionTypes;
 
+/** @extends AbstractDynamicField<list<int>> */
 class IntegerArrayField extends AbstractDynamicField implements DynamicPuzzleFieldInterface
 {
 
@@ -37,11 +38,7 @@ class IntegerArrayField extends AbstractDynamicField implements DynamicPuzzleFie
         $this->value = $values;
     }
 
-    /**
-     * @param float|array|bool|int|string $value
-     * @return void
-     * @throws DynamicFieldInvalidValueException
-     */
+    /** @throws DynamicFieldInvalidValueException */
     public function guard(mixed $value): void
     {
         if (!is_array($value)) {

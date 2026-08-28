@@ -18,6 +18,24 @@ readonly class PuzzleTemplateMapper
         private PuzzleCategoryEntityServiceInterface $puzzleCategoryService,
     ) {}
 
+    /**
+     * @param array{
+     *     slug: non-empty-string,
+     *     title: non-empty-string,
+     *     hidden: bool,
+     *     created: string,
+     *     description: non-empty-string,
+     *     categories: list<string>,
+     *     creator: non-empty-string,
+     *     static: bool,
+     *     elementName: string,
+     *     credits?: list<array{name: string, created: string, email?: string|null}>,
+     *     configOptions: list<array{configName: string, label: string, type: string, helpText?: string|null}>,
+     *     staticCreateRoute?: non-empty-string|null,
+     *     staticEditRoute?: non-empty-string|null,
+     *     staticPlayRoute?: non-empty-string|null
+     * } $templateData
+     */
     public function mapTemplate(array $templateData): PuzzleTemplate {
         return new PuzzleTemplate(
             slug: $templateData['slug'],
@@ -29,7 +47,7 @@ readonly class PuzzleTemplateMapper
             authorEmail: $templateData['creator'],
             static: $templateData['static'],
             elementName: $templateData['elementName'],
-            credits: self::mapCredits($templateData['credits']),
+            credits: self::mapCredits($templateData['credits'] ?? []),
             configuration: self::mapConfigOptions($templateData['configOptions']),
             staticCreateRoute: $templateData['staticCreateRoute'] ?? null,
             staticEditRoute: $templateData['staticEditRoute'] ?? null,
@@ -37,6 +55,10 @@ readonly class PuzzleTemplateMapper
         );
     }
 
+    /**
+     * @param list<array{name: string, created: string, email?: string|null}> $credits
+     * @return list<PuzzleCredit>
+     */
     public static function mapCredits(array $credits): array {
         $creditArray = [];
         foreach ($credits as $credit) {
@@ -49,6 +71,10 @@ readonly class PuzzleTemplateMapper
         return $creditArray;
     }
 
+    /**
+     * @param list<array{configName: string, label: string, type: string, helpText?: string|null}> $configOptionDefinitions
+     * @return list<PuzzleTemplatePuzzleTemplateConfigOptionDefinition>
+     */
     public static function mapConfigOptions(array $configOptionDefinitions): array {
         $configOptions = [];
         foreach ($configOptionDefinitions as $configOptionDefinition) {
@@ -65,6 +91,8 @@ readonly class PuzzleTemplateMapper
     }
 
     /**
+     * @param list<string> $categories
+     * @return ArrayCollection<int, PuzzleCategory>
      * @throws InvalidHandleException
      */
     public function mapCategories(array $categories): ArrayCollection {

@@ -14,9 +14,13 @@ class PreferredFontStack extends AbstractDoctrineEnum
         'dyslexic' => 'Dyslexic',
     ];
 
+    /** @return array<string, static> */
     public static function getAvailableFontStacks(): array {
         $availableStacks = [];
         foreach (static::KNOWN_KEYS as $key => $label) {
+            if (!is_string($key)) {
+                throw new \LogicException('Preferred font-stack keys must be strings.');
+            }
             $availableStacks[$key] = static::makeFromKey($key);
         }
         return $availableStacks;

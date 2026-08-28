@@ -32,6 +32,7 @@ class Product extends AbstractDomainEntity
         private string $name,
 
         #[ORM\ManyToOne(targetEntity: Organisation::class)]
+        #[ORM\JoinColumn(nullable: false)]
         private readonly Organisation $organisation,
 
         #[ORM\Column(type: 'string', length: 2198)]
@@ -74,11 +75,13 @@ class Product extends AbstractDomainEntity
         $this->description = $description;
     }
 
+    /** @return Collection<int, ProductVariant> */
     public function getProductVariants(): Collection
     {
         return $this->productVariants;
     }
 
+    /** @param Collection<int, ProductVariant> $productVariants */
     public function setProductVariants(Collection $productVariants): void
     {
         $this->productVariants = $productVariants;

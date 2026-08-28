@@ -51,6 +51,7 @@ class Order extends AbstractDomainEntity implements DomainEntityInterface
         private Collection $orderPayments,
 
         #[ORM\ManyToOne(targetEntity: User::class, inversedBy: 'orders')]
+        #[ORM\JoinColumn(nullable: false)]
         private User $user,
 
         #[ORM\OneToMany(targetEntity: OrderTax::class, mappedBy: 'order', cascade: ['persist', 'refresh','remove'], orphanRemoval: true)]
@@ -160,7 +161,7 @@ class Order extends AbstractDomainEntity implements DomainEntityInterface
         $this->user = $user;
     }
 
-    public function getUser(): ?User {
+    public function getUser(): User {
         return $this->user;
     }
 

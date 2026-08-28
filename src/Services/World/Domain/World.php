@@ -41,6 +41,7 @@ class World extends AbstractDomainEntity
         private readonly string $slug,
 
         #[ORM\ManyToOne(targetEntity: User::class, inversedBy: 'worldsCreated')]
+        #[ORM\JoinColumn(nullable: false)]
         private User $creator,
 
         #[ORM\ManyToMany(targetEntity: User::class, mappedBy: 'worldsPlayed')]
@@ -90,11 +91,13 @@ class World extends AbstractDomainEntity
         $this->creator = $creator;
     }
 
+    /** @return Collection<int, User> */
     public function getPlayers(): Collection
     {
         return $this->players;
     }
 
+    /** @param Collection<int, User> $players */
     public function setPlayers(Collection $players): void
     {
         $this->players = $players;
@@ -121,9 +124,6 @@ class World extends AbstractDomainEntity
     public function isFullyConfigured(): bool {
 
 
-        if ($this->getWorldCalendarSettings() === null) {
-            return false;
-        }
         if ($this->getWorldCalendarSettings()->getWorldCalendarMonths()->isEmpty()) {
             return false;
         }

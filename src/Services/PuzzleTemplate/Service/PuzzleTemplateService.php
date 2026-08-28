@@ -50,7 +50,7 @@ class PuzzleTemplateService implements PuzzleTemplateServiceInterface
      * @return PuzzleCategory[]
      */
     public function getAllCategories(): array {
-        return $this->puzzleCategoryService->getAllCategories();
+        return [...$this->puzzleCategoryService->getAllCategories()];
     }
 
     /**
@@ -106,5 +106,10 @@ class PuzzleTemplateService implements PuzzleTemplateServiceInterface
     public function saveCategory(PuzzleCategory $category): PuzzleCategory
     {
         return $this->puzzleCategoryService->saveCategory($category);
+    }
+
+    public function flush(): void
+    {
+        $this->puzzleCategoryService->flush();
     }
 }

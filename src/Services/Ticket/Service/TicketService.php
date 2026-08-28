@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Services\Ticket\Service;
 
 use App\Services\Core\Service\AbstractDomainEntityService;
@@ -56,37 +58,47 @@ class TicketService extends AbstractDomainEntityService implements TicketService
         if ($violations->count() > 0) {
             $success = false;
             foreach ($violations as $violation) {
-                $errors[$violation->getPropertyPath()] = $violation->getMessage();
+                $errors[$violation->getPropertyPath()] = (string) $violation->getMessage();
             }
         }
         if (!$success) {
             throw new InvalidTicketTypeDefinitionException($errors);
         }
 
+        $name = $ticketTypeDto->name;
+        $slug = $ticketTypeDto->slug;
+        $description = $ticketTypeDto->description;
+        $priceCentessimal = $ticketTypeDto->priceCentessimal;
+        $initialQuantity = $ticketTypeDto->initialQuantity;
+        if ($name === null || $slug === null || $description === null || $priceCentessimal === null || $initialQuantity === null) {
+            throw new InvalidTicketTypeDefinitionException([
+                'ticketType' => 'The validated ticket type contains an incomplete definition.',
+            ]);
+        }
 
         $ticketType = new TicketType(
-            name: $ticketTypeDto->name,
-            slug: $ticketTypeDto->slug,
-            description: $ticketTypeDto->description,
-            priceCentessimal: $ticketTypeDto->priceCentessimal,
+            name: $name,
+            slug: $slug,
+            description: $description,
+            priceCentessimal: $priceCentessimal,
             event: $event,
         );
         $product = new Product(
             baseSku: self::generateSku(
                 event: $event,
-                ticketTypeSlug: $ticketTypeDto->slug,
+                ticketTypeSlug: $slug,
                 ticketFormatSlug: 'BASE'
             ),
-            name: $ticketTypeDto->name,
+            name: $name,
             organisation: $event->getOrganisation(),
-            description: $ticketTypeDto->description,
+            description: $description,
         );
 
         /**
          * Physical and E-Ticket formats share a common stock.
          */
         $productVariantStock = new ProductVariantStock(
-            stockLevel: $ticketTypeDto->initialQuantity,
+            stockLevel: $initialQuantity,
         );
         $ticketTypeProductVariantMaps = new ArrayCollection();
         $productVariants = new ArrayCollection();
@@ -99,18 +111,19 @@ class TicketService extends AbstractDomainEntityService implements TicketService
             $productVariant = new ProductVariant(
                 sku: self::generateSku(
                     event: $event,
-                    ticketTypeSlug: $ticketTypeDto->slug,
+                    ticketTypeSlug: $slug,
                     ticketFormatSlug: $ticketFormatSlug,
                 ),
-                productVariantName: sprintf("%s %s", $ticketTypeDto->name, $productVariantType->getName()),
+                productVariantName: sprintf("%s %s", $name, $productVariantType->getName()),
                 type: $productVariantType,
                 delta: $delta,
-                preTaxPriceCentessimal: $ticketTypeDto->priceCentessimal,
+                preTaxPriceCentessimal: $priceCentessimal,
                 createdBy: $creatingUser,
                 taxExempt: false,
                 requiresPostage: $productVariantType->getHandle() === 'physical_ticket',
                 publicationDate: new \DateTime(),
-                productVariantStock: $productVariantStock
+                productVariantStock: $productVariantStock,
+                product: $product,
             );
             $productVariants->add($productVariant);
             $ticketTypeProductVariantMap->setProductVariant($productVariant);

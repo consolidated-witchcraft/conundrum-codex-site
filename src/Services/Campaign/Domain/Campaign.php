@@ -77,7 +77,7 @@ class Campaign extends AbstractDomainEntity
         return $this->name;
     }
 
-    public function getStartDate(): \DateTimeImmutable {
+    public function getStartDate(): ?\DateTimeImmutable {
         return $this->startDate;
     }
 

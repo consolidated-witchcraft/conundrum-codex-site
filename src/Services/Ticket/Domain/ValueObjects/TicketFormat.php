@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Services\Ticket\Domain\ValueObjects;
 
 use App\Services\Ticket\Domain\Exceptions\UnknownTicketFormatException;
@@ -41,11 +43,11 @@ readonly class TicketFormat {
     /**
      * @throws UnknownTicketFormatException
      */
-    public static function makeFromHandle(string $handle): TicketFormat {
+    public static function makeFromHandle(string $handle): self {
         if (!array_key_exists($handle, self::KNOWN_TICKET_FORMATS)) {
             throw new UnknownTicketFormatException($handle);
         }
-        return new static(
+        return new self(
             handle: $handle,
             name: self::KNOWN_TICKET_FORMATS[$handle]['name'],
             description: self::KNOWN_TICKET_FORMATS[$handle]['description'],
@@ -55,6 +57,7 @@ readonly class TicketFormat {
     /**
      * @throws UnknownTicketFormatException
      */
+    /** @return array<string, self> */
     public static function getKnownFormats(): array {
         $formats = [];
         foreach (self::KNOWN_TICKET_FORMATS as $handle => $format) {
@@ -66,6 +69,7 @@ readonly class TicketFormat {
     /**
      * @throws UnknownTicketFormatException
      */
+    /** @return array<string, string> */
     public static function getKnownFormatsForForm(): array {
         $knownFormats = self::getKnownFormats();
         $formatsForForm = [];

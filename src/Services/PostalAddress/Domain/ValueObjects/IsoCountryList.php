@@ -7,14 +7,14 @@ namespace App\Services\PostalAddress\Domain\ValueObjects;
 class IsoCountryList
 {
     /**
-     * @param IsoCountry[] $countryList
+     * @param array<string, IsoCountry> $countryList
      */
     public function __construct(
         private array $countryList
     ) {}
 
     /**
-     * @return IsoCountry[]
+     * @return array<string, IsoCountry>
      */
     public function getCountryList(): array {
         return $this->countryList;
