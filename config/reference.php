@@ -1886,6 +1886,29 @@ use Symfony\Component\Config\Loader\ParamConfigurator as Param;
  *         karser_recaptcha3?: KarserRecaptcha3Config,
  *         twig_extra?: TwigExtraConfig,
  *     },
+ *     "when@local"?: array{
+ *         imports?: ImportsConfig,
+ *         parameters?: ParametersConfig,
+ *         services?: ServicesConfig,
+ *         framework?: FrameworkConfig,
+ *         maker?: MakerConfig,
+ *         twig?: TwigConfig,
+ *         doctrine?: DoctrineConfig,
+ *         doctrine_migrations?: DoctrineMigrationsConfig,
+ *         security?: SecurityConfig,
+ *         symfonycasts_verify_email?: SymfonycastsVerifyEmailConfig,
+ *         twig_component?: TwigComponentConfig,
+ *         stimulus?: StimulusConfig,
+ *         live_component?: LiveComponentConfig,
+ *         nelmio_cors?: NelmioCorsConfig,
+ *         api_platform?: ApiPlatformConfig,
+ *         monolog?: MonologConfig,
+ *         symfonycasts_reset_password?: SymfonycastsResetPasswordConfig,
+ *         web_profiler?: WebProfilerConfig,
+ *         webpack_encore?: WebpackEncoreConfig,
+ *         karser_recaptcha3?: KarserRecaptcha3Config,
+ *         twig_extra?: TwigExtraConfig,
+ *     },
  *     "when@prod"?: array{
  *         imports?: ImportsConfig,
  *         parameters?: ParametersConfig,
@@ -2009,6 +2032,7 @@ namespace Symfony\Component\Routing\Loader\Configurator;
  * }
  * @psalm-type RoutesConfig = array{
  *     "when@dev"?: array<string, RouteConfig|ImportConfig|AliasConfig>,
+ *     "when@local"?: array<string, RouteConfig|ImportConfig|AliasConfig>,
  *     "when@prod"?: array<string, RouteConfig|ImportConfig|AliasConfig>,
  *     "when@test"?: array<string, RouteConfig|ImportConfig|AliasConfig>,
  *     ...<string, RouteConfig|ImportConfig|AliasConfig>

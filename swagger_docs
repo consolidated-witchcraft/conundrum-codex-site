@@ -1,0 +1,1552 @@
+openapi: 3.1.0
+info:
+  title: 'Conundrum Codex API'
+  description: ''
+  version: 1.0.0
+servers:
+  -
+    url: /
+    description: ''
+paths:
+  '/api/puzzles/instances/static/casebook/{instanceCode}':
+    get:
+      operationId: api_puzzlesinstancesstaticcasebook_instanceCode_get
+      tags:
+        - ApiCasebookDtoApi
+      responses:
+        '200':
+          description: 'ApiCasebookDtoApi resource'
+          content:
+            application/ld+json:
+              schema:
+                $ref: '#/components/schemas/ApiCasebookDtoApi.jsonld'
+        '403':
+          description: Forbidden
+          content:
+            application/ld+json:
+              schema:
+                $ref: '#/components/schemas/Error.jsonld'
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          links: {  }
+        '404':
+          description: 'Not found'
+          content:
+            application/ld+json:
+              schema:
+                $ref: '#/components/schemas/Error.jsonld'
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          links: {  }
+      summary: 'Retrieves a ApiCasebookDtoApi resource.'
+      description: 'Retrieves a ApiCasebookDtoApi resource.'
+      parameters:
+        -
+          name: instanceCode
+          in: path
+          description: 'ApiCasebookDtoApi identifier'
+          required: true
+          deprecated: false
+          schema:
+            type: string
+          style: simple
+          explode: false
+  '/api/puzzles/instances/static/casebook/{instanceCode}/subjects/{subject}':
+    get:
+      operationId: api_puzzlesinstancesstaticcasebook_instanceCodesubjects_subject_get
+      tags:
+        - ApiCasebookSubjectDto
+      responses:
+        '200':
+          description: 'ApiCasebookSubjectDto resource'
+          content:
+            application/ld+json:
+              schema:
+                $ref: '#/components/schemas/ApiCasebookSubjectDto.jsonld'
+        '403':
+          description: Forbidden
+          content:
+            application/ld+json:
+              schema:
+                $ref: '#/components/schemas/Error.jsonld'
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          links: {  }
+        '404':
+          description: 'Not found'
+          content:
+            application/ld+json:
+              schema:
+                $ref: '#/components/schemas/Error.jsonld'
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          links: {  }
+      summary: 'Retrieves a ApiCasebookSubjectDto resource.'
+      description: 'Retrieves a ApiCasebookSubjectDto resource.'
+      parameters:
+        -
+          name: instanceCode
+          in: path
+          description: 'ApiCasebookSubjectDto identifier'
+          required: true
+          deprecated: false
+          schema:
+            type: string
+          style: simple
+          explode: false
+        -
+          name: subject
+          in: path
+          description: 'ApiCasebookSubjectDto identifier'
+          required: true
+          deprecated: false
+          schema:
+            type: string
+          style: simple
+          explode: false
+  '/api/puzzles/instances/dynamic/{templateSlug}/{instanceCode}':
+    get:
+      operationId: api_puzzlesinstancesdynamic_templateSlug_instanceCode_get
+      tags:
+        - ApiDynamicPuzzleInstanceDto
+      responses:
+        '200':
+          description: 'ApiDynamicPuzzleInstanceDto resource'
+          content:
+            application/ld+json:
+              schema:
+                $ref: '#/components/schemas/ApiDynamicPuzzleInstanceDto.jsonld'
+        '403':
+          description: Forbidden
+          content:
+            application/ld+json:
+              schema:
+                $ref: '#/components/schemas/Error.jsonld'
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          links: {  }
+        '404':
+          description: 'Not found'
+          content:
+            application/ld+json:
+              schema:
+                $ref: '#/components/schemas/Error.jsonld'
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          links: {  }
+      summary: 'Retrieves a ApiDynamicPuzzleInstanceDto resource.'
+      description: 'Retrieves a ApiDynamicPuzzleInstanceDto resource.'
+      parameters:
+        -
+          name: templateSlug
+          in: path
+          description: 'ApiDynamicPuzzleInstanceDto identifier'
+          required: true
+          deprecated: false
+          schema:
+            type: string
+          style: simple
+          explode: false
+        -
+          name: instanceCode
+          in: path
+          description: 'ApiDynamicPuzzleInstanceDto identifier'
+          required: true
+          deprecated: false
+          schema:
+            type: string
+          style: simple
+          explode: false
+  '/api/cart/{cartId}':
+    get:
+      operationId: api_cart_cartId_get
+      tags:
+        - ApiUserCartDto
+      responses:
+        '200':
+          description: 'ApiUserCartDto resource'
+          content:
+            application/ld+json:
+              schema:
+                $ref: '#/components/schemas/ApiUserCartDto.jsonld'
+        '403':
+          description: Forbidden
+          content:
+            application/ld+json:
+              schema:
+                $ref: '#/components/schemas/Error.jsonld'
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          links: {  }
+        '404':
+          description: 'Not found'
+          content:
+            application/ld+json:
+              schema:
+                $ref: '#/components/schemas/Error.jsonld'
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          links: {  }
+      summary: 'Retrieves a ApiUserCartDto resource.'
+      description: 'Retrieves a ApiUserCartDto resource.'
+      parameters:
+        -
+          name: cartId
+          in: path
+          description: 'ApiUserCartDto identifier'
+          required: true
+          deprecated: false
+          schema:
+            type: string
+          style: simple
+          explode: false
+  '/api/cart/{cartId}/productLines/new':
+    post:
+      operationId: api_cart_cartIdproductLinesnew_post
+      tags:
+        - ApiUserCartProductLineInputDto
+      responses:
+        '201':
+          description: 'ApiUserCartProductLineInputDto resource created'
+          content:
+            application/ld+json:
+              schema:
+                $ref: '#/components/schemas/ApiUserCartProductLineInputDto.jsonld'
+          links: {  }
+        '400':
+          description: 'Invalid input'
+          content:
+            application/ld+json:
+              schema:
+                $ref: '#/components/schemas/Error.jsonld'
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          links: {  }
+        '422':
+          description: 'An error occurred'
+          content:
+            application/ld+json:
+              schema:
+                $ref: '#/components/schemas/ConstraintViolation.jsonld'
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ConstraintViolation'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ConstraintViolation'
+          links: {  }
+      summary: 'Creates a ApiUserCartProductLineInputDto resource.'
+      description: 'Creates a ApiUserCartProductLineInputDto resource.'
+      parameters:
+        -
+          name: cartId
+          in: path
+          description: 'ApiUserCartProductLineInputDto identifier'
+          required: true
+          deprecated: false
+          schema:
+            type: string
+          style: simple
+          explode: false
+      requestBody:
+        description: 'The new ApiUserCartProductLineInputDto resource'
+        content:
+          application/ld+json:
+            schema:
+              $ref: '#/components/schemas/ApiUserCartProductLineInputDto'
+        required: true
+  '/api/cart/{cartId}/productLines':
+    get:
+      operationId: api_cart_cartIdproductLines_get_collection
+      tags:
+        - ApiUserCartProductLineOutputDto
+      responses:
+        '200':
+          description: 'ApiUserCartProductLineOutputDto collection'
+          content:
+            application/ld+json:
+              schema:
+                type: object
+                description: 'ApiUserCartProductLineOutputDto.jsonld collection.'
+                allOf:
+                  - { $ref: '#/components/schemas/HydraCollectionBaseSchema' }
+                  - { type: object, required: [member], properties: { member: { type: array, items: { $ref: '#/components/schemas/ApiUserCartProductLineOutputDto.jsonld' } } } }
+      summary: 'Retrieves the collection of ApiUserCartProductLineOutputDto resources.'
+      description: 'Retrieves the collection of ApiUserCartProductLineOutputDto resources.'
+      parameters:
+        -
+          name: cartId
+          in: path
+          description: 'ApiUserCartProductLineOutputDto identifier'
+          required: true
+          deprecated: false
+          schema:
+            type: string
+          style: simple
+          explode: false
+        -
+          name: page
+          in: query
+          description: 'The collection page number'
+          required: false
+          deprecated: false
+          schema:
+            type: integer
+            default: 1
+          style: form
+          explode: false
+  '/api/cart/{cartId}/productLines/{productLineId}':
+    get:
+      operationId: api_cart_cartIdproductLines_productLineId_get
+      tags:
+        - ApiUserCartProductLineOutputDto
+      responses:
+        '200':
+          description: 'ApiUserCartProductLineOutputDto resource'
+          content:
+            application/ld+json:
+              schema:
+                $ref: '#/components/schemas/ApiUserCartProductLineOutputDto.jsonld'
+        '403':
+          description: Forbidden
+          content:
+            application/ld+json:
+              schema:
+                $ref: '#/components/schemas/Error.jsonld'
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          links: {  }
+        '404':
+          description: 'Not found'
+          content:
+            application/ld+json:
+              schema:
+                $ref: '#/components/schemas/Error.jsonld'
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          links: {  }
+      summary: 'Retrieves a ApiUserCartProductLineOutputDto resource.'
+      description: 'Retrieves a ApiUserCartProductLineOutputDto resource.'
+      parameters:
+        -
+          name: cartId
+          in: path
+          description: 'ApiUserCartProductLineOutputDto identifier'
+          required: true
+          deprecated: false
+          schema:
+            type: string
+          style: simple
+          explode: false
+        -
+          name: productLineId
+          in: path
+          description: 'ApiUserCartProductLineOutputDto identifier'
+          required: true
+          deprecated: false
+          schema:
+            type: string
+          style: simple
+          explode: false
+    delete:
+      operationId: api_cart_cartIdproductLines_productLineId_delete
+      tags:
+        - ApiUserCartProductLineOutputDto
+      responses:
+        '204':
+          description: 'ApiUserCartProductLineOutputDto resource deleted'
+        '403':
+          description: Forbidden
+          content:
+            application/ld+json:
+              schema:
+                $ref: '#/components/schemas/Error.jsonld'
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          links: {  }
+        '404':
+          description: 'Not found'
+          content:
+            application/ld+json:
+              schema:
+                $ref: '#/components/schemas/Error.jsonld'
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          links: {  }
+      summary: 'Removes the ApiUserCartProductLineOutputDto resource.'
+      description: 'Removes the ApiUserCartProductLineOutputDto resource.'
+      parameters:
+        -
+          name: cartId
+          in: path
+          description: 'ApiUserCartProductLineOutputDto identifier'
+          required: true
+          deprecated: false
+          schema:
+            type: string
+          style: simple
+          explode: false
+        -
+          name: productLineId
+          in: path
+          description: 'ApiUserCartProductLineOutputDto identifier'
+          required: true
+          deprecated: false
+          schema:
+            type: string
+          style: simple
+          explode: false
+    patch:
+      operationId: api_cart_cartIdproductLines_productLineId_patch
+      tags:
+        - ApiUserCartProductLineOutputDto
+      responses:
+        '200':
+          description: 'ApiUserCartProductLineOutputDto resource updated'
+          content:
+            application/ld+json:
+              schema:
+                $ref: '#/components/schemas/ApiUserCartProductLineOutputDto.jsonld'
+          links: {  }
+        '400':
+          description: 'Invalid input'
+          content:
+            application/ld+json:
+              schema:
+                $ref: '#/components/schemas/Error.jsonld'
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          links: {  }
+        '422':
+          description: 'An error occurred'
+          content:
+            application/ld+json:
+              schema:
+                $ref: '#/components/schemas/ConstraintViolation.jsonld'
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ConstraintViolation'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ConstraintViolation'
+          links: {  }
+        '403':
+          description: Forbidden
+          content:
+            application/ld+json:
+              schema:
+                $ref: '#/components/schemas/Error.jsonld'
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          links: {  }
+        '404':
+          description: 'Not found'
+          content:
+            application/ld+json:
+              schema:
+                $ref: '#/components/schemas/Error.jsonld'
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          links: {  }
+      summary: 'Updates the ApiUserCartProductLineOutputDto resource.'
+      description: 'Updates the ApiUserCartProductLineOutputDto resource.'
+      parameters:
+        -
+          name: cartId
+          in: path
+          description: 'ApiUserCartProductLineOutputDto identifier'
+          required: true
+          deprecated: false
+          schema:
+            type: string
+          style: simple
+          explode: false
+        -
+          name: productLineId
+          in: path
+          description: 'ApiUserCartProductLineOutputDto identifier'
+          required: true
+          deprecated: false
+          schema:
+            type: string
+          style: simple
+          explode: false
+      requestBody:
+        description: 'The updated ApiUserCartProductLineOutputDto resource'
+        content:
+          application/merge-patch+json:
+            schema:
+              $ref: '#/components/schemas/ApiUserCartProductLineOutputDto.jsonMergePatch'
+        required: true
+  '/api/user/{userId}':
+    get:
+      operationId: api_user_userId_get
+      tags:
+        - ApiUserDto
+      responses:
+        '200':
+          description: 'ApiUserDto resource'
+          content:
+            application/ld+json:
+              schema:
+                $ref: '#/components/schemas/ApiUserDto.jsonld'
+        '403':
+          description: Forbidden
+          content:
+            application/ld+json:
+              schema:
+                $ref: '#/components/schemas/Error.jsonld'
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          links: {  }
+        '404':
+          description: 'Not found'
+          content:
+            application/ld+json:
+              schema:
+                $ref: '#/components/schemas/Error.jsonld'
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          links: {  }
+      summary: 'Retrieves a ApiUserDto resource.'
+      description: 'Retrieves a ApiUserDto resource.'
+      parameters:
+        -
+          name: userId
+          in: path
+          description: 'ApiUserDto identifier'
+          required: true
+          deprecated: false
+          schema:
+            type: string
+          style: simple
+          explode: false
+  '/api/user/{userId}/playEvents':
+    get:
+      operationId: api_user_userIdplayEvents_get_collection
+      tags:
+        - ApiUserPlayEventOutputDto
+      responses:
+        '200':
+          description: 'ApiUserPlayEventOutputDto collection'
+          content:
+            application/ld+json:
+              schema:
+                type: object
+                description: 'ApiUserPlayEventOutputDto.jsonld collection.'
+                allOf:
+                  - { $ref: '#/components/schemas/HydraCollectionBaseSchema' }
+                  - { type: object, required: [member], properties: { member: { type: array, items: { $ref: '#/components/schemas/ApiUserPlayEventOutputDto.jsonld' } } } }
+      summary: 'Retrieves the collection of ApiUserPlayEventOutputDto resources.'
+      description: 'Retrieves the collection of ApiUserPlayEventOutputDto resources.'
+      parameters:
+        -
+          name: userId
+          in: path
+          description: 'ApiUserPlayEventOutputDto identifier'
+          required: true
+          deprecated: false
+          schema:
+            type: string
+          style: simple
+          explode: false
+        -
+          name: page
+          in: query
+          description: 'The collection page number'
+          required: false
+          deprecated: false
+          schema:
+            type: integer
+            default: 1
+          style: form
+          explode: false
+    post:
+      operationId: api_user_userIdplayEvents_post
+      tags:
+        - ApiUserPlayEventInputDto
+      responses:
+        '201':
+          description: 'ApiUserPlayEventInputDto resource created'
+          content:
+            application/ld+json:
+              schema:
+                $ref: '#/components/schemas/ApiUserPlayEventInputDto.jsonld'
+          links: {  }
+        '400':
+          description: 'Invalid input'
+          content:
+            application/ld+json:
+              schema:
+                $ref: '#/components/schemas/Error.jsonld'
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          links: {  }
+        '422':
+          description: 'An error occurred'
+          content:
+            application/ld+json:
+              schema:
+                $ref: '#/components/schemas/ConstraintViolation.jsonld'
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ConstraintViolation'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ConstraintViolation'
+          links: {  }
+      summary: 'Creates a ApiUserPlayEventInputDto resource.'
+      description: 'Creates a ApiUserPlayEventInputDto resource.'
+      parameters:
+        -
+          name: userId
+          in: path
+          description: 'ApiUserPlayEventInputDto identifier'
+          required: true
+          deprecated: false
+          schema:
+            type: string
+          style: simple
+          explode: false
+      requestBody:
+        description: 'The new ApiUserPlayEventInputDto resource'
+        content:
+          application/ld+json:
+            schema:
+              $ref: '#/components/schemas/ApiUserPlayEventInputDto'
+        required: true
+  '/api/user/{userId}/playEvents/{playEventId}':
+    get:
+      operationId: api_user_userIdplayEvents_playEventId_get
+      tags:
+        - ApiUserPlayEventOutputDto
+      responses:
+        '200':
+          description: 'ApiUserPlayEventOutputDto resource'
+          content:
+            application/ld+json:
+              schema:
+                $ref: '#/components/schemas/ApiUserPlayEventOutputDto.jsonld'
+        '404':
+          description: 'Not found'
+          content:
+            application/ld+json:
+              schema:
+                $ref: '#/components/schemas/Error.jsonld'
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          links: {  }
+      summary: 'Retrieves a ApiUserPlayEventOutputDto resource.'
+      description: 'Retrieves a ApiUserPlayEventOutputDto resource.'
+      parameters:
+        -
+          name: userId
+          in: path
+          description: 'ApiUserPlayEventOutputDto identifier'
+          required: true
+          deprecated: false
+          schema:
+            type: string
+          style: simple
+          explode: false
+        -
+          name: playEventId
+          in: path
+          description: 'ApiUserPlayEventOutputDto identifier'
+          required: true
+          deprecated: false
+          schema:
+            type: string
+          style: simple
+          explode: false
+  '/api/dice/{rollState}':
+    get:
+      operationId: api_dice_rollState_get
+      tags:
+        - DiceRollDto
+      responses:
+        '200':
+          description: 'DiceRollDto resource'
+          content:
+            application/ld+json:
+              schema:
+                $ref: '#/components/schemas/DiceRollDto.jsonld'
+        '403':
+          description: Forbidden
+          content:
+            application/ld+json:
+              schema:
+                $ref: '#/components/schemas/Error.jsonld'
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          links: {  }
+        '404':
+          description: 'Not found'
+          content:
+            application/ld+json:
+              schema:
+                $ref: '#/components/schemas/Error.jsonld'
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          links: {  }
+      summary: 'Retrieves a DiceRollDto resource.'
+      description: 'Retrieves a DiceRollDto resource.'
+      parameters:
+        -
+          name: rollState
+          in: path
+          description: 'DiceRollDto identifier'
+          required: true
+          deprecated: false
+          schema:
+            type: string
+          style: simple
+          explode: false
+  /api/puzzles/templates:
+    get:
+      operationId: api_puzzlestemplates_get_collection
+      tags:
+        - PuzzleTemplateDto
+      responses:
+        '200':
+          description: 'PuzzleTemplateDto collection'
+          content:
+            application/ld+json:
+              schema:
+                type: object
+                description: 'PuzzleTemplateDto.jsonld collection.'
+                allOf:
+                  - { $ref: '#/components/schemas/HydraCollectionBaseSchema' }
+                  - { type: object, required: [member], properties: { member: { type: array, items: { $ref: '#/components/schemas/PuzzleTemplateDto.jsonld' } } } }
+        '403':
+          description: Forbidden
+          content:
+            application/ld+json:
+              schema:
+                $ref: '#/components/schemas/Error.jsonld'
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          links: {  }
+      summary: 'Retrieves the collection of PuzzleTemplateDto resources.'
+      description: 'Retrieves the collection of PuzzleTemplateDto resources.'
+      parameters:
+        -
+          name: page
+          in: query
+          description: 'The collection page number'
+          required: false
+          deprecated: false
+          schema:
+            type: integer
+            default: 1
+          style: form
+          explode: false
+  '/api/puzzles/templates/{templateSlug}':
+    get:
+      operationId: api_puzzlestemplates_templateSlug_get
+      tags:
+        - PuzzleTemplateDto
+      responses:
+        '200':
+          description: 'PuzzleTemplateDto resource'
+          content:
+            application/ld+json:
+              schema:
+                $ref: '#/components/schemas/PuzzleTemplateDto.jsonld'
+        '403':
+          description: Forbidden
+          content:
+            application/ld+json:
+              schema:
+                $ref: '#/components/schemas/Error.jsonld'
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          links: {  }
+        '404':
+          description: 'Not found'
+          content:
+            application/ld+json:
+              schema:
+                $ref: '#/components/schemas/Error.jsonld'
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          links: {  }
+      summary: 'Retrieves a PuzzleTemplateDto resource.'
+      description: 'Retrieves a PuzzleTemplateDto resource.'
+      parameters:
+        -
+          name: templateSlug
+          in: path
+          description: 'PuzzleTemplateDto identifier'
+          required: true
+          deprecated: false
+          schema:
+            type: string
+          style: simple
+          explode: false
+  /api/quote:
+    get:
+      operationId: api_quote_get
+      tags:
+        - QuoteDto
+      responses:
+        '200':
+          description: 'QuoteDto resource'
+          content:
+            application/ld+json:
+              schema:
+                $ref: '#/components/schemas/QuoteDto.jsonld'
+        '404':
+          description: 'Not found'
+          content:
+            application/ld+json:
+              schema:
+                $ref: '#/components/schemas/Error.jsonld'
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          links: {  }
+      summary: 'Retrieves a QuoteDto resource.'
+      description: 'Retrieves a QuoteDto resource.'
+      parameters: []
+components:
+  schemas:
+    ApiCasebookDtoApi.jsonld:
+      allOf:
+        -
+          $ref: '#/components/schemas/HydraItemBaseSchema'
+        -
+          type: object
+          properties:
+            gameSlug:
+              type: string
+            instanceCode:
+              type: string
+            name:
+              type: string
+            brief:
+              type: string
+    ApiCasebookSubjectClueDto.jsonld:
+      type: object
+      properties:
+        title:
+          type: string
+        body:
+          type: string
+        type:
+          type: string
+        typeLabel:
+          type: string
+        updatedAt:
+          type:
+            - string
+            - 'null'
+          format: date-time
+        revealedDate:
+          type:
+            - string
+            - 'null'
+          format: date-time
+        id:
+          type:
+            - integer
+            - 'null'
+    ApiCasebookSubjectDto.jsonld:
+      allOf:
+        -
+          $ref: '#/components/schemas/HydraItemBaseSchema'
+        -
+          type: object
+          properties:
+            clues:
+              type: array
+              items:
+                $ref: '#/components/schemas/ApiCasebookSubjectClueDto.jsonld'
+            instanceCode:
+              type: string
+            gameSlug:
+              type: string
+            name:
+              type: string
+            description:
+              type: string
+            type:
+              type: string
+            isRevealed:
+              type: boolean
+            imageUri:
+              type:
+                - string
+                - 'null'
+            id:
+              type:
+                - integer
+                - 'null'
+            subjectId:
+              readOnly: true
+              type:
+                - integer
+                - 'null'
+    ApiDynamicPuzzleInstanceDto.jsonld:
+      allOf:
+        -
+          $ref: '#/components/schemas/HydraItemBaseSchema'
+        -
+          type: object
+          properties:
+            gameSlug:
+              type: string
+            puzzleName:
+              type: string
+            puzzleDescription:
+              type: string
+            config:
+              type: object
+              additionalProperties:
+                $ref: '#/components/schemas/DynamicPuzzleFieldDto.jsonld'
+            instanceCode:
+              type: string
+            publicationDate:
+              type: string
+              format: date-time
+    ApiUserCartChargeLineDto.jsonld:
+      type: object
+      properties:
+        chargeTypeHandle:
+          readOnly: true
+          type: string
+        chargeTypeName:
+          readOnly: true
+          type: string
+        preTaxAmountCentessimal:
+          readOnly: true
+          type: integer
+    ApiUserCartDto.jsonld:
+      allOf:
+        -
+          $ref: '#/components/schemas/HydraItemBaseSchema'
+        -
+          type: object
+          properties:
+            id:
+              type: integer
+            userId:
+              type: integer
+            cartProductLines:
+              type: array
+              items:
+                type: string
+            cartChargeLines:
+              type: array
+              items:
+                $ref: '#/components/schemas/ApiUserCartChargeLineDto.jsonld'
+    ApiUserCartProductLineInputDto:
+      type: object
+      properties:
+        productVariantSku:
+          type: string
+        quantity:
+          type: integer
+    ApiUserCartProductLineInputDto.jsonld:
+      allOf:
+        -
+          $ref: '#/components/schemas/HydraItemBaseSchema'
+        -
+          type: object
+          properties:
+            productVariantSku:
+              type: string
+            quantity:
+              type: integer
+    ApiUserCartProductLineOutputDto.jsonMergePatch:
+      type: object
+      properties:
+        userId:
+          type: integer
+        productVariantSku:
+          type: string
+        productVariantName:
+          readOnly: true
+          type: string
+        productVariantPriceCentessimal:
+          readOnly: true
+          type: integer
+        quantity:
+          type: integer
+        lineTotalCentessimal:
+          type: integer
+        id:
+          type:
+            - integer
+            - 'null'
+    ApiUserCartProductLineOutputDto.jsonld:
+      allOf:
+        -
+          $ref: '#/components/schemas/HydraItemBaseSchema'
+        -
+          type: object
+          properties:
+            userId:
+              type: integer
+            productVariantSku:
+              type: string
+            productVariantName:
+              readOnly: true
+              type: string
+            productVariantPriceCentessimal:
+              readOnly: true
+              type: integer
+            quantity:
+              type: integer
+            lineTotalCentessimal:
+              type: integer
+            id:
+              type:
+                - integer
+                - 'null'
+    ApiUserDto.jsonld:
+      allOf:
+        -
+          $ref: '#/components/schemas/HydraItemBaseSchema'
+        -
+          type: object
+          properties:
+            id:
+              type: integer
+    ApiUserPlayEventInputDto:
+      type: object
+      required:
+        - type
+        - puzzleInstanceCode
+        - puzzleTemplateSlug
+      properties:
+        type:
+          enum:
+            - instance_start
+            - instance_win
+            - instance_fail
+          type: string
+        puzzleInstanceCode:
+          maxLength: 255
+          type: string
+        puzzleTemplateSlug:
+          maxLength: 255
+          type: string
+    ApiUserPlayEventInputDto.jsonld:
+      allOf:
+        -
+          $ref: '#/components/schemas/HydraItemBaseSchema'
+        -
+          type: object
+          required:
+            - type
+            - puzzleInstanceCode
+            - puzzleTemplateSlug
+          properties:
+            type:
+              enum:
+                - instance_start
+                - instance_win
+                - instance_fail
+              type: string
+            puzzleInstanceCode:
+              maxLength: 255
+              type: string
+            puzzleTemplateSlug:
+              maxLength: 255
+              type: string
+    ApiUserPlayEventOutputDto.jsonld:
+      allOf:
+        -
+          $ref: '#/components/schemas/HydraItemBaseSchema'
+        -
+          type: object
+          properties:
+            id:
+              type: integer
+            userId:
+              type: integer
+            type:
+              type: string
+            puzzleInstanceCode:
+              type: string
+            puzzleTemplateSlug:
+              type: string
+            createdAt:
+              type: string
+              format: date-time
+            updatedAt:
+              type: string
+              format: date-time
+    ConstraintViolation:
+      type: object
+      description: 'Unprocessable entity'
+      properties:
+        status:
+          default: 422
+          type: integer
+        violations:
+          type: array
+          items:
+            type: object
+            properties:
+              propertyPath:
+                type: string
+                description: 'The property path of the violation'
+              message:
+                type: string
+                description: 'The message associated with the violation'
+              code:
+                type: string
+                description: 'The code of the violation'
+              hint:
+                type: string
+                description: 'An extra hint to understand the violation'
+              payload:
+                type: object
+                additionalProperties: true
+                description: 'The serialized payload of the violation'
+            required:
+              - propertyPath
+              - message
+        detail:
+          readOnly: true
+          type: string
+        type:
+          readOnly: true
+          type: string
+        title:
+          readOnly: true
+          type:
+            - string
+            - 'null'
+        instance:
+          readOnly: true
+          type:
+            - string
+            - 'null'
+    ConstraintViolation.jsonld:
+      allOf:
+        -
+          $ref: '#/components/schemas/HydraItemBaseSchema'
+        -
+          type: object
+          properties:
+            status:
+              default: 422
+              type: integer
+            violations:
+              type: array
+              items:
+                type: object
+                properties:
+                  propertyPath: { type: string, description: 'The property path of the violation' }
+                  message: { type: string, description: 'The message associated with the violation' }
+                  code: { type: string, description: 'The code of the violation' }
+                  hint: { type: string, description: 'An extra hint to understand the violation' }
+                  payload: { type: object, additionalProperties: true, description: 'The serialized payload of the violation' }
+                required:
+                  - propertyPath
+                  - message
+            detail:
+              readOnly: true
+              type: string
+            description:
+              readOnly: true
+              type: string
+            type:
+              readOnly: true
+              type: string
+            title:
+              readOnly: true
+              type:
+                - string
+                - 'null'
+            instance:
+              readOnly: true
+              type:
+                - string
+                - 'null'
+      description: 'Unprocessable entity'
+    DiceRollDto.jsonld:
+      allOf:
+        -
+          $ref: '#/components/schemas/HydraItemBaseSchema'
+        -
+          type: object
+          properties:
+            id:
+              type: string
+            dieSides:
+              type: integer
+            roll:
+              type: integer
+            total:
+              type: integer
+            bonus:
+              type:
+                - integer
+                - 'null'
+    DynamicPuzzleFieldDto.jsonld:
+      type: object
+      properties:
+        name:
+          type: string
+        type:
+          type: string
+        value:
+          anyOf:
+            -
+              type: array
+              items:
+                type: string
+            -
+              type: string
+            -
+              type: 'null'
+    Error:
+      type: object
+      description: 'A representation of common errors.'
+      properties:
+        title:
+          readOnly: true
+          description: 'A short, human-readable summary of the problem.'
+          type:
+            - string
+            - 'null'
+        detail:
+          readOnly: true
+          description: 'A human-readable explanation specific to this occurrence of the problem.'
+          type:
+            - string
+            - 'null'
+        status:
+          type:
+            - number
+            - 'null'
+          examples:
+            - 404
+          default: 400
+        instance:
+          readOnly: true
+          description: 'A URI reference that identifies the specific occurrence of the problem. It may or may not yield further information if dereferenced.'
+          type:
+            - string
+            - 'null'
+        type:
+          readOnly: true
+          description: 'A URI reference that identifies the problem type'
+          type: string
+    Error.jsonld:
+      allOf:
+        -
+          $ref: '#/components/schemas/HydraItemBaseSchema'
+        -
+          type: object
+          properties:
+            title:
+              readOnly: true
+              description: 'A short, human-readable summary of the problem.'
+              type:
+                - string
+                - 'null'
+            detail:
+              readOnly: true
+              description: 'A human-readable explanation specific to this occurrence of the problem.'
+              type:
+                - string
+                - 'null'
+            status:
+              type:
+                - number
+                - 'null'
+              examples:
+                - 404
+              default: 400
+            instance:
+              readOnly: true
+              description: 'A URI reference that identifies the specific occurrence of the problem. It may or may not yield further information if dereferenced.'
+              type:
+                - string
+                - 'null'
+            type:
+              readOnly: true
+              description: 'A URI reference that identifies the problem type'
+              type: string
+            description:
+              readOnly: true
+              type:
+                - string
+                - 'null'
+      description: 'A representation of common errors.'
+    HydraCollectionBaseSchema:
+      allOf:
+        -
+          $ref: '#/components/schemas/HydraCollectionBaseSchemaNoPagination'
+        -
+          type: object
+          properties:
+            view:
+              type: object
+              properties:
+                '@id':
+                  type: string
+                  format: iri-reference
+                '@type':
+                  type: string
+                first:
+                  type: string
+                  format: iri-reference
+                last:
+                  type: string
+                  format: iri-reference
+                previous:
+                  type: string
+                  format: iri-reference
+                next:
+                  type: string
+                  format: iri-reference
+              example:
+                '@id': string
+                type: string
+                first: string
+                last: string
+                previous: string
+                next: string
+    HydraCollectionBaseSchemaNoPagination:
+      type: object
+      properties:
+        totalItems:
+          type: integer
+          minimum: 0
+        search:
+          type: object
+          properties:
+            '@type':
+              type: string
+            template:
+              type: string
+            variableRepresentation:
+              type: string
+            mapping:
+              type: array
+              items:
+                type: object
+                properties:
+                  '@type': { type: string }
+                  variable: { type: string }
+                  property: { type: [string, 'null'] }
+                  required: { type: boolean }
+    HydraItemBaseSchema:
+      type: object
+      properties:
+        '@context':
+          oneOf:
+            -
+              type: string
+            -
+              type: object
+              properties:
+                '@vocab':
+                  type: string
+                hydra:
+                  type: string
+                  enum: ['http://www.w3.org/ns/hydra/core#']
+              required:
+                - '@vocab'
+                - hydra
+              additionalProperties: true
+        '@id':
+          type: string
+        '@type':
+          type: string
+      required:
+        - '@id'
+        - '@type'
+    PuzzleTemplateDto.jsonld:
+      allOf:
+        -
+          $ref: '#/components/schemas/HydraItemBaseSchema'
+        -
+          type: object
+          properties:
+            templateSlug:
+              type: string
+            title:
+              type: string
+            createdAt:
+              type: string
+              format: date-time
+            description:
+              type: string
+            categories:
+              type: array
+              items:
+                type:
+                  - string
+                  - 'null'
+            credits:
+              type: array
+              items:
+                type:
+                  - string
+                  - 'null'
+    QuoteDto.jsonld:
+      allOf:
+        -
+          $ref: '#/components/schemas/HydraItemBaseSchema'
+        -
+          type: object
+          properties:
+            quote:
+              type: string
+            citation:
+              type: string
+  responses: {  }
+  parameters: {  }
+  examples: {  }
+  requestBodies: {  }
+  headers: {  }
+  securitySchemes: {  }
+security: []
+tags:
+  -
+    name: DiceRollDto
+    description: "Resource 'DiceRollDto' operations."
+  -
+    name: ApiDynamicPuzzleInstanceDto
+    description: "Resource 'ApiDynamicPuzzleInstanceDto' operations."
+  -
+    name: ApiCasebookDtoApi
+    description: "Resource 'ApiCasebookDtoApi' operations."
+  -
+    name: ApiCasebookSubjectDto
+    description: "Resource 'ApiCasebookSubjectDto' operations."
+  -
+    name: PuzzleTemplateDto
+    description: "Resource 'PuzzleTemplateDto' operations."
+  -
+    name: QuoteDto
+    description: "Resource 'QuoteDto' operations."
+  -
+    name: ApiUserCartDto
+    description: "Resource 'ApiUserCartDto' operations."
+  -
+    name: ApiUserCartProductLineInputDto
+    description: "Resource 'ApiUserCartProductLineInputDto' operations."
+  -
+    name: ApiUserCartProductLineOutputDto
+    description: "Resource 'ApiUserCartProductLineOutputDto' operations."
+  -
+    name: ApiUserDto
+    description: "Resource 'ApiUserDto' operations."
+  -
+    name: ApiUserPlayEventInputDto
+    description: "Resource 'ApiUserPlayEventInputDto' operations."
+  -
+    name: ApiUserPlayEventOutputDto
+    description: "Resource 'ApiUserPlayEventOutputDto' operations."
+webhooks: {  }

@@ -154,7 +154,7 @@ Then precedence is:
 
 - All project commands MUST be run inside the Docker application container unless explicitly instructed otherwise
 - Project PHP, Composer, Symfony, and Pest commands MUST NOT be run on the host machine
-- The `dnd-puzzles-app` service from `../dnd-puzzles-environment/docker-compose.yml` MUST be used
+- The `conundrum-codex-app` service from `../conundrum-codex-environment/docker-compose.yml` MUST be used
 
 ---
 
@@ -163,11 +163,11 @@ Then precedence is:
 - All tests MUST be run inside the Docker container
 - The default full test command is:
 
-  `docker compose --file=../dnd-puzzles-environment/docker-compose.yml exec dnd-puzzles-app ./vendor/bin/pest`
+  `docker compose --file=../conundrum-codex-environment/docker-compose.yml exec conundrum-codex-app ./vendor/bin/pest`
 
 - Targeted test runs MUST use the same container pattern, for example:
 
-  `docker compose --file=../dnd-puzzles-environment/docker-compose.yml exec dnd-puzzles-app ./vendor/bin/pest tests/Unit/Services/World`
+  `docker compose --file=../conundrum-codex-environment/docker-compose.yml exec conundrum-codex-app ./vendor/bin/pest tests/Unit/Services/World`
 
 - If a test command is needed, Pest MUST be used directly unless explicitly instructed otherwise
 
@@ -177,11 +177,11 @@ Then precedence is:
 
 - PHP commands MUST be run inside the Docker container, for example:
 
-  `docker compose --file=../dnd-puzzles-environment/docker-compose.yml exec dnd-puzzles-app php bin/console`
+  `docker compose --file=../conundrum-codex-environment/docker-compose.yml exec conundrum-codex-app php bin/console`
 
 - Composer commands MUST be run inside the Docker container, for example:
 
-  `docker compose --file=../dnd-puzzles-environment/docker-compose.yml exec dnd-puzzles-app composer install`
+  `docker compose --file=../conundrum-codex-environment/docker-compose.yml exec conundrum-codex-app composer install`
 
 ---
 

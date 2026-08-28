@@ -12,7 +12,6 @@ use App\Services\FeatureSwitcher\Service\Interfaces\FeatureSwitcherServiceInterf
 use App\Services\Game\Service\Interfaces\GameEntityServiceInterface;
 use App\Services\User\Domain\User;
 use App\Services\User\Service\Interfaces\UserServiceInterface;
-use Karser\Recaptcha3Bundle\Validator\Constraints\Recaptcha3Validator;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Attribute\MapQueryParameter;
@@ -32,7 +31,6 @@ class AuthController extends AbstractBaseController
     #[Route('/register', name: 'app.auth.register')]
     public function register(
         Request $request,
-        Recaptcha3Validator $recaptcha3Validator,
         #[MapQueryParameter] ?string $emailAddress = null,
         #[MapQueryParameter] ?string $invitationCode = null,
         #[MapQueryParameter] ?string $redirectRoute = null,
@@ -107,7 +105,7 @@ class AuthController extends AbstractBaseController
         return $this->render('/visitor/registration/register.html.twig', $this->populatePageVars($pageVars, $request));
     }
 
-    #[Route('/login', name: 'app.auth.login', methods: ['GET'])]
+    #[Route('/login', name: 'app.auth.login', methods: ['GET', 'POST'])]
     public function index(Request $request): Response
     {
         $form = $this->createForm(LoginType::class);

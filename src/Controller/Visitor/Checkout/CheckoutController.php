@@ -112,7 +112,7 @@ class CheckoutController extends AbstractBaseController
         $user = $this->getUser();
         if (!$user instanceof User) {
             $this->addFlash('warning', 'You must be logged in to checkout.');
-            return $this->redirectToRoute('app_login');
+            return $this->redirectToRoute('app.auth.login');
         }
         $cart = $user->getUserCart();
         $dto = UserCartDTO::makeFromUserCart($cart);

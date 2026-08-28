@@ -99,5 +99,21 @@ $logoHeight: 9vh;
             }
         }
     }
+}
 
+a.consolidated-witchcraft-logo {
+    height: 2em;
+    display: block;
+    text-decoration: none;
+    overflow: hidden;
+    border-bottom: none;
+    background-image: url("/dist/svgs/logos/consolidated-witchcraft-inline.svg");
+    background-repeat: no-repeat;
+    background-size: contain;
+    padding: 0;
+    color: transparent;
+
+    &:hover, &:focus, &:active {
+        color: transparent !important;
+    }
 }

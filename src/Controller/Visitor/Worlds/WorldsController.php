@@ -39,7 +39,7 @@ class WorldsController extends AbstractBaseController
     public function index(Request $request): Response {
         $user = $this->getUser();
         if (!$user instanceof User) {
-            return $this->redirectToRoute('app_login');
+            return $this->redirectToRoute('app.auth.login');
         }
         $pageVars = [
             'pageTitle' => 'My Worlds',
@@ -57,7 +57,7 @@ class WorldsController extends AbstractBaseController
         $form->handleRequest($request);
         $user = $this->getUser();
         if (!$user instanceof User) {
-            return $this->redirectToRoute('app_login');
+            return $this->redirectToRoute('app.auth.login');
         }
         if ($form->isSubmitted() && $form->isValid()) {
             $world = new World(

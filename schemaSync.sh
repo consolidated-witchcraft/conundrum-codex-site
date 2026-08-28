@@ -25,9 +25,9 @@ echo "Clearing Cache"
 else
   echo "Running in development"
   echo "Clearing Cache"
-  docker compose --file=../dnd-puzzles-environment/docker-compose.yml exec dnd-puzzles-app bin/console cache:clear
+  docker compose --file=../conundrum-codex-environment/docker-compose.yml exec dnd-puzzles-app bin/console cache:clear
   echo "Exporting Schema"
-  docker compose --file=../dnd-puzzles-environment/docker-compose.yml exec dnd-puzzles-app bin/console api:openapi:export --yaml --output=swagger_docs.yaml
+  docker compose --file=../conundrum-codex-environment/docker-compose.yml exec dnd-puzzles-app bin/console api:openapi:export --yaml --output=swagger_docs.yaml
 fi
 
 echo "Syncing Schema"

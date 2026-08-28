@@ -2,12 +2,12 @@
     <span class="flash flash-error" is="flash-alert">{{ error.messageKey }}</span>
 {% endif %}
 
-<form method="post" action="{{ path('app_login') }}">
+<form method="post" action="{{ path('app.auth.login') }}">
     <div id="login-form">
         {% if app.user %}
             <p>You are logged in as {{ app.user.userIdentifier }}.</p>
             <div class="btn-group">
-                <a class="btn btn-danger" href="{{ path('app_logout') }}">Logout</a>
+                <a class="btn btn-danger" href="{{ path('app.auth.logout') }}">Logout</a>
             </div>
 
 

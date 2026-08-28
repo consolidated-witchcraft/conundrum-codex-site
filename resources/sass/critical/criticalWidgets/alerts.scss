@@ -22,7 +22,7 @@ span.flash {
     border-radius: 0.25rem;
     position: relative;
     opacity: 0;
-    pointer-events: none;
+    pointer-events: none !important;
     transition: opacity var(--animationSpeedNormal) ease-in-out;
     width: 100%;
 

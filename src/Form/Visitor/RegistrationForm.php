@@ -20,6 +20,11 @@ use Karser\Recaptcha3Bundle\Validator\Constraints\Recaptcha3;
 
 class RegistrationForm extends AbstractType
 {
+    public function __construct(
+        private readonly bool $recaptchaEnabled,
+    ) {
+    }
+
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
@@ -89,7 +94,11 @@ class RegistrationForm extends AbstractType
                     ]),
                 ],
             ])
-            ->add(
+            ->add('submit', SubmitType::class)
+        ;
+
+        if ($this->recaptchaEnabled) {
+            $builder->add(
                 'captcha',
                 Recaptcha3Type::class,
                 [
@@ -97,10 +106,8 @@ class RegistrationForm extends AbstractType
                     'action_name' => 'homepage',
                     'locale' => 'en',
                 ]
-
-            )
-            ->add('submit', SubmitType::class)
-        ;
+            );
+        }
     }
 
     public function configureOptions(OptionsResolver $resolver): void

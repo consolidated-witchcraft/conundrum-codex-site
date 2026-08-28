@@ -15,6 +15,11 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class BugReportType extends AbstractType
 {
+    public function __construct(
+        private readonly bool $recaptchaEnabled,
+    ) {
+    }
+
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
@@ -57,7 +62,11 @@ class BugReportType extends AbstractType
 
                 ]
             )
-            ->add(
+            ->add('submit', SubmitType::class, [])
+        ;
+
+        if ($this->recaptchaEnabled) {
+            $builder->add(
                 'captcha',
                 Recaptcha3Type::class,
                 [
@@ -65,10 +74,8 @@ class BugReportType extends AbstractType
                     'action_name' => 'homepage',
                     'locale' => 'en',
                 ]
-
-            )
-            ->add('submit', SubmitType::class, [])
-        ;
+            );
+        }
     }
 
     public function configureOptions(OptionsResolver $resolver): void

@@ -3,7 +3,6 @@
     <div class="row one-third-two-thirds">
 
         <div class="col">
-
             <div class="avatar-wrapper">
                 <img class="avatar" src="{{ user.getAvatar ? user.getAvatar.getPath :  '/dist/images/default-avatar.webp' }}" alt="{{ user.getAvatar ? user.getAvatar.getDescription : 'Default avatar' }}" loading="lazy" is="lazy-image">
             </div>
@@ -17,7 +16,6 @@
             </div>
 
         </div>
-
     </div>
     <hr>
     {% if user.getFeats is not empty %}

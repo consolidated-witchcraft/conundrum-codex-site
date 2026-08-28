@@ -19,8 +19,8 @@ security:
             provider: user_service_provider
             user_checker: App\Services\User\Application\Security\UserChecker
             form_login:
-                login_path: app_login
-                check_path: app_login
+                login_path: app.auth.login
+                check_path: app.auth.login
                 enable_csrf: true
                 use_referer: true
                 default_target_path: app.user.account
