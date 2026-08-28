@@ -21,6 +21,7 @@ test('construct', function () {
     $puzzleTemplate = new PuzzleTemplate(
         slug: 'test-template',
         title: 'Test Template',
+        hidden: false,
         createdAt: $createdAt,
         description: 'Template description',
         categories: $categories,
@@ -36,6 +37,7 @@ test('construct', function () {
 
     self::assertSame('test-template', $puzzleTemplate->getSlug());
     self::assertSame('Test Template', $puzzleTemplate->getTitle());
+    self::assertFalse($puzzleTemplate->isHidden());
     self::assertSame($createdAt, $puzzleTemplate->getCreatedAt());
     self::assertSame('Template description', $puzzleTemplate->getDescription());
     self::assertSame($categories, $puzzleTemplate->getCategories());
@@ -54,6 +56,7 @@ test('non static template rejects static route access', function () {
     $puzzleTemplate = new PuzzleTemplate(
         slug: 'test-template',
         title: 'Test Template',
+        hidden: false,
         createdAt: new DateTimeImmutable('2026-03-16 12:00:00'),
         description: 'Template description',
         categories: new ArrayCollection(),
@@ -71,6 +74,7 @@ test('static template without routes is rejected', function () {
     $puzzleTemplate = new PuzzleTemplate(
         slug: 'test-template',
         title: 'Test Template',
+        hidden: false,
         createdAt: new DateTimeImmutable('2026-03-16 12:00:00'),
         description: 'Template description',
         categories: new ArrayCollection(),

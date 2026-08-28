@@ -16,7 +16,8 @@ dataset('provideFieldKeyTestData', function () {
     yield 'missing_config_name' => [
         'configData' => [
             'label' => 'testLabel',
-            'type' => 'text'
+            'type' => 'text',
+            'helpText' => 'Test help text',
         ],
         'moduleName' => 'testmodule',
         'expectedExceptionClass' => MissingConfigOptionSubfieldException::class,
@@ -25,7 +26,8 @@ dataset('provideFieldKeyTestData', function () {
     yield 'missing_label' => [
         'configData' => [
             'configName' => 'testname',
-            'type' => 'text'
+            'type' => 'text',
+            'helpText' => 'Test help text',
         ],
         'moduleName' => 'testmodule',
         'expectedExceptionClass' => MissingConfigOptionSubfieldException::class,
@@ -36,10 +38,22 @@ dataset('provideFieldKeyTestData', function () {
         'configData' => [
             'configName' => 'testname',
             'label' => 'testLabel',
+            'helpText' => 'Test help text',
         ],
         'moduleName' => 'testmodule',
         'expectedExceptionClass' => MissingConfigOptionSubfieldException::class,
         'expectedExceptionMessage' => "Template 'testmodule' is invalid. The required subfield 'type' is missing"
+    ];
+
+    yield 'missing_help_text' => [
+        'configData' => [
+            'configName' => 'testname',
+            'label' => 'testLabel',
+            'type' => 'text',
+        ],
+        'moduleName' => 'testmodule',
+        'expectedExceptionClass' => MissingConfigOptionSubfieldException::class,
+        'expectedExceptionMessage' => "Template 'testmodule' is invalid. The required subfield 'helpText' is missing",
     ];
 });
 test('validate field keys', function (array $configData, string $moduleName, string $expectedExceptionClass, string $expectedExceptionMessage) {
@@ -54,7 +68,8 @@ test('validate field unknown type', function () {
         [
             'label' => 'testLabel',
             'type' => 'unknowntype',
-            'configName' => 'testname'
+            'configName' => 'testname',
+            'helpText' => 'Test help text',
         ],
         'testmodule'
     );
@@ -64,7 +79,8 @@ dataset('provideInvalidFieldTypeScalarTestData', function () {
         'configData' => [
             'label' => 'testLabel',
             'type' => 'text',
-            'configName' => 'testOName'
+            'configName' => 'testOName',
+            'helpText' => 'Test help text',
         ],
         'moduleName' => 'testmodule',
         'expectedExceptionClass' => ConfigOptionTypeInvalidPatternException::class,
@@ -75,7 +91,8 @@ dataset('provideInvalidFieldTypeScalarTestData', function () {
         'configData' => [
             'label' => false,
             'type' => 'text',
-            'configName' => 'testname'
+            'configName' => 'testname',
+            'helpText' => 'Test help text',
         ],
         'moduleName' => 'testmodule',
         'expectedExceptionClass' => ConfigOptionTypeScalarMismatchException::class,

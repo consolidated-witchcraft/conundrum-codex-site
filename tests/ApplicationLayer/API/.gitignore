@@ -1,5 +1,0 @@
-*
-!.gitignore
-!**/*Test.php
-!ApiTestCase.php
-!Support/*.php

@@ -4,10 +4,20 @@ declare(strict_types=1);
 
 namespace Tests\ApplicationLayer\API;
 
+use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Contracts\Cache\CacheInterface;
+
 final class LoginTest extends ApiTestCase
 {
     public function testInvalidCredentialsRedirectBackToLoginWithoutServerError(): void
     {
+        static::bootKernel();
+        makeFeatureSwitchers(
+            entityManager: static::getContainer()->get(EntityManagerInterface::class),
+            cache: static::getContainer()->get(CacheInterface::class),
+        );
+        static::ensureKernelShutdown();
+
         $client = $this->makeClient();
         $crawler = $client->request('GET', '/login');
 

@@ -13,8 +13,9 @@
     <php>
         <ini name="display_errors" value="1" />
         <ini name="error_reporting" value="-1" />
-        <server name="APP_ENV" value="test" force="true" />
-        <server name="SHELL_VERBOSITY" value="-1" />
+        <env name="APP_ENV" value="test" force="true" />
+        <env name="KERNEL_CLASS" value="App\Kernel" force="true" />
+        <server name="SHELL_VERBOSITY" value="0" />
     </php>
 
     <testsuites>
@@ -25,7 +26,7 @@
             <directory>tests/ApplicationLayer/API</directory>
         </testsuite>
         <testsuite name="Project Test Suite">
-            <directory>tests</directory>
+            <directory>tests/Feature</directory>
         </testsuite>
     </testsuites>
 

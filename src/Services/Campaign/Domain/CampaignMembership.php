@@ -30,6 +30,14 @@ class CampaignMembership extends AbstractDomainEntity
         #[ORM\Column(enumType: CampaignMembershipTypeEnum::class)]
         private CampaignMembershipTypeEnum $type,
 
+        #[ORM\OneToOne(
+            targetEntity: Character::class,
+            mappedBy: 'campaignMembership',
+            cascade: ['persist', 'remove'],
+            orphanRemoval: true,
+        )]
+        private ?Character $character = null,
+
         ?int $id = null,
     ) {
         parent::__construct(id: $id);
@@ -53,5 +61,20 @@ class CampaignMembership extends AbstractDomainEntity
     public function setType(CampaignMembershipTypeEnum $type): void
     {
         $this->type = $type;
+    }
+
+    public function getCharacter(): ?Character
+    {
+        return $this->character;
+    }
+
+    public function setCharacter(Character $character): void
+    {
+        $this->character = $character;
+    }
+
+    public function removeCharacter(): void
+    {
+        $this->character = null;
     }
 }

@@ -42,6 +42,7 @@ function generateTestData(array $overrides = [], array $fieldKeysToUnset = []): 
             'category_2'
         ],
         'type' => $overrides['type'] ?? 'misc',
+        'hidden' => $overrides['hidden'] ?? false,
         'static' => $overrides['static'] ?? false,
         'staticCreateRoute' => $overrides['staticCreateRoute'] ?? 'some.route',
         'staticEditRoute' => $overrides['staticEditRoute'] ?? 'some.route',
@@ -87,6 +88,10 @@ dataset('provideValidateRequiredFieldsPresentTestData', function () {
 
     yield 'no_static' => [
         'missingFieldName' => 'static'
+    ];
+
+    yield 'no_hidden' => [
+        'missingFieldName' => 'hidden'
     ];
 
     yield 'no_element_name' => [

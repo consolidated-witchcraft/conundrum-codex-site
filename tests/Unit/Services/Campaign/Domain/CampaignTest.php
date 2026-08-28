@@ -113,8 +113,8 @@ test('mark started activates campaign and records start date', function () {
 
     $latestStartDate = new DateTimeImmutable();
     self::assertSame(expected: CampaignStatusEnum::ACTIVE, actual: $campaign->getStatus());
-    self::assertGreaterThanOrEqual(expected: $earliestStartDate, actual: $campaign->getStartDate());
-    self::assertLessThanOrEqual(expected: $latestStartDate, actual: $campaign->getStartDate());
+    self::assertGreaterThanOrEqual(minimum: $earliestStartDate, actual: $campaign->getStartDate());
+    self::assertLessThanOrEqual(maximum: $latestStartDate, actual: $campaign->getStartDate());
 });
 
 test('mark draft changes status to draft', function () {

@@ -23,7 +23,7 @@ abstract class AbstractBaseController extends AbstractController
     }
 
     final public function populatePageVars(array $pageVars, Request $request): array {
-        $route = $request->get('_route');
+        $route = $request->attributes->get('_route');
 
         $pageVars['siteName'] = 'The Conundrum Codex';
         $user = $this->getUser();

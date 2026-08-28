@@ -16,6 +16,7 @@ beforeEach(function () {
         return new PuzzleTemplate(
             slug: $slug,
             title: 'Casebook Template',
+            hidden: false,
             createdAt: new DateTimeImmutable('2026-03-16 12:00:00'),
             description: 'Template description',
             categories: new ArrayCollection(),

@@ -31,6 +31,7 @@ class PuzzleTemplateDefinitionValidator
         'description',
         'categories',
         'type',
+        'hidden',
         'static',
         'creator',
         'configOptions',
