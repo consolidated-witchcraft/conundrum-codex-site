@@ -2,7 +2,16 @@
     <div class="row">
         <div class="col">
             <h2>Your Characters</h2>
-            CHARACTERS GO HERE
+            {% if user.getCharacters is empty %}
+                <em>You don't have any characters at the moment. Why not create one?</em>
+
+            {% else %}
+                {% for character in user.getCharacters %}
+                    {% embed 'visitor/character/partials/_characterCard.html.twig' with {'character' : character} %}{% endembed %}
+
+                {% endfor %}
+            {% endif %}
+            <a href="{{ path('app.user.character.create') }}" class="btn btn-primary">Create Character</a>
         </div>
     </div>
 </div>

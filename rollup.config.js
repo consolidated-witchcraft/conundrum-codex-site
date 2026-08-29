@@ -45,7 +45,8 @@ const widgetScssEntries = [
     'feats',
     'slideshow',
     'cards',
-    'userCards'
+    'userCards',
+    'characterCards'
 ];
 
 function resolveInternalAlias(source) {

@@ -1,0 +1,44 @@
+@use 'critical/base/sassVariables/spacing';
+@use 'critical/base/sassVariables/dimension';
+@use  'critical/mixins/vellumSurface';
+@use  'critical/mixins/framedSurface';
+
+.character-card {
+
+    @include framedSurface.framed-surface();
+    @include vellumSurface.vellum-surface();
+    display: flex;
+    flex-direction: row;
+    padding: spacing.$baseSpacing;
+    margin-bottom: spacing.$baseSpacing;
+
+
+    .character-portrait-wrapper {
+        flex-basis: 25%;
+        max-width: 10rem;
+        &:after {
+            display: block;
+            position: absolute;
+            top:0;
+            left: 0;
+            bottom: 0;
+            right: 0;
+            pointer-events: none;
+            content: " ";
+            border: dimension.$mediumBorderWidth solid transparent;
+            border-image: url("/dist/svgs/frames/simple-frame.svg") 33%;
+
+        }
+    }
+    img.character-portrait {
+        object-fit: cover;
+
+
+    }
+
+    .character-details {
+        padding: 0 spacing.$baseSpacing;
+    }
+}
+
+

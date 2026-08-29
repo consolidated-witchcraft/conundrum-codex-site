@@ -25,6 +25,9 @@
         <testsuite name="ApplicationLayerApi">
             <directory>tests/ApplicationLayer/API</directory>
         </testsuite>
+        <testsuite name="ApplicationLayerController">
+            <directory>tests/ApplicationLayer/Controller</directory>
+        </testsuite>
         <testsuite name="Project Test Suite">
             <directory>tests/Feature</directory>
         </testsuite>

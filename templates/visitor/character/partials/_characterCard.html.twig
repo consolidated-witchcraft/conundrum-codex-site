@@ -1,0 +1,24 @@
+<div class="character-card">
+    <div class="character-portrait-wrapper">
+        <img class="character-portrait" src="{{ character.getPortrait.getPath }}" alt="{{ character.getPortrait.getDescription }}" loading="lazy" is="lazy-image">
+    </div>
+
+    <div class="character-details">
+        <h3>{{ character.getName }}</h3>
+        <dl>
+            <dt>Class</dt>
+            <dd>{{ character.getClass }}</dd>
+
+            <dt>Race</dt>
+            <dd>{{ character.getRace }}</dd>
+        </dl>
+        <h4>Biography</h4>
+        {{ character.getBiography }}
+    </div>
+    <div class="character-operations">
+        <div class="btn-group">
+            <a href="{{ path('app.user.character.edit', {'characterId': character.getId}) }}" class="btn btn-primary">Edit</a>
+            <a href="{{ path('app.user.character.delete', {'characterId': character.getId}) }}" class="btn btn-danger">Delete</a>
+        </div>
+    </div>
+</div>
