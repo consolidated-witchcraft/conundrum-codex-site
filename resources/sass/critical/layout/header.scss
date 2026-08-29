@@ -241,6 +241,10 @@ header {
                     right: spacing.$desktopContainerPadding;
                     margin-right: 5em;
                 }
+
+                &.user {
+                    right: spacing.$desktopContainerPadding;
+                }
             }
 
             nav#main-nav {

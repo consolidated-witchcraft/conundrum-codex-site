@@ -3,6 +3,18 @@
 @use 'critical/base/sassVariables/dimension';
 @use 'critical/base/sassVariables/spacing';
 
+
+.btn-link {
+    font-size: 100%;
+    display: block;
+    position: relative;
+    padding: spacing.$gutter;
+    margin-bottom: spacing.$gutter;
+    text-align: center;
+    letter-spacing: 0.04em;
+    font-weight: bold;
+}
+
 .btn, button {
 
     //noinspection CssUnknownTarget

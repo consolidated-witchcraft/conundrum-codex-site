@@ -5,6 +5,8 @@ declare(strict_types=1);
 namespace App\Services\Campaign\Domain;
 
 use App\Services\Campaign\Domain\Enums\CampaignStatusEnum;
+use App\Services\Campaign\Domain\Exceptions\CampaignMembershipDoesNotBelongToCampaignException;
+use App\Services\Character\Domain\Character;
 use App\Services\Campaign\Infrastructure\CampaignRepository;
 use App\Services\Core\Domain\AbstractDomainEntity;
 use Doctrine\Common\Collections\ArrayCollection;
@@ -120,5 +122,52 @@ class Campaign extends AbstractDomainEntity
     public function removeMembership(CampaignMembership $membership): void
     {
         $this->memberships->removeElement($membership);
+    }
+
+    /**
+     * @return Collection<int, CampaignCharacter>
+     */
+    public function getCampaignCharacters(): Collection
+    {
+        $campaignCharacters = new ArrayCollection();
+
+        foreach ($this->memberships as $membership) {
+            foreach ($membership->getCampaignCharacters() as $campaignCharacter) {
+                $campaignCharacters->add($campaignCharacter);
+            }
+        }
+
+        return $campaignCharacters;
+    }
+
+    public function addCharacter(
+        CampaignMembership $membership,
+        Character $character,
+        bool $active = false,
+    ): CampaignCharacter {
+        $this->guardMembershipBelongsToCampaign(membership: $membership);
+
+        return $membership->addCharacter(character: $character, active: $active);
+    }
+
+    public function removeCharacter(CampaignCharacter $campaignCharacter): void
+    {
+        $membership = $campaignCharacter->getCampaignMembership();
+        $this->guardMembershipBelongsToCampaign(membership: $membership);
+        $membership->removeCampaignCharacter(campaignCharacter: $campaignCharacter);
+    }
+
+    public function activateCharacter(CampaignCharacter $campaignCharacter): void
+    {
+        $membership = $campaignCharacter->getCampaignMembership();
+        $this->guardMembershipBelongsToCampaign(membership: $membership);
+        $membership->activateCharacter(campaignCharacter: $campaignCharacter);
+    }
+
+    private function guardMembershipBelongsToCampaign(CampaignMembership $membership): void
+    {
+        if ($membership->getCampaign() !== $this) {
+            throw new CampaignMembershipDoesNotBelongToCampaignException();
+        }
     }
 }

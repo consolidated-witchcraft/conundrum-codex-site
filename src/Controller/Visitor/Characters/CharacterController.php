@@ -14,6 +14,7 @@ use App\Security\UserOwnsCharacterVoter;
 use App\Services\Character\Domain\Character;
 use App\Services\Character\Service\Interfaces\CharacterServiceInterface;
 use App\Services\FeatureSwitcher\Service\Interfaces\FeatureSwitcherServiceInterface;
+use App\Services\ManagedFiles\Service\Interfaces\ManagedFileServiceInterface;
 use App\Services\ManagedImages\Services\Interfaces\ManagedImageServiceInterface;
 use App\Services\User\Domain\User;
 use Symfony\Component\DependencyInjection\Attribute\Autowire;
@@ -28,9 +29,12 @@ class CharacterController extends AbstractBaseController
 
     public function __construct(
         private readonly CharacterServiceInterface $characterService,
+        protected readonly ManagedFileServiceInterface $filesService,
         protected readonly ManagedImageServiceInterface $managedImageService,
         #[Autowire('%kernel.project_dir%/public/uploads/images')]
         private readonly string $portraitImagesDirectory,
+        #[Autowire('%kernel.project_dir%/public/uploads')]
+        private readonly string $characterSheetsDirectory,
         FeatureSwitcherServiceInterface $featureSwitcherService,
     ) {
         parent::__construct(featureSwitcherService: $featureSwitcherService);
@@ -64,6 +68,12 @@ class CharacterController extends AbstractBaseController
                     uploadedFile: $dto->portrait,
                     destination: $this->portraitImagesDirectory,
                 ),
+                characterSheet: $dto->characterSheet === null
+                    ? null
+                    : $this->handleFileUpload(
+                        uploadedFile: $dto->characterSheet,
+                        destination: $this->characterSheetsDirectory,
+                    ),
                 biography: $dto->biography,
             );
 
@@ -102,6 +112,14 @@ class CharacterController extends AbstractBaseController
                     uploadedFile: $dto->portrait,
                     destination: $this->portraitImagesDirectory,
                     imageToReplace: $character->getPortrait(),
+                ));
+            }
+
+            if ($dto->characterSheet !== null) {
+                $character->setCharacterSheet(characterSheet: $this->handleFileUpload(
+                    uploadedFile: $dto->characterSheet,
+                    destination: $this->characterSheetsDirectory,
+                    fileToReplace: $character->getCharacterSheet(),
                 ));
             }
 

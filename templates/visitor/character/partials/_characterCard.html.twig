@@ -16,6 +16,9 @@
         {{ character.getBiography }}
     </div>
     <div class="character-operations">
+        {% if character.characterSheet %}
+            <a class="btn-link" href="{{ character.characterSheet.path }}" download>Download character sheet</a>
+        {% endif %}
         <div class="btn-group">
             <a href="{{ path('app.user.character.edit', {'characterId': character.getId}) }}" class="btn btn-primary">Edit</a>
             <a href="{{ path('app.user.character.delete', {'characterId': character.getId}) }}" class="btn btn-danger">Delete</a>

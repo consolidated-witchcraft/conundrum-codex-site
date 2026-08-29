@@ -4,6 +4,11 @@ declare(strict_types=1);
 
 use App\Services\Campaign\Domain\Campaign;
 use App\Services\Campaign\Domain\CampaignMembership;
+use App\Services\Campaign\Domain\Exceptions\CampaignMembershipDoesNotBelongToCampaignException;
+use App\Services\Campaign\Domain\Enums\CampaignMembershipTypeEnum;
+use App\Services\Character\Domain\Character;
+use App\Services\ManagedImages\Domain\ManagedImage;
+use App\Services\User\Domain\User;
 use App\Services\Campaign\Domain\Enums\CampaignStatusEnum;
 
 test('construct', function () {
@@ -72,6 +77,66 @@ test('remove membership removes a membership', function () {
     $campaign->removeMembership(membership: $membership);
 
     self::assertCount(expectedCount: 0, haystack: $campaign->getMemberships());
+});
+
+test('add character associates it with a campaign membership', function () {
+    $campaign = new Campaign(
+        name: 'The Lost Observatory',
+        slug: 'the-lost-observatory',
+        description: 'A campaign among the stars.',
+    );
+    $user = $this->createStub(User::class);
+    $membership = new CampaignMembership(
+        campaign: $campaign,
+        user: $user,
+        type: CampaignMembershipTypeEnum::PLAYER,
+    );
+    $campaign->addMembership(membership: $membership);
+    $character = new Character(
+        name: 'Seraphina Vale',
+        user: $user,
+        class: 'Wizard',
+        race: 'Human',
+        portrait: $this->createStub(ManagedImage::class),
+    );
+
+    $campaignCharacter = $campaign->addCharacter(
+        membership: $membership,
+        character: $character,
+        active: true,
+    );
+
+    self::assertSame(expected: [$campaignCharacter], actual: $campaign->getCampaignCharacters()->toArray());
+    self::assertTrue(condition: $campaignCharacter->isActive());
+});
+
+test('add character rejects a membership from another campaign', function () {
+    $campaign = new Campaign(
+        name: 'The Lost Observatory',
+        slug: 'the-lost-observatory',
+        description: 'A campaign among the stars.',
+    );
+    $otherCampaign = new Campaign(
+        name: 'The Sunken Library',
+        slug: 'the-sunken-library',
+        description: 'A campaign beneath the waves.',
+    );
+    $user = $this->createStub(User::class);
+    $membership = new CampaignMembership(
+        campaign: $otherCampaign,
+        user: $user,
+        type: CampaignMembershipTypeEnum::PLAYER,
+    );
+    $character = new Character(
+        name: 'Seraphina Vale',
+        user: $user,
+        class: 'Wizard',
+        race: 'Human',
+        portrait: $this->createStub(ManagedImage::class),
+    );
+
+    expect(fn () => $campaign->addCharacter(membership: $membership, character: $character))
+        ->toThrow(CampaignMembershipDoesNotBelongToCampaignException::class);
 });
 
 test('set name updates name', function () {

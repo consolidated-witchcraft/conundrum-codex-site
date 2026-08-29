@@ -4,8 +4,10 @@ declare(strict_types=1);
 
 namespace App\Services\Character\Domain;
 
+use App\Services\Campaign\Domain\CampaignCharacter;
 use App\Services\Character\Infrastructure\CharacterRepository;
 use App\Services\Core\Domain\AbstractDomainEntity;
+use App\Services\ManagedFiles\Domain\ManagedFile;
 use App\Services\ManagedImages\Domain\ManagedImage;
 use App\Services\User\Domain\User;
 use Doctrine\Common\Collections\ArrayCollection;
@@ -18,6 +20,7 @@ class Character extends AbstractDomainEntity
 {
     /**
      * @param Collection<int, CharacterNote> $characterNotes
+     * @param Collection<int, CampaignCharacter> $campaignCharacters
      */
     public function __construct(
         #[ORM\Column(type: 'non_empty_string', length: 255)]
@@ -40,6 +43,10 @@ class Character extends AbstractDomainEntity
         #[ORM\Column(options: ['default' => false])]
         private bool $npc = false,
 
+        #[ORM\OneToOne(targetEntity: ManagedFile::class)]
+        #[ORM\JoinColumn(nullable: true, onDelete: 'SET NULL')]
+        private ?ManagedFile $characterSheet = null,
+
         #[ORM\Column(type: Types::TEXT, nullable: true)]
         private ?string $biography = null,
 
@@ -50,6 +57,12 @@ class Character extends AbstractDomainEntity
             orphanRemoval: true,
         )]
         private Collection $characterNotes = new ArrayCollection(),
+
+        #[ORM\OneToMany(
+            targetEntity: CampaignCharacter::class,
+            mappedBy: 'character',
+        )]
+        private Collection $campaignCharacters = new ArrayCollection(),
 
         ?int $id = null,
     ) {
@@ -121,6 +134,16 @@ class Character extends AbstractDomainEntity
         $this->npc = false;
     }
 
+    public function getCharacterSheet(): ?ManagedFile
+    {
+        return $this->characterSheet;
+    }
+
+    public function setCharacterSheet(?ManagedFile $characterSheet): void
+    {
+        $this->characterSheet = $characterSheet;
+    }
+
     public function getBiography(): ?string
     {
         return $this->biography;
@@ -150,5 +173,25 @@ class Character extends AbstractDomainEntity
     public function removeCharacterNote(CharacterNote $characterNote): void
     {
         $this->characterNotes->removeElement($characterNote);
+    }
+
+    /**
+     * @return Collection<int, CampaignCharacter>
+     */
+    public function getCampaignCharacters(): Collection
+    {
+        return $this->campaignCharacters;
+    }
+
+    public function addCampaignCharacter(CampaignCharacter $campaignCharacter): void
+    {
+        if (!$this->campaignCharacters->contains($campaignCharacter)) {
+            $this->campaignCharacters->add($campaignCharacter);
+        }
+    }
+
+    public function removeCampaignCharacter(CampaignCharacter $campaignCharacter): void
+    {
+        $this->campaignCharacters->removeElement($campaignCharacter);
     }
 }

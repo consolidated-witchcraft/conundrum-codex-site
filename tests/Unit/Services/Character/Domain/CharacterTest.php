@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 use App\Services\Character\Domain\Character;
 use App\Services\Character\Domain\CharacterNote;
+use App\Services\ManagedFiles\Domain\ManagedFile;
 use App\Services\ManagedImages\Domain\ManagedImage;
 use App\Services\User\Domain\User;
 
@@ -22,6 +23,7 @@ beforeEach(function () {
 test('construct', function () {
     $user = $this->createStub(User::class);
     $portrait = $this->createStub(ManagedImage::class);
+    $characterSheet = $this->createStub(ManagedFile::class);
 
     $character = new Character(
         name: 'Seraphina Vale',
@@ -29,6 +31,7 @@ test('construct', function () {
         class: 'Wizard',
         race: 'Human',
         portrait: $portrait,
+        characterSheet: $characterSheet,
         biography: 'Keeper of the celestial archive.',
         id: 42,
     );
@@ -38,6 +41,7 @@ test('construct', function () {
     self::assertSame(expected: 'Wizard', actual: $character->getClass());
     self::assertSame(expected: 'Human', actual: $character->getRace());
     self::assertSame(expected: $portrait, actual: $character->getPortrait());
+    self::assertSame(expected: $characterSheet, actual: $character->getCharacterSheet());
     self::assertFalse(condition: $character->isNpc());
     self::assertSame(expected: 'Keeper of the celestial archive.', actual: $character->getBiography());
     self::assertSame(expected: 42, actual: $character->getId());
@@ -48,6 +52,12 @@ test('biography defaults to null', function () {
     $character = ($this->makeCharacter)();
 
     self::assertNull(actual: $character->getBiography());
+});
+
+test('character sheet defaults to null', function () {
+    $character = ($this->makeCharacter)();
+
+    self::assertNull(actual: $character->getCharacterSheet());
 });
 
 test('set name updates name', function () {
@@ -107,6 +117,17 @@ test('set portrait updates portrait', function () {
     $character->setPortrait(portrait: $portrait);
 
     self::assertSame(expected: $portrait, actual: $character->getPortrait());
+});
+
+test('set character sheet updates and removes character sheet', function () {
+    $character = ($this->makeCharacter)();
+    $characterSheet = $this->createStub(ManagedFile::class);
+
+    $character->setCharacterSheet(characterSheet: $characterSheet);
+    self::assertSame(expected: $characterSheet, actual: $character->getCharacterSheet());
+
+    $character->setCharacterSheet(characterSheet: null);
+    self::assertNull(actual: $character->getCharacterSheet());
 });
 
 test('set biography updates and removes biography', function () {
