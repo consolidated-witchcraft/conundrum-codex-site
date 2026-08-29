@@ -3,6 +3,7 @@
 declare(strict_types=1);
 
 use App\Services\Campaign\Domain\CampaignMembership;
+use App\Services\Character\Domain\Character;
 use App\Services\ManagedImages\Domain\ManagedImage;
 use App\Services\User\Domain\Role;
 use App\Services\User\Domain\User;
@@ -54,6 +55,30 @@ test('construct', function () {
     self::assertFalse($user->isBlocked());
     self::assertEmpty($user->getUserBlock());
     self::assertEmpty($user->getCampaignMemberships());
+    self::assertEmpty($user->getCharacters());
+});
+
+test('add character adds it once and synchronises its user', function () {
+    $user = ($this->makeUser)();
+    $otherUser = ($this->makeUser)(['email' => 'other@test.local']);
+    $character = $this->createMock(Character::class);
+    $character->expects(self::once())->method('setUser')->with($user);
+    $character->method('getUser')->willReturn($otherUser);
+
+    $user->addCharacter(character: $character);
+    $user->addCharacter(character: $character);
+
+    self::assertSame(expected: [$character], actual: $user->getCharacters()->toArray());
+});
+
+test('remove character removes it', function () {
+    $user = ($this->makeUser)();
+    $character = $this->createStub(Character::class);
+    $user->addCharacter(character: $character);
+
+    $user->removeCharacter(character: $character);
+
+    self::assertCount(expectedCount: 0, haystack: $user->getCharacters());
 });
 
 test('add campaign membership adds a membership once', function () {

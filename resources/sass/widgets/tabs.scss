@@ -15,6 +15,9 @@
 
         border-radius: var(--baseBorderRadius) var(--baseBorderRadius) 0 0;
         overflow: hidden;
+
+        @include vellumSurface.vellum-surface();
+        @include framedSurface.framed-surface();
         //noinspection CssUnknownTarget
         a {
             padding: spacing.$gutter;
@@ -23,18 +26,13 @@
             font-size: 0.75rem;
             @include vellumSurface.vellum-surface();
             @include framedSurface.framed-surface();
-            border-bottom: none;
-            &:after {
-                border-bottom: none;
-            }
+
             text-align: center;
             transition: all var(--animationSpeedNormal) ease-in-out;
             transition-property: color, background-color;
 
             &.active, &:hover, &:focus, &:active {
-                color: var(--colorWhite);
-                background-color: var(--colorCrimson);
-
+                color: var(--colorCrimson);
             }
         }
     }
@@ -75,6 +73,9 @@
             background: transparent;
             border-radius: 0;
 
+            &:after, &:before {
+                display: none;
+            }
             a {
                 padding: spacing.$gutter spacing.$baseSpacing;
                 font-size: 1rem;
@@ -84,6 +85,11 @@
                 background: var(--vellumGradient);
                 position: relative;
                 color: var(--colorInk);
+
+                border-bottom: none;
+                &:after {
+                    border-bottom: none;
+                }
 
                 &:not(:last-child) {
                     margin-right: spacing.$gutter;

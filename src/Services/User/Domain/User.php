@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Services\User\Domain;
 
 use App\Services\Campaign\Domain\CampaignMembership;
+use App\Services\Character\Domain\Character;
 use App\Services\Core\Domain\AbstractDomainEntity;
 use App\Services\Events\Domain\Organisation;
 use App\Services\Game\Domain\Game;
@@ -33,6 +34,10 @@ use Symfony\Component\Validator\Constraints as Assert;
 #[UniqueEntity("email")]
 class User extends AbstractDomainEntity implements UserInterface, PasswordAuthenticatedUserInterface
 {
+    /** @var Collection<int, Character> */
+    #[ORM\OneToMany(targetEntity: Character::class, mappedBy: 'user', cascade: ['persist', 'remove'], orphanRemoval: true)]
+    private Collection $characters;
+
     /**
      * @var Collection<int, Game>
      */
@@ -158,6 +163,7 @@ class User extends AbstractDomainEntity implements UserInterface, PasswordAuthen
         $this->feats = new ArrayCollection();
         $this->orders = new ArrayCollection();
         $this->userBlocks = $userBlocks ?? new ArrayCollection();
+        $this->characters = new ArrayCollection();
         if ($this->userCart === null) {
             $this->userCart = new UserCart($this);
         }
@@ -471,5 +477,24 @@ class User extends AbstractDomainEntity implements UserInterface, PasswordAuthen
             $this->worldsCreated->add($world);
             $world->setCreator($this);
         }
+    }
+
+    /** @return Collection<int, Character> */
+    public function getCharacters(): Collection
+    {
+        return $this->characters;
+    }
+
+    public function addCharacter(Character $character): void
+    {
+        if (!$this->characters->contains($character)) {
+            $this->characters->add($character);
+            $character->setUser(user: $this);
+        }
+    }
+
+    public function removeCharacter(Character $character): void
+    {
+        $this->characters->removeElement($character);
     }
 }
