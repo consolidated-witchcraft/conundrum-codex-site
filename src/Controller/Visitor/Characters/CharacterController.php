@@ -68,6 +68,7 @@ class CharacterController extends AbstractBaseController
                     uploadedFile: $dto->portrait,
                     destination: $this->portraitImagesDirectory,
                 ),
+                level: $dto->level,
                 characterSheet: $dto->characterSheet === null
                     ? null
                     : $this->handleFileUpload(
@@ -105,6 +106,7 @@ class CharacterController extends AbstractBaseController
             $character->setName(name: $dto->name);
             $character->setClass(class: $dto->class);
             $character->setRace(race: $dto->race);
+            $character->setLevel(level: $dto->level);
             $character->setBiography(biography: $dto->biography);
 
             if ($dto->portrait !== null) {

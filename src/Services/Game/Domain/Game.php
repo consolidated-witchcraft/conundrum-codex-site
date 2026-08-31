@@ -268,7 +268,7 @@ class Game extends AbstractDomainEntity
         $filteredSessions = $this->gameSessions->filter(function (GameSession $gameSession) use ($now) {
             return $gameSession->getSessionDate() >= $now;
         });
-        $criteria = Criteria::create()
+        $criteria = (new Criteria(accessRawFieldValues: true))
             ->orderBy(array("sessionDate" => Order::Ascending))
             ->setMaxResults(self::MAX_UPCOMING_SESSIONS);
         return $filteredSessions->matching($criteria);

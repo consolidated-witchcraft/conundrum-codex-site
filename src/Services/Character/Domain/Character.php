@@ -40,6 +40,9 @@ class Character extends AbstractDomainEntity
         #[ORM\JoinColumn(nullable: false)]
         private ManagedImage $portrait,
 
+        #[ORM\Column(options: ['default' => 1])]
+        private int $level = 1,
+
         #[ORM\Column(options: ['default' => false])]
         private bool $npc = false,
 
@@ -117,6 +120,16 @@ class Character extends AbstractDomainEntity
     public function setPortrait(ManagedImage $portrait): void
     {
         $this->portrait = $portrait;
+    }
+
+    public function getLevel(): int
+    {
+        return $this->level;
+    }
+
+    public function setLevel(int $level): void
+    {
+        $this->level = $level;
     }
 
     public function isNpc(): bool

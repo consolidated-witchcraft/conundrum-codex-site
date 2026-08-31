@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 use App\Services\Campaign\Domain\CampaignMembership;
 use App\Services\Character\Domain\Character;
+use App\Services\Game\Domain\Game;
 use App\Services\ManagedImages\Domain\ManagedImage;
 use App\Services\User\Domain\Role;
 use App\Services\User\Domain\User;
@@ -56,6 +57,35 @@ test('construct', function () {
     self::assertEmpty($user->getUserBlock());
     self::assertEmpty($user->getCampaignMemberships());
     self::assertEmpty($user->getCharacters());
+});
+
+test('mastered games are separated by archive status', function () {
+    $user = ($this->makeUser)();
+    $activeGame = new Game(
+        name: 'Active game',
+        slug: 'active-game',
+        description: 'An active game.',
+        gamesMaster: $user,
+    );
+    $archivedGame = new Game(
+        name: 'Archived game',
+        slug: 'archived-game',
+        description: 'An archived game.',
+        gamesMaster: $user,
+    );
+    $archivedGame->archive();
+    $user->getGamesMastered(includeArchived: true)->add($activeGame);
+    $user->getGamesMastered(includeArchived: true)->add($archivedGame);
+
+    self::assertSame(expected: [$activeGame], actual: array_values($user->getGamesMastered()->toArray()));
+    self::assertSame(
+        expected: [$archivedGame],
+        actual: array_values($user->getArchivedGamesMastered()->toArray()),
+    );
+    self::assertSame(
+        expected: [$activeGame, $archivedGame],
+        actual: $user->getGamesMastered(includeArchived: true)->toArray(),
+    );
 });
 
 test('add character adds it once and synchronises its user', function () {

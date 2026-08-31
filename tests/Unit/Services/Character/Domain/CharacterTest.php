@@ -41,6 +41,7 @@ test('construct', function () {
     self::assertSame(expected: 'Wizard', actual: $character->getClass());
     self::assertSame(expected: 'Human', actual: $character->getRace());
     self::assertSame(expected: $portrait, actual: $character->getPortrait());
+    self::assertSame(expected: 1, actual: $character->getLevel());
     self::assertSame(expected: $characterSheet, actual: $character->getCharacterSheet());
     self::assertFalse(condition: $character->isNpc());
     self::assertSame(expected: 'Keeper of the celestial archive.', actual: $character->getBiography());
@@ -117,6 +118,14 @@ test('set portrait updates portrait', function () {
     $character->setPortrait(portrait: $portrait);
 
     self::assertSame(expected: $portrait, actual: $character->getPortrait());
+});
+
+test('set level updates level', function () {
+    $character = ($this->makeCharacter)();
+
+    $character->setLevel(level: 5);
+
+    self::assertSame(expected: 5, actual: $character->getLevel());
 });
 
 test('set character sheet updates and removes character sheet', function () {

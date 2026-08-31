@@ -313,7 +313,7 @@ class User extends AbstractDomainEntity implements UserInterface, PasswordAuthen
      */
     public function getGamesMastered(bool $includeArchived = false): Collection
     {
-        $criteria = Criteria::create()
+        $criteria = (new Criteria(accessRawFieldValues: true))
             ->where(Criteria::expr()->isNull('archivedDate'));
 
         return $includeArchived ? $this->gamesMastered : $this->gamesMastered->matching($criteria);
@@ -324,7 +324,7 @@ class User extends AbstractDomainEntity implements UserInterface, PasswordAuthen
      */
     public function getArchivedGamesMastered(): Collection
     {
-        $criteria = Criteria::create()
+        $criteria = (new Criteria(accessRawFieldValues: true))
             ->where(Criteria::expr()->isNotNull('archivedDate'));
 
         return $this->gamesMastered->matching($criteria);

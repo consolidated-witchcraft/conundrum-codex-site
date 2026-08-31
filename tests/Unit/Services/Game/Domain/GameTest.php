@@ -153,3 +153,24 @@ test('upcoming game sessions filters past sessions', function () {
     self::assertTrue($upcoming->contains($futureSession));
     self::assertFalse($upcoming->contains($pastSession));
 });
+
+test('upcoming game sessions are ordered and limited to five', function () {
+    $game = ($this->makeGame)();
+    $sessions = [];
+
+    foreach ([6, 2, 4, 1, 5, 3] as $day) {
+        $session = new GameSession(
+            sessionDate: new \DateTimeImmutable(sprintf('2999-01-%02d 10:00:00', $day)),
+            game: $game,
+            title: sprintf('Session %d', $day),
+            description: 'Coming up',
+        );
+        $sessions[$day] = $session;
+        $game->addGameSession(gameSession: $session);
+    }
+
+    self::assertSame(
+        expected: [$sessions[1], $sessions[2], $sessions[3], $sessions[4], $sessions[5]],
+        actual: array_values($game->getUpcomingGameSessions()->toArray()),
+    );
+});

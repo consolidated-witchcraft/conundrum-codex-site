@@ -185,7 +185,7 @@ class Casebook extends AbstractDomainEntity implements StaticPuzzleInstanceInter
     public function getSubjectsByTypeHandle(string $typeHandle): Collection
     {
 
-        $criteria = Criteria::create()
+        $criteria = (new Criteria(accessRawFieldValues: true))
             ->orderBy(["name" => Order::Ascending]);
 
 
