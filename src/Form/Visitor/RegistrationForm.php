@@ -63,7 +63,7 @@ class RegistrationForm extends AbstractType
                 TextType::class,
                 [
                     'required' => false,
-                    'help' => 'Enter an invitation code to join a game as soon as you\'ve registered!'
+                    'help' => 'Enter an invitation code to join a game or campaign as soon as you\'ve registered!'
                 ]
             )
             ->add(

@@ -2,7 +2,7 @@
 
 namespace App\Command;
 
-use App\Services\Game\Service\Interfaces\GameEntityServiceInterface;
+use App\Services\Campaign\Service\Interfaces\CampaignServiceInterface;
 use App\Services\User\Domain\User;
 use App\Services\User\Service\UserService;
 use Doctrine\ORM\EntityManagerInterface;
@@ -25,7 +25,7 @@ class DeleteUserCommand extends Command
     public function __construct(
         private UserService                $userService,
         private EntityManagerInterface     $entityManager,
-        private GameEntityServiceInterface $gameService
+        private CampaignServiceInterface $campaignService
     )
     {
         parent::__construct();
@@ -47,9 +47,9 @@ class DeleteUserCommand extends Command
                 $this->userService->loadUserByIdentifier($email);
                 $user = $this->userService->loadUserByIdentifier($email);
                 if ($user instanceof User) {
-                    $userInvitations = $this->gameService->findInvitationsByEmailAddress($email);
+                    $userInvitations = $this->campaignService->findInvitationsByEmail($email);
                     foreach ($userInvitations as $userInvitation) {
-                        $this->entityManager->remove($userInvitation);
+                        $this->campaignService->deleteInvitation(invitation: $userInvitation, flush: false);
                     }
                     $this->entityManager->remove($user);
                     $this->entityManager->flush();

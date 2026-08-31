@@ -4,14 +4,13 @@ declare(strict_types=1);
 
 namespace App\Security;
 
-use App\Services\Game\Domain\Game;
 use App\Services\PostalAddress\Domain\PostalAddress;
 use App\Services\User\Domain\User;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Core\Authorization\Voter\Voter;
 
 /**
- * @template-extends Voter<string, Game>
+ * @template-extends Voter<string, PostalAddress>
  */
 class PostalAddressVoter extends Voter
 {

@@ -9,14 +9,12 @@ test('construct', function () {
     $userAccountType = new UserAccountType(
         label: 'Premium',
         handle: 'premium',
-        maximumConcurrentGames: 10,
         description: 'Premium users can run more games.',
         id: 5,
     );
 
     self::assertSame('Premium', $userAccountType->getLabel());
     self::assertSame('premium', $userAccountType->getHandle());
-    self::assertSame(10, $userAccountType->getMaximumConcurrentGames());
     self::assertSame('Premium users can run more games.', $userAccountType->getDescription());
     self::assertSame('Premium', (string) $userAccountType);
     self::assertTrue(UserAccountType::hasDescription());
@@ -27,7 +25,6 @@ test('set description updates state', function () {
     $userAccountType = new UserAccountType(
         label: 'Premium',
         handle: 'premium',
-        maximumConcurrentGames: 10,
         description: 'Premium users can run more games.',
     );
 
@@ -42,7 +39,6 @@ test('invalid handle is rejected', function () {
     new UserAccountType(
         label: 'Premium',
         handle: 'premium-tier',
-        maximumConcurrentGames: 10,
         description: 'Premium users can run more games.',
     );
 });

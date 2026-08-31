@@ -4,15 +4,13 @@ declare(strict_types=1);
 
 namespace App\Security;
 
-use App\Services\Game\Domain\Game;
-use App\Services\Game\Domain\GameInvitation;
 use App\Services\Orders\Domain\Order;
 use App\Services\User\Domain\User;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Core\Authorization\Voter\Voter;
 
 /**
- * @template-extends Voter<string, GameInvitation>
+ * @template-extends Voter<string, Order>
  */
 class UserOwnsOrderVoter extends Voter
 {

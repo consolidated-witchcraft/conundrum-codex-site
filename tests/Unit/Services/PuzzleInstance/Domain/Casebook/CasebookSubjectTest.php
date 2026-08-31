@@ -2,7 +2,6 @@
 
 declare(strict_types=1);
 
-use App\Services\Game\Domain\Game;
 use App\Services\ManagedImages\Domain\ManagedImage;
 use App\Services\PuzzleInstance\Domain\Casebook\Casebook;
 use App\Services\PuzzleInstance\Domain\Casebook\CasebookSubject;
@@ -16,7 +15,6 @@ beforeEach(function () {
         return new Casebook(
             name: 'Casebook',
             slug: 'casebook',
-            game: $this->createStub(Game::class),
             brief: 'Brief',
         );
     };

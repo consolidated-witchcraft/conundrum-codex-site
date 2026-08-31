@@ -8,7 +8,6 @@ use ApiPlatform\Metadata\ApiResource;
 use ApiPlatform\Metadata\Get;
 use ApiPlatform\Metadata\Link;
 use App\ApiResource\PuzzleTemplate\Dto\PuzzleTemplateDto;
-use App\Services\Game\Domain\Game;
 use App\Services\PuzzleInstance\Domain\Dynamic\Fields\BooleanArrayField;
 use App\Services\PuzzleInstance\Domain\Dynamic\Fields\BooleanField;
 use App\Services\PuzzleInstance\Domain\Dynamic\Fields\ClueArrayField;
@@ -32,7 +31,6 @@ use App\Services\PuzzleTemplate\Service\ValidPuzzleConfigOptionTypes;
 class DynamicPuzzleInstanceDto
 {
     private function __construct(
-        public readonly Game $game,
         public string $puzzleName,
         public string $puzzleDescription,
         /** @var array<string, DynamicPuzzleFieldInterface> */
@@ -53,14 +51,12 @@ class DynamicPuzzleInstanceDto
     public static function makeFromPuzzleTemplate(
         string $puzzleName,
         string $puzzleDescription,
-        Game $game,
         PuzzleTemplate $puzzleTemplate
     ): self {
         if ($puzzleTemplate->isStatic()) {
             throw new AttemptingToGenerateDtoForStaticPuzzleException($puzzleTemplate->getTitle());
         }
         return new self(
-            game: $game,
             puzzleName: $puzzleName,
             puzzleDescription: $puzzleDescription,
             config: self::mapConfig($puzzleTemplate),
@@ -77,7 +73,6 @@ class DynamicPuzzleInstanceDto
             throw new AttemptingToGenerateDtoForStaticPuzzleException($puzzleInstance->getTemplate()->getTitle());
         }
         return new self(
-            game: $puzzleInstance->getGame(),
             puzzleName: $puzzleInstance->getName(),
             puzzleDescription: $puzzleInstance->getDescription(),
             config: self::mapConfig($puzzleInstance->getTemplate(), $puzzleInstance),

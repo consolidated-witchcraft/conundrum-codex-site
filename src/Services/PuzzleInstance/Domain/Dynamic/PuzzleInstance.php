@@ -3,7 +3,6 @@
 namespace App\Services\PuzzleInstance\Domain\Dynamic;
 
 use App\Services\Core\Domain\AbstractDomainEntity;
-use App\Services\Game\Domain\Game;
 use App\Services\PuzzleInstance\Domain\Dynamic\Fields\DynamicPuzzleFieldInterface;
 use App\Services\PuzzleInstance\Domain\Interfaces\DynamicPuzzleInstanceInterface;
 use App\Services\PuzzleInstance\Infrastructure\PuzzleInstanceRepository;
@@ -21,7 +20,6 @@ class PuzzleInstance extends AbstractDomainEntity implements DynamicPuzzleInstan
      * @param non-empty-string $instanceCode
      * @param non-empty-string $name
      * @param non-empty-string $description
-     * @param Game $game
      * @param non-empty-string $templateSlug
      * @param \DateTimeInterface|null $publicationDate
      * @param DynamicPuzzleFieldInterface[] $config
@@ -36,10 +34,6 @@ class PuzzleInstance extends AbstractDomainEntity implements DynamicPuzzleInstan
 
         #[ORM\Column(type: 'non_empty_string', length: 2048)]
         private string $description,
-
-        #[ORM\ManyToOne(inversedBy: 'dynamicPuzzleInstances')]
-        #[ORM\JoinColumn(nullable: false)]
-        private Game $game,
 
         #[ORM\Column(type: 'non_empty_string', length:1024)]
         private readonly string $templateSlug,
@@ -101,16 +95,6 @@ class PuzzleInstance extends AbstractDomainEntity implements DynamicPuzzleInstan
     public function setInstanceCode(string $instanceCode): void
     {
         $this->instanceCode = $instanceCode;
-    }
-
-    public function getGame(): Game
-    {
-        return $this->game;
-    }
-
-    public function setGame(Game $game): void
-    {
-        $this->game = $game;
     }
 
     /**

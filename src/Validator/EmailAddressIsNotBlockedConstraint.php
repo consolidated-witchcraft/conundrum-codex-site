@@ -10,4 +10,5 @@ use Symfony\Component\Validator\Constraint;
 #[\Attribute]
 class EmailAddressIsNotBlockedConstraint extends Constraint
 {
+    public string $message = 'The e-mail address {{ emailAddress }} is blocked and cannot be used.';
 }

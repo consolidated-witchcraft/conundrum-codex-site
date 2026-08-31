@@ -1,0 +1,8 @@
+{% extends 'base/base.html.twig' %}
+{% block body %}
+    <section id="campaign-invitation-response-form">
+        <h2>{{ pageTitle }}</h2>
+        <p>Campaign: {{ invitation.campaign.name }}</p>
+        {{ form(form) }}
+    </section>
+{% endblock %}

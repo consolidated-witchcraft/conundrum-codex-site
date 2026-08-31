@@ -1,0 +1,28 @@
+{% extends 'base/base.html.twig' %}
+
+{% block body %}
+    {{ form_start(form) }}
+    <div class="row one-third-two-thirds">
+        <div class="col">
+            <div id="character-portrait-upload">
+                {{ form_row(form.portrait) }}
+            </div>
+        </div>
+        <div class="col">
+            {{ form_row(form.name) }}
+            {{ form_row(form.class) }}
+            {{ form_row(form.race) }}
+            {{ form_row(form.level) }}
+            <div id="character-sheet-upload">
+                {{ form_row(form.characterSheet) }}
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col">
+            {{ form_row(form.biography) }}
+            {{ form_row(form.submit) }}
+        </div>
+    </div>
+    {{ form_end(form) }}
+{% endblock %}

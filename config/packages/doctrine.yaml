@@ -108,19 +108,12 @@ doctrine:
                 prefix: 'App\Services\BugReport\Domain'
                 alias: BugReport
 
-            Game:
-                type: attribute
-                is_bundle: false
-                dir: '%kernel.project_dir%/src/Services/Game/Domain'
-                prefix: 'App\Services\Game\Domain'
-                alias: Game
-
             ManagedFile:
                 type: attribute
                 is_bundle: false
                 dir: '%kernel.project_dir%/src/Services/ManagedFiles/Domain'
                 prefix: 'App\Services\ManagedFiles\Domain'
-                alias: Game
+                alias: ManagedFile
 
             PostalAddress:
                 type: attribute

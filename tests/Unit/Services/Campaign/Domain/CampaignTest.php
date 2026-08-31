@@ -51,6 +51,25 @@ test('memberships default to an empty collection', function () {
     self::assertCount(expectedCount: 0, haystack: $campaign->getMemberships());
 });
 
+test('returns the game master from campaign memberships', function () {
+    $campaign = new Campaign(
+        name: 'The Lost Observatory',
+        slug: 'the-lost-observatory',
+        description: 'A campaign among the stars.',
+    );
+    $gamesMaster = $this->createStub(User::class);
+    $membership = new CampaignMembership(
+        campaign: $campaign,
+        user: $gamesMaster,
+        type: CampaignMembershipTypeEnum::GAME_MASTER,
+    );
+    $campaign->addMembership(membership: $membership);
+
+    $result = $campaign->getGamesMaster();
+
+    self::assertSame(expected: $gamesMaster, actual: $result);
+});
+
 test('add membership adds a membership once', function () {
     $campaign = new Campaign(
         name: 'The Lost Observatory',

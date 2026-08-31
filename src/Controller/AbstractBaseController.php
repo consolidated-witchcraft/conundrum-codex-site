@@ -54,41 +54,6 @@ abstract class AbstractBaseController extends AbstractController
         return !$session->get(self::ACCEPT_COOKIES_SESSION_KEY);
     }
 
-    private function buildGamesItem(User $user): NavItem {
-        $gamesItem = new NavItem(
-            handle: 'games',
-            label: 'Games',
-            route: 'app.games.index'
-        );
-        foreach ($user->getGames() as $game) {
-            $gamesItem->addChild(new NavItem(
-                handle: $game->getSlug(),
-                label: $game->getName(),
-                route: 'app.games.play',
-                routeArguments: [
-                    'gameSlug' => $game->getSlug(),
-                ]
-            ));
-        }
-        foreach ($user->getGamesMastered() as $game) {
-            $gamesItem->addChild(new NavItem(
-                handle: $game->getSlug(),
-                label: $game->getName(),
-                route: 'app.games.manage',
-                routeArguments: [
-                    'gameSlug' => $game->getSlug(),
-                ]
-            ));
-        }
-        $gamesItem->addChild(new NavItem(
-            handle: 'all_games',
-            label: 'All Games',
-            route: 'app.games.index',
-            routeArguments: []
-        ));
-        return $gamesItem;
-    }
-
     private function setActiveTrail(array &$nav, string $route): void {
         foreach ($nav as $navItem) {
             if ($navItem->getRoute() === $route) {
@@ -148,7 +113,6 @@ abstract class AbstractBaseController extends AbstractController
 
 
         if ($user instanceof User) {
-            $mainNav['games'] = $this->buildGamesItem($user);
         }
 
 

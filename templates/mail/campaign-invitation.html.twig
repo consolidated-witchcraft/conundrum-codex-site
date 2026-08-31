@@ -1,0 +1,6 @@
+<h1>You have been invited to join a campaign on conundrumcodex.com</h1>
+<p>{{ invitation.campaign.gamesMaster.username }} has invited you to join “{{ invitation.campaign.name }}”.</p>
+<p>{{ invitation.invitationMessage }}</p>
+<p><a href="{{ registrationLink }}">Register and join the campaign</a></p>
+<p>Your invitation code is <strong>{{ invitation.invitationCode }}</strong>. It expires at {{ invitation.expiresAt|date('Y-m-d H:i') }}.</p>
+<p>If you do not recognise this invitation, you may <a href="{{ declineLink }}">decline it</a>.</p>

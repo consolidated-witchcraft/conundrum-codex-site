@@ -5,10 +5,8 @@ declare(strict_types=1);
 namespace App\Services\PuzzleInstance\Service;
 
 use App\Services\Core\Service\AbstractDomainEntityService;
-use App\Services\Game\Domain\Game;
 use App\Services\PuzzleInstance\Domain\Interfaces\PuzzleInstanceInterface;
 use App\Services\PuzzleInstance\Domain\Interfaces\PuzzleInstanceProviderInterface;
-use App\Services\PuzzleInstance\Domain\Interfaces\StaticPuzzleInstanceInterface;
 use App\Services\PuzzleInstance\Domain\Interfaces\StaticPuzzleInstanceProviderInterface;
 use App\Services\PuzzleInstance\Infrastructure\PuzzleInstanceRepository;
 use App\Services\PuzzleInstance\Service\Interfaces\PuzzleInstanceEntityServiceInterface;
@@ -16,7 +14,6 @@ use App\Services\PuzzleTemplate\Domain\Exceptions\MismappedPuzzleTemplateExcepti
 use App\Services\PuzzleTemplate\Domain\PuzzleTemplate;
 use App\Services\PuzzleTemplate\Service\Exceptions\TemplateNotFoundException;
 use App\Services\PuzzleTemplate\Service\Interfaces\PuzzleTemplateRegistryInterface;
-use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\DependencyInjection\Attribute\AutowireIterator;
 
@@ -81,37 +78,6 @@ class PuzzleInstanceService extends AbstractDomainEntityService implements Puzzl
     {
         $this->entityManager->remove($instance);
         $this->entityManager->flush();
-    }
-
-    /**
-     * @throws MismappedPuzzleTemplateException
-     * @return ArrayCollection<int, StaticPuzzleInstanceInterface>
-     */
-    public function getStaticPuzzleInstancesForGame(Game $game): ArrayCollection
-    {
-        $staticPuzzles = new ArrayCollection();
-        foreach ($this->staticInstanceProviders as $provider) {
-            $staticPuzzleInstances = $provider->getStaticPuzzleInstancesForGame($game);
-            foreach ($staticPuzzleInstances as $staticPuzzleInstance) {
-                $this->mapPuzzleTemplate($staticPuzzleInstance);
-                $staticPuzzles->add($staticPuzzleInstance);
-            }
-        }
-        return $staticPuzzles;
-    }
-
-    /**
-     * @param StaticPuzzleInstanceInterface $puzzleInstance
-     * @return void
-     * @throws MismappedPuzzleTemplateException
-     */
-    private function mapPuzzleTemplate(StaticPuzzleInstanceInterface $puzzleInstance): void {
-
-        $template = $this->puzzleTemplateRegistry->getTemplate($puzzleInstance->getTemplateSlug());
-        if (null === $template) {
-            throw new MismappedPuzzleTemplateException(sprintf("Could not find a template with slug %s", $puzzleInstance->getTemplateSlug()));
-        }
-        $puzzleInstance->setTemplate($template);
     }
 
     public function generateNewInstanceCode(PuzzleTemplate $puzzleTemplate): string

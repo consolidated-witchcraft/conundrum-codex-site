@@ -9,7 +9,6 @@ use App\Services\PuzzleTemplate\Service\Factory\Validators\Exceptions\ConfigOpti
 use App\Services\PuzzleTemplate\Service\Factory\Validators\Exceptions\ConfigOptions\ConfigOptionTypeScalarMismatchException;
 use App\Services\PuzzleTemplate\Service\Factory\Validators\Exceptions\TemplateFields\InvalidTemplateFieldRouteException;
 use App\Services\PuzzleTemplate\Service\Factory\Validators\Exceptions\TemplateFields\MissingRequiredTemplateFieldException;
-use App\Services\PuzzleTemplate\Service\Factory\Validators\Exceptions\TemplateFields\MissingTemplateFieldStaticRouteException;
 use App\Services\PuzzleTemplate\Service\Factory\Validators\Exceptions\TemplateFields\TemplateFieldScalarMismatchException;
 use App\Services\PuzzleTemplate\Service\Factory\Validators\Exceptions\TemplateFields\UnknownFieldSpecifiedException;
 use App\Services\PuzzleTemplate\Service\Factory\Validators\TemplateFieldValidators\TemplateFieldArrayValidator;
@@ -56,12 +55,6 @@ class PuzzleTemplateDefinitionValidator
         'elementName' => 'elementName'
     ];
 
-    private const array REQUIRED_STATIC_ROUTE_KEYS = [
-        'staticCreateRoute',
-        'staticEditRoute',
-        'staticPlayRoute'
-    ];
-
     public function __construct(
         private readonly RouterInterface $router
     ) {}
@@ -77,7 +70,6 @@ class PuzzleTemplateDefinitionValidator
     public function validateJson(array $decodedJson, string $moduleName): void {
         self::validateRequiredFieldsPresent($decodedJson, $moduleName);
         self::validateAllFieldsKnown($decodedJson, $moduleName);
-        self::validateStaticRoutes($decodedJson, $moduleName);
         $this->validateFields($decodedJson, $moduleName);
     }
 
@@ -101,20 +93,6 @@ class PuzzleTemplateDefinitionValidator
         foreach ($decodedJson as $key => $definition) {
             if (!in_array($key, array_keys(self::KNOWN_TEMPLATE_FIELDS))) {
                 throw new UnknownFieldSpecifiedException($key, $moduleName);
-            }
-        }
-    }
-
-    /** @param array<string, mixed> $decodedJson */
-    public static function validateStaticRoutes(array $decodedJson, string $moduleName): void {
-        if ($decodedJson['static'] === true) {
-            foreach (self::REQUIRED_STATIC_ROUTE_KEYS as $requireStaticRouteKey) {
-                if (!isset($decodedJson[$requireStaticRouteKey]) || !is_string($decodedJson[$requireStaticRouteKey])) {
-                    throw new MissingTemplateFieldStaticRouteException(
-                        moduleName: $moduleName,
-                        routeKey: $requireStaticRouteKey
-                    );
-                }
             }
         }
     }
@@ -210,7 +188,6 @@ class PuzzleTemplateDefinitionValidator
                     }
                     try {
                         $this->router->generate($value, [
-                            'gameSlug' => 'test',
                             'templateSlug' => 'test',
                             'instanceCode' => 'test'
                         ]);

@@ -8,21 +8,17 @@ use App\Controller\AbstractBaseController;
 use App\Controller\Traits\GeneratesPagerTrait;
 use App\Controller\Traits\HandlesFileUploadsTrait;
 use App\Dto\Admin\User\AdminUserDto;
-use App\Dto\Admin\User\AdminUserGameDto;
 use App\Dto\Visitor\User\UserBlockDto;
 use App\Form\Admin\Users\AdminBlockUserType;
 use App\Form\Admin\Users\AdminDeleteUserType;
-use App\Form\Admin\Users\AdminGameType;
 use App\Form\Admin\Users\AdminUnblockUserType;
 use App\Form\Admin\Users\AdminUserEditType;
 use App\Form\Admin\Users\AdminUserSearchType;
 use App\Services\Abuse\Service\AbuseReportService;
 use App\Services\FeatureSwitcher\Service\Interfaces\FeatureSwitcherServiceInterface;
 use App\Services\ManagedFiles\Service\Interfaces\ManagedFileServiceInterface;
-use App\Services\Game\Service\Interfaces\GameEntityServiceInterface;
 use App\Services\ManagedImages\Domain\Enums\ManagedImageTypeEnum;
 use App\Services\ManagedImages\Services\Interfaces\ManagedImageServiceInterface;
-use App\Services\PuzzleInstance\Service\Interfaces\PuzzleInstanceEntityServiceInterface;
 use App\Services\User\Domain\User;
 use App\Services\User\Domain\UserBlock;
 use App\Services\User\Service\Interfaces\UserServiceInterface;
@@ -48,10 +44,8 @@ class AdminUserController extends AbstractBaseController
         private readonly UserPasswordHasherInterface                                             $userPasswordHasher,
         private readonly ValidatorInterface                                                      $validator,
         private readonly EntityManagerInterface                                                  $entityManager,
-        private readonly PuzzleInstanceEntityServiceInterface                                    $puzzleInstanceService,
         private readonly AbuseReportService                                                      $abuseReportService,
         protected readonly SluggerInterface                                                      $slugger,
-        private readonly GameEntityServiceInterface                                              $gameService,
         private readonly ManagedFileServiceInterface                                             $filesService,
         private readonly ManagedImageServiceInterface                                            $managedImageService,
         FeatureSwitcherServiceInterface                                                          $featureSwitcherService,
@@ -150,37 +144,6 @@ class AdminUserController extends AbstractBaseController
         return $this->render('admin/users/edit.html.twig', $this->populatePageVars($pageVars, $request));
     }
 
-    #[Route('admin/users/{userId}/games', name: 'admin.users.games')]
-    #[IsGranted('manage_user_games')]
-    public function manageGames(User $user, Request $request): Response {
-        $currentUser = $this->getUser();
-
-        $selfEditMode = $user === $currentUser;
-
-        if ($selfEditMode) {
-            $this->addFlash("warning", "You are editing your own user. Password change requests and e-mail changes will be ignored.");
-        }
-        $dto = AdminUserGameDto::makeFromUser($user);
-        $form = $this->createForm(AdminGameType::class, $dto);
-        $form->handleRequest($request);
-
-        if ($form->isSubmitted() && $form->isValid()) {
-            foreach ($dto->games as $gameId) {
-                $game = $this->gameService->find($gameId);
-                $game->addPlayer($user);
-                $this->gameService->saveGame($game);
-            }
-            $this->addFlash('success', 'Games saved successfully.');
-            return $this->redirectToRoute('admin.users.manage');
-        }
-        $pageVars = [
-            'pageTitle' => sprintf('Assign games to user %s', $user->getUsername()),
-            'user' => $user,
-            'form' => $form
-        ];
-        return $this->render('admin/users/manage-games.html.twig', $this->populatePageVars($pageVars, $request));
-    }
-
     #[Route('admin/users/{userId}/block', name: 'admin.users.block')]
     #[IsGranted('block_users')]
     public function blockUser(User $user, Request $request): Response {
@@ -258,23 +221,6 @@ class AdminUserController extends AbstractBaseController
         if ($form->isSubmitted() && $form->isValid()) {
 
 
-            //Delete all invitations
-            foreach ($user->getGames() as $game) {
-                foreach ($game->getGameInvitations() as $gameInvitation) {
-                    if ($gameInvitation->getUser() === $user) {
-                        $this->entityManager->remove($gameInvitation);
-                    }
-                }
-            }
-
-            //Delete All Games and static puzzles.
-            foreach ($user->getGamesMastered(true) as $game) {
-               $staticPuzzleInstances = $this->puzzleInstanceService->getStaticPuzzleInstancesForGame($game);
-               foreach ($staticPuzzleInstances as $staticPuzzleInstance) {
-                   $this->puzzleInstanceService->deleteInstance($staticPuzzleInstance);
-               }
-               $this->entityManager->remove($game);
-            }
             $abuseReports = $this->abuseReportService->getAbuseReportsByUser($user);
 
             foreach ($abuseReports as $report) {

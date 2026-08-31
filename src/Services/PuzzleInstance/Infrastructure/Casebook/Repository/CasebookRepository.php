@@ -4,15 +4,12 @@ declare(strict_types=1);
 
 namespace App\Services\PuzzleInstance\Infrastructure\Casebook\Repository;
 
-use App\Services\Game\Domain\Game;
 use App\Services\PuzzleInstance\Domain\Casebook\Casebook;
 use App\Services\PuzzleInstance\Domain\Interfaces\PuzzleInstanceProviderInterface;
 use App\Services\PuzzleInstance\Domain\Interfaces\PuzzleInstanceInterface;
 use App\Services\PuzzleInstance\Domain\Interfaces\StaticPuzzleInstanceProviderInterface;
 use App\Services\PuzzleInstance\Infrastructure\CodeGenerator;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
 use Doctrine\Persistence\ManagerRegistry;
 use Random\RandomException;
 
@@ -49,19 +46,6 @@ class CasebookRepository extends ServiceEntityRepository implements StaticPuzzle
         } else {
             return $this->decollideInstanceCode($candidateInstanceCode, $attempts);
         }
-    }
-
-    /**
-     * @return Collection<int, Casebook>
-     */
-    public function getStaticPuzzleInstancesForGame(Game $game): Collection
-    {
-        $qb = $this->createQueryBuilder('cp')
-            ->where('g = :game')
-            ->innerJoin('cp.game', 'g')
-            ->setParameter(':game', $game);
-
-        return new ArrayCollection($qb->getQuery()->getResult());
     }
 
     public function providesTemplateInstances(): string

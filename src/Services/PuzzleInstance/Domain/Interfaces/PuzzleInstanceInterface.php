@@ -2,7 +2,6 @@
 
 namespace App\Services\PuzzleInstance\Domain\Interfaces;
 
-use App\Services\Game\Domain\Game;
 use App\Services\PuzzleTemplate\Domain\PuzzleTemplate;
 
 interface PuzzleInstanceInterface
@@ -13,13 +12,9 @@ interface PuzzleInstanceInterface
 
     public function setInstanceCode(string $instanceCode): void;
 
-    public function getGame(): Game;
-
     public function getName(): string;
 
     public function getDescription(): string;
-
-    public function setGame(Game $game): void;
 
 
     public function getPublicationDate(): ?\DateTimeInterface;

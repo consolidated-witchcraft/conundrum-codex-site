@@ -2,9 +2,7 @@
 
 namespace App\Command;
 
-use App\Services\Game\Infrastructure\GameInvitationRepository;
-use App\Services\Game\Service\Interfaces\GameEntityServiceInterface;
-use Doctrine\ORM\EntityManagerInterface;
+use App\Services\Campaign\Service\Interfaces\CampaignServiceInterface;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
@@ -13,13 +11,12 @@ use Symfony\Component\Console\Style\SymfonyStyle;
 
 #[AsCommand(
     name: 'app:clear-expired-invites',
-    description: 'Deletes expired game invitations from the database',
+    description: 'Deletes expired campaign invitations from the database',
 )]
 class ClearExpiredInvitesCommand extends Command
 {
     public function __construct(
-        private EntityManagerInterface $entityManager,
-        private GameEntityServiceInterface $gameService
+        private readonly CampaignServiceInterface $campaignService,
     )
     {
         parent::__construct();
@@ -34,7 +31,7 @@ class ClearExpiredInvitesCommand extends Command
     {
         $io = new SymfonyStyle($input, $output);
 
-        $expiredInvitations = $this->gameService->getExpiredInvitations();
+        $expiredInvitations = $this->campaignService->getExpiredInvitations();
 
         $count = 0;
         foreach ($expiredInvitations as $expiredInvitation) {
@@ -48,9 +45,9 @@ class ClearExpiredInvitesCommand extends Command
         foreach ($expiredInvitations as $expiredInvitation) {
 
             $io->info(sprintf('Removing invitation with code %s', $expiredInvitation->getInvitationCode()));
-            $this->entityManager->remove($expiredInvitation);
+            $this->campaignService->deleteInvitation(invitation: $expiredInvitation, flush: false);
         }
-        $this->entityManager->flush();
+        $this->campaignService->flush();
 
 
 

@@ -21,13 +21,12 @@ use App\Services\PuzzleInstance\Domain\Casebook\Casebook;
         )
     ],
     stateless: false,
-    security: 'is_granted("play_instance", object)',
+    security: 'is_granted("ROLE_USER")',
     provider: CasebookProvider::class
 )]
 readonly class ApiCasebookDtoApi implements ApiPuzzleInstanceDtoInterface
 {
     final public function __construct(
-        public string $gameSlug,
         public string $instanceCode,
         public string $name,
         public string $brief
@@ -35,7 +34,6 @@ readonly class ApiCasebookDtoApi implements ApiPuzzleInstanceDtoInterface
 
     public static function makeFromInstance(Casebook $casebook): self {
         return new static(
-            gameSlug: $casebook->getGame()->getSlug(),
             instanceCode: $casebook->getInstanceCode(),
             name: $casebook->getName(),
             brief: $casebook->getBrief()
@@ -47,8 +45,4 @@ readonly class ApiCasebookDtoApi implements ApiPuzzleInstanceDtoInterface
         return $this->instanceCode;
     }
 
-    public function getGameSlug(): string
-    {
-        return $this->gameSlug;
-    }
 }

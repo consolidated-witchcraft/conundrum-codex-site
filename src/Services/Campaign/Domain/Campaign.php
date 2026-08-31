@@ -7,11 +7,15 @@ namespace App\Services\Campaign\Domain;
 use App\Services\Campaign\Domain\Enums\CampaignStatusEnum;
 use App\Services\Campaign\Domain\Exceptions\CampaignMembershipDoesNotBelongToCampaignException;
 use App\Services\Character\Domain\Character;
+use App\Services\User\Domain\User;
+use App\Services\Campaign\Domain\Enums\CampaignMembershipTypeEnum;
 use App\Services\Campaign\Infrastructure\CampaignRepository;
 use App\Services\Core\Domain\AbstractDomainEntity;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\Common\Collections\Order;
+use Doctrine\ORM\Mapping\OrderBy;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Serializer\Attribute\Groups;
 
@@ -19,6 +23,11 @@ use Symfony\Component\Serializer\Attribute\Groups;
 #[UniqueEntity(fields: ['slug'], message: 'There is already a campaign with this slug. Please choose another one.')]
 class Campaign extends AbstractDomainEntity
 {
+    /** @var Collection<int, CampaignInvitation> */
+    #[ORM\OneToMany(targetEntity: CampaignInvitation::class, mappedBy: 'campaign', cascade: ['persist'], orphanRemoval: true)]
+    #[OrderBy(['createdAt' => Order::Descending->value])]
+    private Collection $invitations;
+
     /**
      * @param Collection<int, CampaignMembership> $memberships
      */
@@ -54,6 +63,13 @@ class Campaign extends AbstractDomainEntity
         parent::__construct(
             id: $id
         );
+        $this->invitations = new ArrayCollection();
+    }
+
+    /** @return Collection<int, CampaignInvitation> */
+    public function getInvitations(): Collection
+    {
+        return $this->invitations;
     }
 
     public function setName(string $name): void
@@ -110,6 +126,17 @@ class Campaign extends AbstractDomainEntity
     public function getMemberships(): Collection
     {
         return $this->memberships;
+    }
+
+    public function getGamesMaster(): ?User
+    {
+        foreach ($this->memberships as $membership) {
+            if (CampaignMembershipTypeEnum::GAME_MASTER === $membership->getType()) {
+                return $membership->getUser();
+            }
+        }
+
+        return null;
     }
 
     public function addMembership(CampaignMembership $membership): void

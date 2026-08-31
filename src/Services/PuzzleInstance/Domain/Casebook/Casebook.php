@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace App\Services\PuzzleInstance\Domain\Casebook;
 
 use App\Services\Core\Domain\AbstractDomainEntity;
-use App\Services\Game\Domain\Game;
 use App\Services\PuzzleTemplate\Domain\Exceptions\MismappedPuzzleTemplateException;
 use App\Services\PuzzleTemplate\Domain\Exceptions\PuzzleTemplateNotMappedException;
 use App\Services\PuzzleInstance\Domain\Interfaces\StaticPuzzleInstanceInterface;
@@ -38,10 +37,6 @@ class Casebook extends AbstractDomainEntity implements StaticPuzzleInstanceInter
 
         #[ORM\Column(length: 255, unique: true)]
         private string $slug,
-
-        #[ORM\ManyToOne(targetEntity: Game::class)]
-        #[ORM\JoinColumn(nullable: false)]
-        private Game $game,
 
         #[ORM\Column(length: 2048)]
         private string $brief,
@@ -103,10 +98,6 @@ class Casebook extends AbstractDomainEntity implements StaticPuzzleInstanceInter
         return $this;
     }
 
-    public function getGame(): Game {
-        return $this->game;
-    }
-
     public function getInstanceCode(): string
     {
         return $this->slug;
@@ -120,11 +111,6 @@ class Casebook extends AbstractDomainEntity implements StaticPuzzleInstanceInter
     public function getDescription(): string
     {
         return $this->brief;
-    }
-
-    public function setGame(Game $game): void
-    {
-        $this->game = $game;
     }
 
     public function getPublicationDate(): ?\DateTimeInterface

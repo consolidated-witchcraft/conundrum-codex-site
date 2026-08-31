@@ -1,0 +1,44 @@
+{% extends 'base/base.html.twig' %}
+
+{% block body %}
+    {{ form_start(form) }}
+    <div class="row one-third-two-thirds">
+        <div class="col">
+            <div id="character-portrait-replacement">
+                <figure id="character-current-portrait">
+                    <figcaption>Current portrait</figcaption>
+                    <img
+                        id="character-current-portrait-image"
+                        class="character-portrait"
+                        src="{{ character.portrait.path }}"
+                        alt="{{ character.portrait.description }}"
+                        loading="lazy"
+                        is="lazy-image"
+                    >
+                </figure>
+                {{ form_row(form.portrait) }}
+            </div>
+        </div>
+        <div class="col">
+            {{ form_row(form.name) }}
+            {{ form_row(form.class) }}
+            {{ form_row(form.race) }}
+            {{ form_row(form.level) }}
+            <div id="character-sheet-replacement">
+                {{ form_row(form.characterSheet) }}
+                {% if character.characterSheet %}
+                    <p id="character-current-sheet-download">
+                        <a href="{{ character.characterSheet.path }}" download>Download character sheet</a>
+                    </p>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col">
+            {{ form_row(form.biography) }}
+            {{ form_row(form.submit) }}
+        </div>
+    </div>
+    {{ form_end(form) }}
+{% endblock %}

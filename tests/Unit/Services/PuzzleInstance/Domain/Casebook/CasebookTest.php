@@ -2,7 +2,6 @@
 
 declare(strict_types=1);
 
-use App\Services\Game\Domain\Game;
 use App\Services\PuzzleInstance\Domain\Casebook\Casebook;
 use App\Services\PuzzleInstance\Domain\Casebook\CasebookSubject;
 use App\Services\PuzzleInstance\Domain\Casebook\CasebookSubjectType;
@@ -31,12 +30,9 @@ beforeEach(function () {
 });
 
 test('construct and setters update state', function () {
-    $game = $this->createStub(Game::class);
-    $updatedGame = $this->createStub(Game::class);
     $casebook = new Casebook(
         name: 'Casebook',
         slug: 'casebook-1',
-        game: $game,
         brief: 'Initial brief',
         id: 20,
     );
@@ -74,7 +70,6 @@ test('construct and setters update state', function () {
     self::assertSame('casebook-1', $casebook->getSlug());
     self::assertSame('Initial brief', $casebook->getBrief());
     self::assertSame('Casebook', $casebook->getName());
-    self::assertSame($game, $casebook->getGame());
     self::assertSame('casebook-1', $casebook->getInstanceCode());
     self::assertSame('Initial brief', $casebook->getDescription());
     self::assertSame(Casebook::TEMPLATE_SLUG, $casebook->getTemplateSlug());
@@ -85,13 +80,11 @@ test('construct and setters update state', function () {
     $casebook->setBrief('Updated brief');
     $casebook->setName('Updated Casebook');
     $casebook->setInstanceCode('casebook-3');
-    $casebook->setGame($updatedGame);
     $casebook->setPublicationDate(new DateTimeImmutable('2026-03-15 12:00:00'));
 
     self::assertSame('casebook-3', $casebook->getSlug());
     self::assertSame('Updated brief', $casebook->getBrief());
     self::assertSame('Updated Casebook', $casebook->getName());
-    self::assertSame($updatedGame, $casebook->getGame());
     self::assertTrue($casebook->isPublished());
     self::assertSame(['Baker', 'The Alchemist'], array_values(array_map(
         static fn (CasebookSubject $subject): string => $subject->getName(),
@@ -107,7 +100,6 @@ test('template access requires correct mapping', function () {
     $casebook = new Casebook(
         name: 'Casebook',
         slug: 'casebook-1',
-        game: $this->createStub(Game::class),
         brief: 'Initial brief',
     );
 
@@ -120,7 +112,6 @@ test('mismapped template is rejected', function () {
     $casebook = new Casebook(
         name: 'Casebook',
         slug: 'casebook-1',
-        game: $this->createStub(Game::class),
         brief: 'Initial brief',
     );
 
@@ -133,7 +124,6 @@ test('casebook template can be set and returned', function () {
     $casebook = new Casebook(
         name: 'Casebook',
         slug: 'casebook-1',
-        game: $this->createStub(Game::class),
         brief: 'Initial brief',
     );
     $template = ($this->makeTemplate)('casebook');

@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\Services\User\Service\Interfaces;
 
-use App\Services\Game\Domain\GameInvitation;
 use App\Services\User\Domain\Permission;
 use App\Services\User\Domain\Role;
 use App\Services\User\Domain\User;
@@ -22,8 +21,6 @@ interface UserServiceInterface extends UserProviderInterface, UserPasswordHasher
     public function getRoleByHandle(string $roleHandle): ? Role;
 
     public function getPermissionByHandle(string $permissionHandle): ? Permission;
-
-    public function redeemInvitationForUser(GameInvitation $invitation, User $user): void;
 
     public function validateUser(User $user): ConstraintViolationListInterface;
 
@@ -50,6 +47,8 @@ interface UserServiceInterface extends UserProviderInterface, UserPasswordHasher
     public function findAllFeats(): array;
 
     public function findById(int $id): ? User;
+
+    public function findByEmail(string $email): ?User;
 
     /**
      * @return User[]

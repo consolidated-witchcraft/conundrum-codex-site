@@ -7,7 +7,6 @@ namespace App\Services\User\Service;
 use App\Entity\ResetPasswordRequest;
 use App\Repository\ResetPasswordRequestRepository;
 use App\Services\Core\Service\Interfaces\DomainEntityServiceInterface;
-use App\Services\Game\Domain\GameInvitation;
 use App\Services\User\Domain\Permission;
 use App\Services\User\Domain\Role;
 use App\Services\User\Domain\User;
@@ -156,18 +155,6 @@ class UserService
         return $this->roleRepository->findOneBy(['handle' => $roleHandle]);
     }
 
-    public function redeemInvitationForUser(GameInvitation $invitation, User $user): void
-    {
-        $invitation->setUser($user);
-        $invitation->markUsed();
-        $game = $invitation->getGame();
-        $game->addPlayer($user);
-        $this->entityManager->persist($invitation);
-        $this->entityManager->persist($game);
-        $this->entityManager->persist($user);
-        $this->entityManager->flush();
-    }
-
     public function validateUser(User $user): ConstraintViolationListInterface
     {
         return $this->validator->validate($user);
@@ -197,6 +184,11 @@ class UserService
     public function getUsersCount(): int
     {
         return $this->userRepository->getUsersCount();
+    }
+
+    public function findByEmail(string $email): ?User
+    {
+        return $this->userRepository->findOneBy(criteria: ['email' => $email]);
     }
 
     /**

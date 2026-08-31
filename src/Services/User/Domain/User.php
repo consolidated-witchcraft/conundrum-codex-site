@@ -8,7 +8,6 @@ use App\Services\Campaign\Domain\CampaignMembership;
 use App\Services\Character\Domain\Character;
 use App\Services\Core\Domain\AbstractDomainEntity;
 use App\Services\Events\Domain\Organisation;
-use App\Services\Game\Domain\Game;
 use App\Services\ManagedImages\Domain\ManagedImage;
 use App\Services\Orders\Domain\Order;
 use App\Services\PostalAddress\Domain\PostalAddress;
@@ -18,7 +17,6 @@ use App\Services\User\Infrastructure\Repository\UserRepository;
 use App\Services\World\Domain\World;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
-use Doctrine\Common\Collections\Criteria;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\ORM\Mapping\OrderBy;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
@@ -37,14 +35,6 @@ class User extends AbstractDomainEntity implements UserInterface, PasswordAuthen
     /** @var Collection<int, Character> */
     #[ORM\OneToMany(targetEntity: Character::class, mappedBy: 'user', cascade: ['persist', 'remove'], orphanRemoval: true)]
     private Collection $characters;
-
-    /**
-     * @var Collection<int, Game>
-     */
-    #[ORM\OneToMany(targetEntity: Game::class, mappedBy: 'gamesMaster', orphanRemoval: true)]
-    #[OrderBy(["createdAt" => "DESC"])]
-    private Collection $gamesMastered;
-
 
     /**
      * @var Collection<int, World>
@@ -69,12 +59,6 @@ class User extends AbstractDomainEntity implements UserInterface, PasswordAuthen
     /** @var Collection<int, PostalAddress> */
     #[ORM\OneToMany(targetEntity: PostalAddress::class, mappedBy: 'user', orphanRemoval: true, fetch: 'EAGER')]
     private Collection $postalAddresses;
-
-    /**
-     * @var Collection<int, Game>
-     */
-    #[ORM\ManyToMany(targetEntity: Game::class, mappedBy: 'players')]
-    private Collection $games;
 
     /**
      * @var Collection<int, Role>
@@ -155,11 +139,9 @@ class User extends AbstractDomainEntity implements UserInterface, PasswordAuthen
     ) {
         parent::__construct($id);
         $this->roles = new ArrayCollection();
-        $this->gamesMastered = new ArrayCollection();
         $this->worldsCreated = new ArrayCollection();
         $this->worldsPlayed = new ArrayCollection();
         $this->postalAddresses = new ArrayCollection();
-        $this->games = new ArrayCollection();
         $this->feats = new ArrayCollection();
         $this->orders = new ArrayCollection();
         $this->userBlocks = $userBlocks ?? new ArrayCollection();
@@ -309,36 +291,6 @@ class User extends AbstractDomainEntity implements UserInterface, PasswordAuthen
 
 
     /**
-     * @return Collection<int, Game>
-     */
-    public function getGamesMastered(bool $includeArchived = false): Collection
-    {
-        $criteria = (new Criteria(accessRawFieldValues: true))
-            ->where(Criteria::expr()->isNull('archivedDate'));
-
-        return $includeArchived ? $this->gamesMastered : $this->gamesMastered->matching($criteria);
-    }
-
-    /**
-     * @return Collection<int, Game>
-     */
-    public function getArchivedGamesMastered(): Collection
-    {
-        $criteria = (new Criteria(accessRawFieldValues: true))
-            ->where(Criteria::expr()->isNotNull('archivedDate'));
-
-        return $this->gamesMastered->matching($criteria);
-    }
-
-    /**
-     * @return Collection<int, Game>
-     */
-    public function getGames(): Collection
-    {
-        return $this->games;
-    }
-
-    /**
      * @see UserInterface
      * @return string[]
      */
@@ -416,11 +368,6 @@ class User extends AbstractDomainEntity implements UserInterface, PasswordAuthen
     public function isBlocked(): bool
     {
         return !$this->getUserBlock()->isEmpty();
-    }
-
-    public function canCreateGames(): bool
-    {
-        return count($this->getGamesMastered()) < $this->getUserAccountType()->getMaximumConcurrentGames();
     }
 
     /**

@@ -9,7 +9,7 @@ use App\Dto\Visitor\User\RegisterUserDto;
 use App\Form\Visitor\LoginType;
 use App\Form\Visitor\RegistrationForm;
 use App\Services\FeatureSwitcher\Service\Interfaces\FeatureSwitcherServiceInterface;
-use App\Services\Game\Service\Interfaces\GameEntityServiceInterface;
+use App\Services\Campaign\Service\Interfaces\CampaignServiceInterface;
 use App\Services\User\Domain\User;
 use App\Services\User\Service\Interfaces\UserServiceInterface;
 use Symfony\Component\HttpFoundation\Request;
@@ -22,7 +22,7 @@ class AuthController extends AbstractBaseController
     public function __construct(
         private readonly AuthenticationUtils $authenticationUtils,
         private readonly UserServiceInterface $userService,
-        private readonly GameEntityServiceInterface $gameService,
+        private readonly CampaignServiceInterface $campaignService,
         FeatureSwitcherServiceInterface $featureSwitcherService,
     ) {
         parent::__construct($featureSwitcherService);
@@ -71,14 +71,13 @@ class AuthController extends AbstractBaseController
             }
 
 
+            $campaignInvitation = null;
             if ($success === true && null !== $userDto->invitationCode) {
-                $invitation = $this->gameService->findInvitationByCodeAndEmailAddress(invitationCode: $userDto->invitationCode, emailAddress: $userDto->emailAddress);
-                if (null === $invitation) {
+                $campaignInvitation = $this->campaignService->findInvitationByCodeAndEmail(code: $userDto->invitationCode, email: (string) $userDto->emailAddress);
+                if (null === $campaignInvitation) {
                     $success = false;
                     $this->addFlash('error', 'We couldn\'t find an invitation matching those details. Please check and try again.');
                 }
-            } else {
-                $invitation = null;
             }
 
 
@@ -86,13 +85,13 @@ class AuthController extends AbstractBaseController
                 $this->userService->saveUser($user);
 
                 $hasInvitation = false;
-                if (null !== $invitation) {
+                if (null !== $campaignInvitation) {
                     $hasInvitation = true;
-                    $this->userService->redeemInvitationForUser($invitation, $user);
+                    $this->campaignService->redeemInvitation(invitation: $campaignInvitation, user: $user);
                 }
 
 
-                $this->addFlash('success', $hasInvitation ? 'Your account has been created, and you\'ve been added to your game!' : 'Your account has been created. You may now log in.');
+                $this->addFlash('success', $hasInvitation ? 'Your account has been created, and your invitation has been accepted!' : 'Your account has been created. You may now log in.');
                 return $this->redirectToRoute('app.auth.login');
             }
 

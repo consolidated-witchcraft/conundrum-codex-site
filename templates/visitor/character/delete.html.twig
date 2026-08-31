@@ -1,0 +1,10 @@
+{% extends 'base/base.html.twig' %}
+
+{% block body %}
+    <div class="row">
+        <div class="col">
+            <p>Deleting {{ character.name }} will also delete all of their notes.</p>
+            {{ form(form) }}
+        </div>
+    </div>
+{% endblock %}

@@ -11,9 +11,6 @@
     "type": "misc",
     "created": "2025-09-17",
     "static": true,
-    "staticCreateRoute": "app.puzzles.static.casebook.create",
-    "staticEditRoute": "app.puzzles.static.casebook.edit",
-    "staticPlayRoute": "app.puzzles.static.casebook.play",
     "creator": "sam.baynham@gmail.com",
     "elementName": "casebook-element",
     "credits": [

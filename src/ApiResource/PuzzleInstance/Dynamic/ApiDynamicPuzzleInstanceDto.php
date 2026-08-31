@@ -30,13 +30,12 @@ use App\Services\PuzzleInstance\Domain\Interfaces\DynamicPuzzleInstanceInterface
         )
     ],
     stateless: false,
-    security: 'is_granted("play_instance", object)',
+    security: 'is_granted("ROLE_USER")',
     provider: DynamicPuzzleInstanceProvider::class
 )]
 class ApiDynamicPuzzleInstanceDto implements ApiPuzzleInstanceDtoInterface
 {
     /**
-     * @param string $gameSlug
      * @param string $puzzleName
      * @param string $puzzleDescription
      * @param array<string, DynamicPuzzleFieldDto> $config
@@ -44,7 +43,6 @@ class ApiDynamicPuzzleInstanceDto implements ApiPuzzleInstanceDtoInterface
      * @param \DateTimeInterface $publicationDate
      */
     public function __construct(
-        public string $gameSlug,
         public string $puzzleName,
         public string $puzzleDescription,
         public array $config,
@@ -54,7 +52,6 @@ class ApiDynamicPuzzleInstanceDto implements ApiPuzzleInstanceDtoInterface
 
     public static function makeFromPuzzleInstance(DynamicPuzzleInstanceInterface $puzzleInstance): ApiDynamicPuzzleInstanceDto {
         return new static(
-            gameSlug: $puzzleInstance->getGame()->getSlug(),
             puzzleName: $puzzleInstance->getName(),
             puzzleDescription: $puzzleInstance->getDescription(),
             config: self::mapConfigByName($puzzleInstance),
@@ -86,8 +83,4 @@ class ApiDynamicPuzzleInstanceDto implements ApiPuzzleInstanceDtoInterface
         return $this->instanceCode;
     }
 
-    public function getGameSlug(): string
-    {
-        return $this->gameSlug;
-    }
 }

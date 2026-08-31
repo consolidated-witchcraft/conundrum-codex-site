@@ -15,8 +15,6 @@ class UserAccountType extends AbstractValueObject
     public function __construct(
         string $label,
         string $handle,
-        #[ORM\Column(options: ['default' => 5, 'unsigned' => true])]
-        private int $maximumConcurrentGames,
         #[ORM\Column(length: 255)]
         private string $description,
         ?int $id = null,
@@ -41,8 +39,4 @@ class UserAccountType extends AbstractValueObject
         $this->description = $description;
     }
 
-    public function getMaximumConcurrentGames(): int
-    {
-        return $this->maximumConcurrentGames;
-    }
 }

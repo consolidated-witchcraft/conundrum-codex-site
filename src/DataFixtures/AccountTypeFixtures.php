@@ -16,13 +16,11 @@ class AccountTypeFixtures extends Fixture
     private const array ACCOUNT_TYPES = [
         'free' => [
             'label' => 'Free User',
-            'description' => 'Free users can create up to five concurrent games, and join as many games as they like.',
-            'maximumConcurrentGames' => 5
+            'description' => 'Free account.',
         ],
         'pro' => [
             'label' => 'Pro User',
-            'description' => 'Pro users can create up to fifty concurrent games, and join as many games as they like.',
-            'maximumConcurrentGames' => 50
+            'description' => 'Pro account.',
         ]
 
 
@@ -38,7 +36,6 @@ class AccountTypeFixtures extends Fixture
                     label: $accountTypeData['label'],
                     handle: $handle,
                     description: $accountTypeData['description'],
-                    maximumConcurrentGames: $accountTypeData['maximumConcurrentGames']
                 ));
             }
         }

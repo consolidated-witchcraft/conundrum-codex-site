@@ -17,7 +17,6 @@ use Symfony\Component\String\Slugger\SluggerInterface;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 abstract class AbstractPuzzleController extends AbstractBaseController
 {
-    public const string ADD_TO_GAME_SESSION_KEY = 'add-to-game';
     public function __construct(
         protected readonly PuzzleTemplateServiceInterface       $puzzleTemplateService,
         protected readonly PuzzleInstanceEntityServiceInterface $puzzleInstanceTemplateService,

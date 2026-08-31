@@ -12,7 +12,7 @@ use App\Form\Visitor\Account\ChangePasswordType;
 use App\Form\Visitor\Account\UserEditType;
 use App\Services\FeatureSwitcher\Service\Interfaces\FeatureSwitcherServiceInterface;
 use App\Services\ManagedFiles\Service\Interfaces\ManagedFileServiceInterface;
-use App\Services\Game\Service\Interfaces\GameEntityServiceInterface;
+use App\Services\Campaign\Service\Interfaces\CampaignServiceInterface;
 use App\Services\ManagedImages\Domain\Enums\ManagedImageTypeEnum;
 use App\Services\ManagedImages\Services\Interfaces\ManagedImageServiceInterface;
 use App\Services\User\Domain\User;
@@ -31,7 +31,7 @@ final class AccountController extends AbstractBaseController
     use HandlesFileUploadsTrait;
 
     public function __construct(
-        private readonly GameEntityServiceInterface                                              $gameService,
+        private readonly CampaignServiceInterface                                                $campaignService,
         private readonly EntityManagerInterface                                                  $entityManager,
         private readonly ValidatorInterface                                                      $validator,
         private readonly UserPasswordHasherInterface                                             $passwordHasher,
@@ -56,7 +56,7 @@ final class AccountController extends AbstractBaseController
         $pageVars = [
             'pageTitle' => 'Account',
             'user' => $user,
-            'invitations' => $this->gameService->getOutstandingInvitationsForUser($user)
+            'campaignInvitations' => $this->campaignService->getOutstandingInvitationsForUser(user: $user),
         ];
         return $this->render('/visitor/account/index.html.twig', $this->populatePageVars($pageVars, $request));
     }

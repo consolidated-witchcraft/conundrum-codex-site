@@ -29,7 +29,7 @@ use Doctrine\Common\Collections\ArrayCollection;
         ),
     ],
     stateless: false,
-    security: 'is_granted("play_instance", object)',
+    security: 'is_granted("ROLE_USER")',
     provider: CasebookSubjectProvider::class
 )]
 class ApiCasebookSubjectDto implements ApiPuzzleInstanceDtoInterface
@@ -46,7 +46,6 @@ class ApiCasebookSubjectDto implements ApiPuzzleInstanceDtoInterface
 
     final public function __construct(
         public string $instanceCode,
-        public string $gameSlug,
         public string $name,
         public string $description,
         public string $type,
@@ -64,7 +63,6 @@ class ApiCasebookSubjectDto implements ApiPuzzleInstanceDtoInterface
 
         $dto = new static (
             instanceCode: $subject->getCasebook()->getInstanceCode(),
-            gameSlug: $subject->getCasebook()->getGame()->getSlug(),
             name: $subject->getName(),
             description: $subject->getDescription(),
             type: $subject->getCasebookSubjectType()->getHandle(),
@@ -83,8 +81,4 @@ class ApiCasebookSubjectDto implements ApiPuzzleInstanceDtoInterface
         return $this->instanceCode;
     }
 
-    public function getGameSlug(): string
-    {
-        return $this->gameSlug;
-    }
 }

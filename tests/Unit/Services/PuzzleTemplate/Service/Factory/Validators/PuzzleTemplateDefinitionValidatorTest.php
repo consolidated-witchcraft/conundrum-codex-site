@@ -6,7 +6,6 @@ use App\Services\PuzzleTemplate\Service\Factory\Validators\Exceptions\ConfigOpti
 use App\Services\PuzzleTemplate\Service\Factory\Validators\Exceptions\TemplateFields\InvalidTemplateFieldDateTimeException;
 use App\Services\PuzzleTemplate\Service\Factory\Validators\Exceptions\TemplateFields\InvalidTemplateFieldEmailAddressException;
 use App\Services\PuzzleTemplate\Service\Factory\Validators\Exceptions\TemplateFields\MissingRequiredTemplateFieldException;
-use App\Services\PuzzleTemplate\Service\Factory\Validators\Exceptions\TemplateFields\MissingTemplateFieldStaticRouteException;
 use App\Services\PuzzleTemplate\Service\Factory\Validators\Exceptions\TemplateFields\TemplateFieldInvalidPatternException;
 use App\Services\PuzzleTemplate\Service\Factory\Validators\Exceptions\TemplateFields\TemplateFieldScalarMismatchException;
 use App\Services\PuzzleTemplate\Service\Factory\Validators\Exceptions\TemplateFields\UnknownFieldSpecifiedException;
@@ -163,39 +162,6 @@ dataset('provideValidateFieldsData', function () {
         ],
         'expectedExceptionClass' => TemplateFieldScalarMismatchException::class,
         'expectedExceptionMessage' => "The field 'static' defined in module 'testmodule' is invalid. Its expected type is boolean. Its actual type is string."
-    ];
-
-    yield 'no_static_create_route_defined_for_static_template' => [
-        'overrides' => [
-            'static' => true,
-            'staticCreateRoute' => 0,
-            'staticEditRoute' => 'some.route',
-            'staticPlayRoute' => 'some.route'
-        ],
-        'expectedExceptionClass' => MissingTemplateFieldStaticRouteException::class,
-        'expectedExceptionMessage' => "The template 'testmodule' is marked as static, but is missing the 'staticCreateRoute' route."
-    ];
-
-    yield 'no_static_edit_route_defined_for_static_template' => [
-        'overrides' => [
-            'static' => true,
-            'staticCreateRoute' =>'some.route',
-            'staticEditRoute' => 0,
-            'staticPlayRoute' => 'some.route'
-        ],
-        'expectedExceptionClass' => MissingTemplateFieldStaticRouteException::class,
-        'expectedExceptionMessage' => "The template 'testmodule' is marked as static, but is missing the 'staticEditRoute' route."
-    ];
-
-    yield 'no_static_play_route_defined_for_static_template' => [
-        'overrides' => [
-            'static' => true,
-            'staticCreateRoute' =>'some.route',
-            'staticEditRoute' => 'some.route',
-            'staticPlayRoute' => 0
-        ],
-        'expectedExceptionClass' => MissingTemplateFieldStaticRouteException::class,
-        'expectedExceptionMessage' => "The template 'testmodule' is marked as static, but is missing the 'staticPlayRoute' route."
     ];
 
     yield 'invalid_element_name' => [

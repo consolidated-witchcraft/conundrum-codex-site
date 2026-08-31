@@ -6,5 +6,4 @@ interface ApiPuzzleInstanceDtoInterface
 {
     public function getInstanceCode(): string;
 
-    public function getGameSlug(): string;
 }

@@ -26,7 +26,6 @@ function makeUser(EntityManagerInterface $entityManager): User
     $accountType = new UserAccountType(
         label: 'API Test Account',
         handle: 'api_test_'.$suffix,
-        maximumConcurrentGames: 5,
         description: 'Account type created by an API test.',
     );
     $user = new User(
